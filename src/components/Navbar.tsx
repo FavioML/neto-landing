@@ -11,7 +11,6 @@ const NAV_LINKS = [
   { label: "Precios", href: "/#precios" },
   { label: "Blog", href: "/blog" },
   { label: "FAQ", href: "/faq" },
-  { label: "Contacto", href: "/contacto" },
 ];
 
 function NetoLogo() {
@@ -46,6 +45,12 @@ export default function Navbar() {
             </a>
           ))}
           <a
+            href="https://app.neto.pe"
+            className="text-sm font-medium text-neto-green hover:text-neto-green-light transition-colors duration-200 cursor-pointer"
+          >
+            Iniciar sesion
+          </a>
+          <a
             href={WA_LINK}
             target="_blank"
             rel="noopener noreferrer"
@@ -78,6 +83,12 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
+          <a
+            href="https://app.neto.pe"
+            className="text-sm font-medium text-neto-green text-center cursor-pointer"
+          >
+            Iniciar sesion
+          </a>
           <a
             href={WA_LINK}
             target="_blank"

@@ -16,6 +16,7 @@ const SOCIAL_LINKS = [
 const PRODUCT_LINKS = [
   { label: "Cómo funciona", href: "/#como-funciona" },
   { label: "Precios", href: "/#precios" },
+  { label: "Dashboard", href: "https://app.neto.pe" },
   { label: "FAQ", href: "/faq" },
 ];
 

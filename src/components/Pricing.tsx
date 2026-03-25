@@ -6,15 +6,18 @@ const WA_LINK =
   "https://wa.me/51933014505?text=Hola%20Neto%2C%20quiero%20empezar%20a%20ordenar%20mis%20finanzas%20%F0%9F%91%8B";
 
 const COMPARISON: { feature: string; free: boolean; pro: boolean; freeLabel?: string; proLabel?: string }[] = [
+  { feature: "Lectura automatica de 11 bancos", free: true, pro: true },
   { feature: "Resumen diario, semanal y mensual", free: true, pro: true },
-  { feature: "Categorización automática con IA", free: true, pro: true },
-  { feature: "Corrección de categorías", free: true, pro: true },
+  { feature: "Categorizacion automatica con IA", free: true, pro: true },
   { feature: "Consultas en lenguaje natural", free: true, pro: true },
   { feature: "Historial", free: true, pro: true, freeLabel: "3 meses", proLabel: "Ilimitado" },
-  { feature: "Reportes web mensuales", free: false, pro: true },
-  { feature: "Resúmenes configurables", free: false, pro: true },
-  { feature: "Score de salud financiera", free: false, pro: true },
-  { feature: "Carga de gastos históricos (Excel)", free: false, pro: true },
+  { feature: "Dashboard web interactivo", free: false, pro: true },
+  { feature: "Score financiero con tendencia", free: false, pro: true },
+  { feature: "Calendario y graficos interactivos", free: false, pro: true },
+  { feature: "Metas de ahorro", free: false, pro: true },
+  { feature: "Reportes PDF descargables", free: false, pro: true },
+  { feature: "Deteccion de suscripciones", free: false, pro: true },
+  { feature: "Carga masiva (Excel/CSV)", free: false, pro: true },
 ];
 
 export default function Pricing() {

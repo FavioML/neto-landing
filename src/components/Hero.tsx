@@ -39,7 +39,7 @@ export default function Hero() {
         <div className="animate-fade-up inline-flex items-center gap-2 rounded-full bg-[#1C1C19] px-5 py-2 mb-8">
           <Sparkles size={14} className="text-[#EF9F27]" />
           <span className="text-sm text-[#bccac1] tracking-wide">
-            Asistente financiero por WhatsApp
+            WhatsApp + Dashboard interactivo
           </span>
         </div>
 
@@ -62,8 +62,8 @@ export default function Hero() {
           className="animate-fade-up mx-auto max-w-[600px] text-lg min-[860px]:text-xl text-[#87948c] leading-relaxed mb-12"
           style={{ animationDelay: "200ms" }}
         >
-          Neto lee tus correos del banco automáticamente y te manda un resumen
-          a WhatsApp. Sin apps. Sin contraseñas bancarias. Solo resultados.
+          Neto lee tus correos de 11 bancos peruanos, te resume todo por
+          WhatsApp y te da un dashboard completo. Sin contraseñas bancarias. Solo resultados.
         </p>
 
         {/* CTA buttons */}
@@ -81,10 +81,10 @@ export default function Hero() {
             <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
           </a>
           <a
-            href="#precios"
+            href="https://app.neto.pe"
             className="inline-flex items-center gap-2 rounded-full border border-[#3D4943]/30 bg-[#1C1C19]/60 backdrop-blur-sm px-8 py-4 text-base font-medium text-[#bccac1] transition-all duration-300 hover:bg-[#20201d] hover:text-[#e5e2de] hover:border-[#3D4943]/50 cursor-pointer"
           >
-            Ver precios
+            Ver dashboard
           </a>
         </div>
 
@@ -104,7 +104,7 @@ export default function Hero() {
                   <div className="w-3 h-3 rounded-full bg-[#EF9F27]/60" />
                   <div className="w-3 h-3 rounded-full bg-[#1D9E75]/60" />
                 </div>
-                <span className="text-xs text-[#87948c]">neto.pe — Resumen Semanal</span>
+                <span className="text-xs text-[#87948c]">app.neto.pe — Dashboard</span>
               </div>
 
               {/* Bento dashboard */}
@@ -129,9 +129,9 @@ export default function Hero() {
 
                 {/* Mini stat cards */}
                 <div className="rounded-[20px] bg-[#1C1C19] p-5 transition-all duration-300 hover:bg-[#20201d]">
-                  <p className="text-xs text-[#87948c] mb-1">Score salud</p>
-                  <p className="text-2xl font-bold text-[#68dbae]">72</p>
-                  <p className="text-xs text-[#87948c]">/100</p>
+                  <p className="text-xs text-[#87948c] mb-1">Score financiero</p>
+                  <p className="text-2xl font-bold text-[#68dbae]">84</p>
+                  <p className="text-xs text-[#1D9E75]">+6 pts</p>
                 </div>
                 <div className="rounded-[20px] bg-[#1C1C19] p-5 transition-all duration-300 hover:bg-[#20201d]">
                   <p className="text-xs text-[#87948c] mb-1">Ahorro mes</p>

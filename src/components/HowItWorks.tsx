@@ -2,17 +2,22 @@ const STEPS = [
   {
     num: "01",
     title: "Conectas tu Gmail",
-    desc: "Un clic. Neto accede solo a los correos de transacciones — nunca tus correos personales, nunca tus contraseñas bancarias.",
+    desc: "Un clic. Neto accede solo a los correos de transacciones de 11 bancos peruanos — nunca tus correos personales, nunca tus contraseñas bancarias.",
   },
   {
     num: "02",
     title: "Neto trabaja solo",
-    desc: "Lee cada notificación de tu banco, Yape y Plin. Categoriza con IA automáticamente. Tú no haces absolutamente nada.",
+    desc: "Lee cada notificación de BCP, BBVA, Interbank, Scotiabank, Yape, Plin y mas. Categoriza con IA automáticamente. Tu no haces nada.",
   },
   {
     num: "03",
     title: "Recibes tu resumen",
-    desc: "Neto te manda un resumen a WhatsApp con tus gastos, tendencias y recomendaciones. Configura cuándo y con qué frecuencia.",
+    desc: "Neto te manda resúmenes diarios, semanales y mensuales a WhatsApp con tus gastos, tendencias y recomendaciones personalizadas.",
+  },
+  {
+    num: "04",
+    title: "Explora tu dashboard",
+    desc: "Entra a app.neto.pe para ver graficos interactivos, score financiero, calendario de gastos, metas de ahorro y reportes PDF descargables.",
   },
 ];
 
@@ -26,7 +31,7 @@ export default function HowItWorks() {
             Cómo funciona
           </span>
           <h2 className="text-3xl min-[860px]:text-4xl font-bold tracking-tight mb-4">
-            Tres pasos. Cero fricción.
+            Cuatro pasos. Cero fricción.
           </h2>
           <p className="text-neto-txt2 max-w-[520px] mx-auto">
             Neto se conecta a tu correo, lee las notificaciones de tu banco y te
@@ -35,7 +40,7 @@ export default function HowItWorks() {
         </div>
 
         {/* Steps grid */}
-        <div className="grid grid-cols-1 min-[860px]:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 min-[640px]:grid-cols-2 min-[1024px]:grid-cols-4 gap-6">
           {STEPS.map((step) => (
             <div
               key={step.num}

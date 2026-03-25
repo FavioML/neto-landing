@@ -1,11 +1,15 @@
 const BANKS = [
   "BCP",
-  "BBVA Perú",
+  "BBVA",
   "Interbank",
   "Scotiabank",
   "Yape",
   "Plin",
-  "+ otros a solicitud",
+  "Falabella",
+  "Ripley",
+  "BanBif",
+  "Mibanco",
+  "CMAC",
 ];
 
 export default function BankStrip() {

@@ -2,11 +2,13 @@
 
 import {
   Shield,
-  Smartphone,
-  Heart,
+  LayoutDashboard,
   Brain,
-  BarChart3,
+  Target,
+  CalendarDays,
+  FileText,
   MessageSquare,
+  RefreshCw,
   ArrowRight,
 } from "lucide-react";
 import type { ReactNode } from "react";
@@ -24,7 +26,7 @@ const FEATURES: Feature[] = [
   {
     Icon: Shield,
     title: "Sin contraseña bancaria",
-    desc: "Solo leemos los correos de notificación que tu banco ya te envía. Nunca accedemos a tu banca directa.",
+    desc: "Solo leemos los correos de notificación que tu banco ya te envía. Nunca accedemos a tu banca directa. 11 bancos peruanos soportados.",
     accent: "text-[#EF9F27]",
     glow: "bg-[#EF9F27]/10",
     visual: (
@@ -57,58 +59,43 @@ const FEATURES: Feature[] = [
     ),
   },
   {
-    Icon: Smartphone,
-    title: "Sin app que descargar",
-    desc: "Neto vive en WhatsApp — donde ya estás. No hay nada que instalar.",
+    Icon: LayoutDashboard,
+    title: "Dashboard interactivo",
+    desc: "Graficos, KPIs, calendario financiero, top comercios y metodos de pago. Todo en app.neto.pe con un clic.",
     accent: "text-[#68dbae]",
     glow: "bg-[#1D9E75]/10",
     visual: (
-      <div className="flex items-center justify-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-[#1D9E75] flex items-center justify-center">
-          <span className="text-white font-bold text-xs">N</span>
-        </div>
-        <div className="flex flex-col gap-1">
-          <div className="h-1.5 w-20 rounded bg-[#2A2A28]" />
-          <div className="h-1.5 w-14 rounded bg-[#1D9E75]/30]" />
-        </div>
-        <div className="relative w-5 h-5 rounded-full bg-[#1D9E75] flex items-center justify-center">
-          <span className="text-white text-[8px] font-bold">3</span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    Icon: Heart,
-    title: "Paga con Yape",
-    desc: "El único asistente financiero que acepta Yape. Sin tarjeta de crédito.",
-    accent: "text-[#68dbae]",
-    glow: "bg-[#1D9E75]/10",
-    visual: (
-      <div className="flex items-center justify-center gap-3">
-        <div className="flex flex-col items-center gap-1.5">
-          <div className="w-12 h-12 rounded-2xl bg-[#7C3AED]/20 flex items-center justify-center">
-            <span className="text-[#a78bfa] font-bold text-lg">Y</span>
+      <div className="grid grid-cols-3 gap-1.5">
+        <div className="col-span-2 rounded-lg bg-[#20201d] p-2">
+          <div className="h-1.5 w-12 rounded bg-[#2A2A28] mb-2" />
+          <div className="flex items-end gap-1 h-8">
+            {[40, 65, 45, 80, 55, 70].map((h, i) => (
+              <div key={i} className="flex-1 rounded-t" style={{ height: `${h}%`, background: i === 3 ? '#1D9E75' : '#2A2A28' }} />
+            ))}
           </div>
-          <div className="h-1 w-8 rounded bg-[#2A2A28]" />
         </div>
-        <div className="flex flex-col items-center gap-1">
-          <div className="w-1 h-1 rounded-full bg-[#68dbae]" />
-          <div className="w-1 h-1 rounded-full bg-[#68dbae]" />
-          <div className="w-1 h-1 rounded-full bg-[#68dbae]" />
+        <div className="rounded-lg bg-[#20201d] p-2 flex flex-col items-center justify-center">
+          <span className="text-[10px] text-[#68dbae] font-bold">84</span>
+          <span className="text-[7px] text-[#87948c]">score</span>
         </div>
-        <div className="flex flex-col items-center gap-1.5">
-          <div className="w-12 h-12 rounded-2xl bg-[#1D9E75]/20 flex items-center justify-center">
-            <span className="text-[#68dbae] font-bold text-lg">N</span>
+        <div className="rounded-lg bg-[#20201d] p-2">
+          <div className="h-1 w-8 rounded bg-[#EF9F27]/40 mb-1" />
+          <div className="h-1 w-6 rounded bg-[#378ADD]/40" />
+        </div>
+        <div className="col-span-2 rounded-lg bg-[#20201d] p-2">
+          <div className="grid grid-cols-7 gap-px">
+            {Array.from({ length: 14 }).map((_, i) => (
+              <div key={i} className="w-2 h-2 rounded-sm" style={{ background: [3,5,8,10,12].includes(i) ? '#1D9E75' : '#2A2A28' }} />
+            ))}
           </div>
-          <div className="h-1 w-8 rounded bg-[#2A2A28]" />
         </div>
       </div>
     ),
   },
   {
     Icon: Brain,
-    title: "IA que aprende",
-    desc: "Cada gasto se clasifica solo. Si Neto se equivoca, corrígelo y aprende para la próxima.",
+    title: "IA que aprende de ti",
+    desc: "Cada gasto se clasifica automaticamente. Si Neto se equivoca, corrigelo y aprende para la proxima.",
     accent: "text-[#68dbae]",
     glow: "bg-[#1D9E75]/10",
     visual: (
@@ -130,24 +117,82 @@ const FEATURES: Feature[] = [
     ),
   },
   {
-    Icon: BarChart3,
-    title: "Reportes semanales",
-    desc: "Resumen automático cada lunes directo a tu WhatsApp con tu score de salud financiera.",
+    Icon: Target,
+    title: "Metas de ahorro",
+    desc: "Define cuanto quieres ahorrar y Neto te muestra tu progreso. Visualiza cada meta con barras interactivas.",
     accent: "text-[#68dbae]",
     glow: "bg-[#1D9E75]/10",
     visual: (
-      <div className="flex items-end justify-center gap-1.5 h-16">
-        {[40, 65, 45, 80, 55, 70, 90].map((h, i) => (
-          <div
-            key={i}
-            className="w-4 rounded-t-md"
-            style={{
-              height: `${h}%`,
-              background: i === 6
-                ? "linear-gradient(to top, #1D9E75, #68dbae)"
-                : "#2A2A28",
-            }}
-          />
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] text-[#bccac1]">Viaje</span>
+          <div className="flex-1 h-2 rounded-full bg-[#2A2A28] overflow-hidden">
+            <div className="h-full rounded-full bg-gradient-to-r from-[#1D9E75] to-[#68dbae]" style={{ width: '72%' }} />
+          </div>
+          <span className="text-[10px] text-[#68dbae]">72%</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] text-[#bccac1]">Fondo</span>
+          <div className="flex-1 h-2 rounded-full bg-[#2A2A28] overflow-hidden">
+            <div className="h-full rounded-full bg-gradient-to-r from-[#EF9F27] to-[#EF9F27]/60" style={{ width: '45%' }} />
+          </div>
+          <span className="text-[10px] text-[#EF9F27]">45%</span>
+        </div>
+      </div>
+    ),
+  },
+  {
+    Icon: CalendarDays,
+    title: "Calendario financiero",
+    desc: "Ve tus gastos dia por dia en un calendario visual. Detecta patrones y dias de mayor gasto de un vistazo.",
+    accent: "text-[#68dbae]",
+    glow: "bg-[#1D9E75]/10",
+    visual: (
+      <div className="grid grid-cols-7 gap-1">
+        {Array.from({ length: 21 }).map((_, i) => {
+          const intensities = [0, 1, 0, 2, 0, 3, 0, 1, 2, 0, 0, 1, 3, 0, 2, 1, 0, 0, 2, 1, 0];
+          const colors = ['bg-[#2A2A28]', 'bg-[#1D9E75]/30', 'bg-[#1D9E75]/60', 'bg-[#1D9E75]'];
+          return <div key={i} className={`w-3 h-3 rounded-sm ${colors[intensities[i]]}`} />;
+        })}
+      </div>
+    ),
+  },
+  {
+    Icon: FileText,
+    title: "Reportes PDF",
+    desc: "Descarga tu reporte mensual completo con graficos, score financiero y analisis de categorias.",
+    accent: "text-[#68dbae]",
+    glow: "bg-[#1D9E75]/10",
+    visual: (
+      <div className="flex items-center gap-3">
+        <div className="rounded-lg bg-[#20201d] p-3 flex-1">
+          <div className="h-1.5 w-16 rounded bg-[#2A2A28] mb-2" />
+          <div className="h-1 w-12 rounded bg-[#2A2A28] mb-1" />
+          <div className="h-1 w-14 rounded bg-[#2A2A28]" />
+        </div>
+        <div className="w-8 h-8 rounded-lg bg-[#D85A30]/20 flex items-center justify-center">
+          <FileText size={14} className="text-[#D85A30]" />
+        </div>
+      </div>
+    ),
+  },
+  {
+    Icon: RefreshCw,
+    title: "Suscripciones y recurrentes",
+    desc: "Detecta automaticamente Netflix, Spotify, PedidosYa y 50+ servicios. Ve cuanto pagas cada mes sin darte cuenta.",
+    accent: "text-[#EF9F27]",
+    glow: "bg-[#EF9F27]/10",
+    visual: (
+      <div className="space-y-1.5">
+        {[
+          { name: "Netflix", amount: "S/45" },
+          { name: "Spotify", amount: "S/18" },
+          { name: "iCloud", amount: "S/4" },
+        ].map((s) => (
+          <div key={s.name} className="flex items-center justify-between rounded-lg bg-[#20201d] px-3 py-1.5">
+            <span className="text-[10px] text-[#bccac1]">{s.name}</span>
+            <span className="text-[10px] text-[#EF9F27] font-medium">{s.amount}</span>
+          </div>
         ))}
       </div>
     ),
@@ -155,16 +200,16 @@ const FEATURES: Feature[] = [
   {
     Icon: MessageSquare,
     title: "Consultas naturales",
-    desc: "Pregúntale a Neto como le hablarías a un amigo. Lenguaje natural, no comandos.",
+    desc: "Preguntale a Neto como le hablarias a un amigo: \"cuanto gaste en delivery?\" y te responde al instante.",
     accent: "text-[#68dbae]",
     glow: "bg-[#1D9E75]/10",
     visual: (
       <div className="space-y-2">
         <div className="rounded-xl bg-[#20201d] px-3 py-2 max-w-[80%]">
-          <p className="text-[11px] text-[#bccac1]">&quot;¿Cuánto gasté en comida?&quot;</p>
+          <p className="text-[11px] text-[#bccac1]">&quot;cuanto gaste en comida?&quot;</p>
         </div>
         <div className="rounded-xl bg-[#1D9E75]/20 px-3 py-2 max-w-[85%] ml-auto">
-          <p className="text-[11px] text-[#68dbae]">S/342 en las últimas 2 semanas</p>
+          <p className="text-[11px] text-[#68dbae]">S/342 en las ultimas 2 semanas</p>
         </div>
       </div>
     ),
@@ -209,7 +254,7 @@ function FeatureCard({ feature, size }: { feature: Feature; size: "large" | "sma
 
         {/* CTA that appears on hover */}
         <div className="flex items-center gap-1.5 mt-4 text-sm font-medium text-[#68dbae] opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-          Conocer más
+          Conocer mas
           <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
         </div>
       </div>
@@ -228,7 +273,7 @@ export default function Features() {
         {/* Header */}
         <div className="text-center mb-16">
           <span className="inline-block rounded-full bg-[#1D9E75]/10 px-5 py-2 text-xs font-medium text-[#68dbae] mb-6 tracking-wide">
-            Por qué Neto
+            Por que Neto
           </span>
           <h2 className="text-3xl min-[860px]:text-5xl font-extrabold tracking-tight mb-5">
             <span className="bg-gradient-to-b from-[#e5e2de] to-[#87948c] bg-clip-text text-transparent">
@@ -240,21 +285,21 @@ export default function Features() {
             </span>
           </h2>
           <p className="text-[#87948c] max-w-[520px] mx-auto text-lg leading-relaxed">
-            Sin apps. Sin contraseñas. Sin complicaciones. Solo resultados en tu WhatsApp.
+            WhatsApp + dashboard web. Sin contraseñas bancarias. Solo resultados.
           </p>
         </div>
 
         {/* Bento grid — asymmetric layout */}
         <div className="grid grid-cols-1 min-[640px]:grid-cols-2 min-[1024px]:grid-cols-3 gap-4">
-          {/* Row 1: Large + Small */}
-          <div className="min-[1024px]:col-span-2 min-[1024px]:row-span-1">
+          {/* Row 1: Large (security) + Small (dashboard) */}
+          <div className="min-[1024px]:col-span-2">
             <FeatureCard feature={FEATURES[0]} size="large" />
           </div>
           <div>
             <FeatureCard feature={FEATURES[1]} size="small" />
           </div>
 
-          {/* Row 2: Small + Small + Small */}
+          {/* Row 2: IA + Metas + Calendario */}
           <div>
             <FeatureCard feature={FEATURES[2]} size="small" />
           </div>
@@ -265,9 +310,15 @@ export default function Features() {
             <FeatureCard feature={FEATURES[4]} size="small" />
           </div>
 
-          {/* Row 3: Full width */}
-          <div className="min-[640px]:col-span-2 min-[1024px]:col-span-3">
-            <FeatureCard feature={FEATURES[5]} size="large" />
+          {/* Row 3: PDF + Suscripciones + Consultas */}
+          <div>
+            <FeatureCard feature={FEATURES[5]} size="small" />
+          </div>
+          <div>
+            <FeatureCard feature={FEATURES[6]} size="small" />
+          </div>
+          <div>
+            <FeatureCard feature={FEATURES[7]} size="small" />
           </div>
         </div>
       </div>
