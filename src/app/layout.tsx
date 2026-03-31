@@ -19,15 +19,15 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://neto.pe"),
-  title: "Neto — Tu asistente financiero personal",
+  title: "Neto — Ordena tu plata sin mover un dedo",
   description:
-    "Neto lee tus correos del banco, Yape y Plin automáticamente y te manda un resumen a WhatsApp. Sin apps. Sin contraseñas bancarias. 100% peruano.",
+    "Neto lee tus correos bancarios, categoriza tus gastos automáticamente y te da un dashboard completo por WhatsApp. Gratis. Sin contraseñas bancarias.",
   keywords:
     "finanzas personales Peru, asistente financiero WhatsApp, control de gastos Peru, Yape BCP Interbank BBVA, gastos hormiga, ahorro Peru",
   openGraph: {
-    title: "Neto — Tu asistente financiero personal",
+    title: "Neto — Ordena tu plata sin mover un dedo",
     description:
-      "Ordena tu plata sin mover un dedo. Lee tu banco, Yape y Plin automáticamente.",
+      "Neto lee tus correos bancarios, categoriza tus gastos automáticamente y te da un dashboard completo por WhatsApp. Gratis. Sin contraseñas bancarias.",
     url: "https://neto.pe",
     type: "website",
     locale: "es_PE",
@@ -35,9 +35,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Neto — Tu asistente financiero personal",
+    title: "Neto — Ordena tu plata sin mover un dedo",
     description:
-      "Ordena tu plata sin mover un dedo. Lee tu banco, Yape y Plin automáticamente.",
+      "Neto lee tus correos bancarios, categoriza tus gastos automáticamente y te da un dashboard completo por WhatsApp. Gratis. Sin contraseñas bancarias.",
   },
   robots: { index: true, follow: true },
   alternates: { canonical: "https://neto.pe" },
@@ -71,7 +71,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body>{children}</body>
+      <body className="noise-bg">{children}</body>
     </html>
   );
 }
