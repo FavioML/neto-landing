@@ -91,7 +91,7 @@ export default function Pricing() {
   };
 
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section id="precios" className="py-24 relative overflow-hidden">
       <div className="max-w-5xl mx-auto px-6">
         {/* Header */}
         <BlurReveal>
