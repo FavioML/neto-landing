@@ -20,9 +20,35 @@ const LEGAL_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { label: "IG", href: "https://www.instagram.com/neto_peru/", aria: "Instagram" },
-  { label: "FB", href: "https://www.facebook.com/profile.php?id=61578664208419", aria: "Facebook" },
-  { label: "TK", href: "https://www.tiktok.com/@neto_peru", aria: "TikTok" },
+  {
+    href: "https://www.instagram.com/neto_peru/",
+    aria: "Instagram",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+      </svg>
+    ),
+  },
+  {
+    href: "https://www.facebook.com/profile.php?id=61578664208419",
+    aria: "Facebook",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+      </svg>
+    ),
+  },
+  {
+    href: "https://www.tiktok.com/@neto_peru",
+    aria: "TikTok",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.73a8.19 8.19 0 0 0 4.76 1.52v-3.4a4.85 4.85 0 0 1-1-.16z" />
+      </svg>
+    ),
+  },
 ];
 
 function FooterCol({ title, children }: { title: string; children: React.ReactNode }) {
@@ -54,14 +80,14 @@ export default function Footer() {
             <div className="flex items-center gap-2">
               {SOCIAL_LINKS.map((s) => (
                 <a
-                  key={s.label}
+                  key={s.aria}
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.aria}
-                  className="w-8 h-8 rounded-full bg-neto-bg3 border border-white/10 flex items-center justify-center text-[10px] text-neto-txt2 hover:border-white/20 hover:text-neto-txt transition-colors duration-200"
+                  className="w-8 h-8 rounded-full bg-neto-bg3 border border-white/10 flex items-center justify-center text-neto-txt2 hover:border-white/20 hover:text-neto-txt transition-colors duration-200"
                 >
-                  {s.label}
+                  {s.icon}
                 </a>
               ))}
             </div>
