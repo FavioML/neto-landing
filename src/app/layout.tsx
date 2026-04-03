@@ -32,12 +32,21 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_PE",
     siteName: "Neto",
+    images: [
+      {
+        url: "https://neto.pe/og-default.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Neto — Ordena tu plata sin mover un dedo",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Neto — Ordena tu plata sin mover un dedo",
     description:
       "Neto lee tus correos bancarios, categoriza tus gastos automáticamente y te da un dashboard completo por WhatsApp. Gratis. Sin contraseñas bancarias.",
+    images: ["https://neto.pe/og-default.jpg"],
   },
   robots: { index: true, follow: true },
   alternates: { canonical: "https://neto.pe" },

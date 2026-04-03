@@ -4,9 +4,19 @@ import Footer from "@/components/landing/Footer";
 import { WA_NUMBER } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Terminos de Uso - Neto",
+  title: "Términos de Uso — Neto",
   description:
-    "Terminos de uso de Neto - Tu asistente financiero personal por WhatsApp",
+    "Términos y condiciones del servicio Neto. Asistente financiero por WhatsApp para Perú. Consulta tus derechos y obligaciones como usuario.",
+  alternates: { canonical: "https://neto.pe/terminos" },
+  openGraph: {
+    title: "Términos de Uso — Neto",
+    description:
+      "Términos y condiciones del servicio Neto. Asistente financiero por WhatsApp para Perú.",
+    url: "https://neto.pe/terminos",
+    type: "website",
+    locale: "es_PE",
+    siteName: "Neto",
+  },
 };
 
 export default function TerminosPage() {

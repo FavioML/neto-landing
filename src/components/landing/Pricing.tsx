@@ -10,38 +10,37 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 import { WA_LINK } from "@/lib/constants";
 
 /* ─── Features ─── */
-const FREE_FEATURES_BASE = [
+const FREE_FEATURES = [
   { text: "WhatsApp: registro de gastos", included: true },
-  { text: "Dashboard web (mes actual)", included: true },
+  { text: "Dashboard web completo", included: true },
   { text: "Clasificación con IA", included: true },
-  { text: "Categorías personalizables", included: true },
-  { text: "Presupuestos ilimitados", included: true },
-  { text: "Metas de ahorro ilimitadas", included: true },
-  { text: "Deudas ilimitadas", included: true },
+  { text: "Presupuestos + metas de ahorro", included: true },
+  { text: "Score financiero básico", included: true },
   { text: "Lectura de imágenes Yape/Plin", included: true },
-  { text: "Split de gastos", included: true },
-  { text: "Multimoneda USD/PEN", included: true },
-  { text: "Score financiero", included: true },
-  { text: "Resumen semanal básico", included: true },
   { text: "Referidos (3 Pro = 1 mes gratis)", included: true },
   { text: "Lectura automática de correos", included: false },
-  { text: "Consejo IA diario", included: false },
-  { text: "Historial completo", included: false },
-  { text: "Resumen diario", included: false },
-  { text: "Score detallado + tendencia", included: false },
+  { text: "Score detallado + tendencia + tips", included: false },
   { text: "Reportes PDF", included: false },
-  { text: "Calendario / Heatmap", included: false },
-  { text: "Export CSV/JSON", included: false },
-  { text: "Carga masiva Excel", included: false },
-  { text: "Recordatorios diarios", included: false },
+  { text: "Historial completo + heatmap", included: false },
+  { text: "Consejo IA diario + resumen diario", included: false },
+  { text: "Export CSV/JSON + carga Excel", included: false },
 ];
 
-const FREE_FEATURES = FREE_FEATURES_BASE;
-const PRO_FEATURES = FREE_FEATURES_BASE.map((f) => ({
-  ...f,
-  included: true,
-  isProExclusive: !f.included,
-}));
+const PRO_FEATURES = [
+  { text: "WhatsApp: registro de gastos", included: true, isProExclusive: false },
+  { text: "Dashboard web completo", included: true, isProExclusive: false },
+  { text: "Clasificación con IA", included: true, isProExclusive: false },
+  { text: "Presupuestos + metas de ahorro", included: true, isProExclusive: false },
+  { text: "Score financiero básico", included: true, isProExclusive: false },
+  { text: "Lectura de imágenes Yape/Plin", included: true, isProExclusive: false },
+  { text: "Referidos (3 Pro = 1 mes gratis)", included: true, isProExclusive: false },
+  { text: "Lectura automática de correos", included: true, isProExclusive: true },
+  { text: "Score detallado + tendencia + tips", included: true, isProExclusive: true },
+  { text: "Reportes PDF", included: true, isProExclusive: true },
+  { text: "Historial completo + heatmap", included: true, isProExclusive: true },
+  { text: "Consejo IA diario + resumen diario", included: true, isProExclusive: true },
+  { text: "Export CSV/JSON + carga Excel", included: true, isProExclusive: true },
+];
 
 /* ─── FeatureItem ─── */
 function FeatureItem({
@@ -236,11 +235,14 @@ export default function Pricing() {
 
                 {/* Price */}
                 <div className="mb-6">
+                  {billing === "monthly" && (
+                    <span className="text-sm text-neto-txt3 line-through mr-2">S/29</span>
+                  )}
                   <span className="text-4xl font-extrabold text-neto-txt">
                     {prices[billing].pro}
                   </span>
                   {billing === "monthly" && (
-                    <span className="text-neto-txt3 text-sm ml-2">/ mes</span>
+                    <span className="text-neto-txt3 text-sm ml-2">/ mes · Precio fundador</span>
                   )}
                 </div>
 
@@ -265,15 +267,44 @@ export default function Pricing() {
                 >
                   Activar Pro
                 </a>
+                {/* Trust badges */}
+                <p className="text-center text-xs text-neto-txt3 mt-3">
+                  Cancela cuando quieras · Sin permanencia · Paga con Yape
+                </p>
               </div>
             </div>
           </motion.div>
         </div>
 
-        {/* Bottom note */}
-        <p className="text-center text-xs text-neto-txt3 mt-8">
-          Paga con Yape · Setup en 5 min
-        </p>
+        {/* ROI callout */}
+        <motion.div
+          className="mt-8 rounded-2xl border border-neto-green/20 bg-neto-green/5 p-5 text-center"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.55, ease: EASE }}
+        >
+          <p className="text-sm text-neto-txt2 leading-relaxed">
+            💡 Si Neto te ahorra{" "}
+            <span className="text-neto-txt font-semibold">S/200/mes</span> en
+            gastos que no sabías que tenías, Pro se paga solo{" "}
+            <span className="text-neto-green font-semibold">20 veces.</span>
+          </p>
+        </motion.div>
+
+        {/* Referral banner */}
+        <motion.div
+          className="mt-4 rounded-2xl border border-neto-amber/20 bg-neto-amber/5 p-4 flex items-center justify-center gap-3 flex-wrap text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1, ease: EASE }}
+        >
+          <span className="text-lg" aria-hidden>🎁</span>
+          <p className="text-sm text-neto-txt2">
+            <span className="text-neto-txt font-semibold">Invita 3 amigos a Pro</span> y tu mes es gratis
+          </p>
+        </motion.div>
       </div>
     </section>
   );

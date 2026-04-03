@@ -85,7 +85,7 @@ export default function Hero() {
                 aria-hidden
               />
               <span className="text-xs text-neto-green-light font-medium">
-                WhatsApp + Dashboard · Lima, Perú
+                Usado por profesionales en Lima · 100% gratis para empezar
               </span>
             </span>
           </motion.div>
@@ -96,10 +96,10 @@ export default function Hero() {
             className="text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold leading-[1.05] tracking-tight"
           >
             <span className="block bg-gradient-to-b from-neto-txt to-neto-txt3 bg-clip-text text-transparent">
-              Ordena tu plata
+              Descubre a donde se van
             </span>
             <span className="block bg-gradient-to-r from-neto-green-light via-neto-green to-neto-green bg-clip-text text-transparent">
-              sin mover un dedo
+              tus S/3,000 al mes
             </span>
           </motion.h1>
 
@@ -108,32 +108,38 @@ export default function Hero() {
             {...fadeUp(0.3)}
             className="text-lg text-neto-txt3 max-w-[520px] leading-relaxed"
           >
-            Neto lee tus correos bancarios, categoriza con IA y te resume todo
-            por WhatsApp. Gratis. Sin contraseñas bancarias.
+            Neto lee tus correos del banco, categoriza con IA y te resume todo
+            por WhatsApp. Detecta fugas, calcula tu score financiero y te ayuda
+            a ahorrar — automáticamente.
           </motion.p>
 
           {/* CTA row */}
           <motion.div
             {...fadeUp(0.4)}
-            className="flex flex-row flex-wrap gap-3"
+            className="flex flex-col gap-2"
           >
-            <a
-              href={WA_LINK}
-              id="hero-cta"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full bg-gradient-to-br from-neto-green-light to-neto-green text-[#002115] px-7 py-3.5 text-base font-semibold transition-all duration-200 hover:shadow-[0_0_40px_rgba(29,158,117,0.35)] hover:scale-[1.02] active:scale-[0.98]"
-            >
-              Regístrate en 2 minutos
-            </a>
-            <a
-              href={DASHBOARD_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-neto-bg5 bg-neto-bg3/60 backdrop-blur-sm px-7 py-3.5 text-base font-medium text-neto-txt2 transition-all duration-200 hover:bg-neto-bg4 hover:text-neto-txt active:scale-[0.98]"
-            >
-              Iniciar sesión
-            </a>
+            <div className="flex flex-row flex-wrap gap-3">
+              <a
+                href={WA_LINK}
+                id="hero-cta"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-gradient-to-br from-neto-green-light to-neto-green text-[#002115] px-7 py-3.5 text-base font-semibold transition-all duration-200 hover:shadow-[0_0_40px_rgba(29,158,117,0.35)] hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Ver a donde va mi plata
+              </a>
+              <a
+                href={DASHBOARD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-neto-bg5 bg-neto-bg3/60 backdrop-blur-sm px-7 py-3.5 text-base font-medium text-neto-txt2 transition-all duration-200 hover:bg-neto-bg4 hover:text-neto-txt active:scale-[0.98]"
+              >
+                Iniciar sesión
+              </a>
+            </div>
+            <p className="text-xs text-neto-txt3">
+              Setup en 2 min · Sin tarjeta · Sin contraseñas bancarias
+            </p>
           </motion.div>
 
           {/* Stats row */}
@@ -142,8 +148,8 @@ export default function Hero() {
             className="flex flex-row flex-wrap items-center gap-x-4 gap-y-3"
           >
             {[
-              { value: "Gratis", label: "Para empezar" },
-              { value: "2 min", label: "De setup" },
+              { value: "6 bancos", label: "Compatibles" },
+              { value: "86 consultas", label: "En lenguaje natural" },
               { value: "Sin contraseñas", label: "Bancarias" },
             ].map((stat, i) => (
               <div key={stat.label} className="flex flex-row items-center gap-4">

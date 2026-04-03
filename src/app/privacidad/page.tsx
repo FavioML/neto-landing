@@ -4,9 +4,19 @@ import Footer from "@/components/landing/Footer";
 import { WA_NUMBER } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Politica de Privacidad - Neto",
+  title: "Política de Privacidad — Neto",
   description:
-    "Politica de privacidad de Neto - Tu asistente financiero personal por WhatsApp",
+    "Conoce cómo Neto protege tu información financiera. Solo leemos correos bancarios, nunca accedemos a tu cuenta. Datos encriptados con TLS 1.3.",
+  alternates: { canonical: "https://neto.pe/privacidad" },
+  openGraph: {
+    title: "Política de Privacidad — Neto",
+    description:
+      "Conoce cómo Neto protege tu información financiera. Solo leemos correos bancarios, nunca accedemos a tu cuenta.",
+    url: "https://neto.pe/privacidad",
+    type: "website",
+    locale: "es_PE",
+    siteName: "Neto",
+  },
 };
 
 export default function PrivacidadPage() {

@@ -9,6 +9,15 @@ export const metadata: Metadata = {
   description:
     "Tips, guías y estrategias de finanzas personales para peruanos. Aprende a controlar tus gastos, ahorrar más y ordenar tu plata.",
   alternates: { canonical: "https://neto.pe/blog" },
+  openGraph: {
+    title: "Blog — Neto | Finanzas personales Perú",
+    description:
+      "Tips, guías y estrategias de finanzas personales para peruanos. Aprende a controlar tus gastos y ahorrar más.",
+    url: "https://neto.pe/blog",
+    type: "website",
+    locale: "es_PE",
+    siteName: "Neto",
+  },
 };
 
 export default function BlogIndex() {

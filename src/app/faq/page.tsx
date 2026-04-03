@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/Footer";
 import { WA_NUMBER } from "@/lib/constants";
@@ -10,16 +7,16 @@ const FAQ_DATA = [
     group: "Sobre el servicio",
     items: [
       {
-        q: "Que es Neto exactamente?",
-        a: "Neto es tu asistente financiero personal que opera 100% por WhatsApp. Lee automaticamente los correos de notificacion que tu banco y Yape/Plin ya te envian, organiza tus gastos por categoria con IA y te manda un resumen a WhatsApp. Sin apps que descargar, sin ingresar datos manualmente.",
+        q: "¿Qué es Neto exactamente?",
+        a: "Neto es tu asistente financiero personal que opera 100% por WhatsApp. Lee automáticamente los correos de notificación que tu banco y Yape/Plin ya te envían, organiza tus gastos por categoría con IA y te manda un resumen a WhatsApp. Sin apps que descargar, sin ingresar datos manualmente.",
       },
       {
-        q: "Que bancos y billeteras son compatibles?",
-        a: 'Actualmente Neto es compatible con BCP, BBVA Peru, Interbank, Scotiabank, Yape y Plin. Si tu banco no esta en la lista, escribenos a <a href="mailto:hola@neto.pe" class="text-neto-green hover:underline">hola@neto.pe</a> - lo podemos activar a solicitud.',
+        q: "¿Qué bancos y billeteras son compatibles?",
+        a: 'Actualmente Neto es compatible con BCP, BBVA Perú, Interbank, Scotiabank, Yape y Plin. Si tu banco no está en la lista, escríbenos a <a href="mailto:hola@neto.pe" class="text-neto-green hover:underline">hola@neto.pe</a> — lo podemos activar a solicitud.',
       },
       {
-        q: "Neto funciona sin internet o fuera de Lima?",
-        a: "Neto procesa los correos en la nube, asi que necesitas que tu correo de Gmail reciba las notificaciones bancarias. Funciona desde cualquier lugar del Peru - no importa donde estes.",
+        q: "¿Neto funciona sin internet o fuera de Lima?",
+        a: "Neto procesa los correos en la nube, así que necesitas que tu correo de Gmail reciba las notificaciones bancarias. Funciona desde cualquier lugar del Perú — no importa dónde estés.",
       },
     ],
   },
@@ -27,16 +24,16 @@ const FAQ_DATA = [
     group: "Privacidad y seguridad",
     items: [
       {
-        q: "Neto accede a mi cuenta bancaria?",
-        a: "No. Neto nunca accede a tu banca en linea ni te pide usuario o contrasena bancaria. Solo lee los correos de notificacion automatica que tu banco ya te envia - los mismos que llegarian aunque no usaras Neto.",
+        q: "¿Neto accede a mi cuenta bancaria?",
+        a: "No. Neto nunca accede a tu banca en línea ni te pide usuario o contraseña bancaria. Solo lee los correos de notificación automática que tu banco ya te envía — los mismos que llegarían aunque no usaras Neto.",
       },
       {
-        q: "Que correos exactamente lee Neto?",
-        a: 'Solo los correos de transacciones: notificaciones de compras, transferencias y cargos bancarios. Neto no lee tus correos personales, laborales ni ningun otro tipo de correo. Puedes verificar y revocar este acceso en cualquier momento desde <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">myaccount.google.com/permissions</a>.',
+        q: "¿Qué correos exactamente lee Neto?",
+        a: 'Solo los correos de transacciones: notificaciones de compras, transferencias y cargos bancarios. Neto no lee tus correos personales, laborales ni ningún otro tipo de correo. Puedes verificar y revocar este acceso en cualquier momento desde <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">myaccount.google.com/permissions</a>.',
       },
       {
-        q: "Venden mis datos a terceros?",
-        a: 'No. Nunca. Tus datos financieros son estrictamente personales y solo se usan para brindarte el servicio. Consulta nuestra <a href="/privacidad" class="text-neto-green hover:underline">Politica de Privacidad</a> para mas detalles.',
+        q: "¿Venden mis datos a terceros?",
+        a: 'No. Nunca. Tus datos financieros son estrictamente personales y solo se usan para brindarte el servicio. Consulta nuestra <a href="/privacidad" class="text-neto-green hover:underline">Política de Privacidad</a> para más detalles.',
       },
     ],
   },
@@ -44,20 +41,20 @@ const FAQ_DATA = [
     group: "Planes y pagos",
     items: [
       {
-        q: "Que incluye el plan gratis?",
-        a: 'El plan gratis incluye: resumen de gastos por WhatsApp, categorizacion automatica con IA, correccion de categorias y consultas en lenguaje natural ("cuanto gaste en delivery?"). Es gratis para siempre, sin tarjeta de credito.',
+        q: "¿Qué incluye el plan gratis?",
+        a: 'El plan gratis incluye: resumen de gastos por WhatsApp, categorización automática con IA, corrección de categorías y consultas en lenguaje natural ("¿cuánto gasté en delivery?"). Es gratis para siempre, sin tarjeta de crédito.',
       },
       {
-        q: "Que incluye el plan Pro?",
-        a: "El plan Pro (S/10/mes o S/99/ano) incluye todo lo del plan Gratis mas: reportes mensuales web ilimitados, historial ilimitado de transacciones, resumenes automaticos configurables, score de salud financiera y la opcion de pagar con Yape o tarjeta.",
+        q: "¿Qué incluye el plan Pro?",
+        a: "El plan Pro (S/10/mes o S/99/año) incluye todo lo del plan Gratis más: reportes mensuales web ilimitados, historial ilimitado de transacciones, resúmenes automáticos configurables, score de salud financiera detallado y la opción de pagar con Yape o tarjeta.",
       },
       {
-        q: "Puedo pagar con Yape?",
-        a: "Si. Neto acepta Yape, tarjeta de debito y tarjeta de credito. Somos el unico asistente financiero en Peru que acepta Yape como metodo de pago.",
+        q: "¿Puedo pagar con Yape?",
+        a: "Sí. Neto acepta Yape, tarjeta de débito y tarjeta de crédito. Somos el único asistente financiero en Perú que acepta Yape como método de pago.",
       },
       {
-        q: "Puedo cancelar cuando quiera?",
-        a: "Si, sin tramites ni penalidades. Si cancelas, mantienes el acceso Pro hasta el final del periodo pagado y luego bajas automaticamente al plan Gratis. Tus datos historicos se conservan.",
+        q: "¿Puedo cancelar cuando quiera?",
+        a: "Sí, sin trámites ni penalidades. Si cancelas, mantienes el acceso Pro hasta el final del periodo pagado y luego bajas automáticamente al plan Gratis. Tus datos históricos se conservan.",
       },
     ],
   },
@@ -65,70 +62,26 @@ const FAQ_DATA = [
     group: "Uso del servicio",
     items: [
       {
-        q: "Como empiezo a usar Neto?",
-        a: `Escribenos por WhatsApp al <a href="https://wa.me/${WA_NUMBER}" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">+51 933 014 505</a>. Neto te guiara paso a paso para conectar tu Gmail. El proceso toma menos de 2 minutos.`,
+        q: "¿Cómo empiezo a usar Neto?",
+        a: `Escríbenos por WhatsApp al <a href="https://wa.me/${WA_NUMBER}" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">+51 933 014 505</a>. Neto te guiará paso a paso para conectar tu Gmail. El proceso toma menos de 2 minutos.`,
       },
       {
-        q: "Puedo corregir una categoria incorrecta?",
-        a: 'Si. Solo escribele a Neto en lenguaje natural: "Cambia Rappi a delivery" o "Ese cargo de Netflix es suscripcion". Neto lo corrige y aprende para futuras transacciones del mismo comercio.',
+        q: "¿Puedo corregir una categoría incorrecta?",
+        a: 'Sí. Solo escríbele a Neto en lenguaje natural: "Cambia Rappi a delivery" o "Ese cargo de Netflix es suscripción". Neto lo corrige y aprende para futuras transacciones del mismo comercio.',
       },
       {
-        q: "Cada cuanto llega el resumen automatico?",
+        q: "¿Cada cuánto llega el resumen automático?",
         a: "Con el plan Pro puedes configurar la frecuencia y el horario que prefieras. Con el plan Gratis puedes pedir tu resumen cuando quieras escribiendo a Neto por WhatsApp.",
       },
       {
-        q: "Que es el reporte mensual web?",
-        a: "Es un reporte completo de 3 paginas disponible en el navegador (no descarga obligatoria). Incluye: analisis de gastos por categoria, top comercios, suscripciones detectadas, score de salud financiera y 3 acciones concretas para el mes siguiente. Se accede desde un link que Neto te envia por WhatsApp.",
+        q: "¿Qué es el reporte mensual web?",
+        a: "Es un reporte completo disponible en el navegador. Incluye: análisis de gastos por categoría, top comercios, suscripciones detectadas, score de salud financiera y 3 acciones concretas para el mes siguiente. Se accede desde un link que Neto te envía por WhatsApp.",
       },
     ],
   },
 ];
 
-function FaqItem({
-  question,
-  answer,
-  isOpen,
-  onToggle,
-}: {
-  question: string;
-  answer: string;
-  isOpen: boolean;
-  onToggle: () => void;
-}) {
-  return (
-    <div className="border-b border-white/6">
-      <button
-        onClick={onToggle}
-        className="w-full flex items-start justify-between gap-4 py-4 text-left cursor-pointer"
-      >
-        <span className="text-[15px] font-medium text-neto-txt leading-snug flex-1">
-          {question}
-        </span>
-        <span
-          className={`text-lg text-neto-green shrink-0 mt-0.5 transition-transform duration-200 ${
-            isOpen ? "rotate-45" : ""
-          }`}
-        >
-          +
-        </span>
-      </button>
-      {isOpen && (
-        <div
-          className="pb-4 text-sm text-neto-txt2 leading-7"
-          dangerouslySetInnerHTML={{ __html: answer }}
-        />
-      )}
-    </div>
-  );
-}
-
 export default function FaqPage() {
-  const [openIndex, setOpenIndex] = useState<string | null>(null);
-
-  const handleToggle = (key: string) => {
-    setOpenIndex(openIndex === key ? null : key);
-  };
-
   return (
     <>
       <Navbar />
@@ -144,11 +97,8 @@ export default function FaqPage() {
           </h1>
           <p className="text-base text-neto-txt2 font-light mb-10 pb-6 border-b border-white/7 leading-relaxed">
             Todo lo que necesitas saber antes de empezar. Si no encuentras tu
-            respuesta, escribenos a{" "}
-            <a
-              href="mailto:hola@neto.pe"
-              className="text-neto-green hover:underline"
-            >
+            respuesta, escríbenos a{" "}
+            <a href="mailto:hola@neto.pe" className="text-neto-green hover:underline">
               hola@neto.pe
             </a>
             .
@@ -163,18 +113,22 @@ export default function FaqPage() {
                   {group.group}
                 </div>
                 <div>
-                  {group.items.map((item, i) => {
-                    const key = `${group.group}-${i}`;
-                    return (
-                      <FaqItem
-                        key={key}
-                        question={item.q}
-                        answer={item.a}
-                        isOpen={openIndex === key}
-                        onToggle={() => handleToggle(key)}
+                  {group.items.map((item) => (
+                    <details key={item.q} className="group border-b border-white/6">
+                      <summary className="flex items-start justify-between gap-4 py-4 cursor-pointer list-none">
+                        <span className="text-[15px] font-medium text-neto-txt leading-snug flex-1">
+                          {item.q}
+                        </span>
+                        <span className="text-lg text-neto-green shrink-0 mt-0.5 transition-transform duration-200 group-open:rotate-45">
+                          +
+                        </span>
+                      </summary>
+                      <div
+                        className="pb-4 text-sm text-neto-txt2 leading-7"
+                        dangerouslySetInnerHTML={{ __html: item.a }}
                       />
-                    );
-                  })}
+                    </details>
+                  ))}
                 </div>
               </section>
             ))}
@@ -184,10 +138,10 @@ export default function FaqPage() {
           <div className="bg-neto-green rounded-2xl p-7 mt-12 flex items-center justify-between gap-5 flex-wrap">
             <div>
               <h3 className="text-lg font-bold text-white mb-1">
-                Tienes otra pregunta?
+                ¿Tienes otra pregunta?
               </h3>
               <p className="text-sm text-white/75">
-                Escribenos y te respondemos en menos de 24 horas.
+                Escríbenos y te respondemos en menos de 24 horas.
               </p>
             </div>
             <a
