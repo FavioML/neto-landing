@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Send, Mail, Phone, User, MessageSquare } from "lucide-react";
 import Navbar from "@/components/landing/Navbar";
+import { WA_NUMBER } from "@/lib/constants";
 import Footer from "@/components/landing/Footer";
 
 export default function ContactoPage() {
@@ -21,7 +22,7 @@ export default function ContactoPage() {
     const text = encodeURIComponent(
       `Hola, soy ${nombre}.\n\nCorreo: ${correo}\nTeléfono: ${telefono}\n\nMensaje: ${mensaje}`
     );
-    window.open(`https://wa.me/51933014505?text=${text}`, "_blank");
+    window.open(`https://wa.me/${WA_NUMBER}?text=${text}`, "_blank");
     setSent(true);
   }
 

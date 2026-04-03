@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/Footer";
+import { WA_NUMBER } from "@/lib/constants";
 
 const FAQ_DATA = [
   {
@@ -65,7 +66,7 @@ const FAQ_DATA = [
     items: [
       {
         q: "Como empiezo a usar Neto?",
-        a: 'Escribenos por WhatsApp al <a href="https://wa.me/51933014505" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">+51 933 014 505</a>. Neto te guiara paso a paso para conectar tu Gmail. El proceso toma menos de 2 minutos.',
+        a: `Escribenos por WhatsApp al <a href="https://wa.me/${WA_NUMBER}" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">+51 933 014 505</a>. Neto te guiara paso a paso para conectar tu Gmail. El proceso toma menos de 2 minutos.`,
       },
       {
         q: "Puedo corregir una categoria incorrecta?",
@@ -190,7 +191,7 @@ export default function FaqPage() {
               </p>
             </div>
             <a
-              href="https://wa.me/51933014505"
+              href={`https://wa.me/${WA_NUMBER}`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-white text-neto-green-dark rounded-full px-6 py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity shrink-0"

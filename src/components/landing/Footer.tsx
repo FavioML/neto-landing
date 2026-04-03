@@ -1,10 +1,9 @@
-const WA_LINK =
-  "https://wa.me/51933014505?text=Hola%20Neto%2C%20quiero%20empezar%20a%20ordenar%20mis%20finanzas%20%F0%9F%91%8B";
+import { WA_LINK, APP_URL } from "@/lib/constants";
 
 const PRODUCT_LINKS = [
   { label: "Cómo funciona", href: "/#como-funciona" },
   { label: "Precios", href: "/#precios" },
-  { label: "Dashboard", href: "https://app.neto.pe" },
+  { label: "Dashboard", href: APP_URL },
   { label: "Blog", href: "/blog" },
   { label: "FAQ", href: "/faq" },
 ];

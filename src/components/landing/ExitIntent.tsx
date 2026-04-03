@@ -1,9 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { X } from "lucide-react";
-
-const WA_LINK =
-  "https://wa.me/51933014505?text=Hola%20Neto%2C%20quiero%20empezar%20a%20ordenar%20mis%20finanzas%20%F0%9F%91%8B";
+import { WA_LINK } from "@/lib/constants";
 
 const STORAGE_KEY = "neto_exit_shown";
 

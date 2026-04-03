@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/Footer";
+import { WA_NUMBER } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Terminos de Uso - Neto",
@@ -260,7 +261,7 @@ export default function TerminosPage() {
                 </a>{" "}
                 o{" "}
                 <a
-                  href="https://wa.me/51933014505"
+                  href={`https://wa.me/${WA_NUMBER}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-neto-green hover:underline"

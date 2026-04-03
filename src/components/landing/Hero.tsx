@@ -5,9 +5,8 @@ import { motion } from "framer-motion";
 import { Sparkles, ChevronDown } from "lucide-react";
 import ChatSimulator from "./ChatSimulator";
 
-const WA_LINK =
-  "https://wa.me/51933014505?text=Hola%20Neto%2C%20quiero%20empezar%20a%20ordenar%20mis%20finanzas%20%F0%9F%91%8B";
-const DASHBOARD_URL = "https://app.neto.pe";
+import { WA_LINK, APP_URL } from "@/lib/constants";
+const DASHBOARD_URL = APP_URL;
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 

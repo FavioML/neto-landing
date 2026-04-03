@@ -4,6 +4,8 @@
  * and avoids MDX/remark dependencies.
  */
 
+import { WA_LINK } from "./constants";
+
 export const articleContent: Record<string, string> = {
   "gastos-hormiga-peru": `
 <h2>Qué son los gastos hormiga</h2>
@@ -118,7 +120,7 @@ export const articleContent: Record<string, string> = {
   y te manda un resumen. Sin apps. Sin contraseñas bancarias. Gratis para empezar.
 </p>
 <p>
-  <a href="https://wa.me/51933014505?text=Hola%20Neto%2C%20quiero%20empezar%20a%20ordenar%20mis%20finanzas%20%F0%9F%91%8B">Escríbele a Neto por WhatsApp</a>
+  <a href="${WA_LINK}">Escríbele a Neto por WhatsApp</a>
   y empieza a ver a dónde se va tu plata.
 </p>
 `,
@@ -212,7 +214,7 @@ export const articleContent: Record<string, string> = {
 
 <h2>Plan de acción: empieza hoy</h2>
 <ol>
-  <li><strong>Hoy:</strong> Conecta <a href="https://wa.me/51933014505?text=Hola%20Neto%2C%20quiero%20empezar%20a%20ordenar%20mis%20finanzas%20%F0%9F%91%8B">Neto</a> (2 minutos, gratis)</li>
+  <li><strong>Hoy:</strong> Conecta <a href="${WA_LINK}">Neto</a> (2 minutos, gratis)</li>
   <li><strong>Esta semana:</strong> Revisa tu primer resumen de gastos por categoría</li>
   <li><strong>Este mes:</strong> Identifica tus 3 gastos a eliminar y pon topes por categoría</li>
   <li><strong>Mes 2:</strong> Compara cuánto gastaste vs el mes anterior</li>
@@ -285,7 +287,7 @@ export const articleContent: Record<string, string> = {
 
 <h2>Empieza ahora (gratis, 2 minutos)</h2>
 <p>
-  <a href="https://wa.me/51933014505?text=Hola%20Neto%2C%20quiero%20empezar%20a%20ordenar%20mis%20finanzas%20%F0%9F%91%8B">Escríbele a Neto por WhatsApp</a>
+  <a href="${WA_LINK}">Escríbele a Neto por WhatsApp</a>
   y en 2 minutos vas a saber exactamente a dónde se va tu plata.
 </p>
 `,
@@ -358,7 +360,7 @@ export const articleContent: Record<string, string> = {
 
 <h2>Empieza gratis</h2>
 <p>
-  <a href="https://wa.me/51933014505?text=Hola%20Neto%2C%20quiero%20empezar%20a%20ordenar%20mis%20finanzas%20%F0%9F%91%8B">Conecta tu banco en 2 minutos por WhatsApp</a>.
+  <a href="${WA_LINK}">Conecta tu banco en 2 minutos por WhatsApp</a>.
   Sin contraseñas. Sin riesgo.
 </p>
 `,
@@ -444,7 +446,7 @@ export const articleContent: Record<string, string> = {
 
 <h2>Empieza en 2 minutos</h2>
 <p>
-  <a href="https://wa.me/51933014505?text=Hola%20Neto%2C%20quiero%20empezar%20a%20ordenar%20mis%20finanzas%20%F0%9F%91%8B">Escríbele "Hola" a Neto por WhatsApp</a>
+  <a href="${WA_LINK}">Escríbele "Hola" a Neto por WhatsApp</a>
   y conecta tu banco en 2 minutos. Gratis, sin contraseñas, sin apps.
 </p>
 `,

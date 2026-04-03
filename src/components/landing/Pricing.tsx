@@ -7,8 +7,7 @@ import BlurReveal from "@/components/shared/BlurReveal";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-const WA_LINK =
-  "https://wa.me/51933014505?text=Hola%20Neto%2C%20quiero%20empezar%20a%20ordenar%20mis%20finanzas%20%F0%9F%91%8B";
+import { WA_LINK } from "@/lib/constants";
 
 /* ─── Features ─── */
 const FREE_FEATURES_BASE = [

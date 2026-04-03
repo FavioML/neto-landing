@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { DashboardData } from "@/types/dashboard";
+import { WA_NUMBER } from "@/lib/constants";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import KPICards from "@/components/dashboard/KPICards";
@@ -111,7 +112,7 @@ export default function DashboardClient() {
             WhatsApp.
           </p>
           <a
-            href="https://wa.me/51933014505?text=/reporte"
+            href={`https://wa.me/${WA_NUMBER}?text=/reporte`}
             className="inline-flex items-center gap-2 bg-neto-green hover:bg-neto-green-dark text-white font-medium text-sm px-6 py-3 rounded-full transition-all"
           >
             Abrir WhatsApp
