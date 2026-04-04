@@ -379,38 +379,314 @@ const carousel8 = [
   </div>`,
 ];
 
-async function generateCarousel(browser, slides, prefix) {
+// ─── CAROUSEL #5: ¿Por qué los jóvenes en Lima no ahorran? ───
+const carousel5 = [
+  // Slide 1: Hook
+  `<div class="slide center">
+    <div class="glow"></div>
+    <img src="neto-icon.png" class="logo" style="margin-bottom:24px">
+    <div class="title big" style="margin-bottom:12px">¿Por qué no<br>ahorras?</div>
+    <div class="green-text" style="font-size:36px;font-weight:700">No es falta de disciplina.</div>
+    <div class="subtitle" style="margin-top:24px">Es falta de visibilidad →</div>
+  </div>`,
+
+  // Slide 2: Razón 1
+  `<div class="slide" style="justify-content:center;gap:28px">
+    <div class="header-row"><img src="neto-icon.png" class="logo-sm"><span class="tag red">RAZÓN #1</span></div>
+    <div class="icon-big">📝</div>
+    <div class="title green">No registras tus gastos</div>
+    <div class="subtitle" style="max-width:800px">Nadie va a anotar cada gasto en un Excel después de pagar en el Tambo a las 11pm. El registro manual no funciona.</div>
+    <div class="border-box" style="margin-top:16px">Neto registra todo por ti desde WhatsApp</div>
+  </div>`,
+
+  // Slide 3: Razón 2
+  `<div class="slide" style="justify-content:center;gap:28px">
+    <div class="header-row"><img src="neto-icon.png" class="logo-sm"><span class="tag red">RAZÓN #2</span></div>
+    <div class="icon-big">🎯</div>
+    <div class="title green">No tienes presupuesto real</div>
+    <div class="subtitle" style="max-width:800px">La mayoría presupuesta con lo que "cree" que gasta, no con datos reales. Y el plan dura 2 semanas.</div>
+    <div class="border-box" style="margin-top:16px">Neto crea presupuestos basados en tu historial real</div>
+  </div>`,
+
+  // Slide 4: Razón 3
+  `<div class="slide" style="justify-content:center;gap:28px">
+    <div class="header-row"><img src="neto-icon.png" class="logo-sm"><span class="tag red">RAZÓN #3</span></div>
+    <div class="icon-big">🐜</div>
+    <div class="title green">Gastos hormiga invisibles</div>
+    <div class="subtitle" style="max-width:800px">S/7 en café, S/25 en delivery, S/15 en snacks. Cada uno es "poco". Juntos son S/300+ al mes que nunca ves.</div>
+    <div class="border-box" style="margin-top:16px">Neto detecta fugas automáticamente</div>
+  </div>`,
+
+  // Slide 5: Razón 4
+  `<div class="slide" style="justify-content:center;gap:28px">
+    <div class="header-row"><img src="neto-icon.png" class="logo-sm"><span class="tag red">RAZÓN #4</span></div>
+    <div class="icon-big">📊</div>
+    <div class="title green">No sabes tu score financiero</div>
+    <div class="subtitle" style="max-width:800px">Sin un número que te diga cómo vas, no hay motivación para mejorar. Es como hacer dieta sin balanza.</div>
+    <div class="border-box" style="margin-top:16px">Neto calcula tu score y lo mejora contigo</div>
+  </div>`,
+
+  // Slide 6: Razón 5
+  `<div class="slide" style="justify-content:center;gap:28px">
+    <div class="header-row"><img src="neto-icon.png" class="logo-sm"><span class="tag red">RAZÓN #5</span></div>
+    <div class="icon-big">🏔️</div>
+    <div class="title green">No tienes una meta clara</div>
+    <div class="subtitle" style="max-width:800px">"Ahorrar" no es una meta. "Juntar S/3,000 para emergencias en 6 meses" sí lo es. Sin meta concreta, no hay plan.</div>
+    <div class="border-box" style="margin-top:16px">Neto te ayuda a crear planes de ahorro</div>
+  </div>`,
+
+  // Slide 7: CTA
+  `<div class="slide center">
+    <img src="neto-icon.png" class="logo" style="margin-bottom:24px">
+    <div class="title" style="font-size:44px">Las 5 razones tienen solución.</div>
+    <div class="subtitle big" style="max-width:700px">Registra por WhatsApp, ve tus fugas y score en el dashboard, y crea planes de ahorro reales.</div>
+    <div class="btn">Gratis en neto.pe</div>
+    <div class="small">WhatsApp + Dashboard · 6 bancos · IA</div>
+  </div>`,
+];
+
+// ─── CAROUSEL #9: Fondo de emergencia en Perú ───
+const carousel9 = [
+  // Slide 1: Hook
+  `<div class="slide center">
+    <div class="glow"></div>
+    <img src="neto-icon.png" class="logo" style="margin-bottom:24px">
+    <div class="title big" style="margin-bottom:12px">Fondo de<br>emergencia</div>
+    <div class="green-text" style="font-size:36px;font-weight:700">Guía práctica para Perú</div>
+    <div class="subtitle" style="margin-top:24px">Cuánto, dónde y cómo →</div>
+  </div>`,
+
+  // Slide 2: Qué es
+  `<div class="slide" style="justify-content:center;gap:28px">
+    <div class="header-row"><img src="neto-icon.png" class="logo-sm"><span class="tag">PASO 1</span></div>
+    <div class="icon-big">🛡️</div>
+    <div class="title" style="font-size:36px">¿Qué es y por qué lo necesitas?</div>
+    <div class="subtitle" style="max-width:800px">Plata reservada para imprevistos: emergencias médicas, reparaciones, pérdida de trabajo. Sin esto, cualquier imprevisto te endeuda.</div>
+    <div class="red-text" style="font-size:22px;font-weight:600;margin-top:16px">67% de peruanos no podría cubrir un gasto inesperado de S/1,000</div>
+  </div>`,
+
+  // Slide 3: Cuánto necesitas
+  `<div class="slide" style="justify-content:center;gap:28px">
+    <div class="header-row"><img src="neto-icon.png" class="logo-sm"><span class="tag">PASO 2</span></div>
+    <div class="icon-big">🧮</div>
+    <div class="title" style="font-size:36px">¿Cuánto necesitas?</div>
+    <div class="check-list">
+      <div class="check-item">
+        <div class="check-icon green">3x</div>
+        <div class="flex-col"><div class="check-text"><strong>Mínimo: 3 meses</strong> de gastos fijos</div><div class="detail">Si ganas S/3,500 y tus fijos son S/2,100 → necesitas S/6,300</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon green">6x</div>
+        <div class="flex-col"><div class="check-text"><strong>Ideal: 6 meses</strong> de gastos fijos</div><div class="detail">S/12,600 — te da tranquilidad real ante cualquier imprevisto</div></div>
+      </div>
+    </div>
+  </div>`,
+
+  // Slide 4: Dónde guardarlo
+  `<div class="slide" style="justify-content:center;gap:28px">
+    <div class="header-row"><img src="neto-icon.png" class="logo-sm"><span class="tag">PASO 3</span></div>
+    <div class="icon-big">🏦</div>
+    <div class="title" style="font-size:36px">¿Dónde guardarlo en Perú?</div>
+    <div class="check-list">
+      <div class="check-item">
+        <div class="check-icon green">✓</div>
+        <div class="flex-col"><div class="check-text"><strong>Cuenta de ahorro</strong> (BCP, Interbank)</div><div class="detail">Liquidez inmediata, bajo interés pero acceso 24/7</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon green">✓</div>
+        <div class="flex-col"><div class="check-text"><strong>Depósito a plazo</strong> (30-90 días)</div><div class="detail">Mejor tasa, pero no puedes sacarlo antes sin penalidad</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon green">✓</div>
+        <div class="flex-col"><div class="check-text"><strong>Cuenta CTS</strong></div><div class="detail">Ya tienes plata ahí — cuenta como parte de tu fondo</div></div>
+      </div>
+    </div>
+  </div>`,
+
+  // Slide 5: Estrategia
+  `<div class="slide" style="justify-content:center;gap:28px">
+    <div class="header-row"><img src="neto-icon.png" class="logo-sm"><span class="tag">PASO 4</span></div>
+    <div class="icon-big">📈</div>
+    <div class="title" style="font-size:36px">¿Cómo construirlo?</div>
+    <div class="check-list">
+      <div class="check-item">
+        <div class="check-icon green">1</div>
+        <div class="flex-col"><div class="check-text"><strong>Automatiza</strong></div><div class="detail">Separa el 10-15% apenas cobres. Lo que no ves, no gastas.</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon green">2</div>
+        <div class="flex-col"><div class="check-text"><strong>Empieza pequeño</strong></div><div class="detail">S/200/mes = S/2,400 en un año. Mejor poco constante que nada.</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon green">3</div>
+        <div class="flex-col"><div class="check-text"><strong>Detecta fugas</strong></div><div class="detail">S/300 en gastos hormiga redirigidos = fondo completo en 21 meses.</div></div>
+      </div>
+    </div>
+  </div>`,
+
+  // Slide 6: Timeline
+  `<div class="slide center">
+    <div class="title" style="font-size:36px;margin-bottom:24px">¿Cuánto tiempo toma?</div>
+    <div class="check-list" style="max-width:700px;text-align:left">
+      <div class="check-item">
+        <div class="check-icon green" style="width:100px;border-radius:12px;font-size:14px">S/200/mes</div>
+        <div class="flex-col"><div class="check-text">Meta mínima (S/6,300): <strong class="green-text">32 meses</strong></div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon green" style="width:100px;border-radius:12px;font-size:14px">S/400/mes</div>
+        <div class="flex-col"><div class="check-text">Meta mínima (S/6,300): <strong class="green-text">16 meses</strong></div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon green" style="width:100px;border-radius:12px;font-size:14px">S/525/mes</div>
+        <div class="flex-col"><div class="check-text">Meta ideal (S/12,600): <strong class="green-text">24 meses</strong></div></div>
+      </div>
+    </div>
+    <div class="subtitle" style="margin-top:24px;max-width:600px">Parece mucho, pero cada mes que pasa sin empezar es un mes más de riesgo.</div>
+  </div>`,
+
+  // Slide 7: CTA
+  `<div class="slide center">
+    <img src="neto-icon.png" class="logo" style="margin-bottom:24px">
+    <div class="title" style="font-size:44px">Neto te ayuda a llegar ahí.</div>
+    <div class="subtitle big" style="max-width:700px">Crea tu plan de ahorro, detecta fugas y trackea tu progreso en el dashboard. Todo empieza en WhatsApp.</div>
+    <div class="btn">Gratis en neto.pe</div>
+    <div class="small">WhatsApp + Dashboard · 6 bancos · IA</div>
+  </div>`,
+];
+
+// ─── CAROUSEL #12: Deudas en Perú: cuáles atacar primero ───
+const carousel12 = [
+  // Slide 1: Hook
+  `<div class="slide center">
+    <div class="glow"></div>
+    <img src="neto-icon.png" class="logo" style="margin-bottom:24px">
+    <div class="title big" style="margin-bottom:12px">¿Tienes<br>varias deudas?</div>
+    <div class="green-text" style="font-size:36px;font-weight:700">El orden importa más de lo que crees</div>
+    <div class="subtitle" style="margin-top:24px">2 métodos que funcionan →</div>
+  </div>`,
+
+  // Slide 2: El problema
+  `<div class="slide" style="justify-content:center;gap:28px">
+    <div class="header-row"><img src="neto-icon.png" class="logo-sm"><span class="tag red">EL PROBLEMA</span></div>
+    <div class="icon-big">😰</div>
+    <div class="title" style="font-size:36px">Pagar deudas sin estrategia</div>
+    <div class="subtitle" style="max-width:800px">Pagas un poco a cada una, sin priorizar. Los intereses crecen más rápido de lo que abonas. Se siente como nadar contra la corriente.</div>
+    <div class="red-text" style="font-size:22px;font-weight:600;margin-top:16px">Las tarjetas en Perú cobran hasta 80% TEA</div>
+  </div>`,
+
+  // Slide 3: Método avalancha
+  `<div class="slide" style="justify-content:center;gap:28px">
+    <div class="header-row"><img src="neto-icon.png" class="logo-sm"><span class="tag">MÉTODO 1</span></div>
+    <div class="icon-big">🏔️</div>
+    <div class="title green">Avalancha: mayor interés primero</div>
+    <div class="check-list">
+      <div class="check-item">
+        <div class="check-icon green">1°</div>
+        <div class="flex-col"><div class="check-text">Tarjeta de crédito <strong class="red-text">80% TEA</strong></div><div class="detail">Paga el máximo posible aquí primero</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon green">2°</div>
+        <div class="flex-col"><div class="check-text">Préstamo personal <strong class="red-text">35% TEA</strong></div><div class="detail">Mínimo mientras atacas la tarjeta</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon green">3°</div>
+        <div class="flex-col"><div class="check-text">Crédito vehicular <strong class="green-text">12% TEA</strong></div><div class="detail">El interés más bajo — último en prioridad</div></div>
+      </div>
+    </div>
+    <div class="pct">Ahorras más dinero en intereses a largo plazo</div>
+  </div>`,
+
+  // Slide 4: Método bola de nieve
+  `<div class="slide" style="justify-content:center;gap:28px">
+    <div class="header-row"><img src="neto-icon.png" class="logo-sm"><span class="tag">MÉTODO 2</span></div>
+    <div class="icon-big">⛄</div>
+    <div class="title green">Bola de nieve: menor monto primero</div>
+    <div class="check-list">
+      <div class="check-item">
+        <div class="check-icon green">1°</div>
+        <div class="flex-col"><div class="check-text">Deuda de <strong class="green-text">S/500</strong></div><div class="detail">La eliminas rápido → motivación inmediata</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon green">2°</div>
+        <div class="flex-col"><div class="check-text">Deuda de <strong class="green-text">S/2,000</strong></div><div class="detail">Con lo que liberaste de la primera, avanzas más rápido</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon green">3°</div>
+        <div class="flex-col"><div class="check-text">Deuda de <strong class="green-text">S/8,000</strong></div><div class="detail">Ahora tienes toda la fuerza concentrada aquí</div></div>
+      </div>
+    </div>
+    <div class="pct">Más motivador psicológicamente — ves resultados rápido</div>
+  </div>`,
+
+  // Slide 5: Cuál elegir
+  `<div class="slide" style="justify-content:center;gap:28px">
+    <div class="header-row"><img src="neto-icon.png" class="logo-sm"><span class="tag">¿CUÁL ELEGIR?</span></div>
+    <div class="title" style="font-size:36px;margin-bottom:8px">Depende de tu situación</div>
+    <div class="check-list">
+      <div class="check-item">
+        <div class="check-icon green">🏔️</div>
+        <div class="flex-col"><div class="check-text"><strong>Avalancha</strong> si tienes disciplina</div><div class="detail">Ideal cuando una deuda tiene interés muy alto (tarjetas)</div></div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon green">⛄</div>
+        <div class="flex-col"><div class="check-text"><strong>Bola de nieve</strong> si necesitas motivación</div><div class="detail">Ideal cuando tienes muchas deudas pequeñas y te sientes abrumado</div></div>
+      </div>
+    </div>
+    <div class="subtitle" style="margin-top:16px">Lo peor que puedes hacer es no elegir ninguno y pagar sin estrategia.</div>
+  </div>`,
+
+  // Slide 6: CTA
+  `<div class="slide center">
+    <img src="neto-icon.png" class="logo" style="margin-bottom:24px">
+    <div class="title" style="font-size:44px">Neto trackea tus deudas y abonos.</div>
+    <div class="subtitle big" style="max-width:700px">Registra cada pago por WhatsApp y ve tu progreso en el dashboard. Sabe cuánto te falta y te avisa.</div>
+    <div class="btn">Gratis en neto.pe</div>
+    <div class="small">WhatsApp + Dashboard · 6 bancos · IA</div>
+  </div>`,
+];
+
+async function generateCarousel(browser, slides, folder) {
+  const carouselDir = join(outDir, folder);
+  mkdirSync(carouselDir, { recursive: true });
+
   const page = await browser.newPage();
   await page.setViewportSize({ width: 1080, height: 1080 });
 
   for (let i = 0; i < slides.length; i++) {
     const html = baseHTML(slides[i]);
-    const filePath = join(outDir, `temp-slide.html`);
+    const tempPath = join(outDir, `temp-slide.html`);
     const { writeFileSync } = await import("fs");
-    writeFileSync(filePath, html);
+    writeFileSync(tempPath, html);
 
-    await page.goto(`file:///${filePath.replace(/\\/g, "/")}`);
+    await page.goto(`file:///${tempPath.replace(/\\/g, "/")}`);
     await page.waitForTimeout(500); // let fonts load
 
-    const outPath = join(outDir, `${prefix}-slide${i + 1}.png`);
+    const outPath = join(carouselDir, `slide${i + 1}.png`);
     await page.screenshot({ path: outPath, type: "png" });
-    console.log(`  ✓ ${prefix}-slide${i + 1}.png`);
+    console.log(`  ✓ ${folder}/slide${i + 1}.png`);
   }
 
   await page.close();
 }
 
+const CAROUSELS = [
+  { name: "📊 Carrusel #3 — S/3,500 al mes en Lima", folder: "carousel-03", slides: carousel3 },
+  { name: "🙅 Carrusel #5 — ¿Por qué no ahorras?", folder: "carousel-05", slides: carousel5 },
+  { name: "📐 Carrusel #7 — La regla 50/30/20 adaptada a Lima", folder: "carousel-07", slides: carousel7 },
+  { name: "🐜 Carrusel #8 — Los 5 gastos hormiga", folder: "carousel-08", slides: carousel8 },
+  { name: "🛡️ Carrusel #9 — Fondo de emergencia en Perú", folder: "carousel-09", slides: carousel9 },
+  { name: "💳 Carrusel #12 — Deudas: cuáles atacar primero", folder: "carousel-12", slides: carousel12 },
+];
+
 async function main() {
   const browser = await chromium.launch();
 
-  console.log("\n📊 Carrusel #3 — S/3,500 al mes en Lima (Playwright)");
-  await generateCarousel(browser, carousel3, "carousel3");
-
-  console.log("\n📐 Carrusel #7 — La regla 50/30/20 adaptada a Lima (Playwright)");
-  await generateCarousel(browser, carousel7, "carousel7");
-
-  console.log("\n🐜 Carrusel #8 — Los 5 gastos hormiga (Playwright)");
-  await generateCarousel(browser, carousel8, "carousel8");
+  let total = 0;
+  for (const c of CAROUSELS) {
+    console.log(`\n${c.name} (Playwright)`);
+    await generateCarousel(browser, c.slides, c.folder);
+    total += c.slides.length;
+  }
 
   await browser.close();
 
@@ -418,8 +694,7 @@ async function main() {
   const { unlinkSync } = await import("fs");
   try { unlinkSync(join(outDir, "temp-slide.html")); } catch {}
 
-  const total = carousel3.length + carousel7.length + carousel8.length;
-  console.log(`\n✅ ${total} slides generados en public/social/`);
+  console.log(`\n✅ ${total} slides generados en ${CAROUSELS.length} carpetas dentro de public/social/`);
 }
 
 main().catch(console.error);
