@@ -11,7 +11,7 @@ interface Message {
 
 const MESSAGES: Message[] = [
   { id: 0, from: "neto", text: "¡Hola! 👋 Soy Neto, tu asistente financiero." },
-  { id: 1, from: "neto", text: "Acabo de leer tu correo del BCP." },
+  { id: 1, from: "neto", text: "Registré tu gasto del BCP." },
   { id: 2, from: "neto", text: "Rappi · S/45.00 · Comida 🍔\nLlevas S/847 esta semana.\nTe quedan S/403 de tu presupuesto." },
   { id: 3, from: "neto", text: "💡 Tip: Llevas 3 pedidos de delivery esta semana. ¿Quieres que te avise cuando pases de S/200 en delivery?" },
   { id: 4, from: "user", text: "Sí porfa" },

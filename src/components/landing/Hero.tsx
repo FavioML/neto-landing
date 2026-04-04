@@ -108,9 +108,9 @@ export default function Hero() {
             {...fadeUp(0.3)}
             className="text-lg text-neto-txt3 max-w-[520px] leading-relaxed"
           >
-            Neto lee tus correos del banco, categoriza con IA y te resume todo
-            por WhatsApp. Detecta fugas, calcula tu score financiero y te ayuda
-            a ahorrar — automáticamente.
+            Chatea con Neto por WhatsApp, registra gastos con IA y recibe tu
+            resumen financiero al instante. Detecta fugas, calcula tu score
+            financiero y te ayuda a ahorrar — sin descargar nada.
           </motion.p>
 
           {/* CTA row */}

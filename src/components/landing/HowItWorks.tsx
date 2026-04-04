@@ -15,14 +15,14 @@ interface Step {
 const STEPS: Step[] = [
   {
     number: "01",
-    title: "Conectas tu Gmail",
-    desc: "Un clic. Neto accede solo a los correos de transacciones bancarias — nunca tus correos personales, nunca tus contraseñas bancarias.",
+    title: "Escríbele por WhatsApp",
+    desc: "Mándale tus gastos en lenguaje natural: \"Gasté 45 en almuerzo\" o envía una foto de tu voucher Yape/Plin. Neto entiende todo.",
     side: "left",
   },
   {
     number: "02",
-    title: "Neto trabaja solo",
-    desc: "Lee cada notificación de BCP, BBVA, Interbank, Scotiabank, Yape, Plin y más. Categoriza con IA automáticamente. Tú no haces nada.",
+    title: "Neto categoriza con IA",
+    desc: "Cada gasto se organiza automáticamente: comida, transporte, suscripciones, delivery. Compatible con BCP, BBVA, Interbank, Yape y Plin.",
     side: "right",
   },
   {
@@ -81,8 +81,8 @@ export default function HowItWorks() {
             Cuatro pasos. Cero fricción.
           </h2>
           <p className="text-neto-txt3 text-base max-w-lg mx-auto">
-            Neto se conecta a tu correo, lee las notificaciones de tu banco y te
-            manda todo resumido a WhatsApp. Así de simple.
+            Chatea con Neto por WhatsApp, registra tus gastos y recibe tu
+            resumen financiero al instante. Así de simple.
           </p>
         </BlurReveal>
 

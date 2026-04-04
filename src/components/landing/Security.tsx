@@ -7,11 +7,11 @@ import BlurReveal from "@/components/shared/BlurReveal";
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 const SECURITY_ITEMS = [
-  "Solo lectura de correos bancarios",
+  "Funciona 100% por WhatsApp",
   "Cero contraseñas bancarias",
   "Datos encriptados (TLS + Row-Level Security)",
-  "Login con Google OAuth 2.0",
-  "Tú tienes el control (revoca cuando quieras)",
+  "Login seguro con Google",
+  "Tú tienes el control de tus datos",
   "Hecho en Perú, para peruanos",
 ];
 
@@ -97,8 +97,8 @@ export default function Security() {
 
               {/* Description */}
               <p className="text-sm text-neto-txt3 leading-relaxed mb-6 relative z-10">
-                Nunca almacenamos contraseñas bancarias. Solo leemos los correos de notificación que
-                tu banco ya te envía.
+                Nunca almacenamos contraseñas bancarias. Tus datos financieros están protegidos
+                con encriptación de grado bancario.
               </p>
 
               {/* Tech badges */}
