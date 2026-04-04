@@ -195,7 +195,7 @@ const carousel7 = [
     <div class="glow"></div>
     <img src="neto-icon.png" class="logo" style="margin-bottom:24px">
     <div class="title big" style="margin-bottom:12px">La regla<br>50/30/20</div>
-    <div class="green-text" style="font-size:36px;font-weight:700">adaptada a Lima 🇵🇪</div>
+    <div class="green-text" style="font-size:36px;font-weight:700">adaptada a Lima <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f1f5-1f1ea.png" style="width:36px;height:36px;vertical-align:middle;display:inline-block"></div>
     <div class="subtitle" style="margin-top:24px">¿Funciona con sueldo peruano? →</div>
   </div>`,
 
