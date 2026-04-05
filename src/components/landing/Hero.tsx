@@ -85,7 +85,7 @@ export default function Hero() {
                 aria-hidden
               />
               <span className="text-xs text-neto-green-light font-medium">
-                El único asistente financiero con Score 0-100 · 100% gratis para empezar
+                El único asistente financiero con Score 0-100 · Gratis para empezar
               </span>
             </span>
           </motion.div>
