@@ -6,6 +6,7 @@ import BankTicker from "@/components/landing/BankTicker";
 const FugasSection = dynamic(() => import("@/components/landing/FugasSection"));
 const BentoShowcase = dynamic(() => import("@/components/landing/BentoShowcase"));
 const EspaciosSection = dynamic(() => import("@/components/landing/EspaciosSection"));
+const DebtSection = dynamic(() => import("@/components/landing/DebtSection"));
 const HowItWorks = dynamic(() => import("@/components/landing/HowItWorks"));
 const GmailTrust = dynamic(() => import("@/components/landing/GmailTrust"));
 const Security = dynamic(() => import("@/components/landing/Security"));
@@ -85,6 +86,7 @@ export default function Home() {
         <FugasSection />
         <BentoShowcase />
         <EspaciosSection />
+        <DebtSection />
         <HowItWorks />
         <GmailTrust />
         <Security />

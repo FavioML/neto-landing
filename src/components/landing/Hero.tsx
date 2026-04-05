@@ -85,7 +85,7 @@ export default function Hero() {
                 aria-hidden
               />
               <span className="text-xs text-neto-green-light font-medium">
-                Usado por profesionales en Lima · 100% gratis para empezar
+                El único asistente financiero con Score 0-100 · 100% gratis para empezar
               </span>
             </span>
           </motion.div>
@@ -138,7 +138,9 @@ export default function Hero() {
               </a>
             </div>
             <p className="text-xs text-neto-txt3">
-              Setup en 2 min · Sin tarjeta · Sin contraseñas bancarias
+              Setup en 2 min · Sin tarjeta · Pro desde{" "}
+              <span className="text-neto-green font-medium">S/10/mes</span>
+              {" "}— la mitad que la competencia
             </p>
           </motion.div>
 
