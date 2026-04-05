@@ -8,17 +8,17 @@ import BlurReveal from "@/components/shared/BlurReveal";
 
 function DashboardVisual() {
   return (
-    <div className="grid grid-cols-2 gap-2 h-full">
-      <div className="rounded-[14px] bg-neto-bg2 p-3 col-span-2 flex items-start justify-between">
+    <div className="grid grid-cols-2 gap-1.5 h-full">
+      <div className="rounded-[12px] bg-neto-bg2 px-3 py-2 col-span-2 flex items-center justify-between">
         <div>
-          <p className="text-[10px] text-neto-txt3 mb-0.5">Esta semana</p>
-          <p className="text-xl font-bold text-neto-amber">S/847</p>
+          <p className="text-[9px] text-neto-txt3 mb-0.5">Esta semana</p>
+          <p className="text-lg font-bold text-neto-amber">S/847</p>
         </div>
-        <div className="flex items-end gap-0.5 h-10">
+        <div className="flex items-end gap-0.5 h-8">
           {[40, 65, 45, 80, 55, 70, 90].map((h, i) => (
             <div
               key={i}
-              className="w-2 rounded-t-sm"
+              className="w-1.5 rounded-t-sm"
               style={{
                 height: `${h}%`,
                 background: i === 6 ? "#1D9E75" : "#2A2A28",
@@ -27,13 +27,13 @@ function DashboardVisual() {
           ))}
         </div>
       </div>
-      <div className="rounded-[14px] bg-neto-bg2 p-3">
-        <p className="text-[10px] text-neto-txt3 mb-1">Score</p>
-        <p className="text-lg font-bold text-neto-green-light">84</p>
+      <div className="rounded-[12px] bg-neto-bg2 px-3 py-2">
+        <p className="text-[9px] text-neto-txt3 mb-0.5">Score</p>
+        <p className="text-base font-bold text-neto-green-light">84</p>
       </div>
-      <div className="rounded-[14px] bg-neto-bg2 p-3">
-        <p className="text-[10px] text-neto-txt3 mb-1">Ahorro</p>
-        <p className="text-lg font-bold text-neto-green-light">S/340</p>
+      <div className="rounded-[12px] bg-neto-bg2 px-3 py-2">
+        <p className="text-[9px] text-neto-txt3 mb-0.5">Ahorro</p>
+        <p className="text-base font-bold text-neto-green-light">S/340</p>
       </div>
     </div>
   );
@@ -143,20 +143,7 @@ function CalendarVisual() {
 
 function DebtVisual() {
   return (
-    <div className="flex flex-col justify-center gap-3 h-full">
-      {/* Header row */}
-      <div className="flex gap-2">
-        <div className="flex-1 rounded-[10px] bg-neto-bg2 px-3 py-2">
-          <p className="text-[9px] text-neto-txt3 mb-1">Te deben</p>
-          <p className="text-base font-bold text-neto-green-light">S/280</p>
-        </div>
-        <div className="flex-1 rounded-[10px] bg-neto-bg2 px-3 py-2">
-          <p className="text-[9px] text-neto-txt3 mb-1">Debes</p>
-          <p className="text-base font-bold text-neto-amber">S/150</p>
-        </div>
-      </div>
-
-      {/* Debt list */}
+    <div className="flex flex-col justify-between h-full gap-1.5">
       {[
         { name: "Juan", type: "te debe", amount: "S/200", color: "#68dbae" },
         { name: "María", type: "te debe", amount: "S/80", color: "#68dbae" },
@@ -164,11 +151,11 @@ function DebtVisual() {
       ].map(({ name, type, amount, color }) => (
         <div
           key={name}
-          className="flex justify-between items-center rounded-[10px] bg-neto-bg2 px-3 py-2"
+          className="flex justify-between items-center rounded-[10px] bg-neto-bg2 px-3 py-2 flex-1"
         >
-          <div>
+          <div className="flex items-center gap-2">
             <span className="text-[11px] text-neto-txt2 font-medium">{name}</span>
-            <span className="text-[9px] text-neto-txt3 ml-1.5">{type}</span>
+            <span className="text-[9px] text-neto-txt3">{type}</span>
           </div>
           <span className="text-[11px] font-semibold" style={{ color }}>
             {amount}
