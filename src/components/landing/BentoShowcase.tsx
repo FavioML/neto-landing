@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { RefreshCw, FileText } from "lucide-react";
+import { FileText } from "lucide-react";
 import { BentoCard } from "./BentoCard";
 import BlurReveal from "@/components/shared/BlurReveal";
 
@@ -141,27 +141,38 @@ function CalendarVisual() {
   );
 }
 
-function SubscriptionsVisual() {
-  const items: { name: string; amount: string }[] = [
-    { name: "Netflix", amount: "S/45" },
-    { name: "Spotify", amount: "S/18" },
-    { name: "iCloud", amount: "S/4" },
-  ];
-
+function DebtVisual() {
   return (
-    <div className="flex flex-col justify-center gap-2 h-full">
-      {items.map(({ name, amount }) => (
+    <div className="flex flex-col justify-center gap-3 h-full">
+      {/* Header row */}
+      <div className="flex gap-2">
+        <div className="flex-1 rounded-[10px] bg-neto-bg2 px-3 py-2">
+          <p className="text-[9px] text-neto-txt3 mb-1">Te deben</p>
+          <p className="text-base font-bold text-neto-green-light">S/280</p>
+        </div>
+        <div className="flex-1 rounded-[10px] bg-neto-bg2 px-3 py-2">
+          <p className="text-[9px] text-neto-txt3 mb-1">Debes</p>
+          <p className="text-base font-bold text-neto-amber">S/150</p>
+        </div>
+      </div>
+
+      {/* Debt list */}
+      {[
+        { name: "Juan", type: "te debe", amount: "S/200", color: "#68dbae" },
+        { name: "María", type: "te debe", amount: "S/80", color: "#68dbae" },
+        { name: "Préstamo BCP", type: "debes", amount: "S/150", color: "#EF9F27" },
+      ].map(({ name, type, amount, color }) => (
         <div
           key={name}
           className="flex justify-between items-center rounded-[10px] bg-neto-bg2 px-3 py-2"
         >
-          <span className="text-[11px] text-neto-txt2">{name}</span>
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] text-neto-amber font-medium">
-              {amount}
-            </span>
-            <RefreshCw size={10} className="text-neto-txt3" />
+          <div>
+            <span className="text-[11px] text-neto-txt2 font-medium">{name}</span>
+            <span className="text-[9px] text-neto-txt3 ml-1.5">{type}</span>
           </div>
+          <span className="text-[11px] font-semibold" style={{ color }}>
+            {amount}
+          </span>
         </div>
       ))}
     </div>
@@ -233,8 +244,8 @@ export default function BentoShowcase() {
             visual={<ChatVisual />}
           />
           <BentoCard
-            title="Metas de ahorro"
-            desc="Define cuánto quieres ahorrar y ve tu progreso en tiempo real."
+            title="Planes de ahorro"
+            desc="Crea un plan, define tu meta y ve tu progreso en tiempo real."
             visual={<GoalsVisual />}
           />
           <BentoCard
@@ -245,9 +256,9 @@ export default function BentoShowcase() {
 
           {/* Row 3 */}
           <BentoCard
-            title="Suscripciones detectadas"
-            desc="Netflix, Spotify, PedidosYa y 50+ servicios. Ve cuánto pagas sin darte cuenta."
-            visual={<SubscriptionsVisual />}
+            title="Gestión de Deudas"
+            desc="Registra lo que te deben y lo que debes. Neto te avisa cuándo cobrar y cuándo pagar."
+            visual={<DebtVisual />}
             size="large"
             className="min-[1024px]:col-span-2"
           />
