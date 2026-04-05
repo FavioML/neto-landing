@@ -58,9 +58,9 @@ function AIVisual() {
           <div className="flex-1 h-1.5 rounded-full bg-neto-bg5 overflow-hidden">
             <motion.div
               className="h-full rounded-full"
-              style={{ backgroundColor: color }}
-              initial={{ width: 0 }}
-              whileInView={{ width: `${pct}%` }}
+              style={{ backgroundColor: color, transformOrigin: "left" }}
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}
             />

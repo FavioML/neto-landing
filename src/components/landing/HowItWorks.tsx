@@ -58,14 +58,20 @@ function StepCard({ step, index }: { step: Step; index: number }) {
 }
 
 export default function HowItWorks() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerDesktopRef = useRef<HTMLDivElement>(null);
+  const containerMobileRef = useRef<HTMLDivElement>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
+  const { scrollYProgress: scrollDesktop } = useScroll({
+    target: containerDesktopRef,
+    offset: ["start center", "end center"],
+  });
+  const { scrollYProgress: scrollMobile } = useScroll({
+    target: containerMobileRef,
     offset: ["start center", "end center"],
   });
 
-  const fillHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const fillHeightDesktop = useTransform(scrollDesktop, [0, 1], ["0%", "100%"]);
+  const fillHeightMobile = useTransform(scrollMobile, [0, 1], ["0%", "100%"]);
 
   return (
     <section id="como-funciona" className="py-24 px-4">
@@ -87,7 +93,7 @@ export default function HowItWorks() {
         </BlurReveal>
 
         {/* Timeline — desktop */}
-        <div ref={containerRef} className="hidden min-[860px]:block relative">
+        <div ref={containerDesktopRef} className="hidden min-[860px]:block relative">
           {/* Vertical line track */}
           <div
             className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-0.5 bg-neto-bg5"
@@ -96,7 +102,7 @@ export default function HowItWorks() {
             {/* Green fill */}
             <motion.div
               className="absolute top-0 left-0 right-0 bg-neto-green origin-top rounded-full"
-              style={{ height: fillHeight }}
+              style={{ height: fillHeightDesktop }}
             />
           </div>
 
@@ -134,7 +140,7 @@ export default function HowItWorks() {
         </div>
 
         {/* Timeline — mobile */}
-        <div className="min-[860px]:hidden relative pl-8">
+        <div ref={containerMobileRef} className="min-[860px]:hidden relative pl-8">
           {/* Vertical line track */}
           <div
             className="absolute top-0 bottom-0 left-3 w-0.5 bg-neto-bg5"
@@ -142,7 +148,7 @@ export default function HowItWorks() {
           >
             <motion.div
               className="absolute top-0 left-0 right-0 bg-neto-green origin-top rounded-full"
-              style={{ height: fillHeight }}
+              style={{ height: fillHeightMobile }}
             />
           </div>
 

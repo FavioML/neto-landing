@@ -46,10 +46,14 @@ const FUGAS = [
     visual: (
       <div className="mt-3 flex items-end gap-1 h-12">
         {[3, 5, 2, 4, 6, 3, 5, 4, 7, 5, 6, 4, 5, 3, 6].map((h, i) => (
-          <div
+          <motion.div
             key={i}
             className="flex-1 rounded-sm bg-neto-green/60"
-            style={{ height: `${(h / 7) * 100}%` }}
+            style={{ height: `${(h / 7) * 100}%`, transformOrigin: "bottom" }}
+            initial={{ scaleY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay: i * 0.03 }}
           />
         ))}
       </div>
@@ -100,12 +104,16 @@ const FUGAS = [
           </span>
         </div>
         <div className="h-2.5 rounded-full bg-white/8 overflow-hidden">
-          <div
+          <motion.div
             className="h-full rounded-full"
             style={{
-              width: "100%",
               background: "linear-gradient(90deg, rgba(232,93,58,0.6) 0%, #E85D3A 100%)",
+              transformOrigin: "left",
             }}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           />
         </div>
         <div className="flex justify-between text-[10px] text-white/30 mt-1">
