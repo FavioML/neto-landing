@@ -17,12 +17,58 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_PE",
     siteName: "Neto",
+    images: [
+      {
+        url: "https://neto.pe/og-default.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Blog de finanzas personales — Neto",
+      },
+    ],
   },
+};
+
+const blogJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "Blog de Neto — Finanzas personales Perú",
+  description:
+    "Tips, guías y estrategias de finanzas personales para peruanos. Control de gastos, ahorro y presupuesto personal.",
+  url: "https://neto.pe/blog",
+  inLanguage: "es-PE",
+  publisher: {
+    "@type": "Organization",
+    name: "Neto",
+    url: "https://neto.pe",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://neto.pe/neto-icon.png",
+      width: 512,
+      height: 512,
+    },
+  },
+  blogPost: posts.map((post) => ({
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    url: `https://neto.pe/blog/${post.slug}`,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      "@type": "Organization",
+      name: "Neto",
+      url: "https://neto.pe",
+    },
+  })),
 };
 
 export default function BlogIndex() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
+      />
       <Navbar />
       <main className="min-h-screen bg-neto-bg pt-28 pb-20">
         <div className="mx-auto max-w-[760px] px-6">

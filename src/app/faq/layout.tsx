@@ -1,20 +1,28 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Preguntas frecuentes sobre Neto — Finanzas por WhatsApp en Perú",
+  title: "FAQ — Neto Finanzas WhatsApp Perú",
   description:
-    "Resuelve tus dudas sobre Neto: bancos compatibles (BCP, BBVA, Interbank), privacidad, plan Pro, y cómo empezar gratis.",
+    "Resuelve tus dudas sobre Neto: bancos compatibles (BCP, BBVA, Interbank, Scotiabank), privacidad, plan Pro y cómo empezar gratis en 2 minutos.",
   alternates: {
     canonical: "https://neto.pe/faq",
   },
   openGraph: {
-    title: "Preguntas frecuentes sobre Neto — Finanzas por WhatsApp en Perú",
+    title: "FAQ — Neto Finanzas WhatsApp Perú",
     description:
-      "Resuelve tus dudas sobre Neto: bancos compatibles, privacidad, plan Pro, y cómo empezar gratis.",
+      "Resuelve tus dudas sobre Neto: bancos compatibles, privacidad, plan Pro y cómo empezar gratis.",
     url: "https://neto.pe/faq",
     type: "website",
     locale: "es_PE",
     siteName: "Neto",
+    images: [
+      {
+        url: "https://neto.pe/og-default.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Preguntas frecuentes — Neto",
+      },
+    ],
   },
 };
 

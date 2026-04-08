@@ -69,6 +69,8 @@ export default function RootLayout({
         {/* Preconnect to analytics origins to reduce connection latency */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
+        {/* llms.txt: curated description for AI models */}
+        <link rel="alternate" type="text/plain" href="/llms.txt" />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
           strategy="afterInteractive"

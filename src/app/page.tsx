@@ -31,6 +31,21 @@ const organizationJsonLd = {
   description:
     "Asistente financiero personal por WhatsApp para el mercado peruano. Categoriza gastos con IA, crea presupuestos y te ayuda a ahorrar.",
   areaServed: { "@type": "Country", name: "Peru" },
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      telephone: "+51-933-014-505",
+      contactType: "customer support",
+      availableLanguage: "Spanish",
+      contactOption: "TollFree",
+    },
+    {
+      "@type": "ContactPoint",
+      email: "hola@neto.pe",
+      contactType: "customer support",
+      availableLanguage: "Spanish",
+    },
+  ],
   sameAs: [
     "https://www.instagram.com/neto_peru/",
     "https://www.facebook.com/Neto.peruapp/",
