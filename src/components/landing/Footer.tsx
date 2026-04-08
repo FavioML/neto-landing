@@ -1,11 +1,12 @@
 import { WA_LINK, APP_URL } from "@/lib/constants";
 
 const PRODUCT_LINKS = [
-  { label: "Cómo funciona", href: "/#como-funciona" },
+  { label: "Cómo funciona", href: "/como-funciona" },
   { label: "Precios", href: "/#precios" },
   { label: "Dashboard", href: APP_URL },
   { label: "Blog", href: "/blog" },
   { label: "FAQ", href: "/faq" },
+  { label: "Contacto", href: "/contacto" },
 ];
 
 const CONTACT_LINKS = [

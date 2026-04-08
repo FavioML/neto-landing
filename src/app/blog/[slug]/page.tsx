@@ -21,6 +21,8 @@ export async function generateMetadata({
   const post = getPost(slug);
   if (!post) return {};
 
+  const ogImage = post.ogImage ?? "https://neto.pe/og-default.jpg";
+
   return {
     title: `${post.title} — Neto`,
     description: post.description,
@@ -33,11 +35,20 @@ export async function generateMetadata({
       locale: "es_PE",
       siteName: "Neto",
       url: `https://neto.pe/blog/${post.slug}`,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
+      images: [ogImage],
     },
     alternates: { canonical: `https://neto.pe/blog/${post.slug}` },
   };
@@ -53,15 +64,25 @@ export default async function BlogPostPage({
   if (!post) notFound();
 
   const html = articleContent[slug] ?? "";
+  const ogImage = post.ogImage ?? "https://neto.pe/og-default.jpg";
+  const postUrl = `https://neto.pe/blog/${post.slug}`;
 
-  /* JSON-LD Article schema */
-  const jsonLd = {
+  /* JSON-LD: BlogPosting + BreadcrumbList */
+  const articleJsonLd = {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     headline: post.title,
     description: post.description,
+    url: postUrl,
     datePublished: post.date,
     dateModified: post.date,
+    inLanguage: "es-PE",
+    image: {
+      "@type": "ImageObject",
+      url: ogImage,
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "Neto",
@@ -71,9 +92,43 @@ export default async function BlogPostPage({
       "@type": "Organization",
       name: "Neto",
       url: "https://neto.pe",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://neto.pe/neto-icon.png",
+        width: 512,
+        height: 512,
+      },
     },
-    mainEntityOfPage: `https://neto.pe/blog/${post.slug}`,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": postUrl,
+    },
     keywords: post.keywords.join(", "),
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Inicio",
+        item: "https://neto.pe",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: "https://neto.pe/blog",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: post.title,
+        item: postUrl,
+      },
+    ],
   };
 
   return (
@@ -82,7 +137,9 @@ export default async function BlogPostPage({
       <main className="min-h-screen bg-neto-bg pt-28 pb-20">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([articleJsonLd, breadcrumbJsonLd]),
+          }}
         />
 
         <article className="mx-auto max-w-[700px] px-6">

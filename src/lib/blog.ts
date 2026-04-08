@@ -6,14 +6,14 @@ export interface BlogPost {
   readingTime: string;
   keywords: string[];
   content: string; // HTML content
+  ogImage?: string; // Optional custom OG image URL (falls back to og-default.jpg)
 }
 
 /** Central registry — import from here, add new posts to the array. */
 export const posts: BlogPost[] = [
   {
     slug: "gastos-hormiga-peru",
-    title:
-      "Gastos hormiga: qué son y cómo te roban S/200 al mes sin que te des cuenta",
+    title: "Gastos hormiga: cómo te roban S/200 al mes sin verte",
     description:
       "Descubre qué son los gastos hormiga, cuánto dinero pierdes al mes en Perú y cómo controlarlos automáticamente con WhatsApp.",
     date: "2026-03-21",
@@ -29,7 +29,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: "como-controlar-gastos-personales-peru",
-    title: "Cómo controlar tus gastos personales en Perú: guía práctica 2026",
+    title: "Cómo controlar gastos personales en Perú: guía 2026",
     description:
       "Guía paso a paso para controlar tus gastos en Perú. Métodos probados, herramientas gratuitas y tips adaptados a la realidad peruana.",
     date: "2026-03-22",
@@ -45,7 +45,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: "en-que-gasto-mi-plata",
-    title: "En qué gasto mi plata: cómo saberlo en 2 minutos por WhatsApp",
+    title: "¿En qué gasto mi plata? Descúbrelo en 2 minutos",
     description:
       "¿No sabes a dónde se va tu sueldo? Aprende cómo ver todos tus gastos organizados automáticamente sin anotar nada a mano.",
     date: "2026-03-22",
@@ -61,7 +61,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: "bancos-peru-rastrear-sin-contrasena",
-    title: "11 bancos peruanos que puedes rastrear sin dar tu contraseña",
+    title: "11 bancos peruanos que rastrear sin dar tu contraseña",
     description:
       "BCP, BBVA, Interbank, Scotiabank, Yape y más. Conoce qué bancos puedes monitorear automáticamente sin compartir tus credenciales bancarias.",
     date: "2026-03-22",
@@ -77,7 +77,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: "asistente-financiero-whatsapp-peru",
-    title: "Asistente financiero por WhatsApp: qué es y cómo funciona Neto",
+    title: "Asistente financiero por WhatsApp: cómo funciona Neto",
     description:
       "Neto es el primer asistente financiero peruano que funciona 100% por WhatsApp. Conoce cómo te ayuda a ordenar tu plata automáticamente.",
     date: "2026-03-22",

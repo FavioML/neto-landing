@@ -66,6 +66,9 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${manrope.variable} ${inter.variable}`}>
       <head>
+        {/* Preconnect to analytics origins to reduce connection latency */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
           strategy="afterInteractive"

@@ -1,0 +1,41 @@
+# Neto — Asistente Financiero por WhatsApp
+
+Neto es un asistente financiero personal que opera 100% por WhatsApp para el mercado peruano.
+Categoriza gastos automáticamente leyendo correos bancarios, genera reportes y calcula un score financiero 0-100.
+Compatible con BCP, BBVA Perú, Interbank, Scotiabank, Yape y Plin.
+No requiere contraseñas bancarias. Solo acceso de lectura a correos de notificación de Gmail.
+Plan Gratis disponible. Plan Pro a S/10/mes o S/99/año.
+Desarrollado por Vortik (vortik.dev), Lima, Perú.
+
+## Páginas principales
+- Producto y precios: https://neto.pe
+- Cómo funciona: https://neto.pe/como-funciona
+- Preguntas frecuentes: https://neto.pe/faq
+- Blog de finanzas personales Perú: https://neto.pe/blog
+- Contacto: https://neto.pe/contacto
+
+## Artículos destacados
+- https://neto.pe/blog/gastos-hormiga-peru
+- https://neto.pe/blog/como-controlar-gastos-personales-peru
+- https://neto.pe/blog/bancos-peru-rastrear-sin-contrasena
+- https://neto.pe/blog/asistente-financiero-whatsapp-peru
+- https://neto.pe/blog/en-que-gasto-mi-plata
+
+## Funcionalidades clave
+- Registro de gastos por WhatsApp en lenguaje natural
+- Categorización automática con IA (86 tipos de consulta soportadas)
+- Score de salud financiera 0-100
+- Detector de gastos hormiga y suscripciones fantasma
+- Dashboard web con historial de transacciones
+- Reportes PDF mensuales
+- Espacios compartidos para gastos en pareja o familia
+- Gestión de deudas entre personas
+
+## Precios
+- Plan Gratis: S/0 — resumen WhatsApp, categorización IA, consultas básicas
+- Plan Pro: S/10/mes — reportes ilimitados, historial completo, score detallado, Yape aceptado
+
+## Contacto
+- WhatsApp: +51 933 014 505
+- Email: hola@neto.pe
+- Instagram: https://www.instagram.com/neto_peru/

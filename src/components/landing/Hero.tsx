@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, ChevronDown } from "lucide-react";
 import ChatSimulator from "./ChatSimulator";
@@ -10,16 +10,16 @@ const DASHBOARD_URL = APP_URL;
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-const fadeUp = (delay: number) => ({
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, ease: EASE, delay },
-});
-
 export default function Hero() {
-  useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout>;
+  // Prevent Framer Motion from serializing opacity:0 into the static HTML
+  // (which blocks LCP). On the server / initial paint, content is fully visible.
+  // After hydration the entrance animation plays once.
+  const [mounted, setMounted] = useState(false);
 
+  useEffect(() => {
+    setMounted(true);
+
+    let timeout: ReturnType<typeof setTimeout>;
     const reset = () => {
       clearTimeout(timeout);
       document.getElementById("hero-cta")?.classList.remove("cta-attention");
@@ -38,6 +38,25 @@ export default function Hero() {
       window.removeEventListener("scroll", reset);
     };
   }, []);
+
+  // SSR / pre-hydration: no animation props → content renders at full opacity (LCP-safe)
+  // Post-hydration: standard fadeUp entrance animation
+  const fadeUp = (delay: number) =>
+    mounted
+      ? {
+          initial: { opacity: 0, y: 20 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.6, ease: EASE, delay },
+        }
+      : {};
+
+  const fadeIn = mounted
+    ? {
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        transition: { duration: 0.4, ease: EASE },
+      }
+    : {};
 
   return (
     <section className="relative min-h-[100svh] bg-neto-bg overflow-hidden flex flex-col justify-center">
@@ -71,9 +90,7 @@ export default function Hero() {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 min-[1024px]:grid-cols-[55fr_45fr] gap-12 min-[1024px]:gap-8 items-center">
         {/* Left column — text */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, ease: EASE }}
+          {...fadeIn}
           className="flex flex-col gap-8 min-[1024px]:pr-8"
         >
           {/* Eyebrow badge */}

@@ -22,7 +22,12 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: "Neto",
   url: "https://neto.pe",
-  logo: "https://neto.pe/neto-icon.png",
+  logo: {
+    "@type": "ImageObject",
+    url: "https://neto.pe/neto-icon.png",
+    width: 512,
+    height: 512,
+  },
   description:
     "Asistente financiero personal por WhatsApp para el mercado peruano. Categoriza gastos con IA, crea presupuestos y te ayuda a ahorrar.",
   areaServed: { "@type": "Country", name: "Peru" },
@@ -40,30 +45,61 @@ const websiteJsonLd = {
   url: "https://neto.pe",
   description:
     "Neto lee tus correos bancarios, categoriza tus gastos automáticamente y te da un dashboard completo por WhatsApp.",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: "https://neto.pe/blog?q={search_term_string}",
+    },
+    "query-input": "required name=search_term_string",
+  },
 };
 
 const softwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   name: "Neto",
-  operatingSystem: "Web, WhatsApp",
+  url: "https://neto.pe",
+  description:
+    "Asistente financiero personal por WhatsApp para el mercado peruano. Lee tus correos bancarios, categoriza gastos automáticamente con IA y calcula tu score financiero 0-100. Sin contraseñas bancarias.",
+  operatingSystem: "Web, Android, iOS",
   applicationCategory: "FinanceApplication",
+  inLanguage: "es-PE",
+  screenshot: {
+    "@type": "ImageObject",
+    url: "https://neto.pe/og-default.jpg",
+    width: 1200,
+    height: 630,
+  },
+  author: {
+    "@type": "Organization",
+    name: "Vortik",
+    url: "https://vortik.dev",
+  },
   offers: [
     {
       "@type": "Offer",
+      name: "Plan Gratis",
       price: "0",
       priceCurrency: "PEN",
-      name: "Plan Gratis",
+      availability: "https://schema.org/InStock",
+      url: "https://neto.pe/#precios",
     },
     {
       "@type": "Offer",
+      name: "Plan Pro",
       price: "10",
       priceCurrency: "PEN",
-      name: "Plan Pro",
-      billingIncrement: "P1M",
+      availability: "https://schema.org/InStock",
+      url: "https://neto.pe/#precios",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: "10",
+        priceCurrency: "PEN",
+        unitCode: "MON",
+      },
     },
   ],
-  aggregateRating: undefined,
 };
 
 export default function Home() {
