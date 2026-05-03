@@ -154,7 +154,7 @@ export default function Hero() {
           >
             {[
               { value: "Bancos", label: "Compatibles" },
-              { value: "86 consultas", label: "En lenguaje natural" },
+              { value: "Consultas", label: "En lenguaje natural" },
               { value: "Sin contraseñas", label: "Bancarias" },
             ].map((stat, i) => (
               <div key={stat.label} className="flex flex-row items-center gap-4">
