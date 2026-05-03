@@ -46,4 +46,11 @@ Disallow: /
 User-agent: *
 Allow: /
 
+# Bloquear paths de bajo valor para todos los bots (incluyendo AI crawlers)
+# Evita que gasten quota en JS chunks, assets internos y endpoints sin contenido.
+User-agent: *
+Disallow: /_next/static/
+Disallow: /cdn-cgi/
+Disallow: /api/
+
 Sitemap: https://neto.pe/sitemap.xml
