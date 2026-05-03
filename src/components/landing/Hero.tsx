@@ -153,7 +153,7 @@ export default function Hero() {
             className="flex flex-row flex-wrap items-center gap-x-4 gap-y-3"
           >
             {[
-              { value: "6 bancos", label: "Compatibles" },
+              { value: "Bancos", label: "Compatibles" },
               { value: "86 consultas", label: "En lenguaje natural" },
               { value: "Sin contraseñas", label: "Bancarias" },
             ].map((stat, i) => (
@@ -199,7 +199,7 @@ export default function Hero() {
               </a>
             </div>
             <p className="text-xs text-neto-txt3">
-              Setup en 2 min · Sin tarjeta · Pro desde{" "}
+              Setup en 2 min · Gratis · Pro desde{" "}
               <span className="text-neto-green font-medium">S/10/mes</span>
               {" "}— la mitad que la competencia
             </p>

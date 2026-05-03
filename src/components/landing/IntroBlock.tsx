@@ -24,10 +24,11 @@ export default function IntroBlock() {
           Plin, y Neto categoriza el gasto con inteligencia artificial. El
           resultado aparece en un dashboard web con tu historial de gastos,
           ingresos, presupuestos, metas y un score de salud financiera del 0
-          al 100. Neto funciona con BCP, BBVA Perú, Interbank, Scotiabank,
-          Yape y Plin, además de Falabella, Ripley, BanBif, Mibanco y CMAC.
-          No te pide contraseñas bancarias ni accede a tu banca en línea: tus
-          datos de gasto se construyen a partir de lo que tú registras. El
+          al 100. Neto es compatible con los principales bancos y wallets
+          del Perú porque tú haces el registro directamente desde WhatsApp.
+          No te pide contraseñas bancarias ni accede a tu banca en línea:
+          tus datos de gasto se construyen a partir de lo que tú registras.
+          El
           plan gratuito incluye registro por WhatsApp, presupuestos
           ilimitados, lectura de imágenes de Yape/Plin y dashboard del mes
           actual. El plan Pro cuesta S/10 al mes o S/99 al año y desbloquea

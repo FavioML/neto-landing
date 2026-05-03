@@ -46,7 +46,7 @@ export default function FinalCTA() {
 
           {/* Sub note */}
           <p className="text-sm text-white/60 mt-6">
-            Setup en 2 min · Sin tarjeta · Sin contraseñas bancarias
+            Setup en 2 min · Gratis · Sin contraseñas bancarias
           </p>
         </div>
       </BlurReveal>

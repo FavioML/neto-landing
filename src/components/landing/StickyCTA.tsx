@@ -32,7 +32,7 @@ export default function StickyCTA() {
           <div className="hidden sm:flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/neto-icon.png" alt="Neto" width={24} height={24} className="rounded-md" />
-            <span className="text-sm text-neto-txt2">Setup en 2 min · Sin tarjeta</span>
+            <span className="text-sm text-neto-txt2">Setup en 2 min · Gratis</span>
           </div>
 
           {/* CTA button */}
