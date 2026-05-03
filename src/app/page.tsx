@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import Navbar from "@/components/landing/Navbar";
 import Hero from "@/components/landing/Hero";
 import BankTicker from "@/components/landing/BankTicker";
+import IntroBlock from "@/components/landing/IntroBlock";
 
 const FugasSection = dynamic(() => import("@/components/landing/FugasSection"));
 const BentoShowcase = dynamic(() => import("@/components/landing/BentoShowcase"));
@@ -51,6 +52,15 @@ const organizationJsonLd = {
     "https://www.facebook.com/Neto.peruapp/",
     "https://www.tiktok.com/@neto_peru",
   ],
+  founder: {
+    "@type": "Organization",
+    name: "Vortik",
+    url: "https://vortik.dev",
+  },
+  foundingLocation: {
+    "@type": "Place",
+    name: "Lima, Perú",
+  },
 };
 
 const websiteJsonLd = {
@@ -134,6 +144,7 @@ export default function Home() {
       <main>
         <Hero />
         <BankTicker />
+        <IntroBlock />
         <FugasSection />
         <BentoShowcase />
         <EspaciosSection />

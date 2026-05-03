@@ -83,11 +83,23 @@ export default async function BlogPostPage({
       width: 1200,
       height: 630,
     },
-    author: {
-      "@type": "Organization",
-      name: "Neto",
-      url: "https://neto.pe",
-    },
+    author: [
+      {
+        "@type": "Person",
+        name: "Favio Mendoza",
+        jobTitle: "Founder",
+        worksFor: {
+          "@type": "Organization",
+          name: "Vortik",
+          url: "https://vortik.dev",
+        },
+      },
+      {
+        "@type": "Organization",
+        name: "Neto",
+        url: "https://neto.pe",
+      },
+    ],
     publisher: {
       "@type": "Organization",
       name: "Neto",
@@ -167,6 +179,7 @@ export default async function BlogPostPage({
           {/* Header */}
           <header className="mb-10">
             <time className="text-xs text-neto-txt3 uppercase tracking-wider">
+              Publicado el{" "}
               {new Date(post.date).toLocaleDateString("es-PE", {
                 year: "numeric",
                 month: "long",
@@ -180,6 +193,27 @@ export default async function BlogPostPage({
             </h1>
             <p className="text-neto-txt3 mt-4 text-base leading-relaxed">
               {post.description}
+            </p>
+            <p className="text-xs text-neto-txt3 mt-4">
+              Por <span className="text-neto-txt2 font-medium">Favio Mendoza</span>,
+              founder de{" "}
+              <a
+                href="https://vortik.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-neto-green hover:underline"
+              >
+                Vortik
+              </a>
+              {" · "}
+              <span>
+                Última actualización:{" "}
+                {new Date(post.date).toLocaleDateString("es-PE", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </span>
             </p>
           </header>
 

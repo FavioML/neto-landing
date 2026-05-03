@@ -1,3 +1,48 @@
+# Neto — robots.txt
+# Permite explícitamente bots de búsqueda IA para citación en ChatGPT, Perplexity,
+# Claude, Google AI Overviews, Gemini y Bing Copilot.
+# Nota: si Cloudflare AI Audit está activo a nivel de zona, este archivo
+# es sobreescrito en producción. Verificar Dashboard → AI Audit.
+
+# Bots de búsqueda IA — permitidos
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+# Crawlers de entrenamiento puro — bloqueados
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+# Default
 User-agent: *
 Allow: /
 

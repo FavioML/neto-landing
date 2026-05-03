@@ -135,6 +135,33 @@ export default function ComoFunciona() {
           </div>
         </section>
 
+        {/* Definitional block — for AI extraction */}
+        <section className="pb-12 px-6" aria-labelledby="resumen-funcionamiento">
+          <div className="mx-auto max-w-[760px]">
+            <h2 id="resumen-funcionamiento" className="text-xl sm:text-2xl font-bold mb-4 text-[#e5e2de]">
+              Resumen de funcionamiento
+            </h2>
+            <p className="text-base leading-7 text-[#c8c5bd]">
+              Neto es un asistente financiero personal por WhatsApp para Perú
+              que automatiza el control de gastos en cuatro pasos. Primero, el
+              usuario conecta su cuenta de Gmail mediante Google OAuth, sin
+              entregar contraseñas bancarias. Segundo, Neto lee únicamente los
+              correos de notificación que el banco envía cuando ocurre una
+              transacción y extrae monto, comercio y fecha. Tercero, una capa
+              de inteligencia artificial clasifica cada gasto en una de once
+              categorías (alimentación, transporte, vivienda, salud,
+              educación, entretenimiento, servicios, deudas, ahorro,
+              transferencias e ingresos) y aprende los comercios frecuentes
+              del usuario. Cuarto, el usuario recibe resúmenes semanales y
+              mensuales por WhatsApp y accede a un dashboard web en
+              app.neto.pe con gráficos, score financiero, presupuestos y
+              reportes PDF. Funciona con BCP, BBVA, Interbank, Scotiabank,
+              Yape, Plin, Falabella, Ripley, BanBif, Mibanco y CMAC. Plan
+              Gratis disponible. Plan Pro a S/10/mes o S/99/año.
+            </p>
+          </div>
+        </section>
+
         {/* Steps */}
         <section className="pb-20 px-6">
           <div className="mx-auto max-w-[800px] space-y-8">
