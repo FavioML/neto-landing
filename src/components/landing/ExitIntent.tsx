@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { X } from "lucide-react";
-import { WA_LINK } from "@/lib/constants";
+import { waLink, trackCtaClick } from "@/lib/constants";
 
 const STORAGE_KEY = "neto_exit_shown";
 
@@ -15,14 +15,52 @@ export default function ExitIntent() {
   useEffect(() => {
     if (sessionStorage.getItem(STORAGE_KEY)) return;
 
-    const handleMouseLeave = (e: MouseEvent) => {
-      if (e.clientY <= 0) {
-        if (sessionStorage.getItem(STORAGE_KEY)) return;
-        sessionStorage.setItem(STORAGE_KEY, "1");
-        setVisible(true);
-      }
+    const isTouchDevice = window.matchMedia?.("(hover: none)").matches ?? false;
+
+    const trigger = () => {
+      if (sessionStorage.getItem(STORAGE_KEY)) return;
+      sessionStorage.setItem(STORAGE_KEY, "1");
+      setVisible(true);
     };
 
+    if (isTouchDevice) {
+      // Mobile: detect "intent to bail" via fast scroll-up near the top of page
+      let lastY = window.scrollY;
+      let lastT = performance.now();
+
+      const onScroll = () => {
+        const now = performance.now();
+        const dy = window.scrollY - lastY;
+        const dt = Math.max(now - lastT, 1);
+        const velocity = dy / dt; // px per ms (negative = scrolling up)
+
+        // Fast upward scroll (>1.5 px/ms) while in the top 600px → likely abandoning
+        if (velocity < -1.5 && window.scrollY < 600) {
+          trigger();
+        }
+        lastY = window.scrollY;
+        lastT = now;
+      };
+
+      // Also trigger if user backgrounds the tab after meaningful engagement
+      const onVisibility = () => {
+        if (document.visibilityState === "hidden" && window.scrollY > 800) {
+          trigger();
+        }
+      };
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      document.addEventListener("visibilitychange", onVisibility);
+      return () => {
+        window.removeEventListener("scroll", onScroll);
+        document.removeEventListener("visibilitychange", onVisibility);
+      };
+    }
+
+    // Desktop: classic exit-intent on top edge mouseleave
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 0) trigger();
+    };
     document.addEventListener("mouseleave", handleMouseLeave);
     return () => document.removeEventListener("mouseleave", handleMouseLeave);
   }, []);
@@ -67,9 +105,10 @@ export default function ExitIntent() {
           </p>
 
           <a
-            href={WA_LINK}
+            href={waLink("exit-intent")}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackCtaClick("exit-intent", "Empezar gratis ahora")}
             className="w-full rounded-full bg-gradient-to-r from-neto-green to-neto-green-dark px-6 py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity duration-200 text-center"
           >
             Empezar gratis ahora

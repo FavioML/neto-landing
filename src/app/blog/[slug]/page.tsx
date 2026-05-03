@@ -229,8 +229,8 @@ export default async function BlogPostPage({
               Controla tus gastos automáticamente
             </h3>
             <p className="text-neto-txt3 text-sm mb-6 max-w-[400px] mx-auto">
-              Neto lee tus correos del banco y te manda un resumen a WhatsApp.
-              Sin apps. Sin contraseñas bancarias.
+              Mándale un mensaje o foto a Neto por WhatsApp. Categoriza con IA y
+              te muestra todo en un dashboard. Sin apps, sin contraseñas bancarias.
             </p>
             <a
               href={WA_LINK}

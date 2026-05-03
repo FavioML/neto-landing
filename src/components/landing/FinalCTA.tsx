@@ -2,7 +2,7 @@
 
 import { ArrowRight } from "lucide-react";
 import BlurReveal from "@/components/shared/BlurReveal";
-import { WA_LINK } from "@/lib/constants";
+import { waLink, trackCtaClick } from "@/lib/constants";
 
 export default function FinalCTA() {
   return (
@@ -29,23 +29,24 @@ export default function FinalCTA() {
 
           {/* Subtitle */}
           <p className="text-lg text-white/80 mb-10">
-            Conéctate ahora y Neto te responde.
+            Mándale un mensaje a Neto y descúbrelo en 2 minutos.
           </p>
 
           {/* CTA button */}
           <a
-            href={WA_LINK}
+            href={waLink("final")}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackCtaClick("final", "Probar Neto en WhatsApp")}
             className="inline-flex items-center gap-2 rounded-full bg-neto-amber px-8 py-4 text-base font-semibold text-neto-bg transition-all duration-200 hover:brightness-110"
           >
-            Empezar ahora
+            Probar Neto en WhatsApp
             <ArrowRight size={18} />
           </a>
 
           {/* Sub note */}
           <p className="text-sm text-white/60 mt-6">
-            Setup en 5 min · Sin contraseña bancaria
+            Setup en 2 min · Sin tarjeta · Sin contraseñas bancarias
           </p>
         </div>
       </BlurReveal>

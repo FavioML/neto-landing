@@ -5,8 +5,7 @@ import { motion } from "framer-motion";
 import { Sparkles, ChevronDown } from "lucide-react";
 import ChatSimulator from "./ChatSimulator";
 
-import { WA_LINK, APP_URL } from "@/lib/constants";
-const DASHBOARD_URL = APP_URL;
+import { waLink, trackCtaClick } from "@/lib/constants";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -20,6 +19,25 @@ export default function Hero() {
     setMounted(true);
 
     let timeout: ReturnType<typeof setTimeout>;
+    const isTouchDevice =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(hover: none)").matches;
+
+    const pulse = () => {
+      const el = document.getElementById("hero-cta");
+      if (!el) return;
+      el.classList.remove("cta-attention");
+      // re-trigger reflow so the class re-applies cleanly
+      void el.offsetWidth;
+      el.classList.add("cta-attention");
+    };
+
+    if (isTouchDevice) {
+      // Mobile: fire attention pulse every 8s regardless of interaction
+      const interval = setInterval(pulse, 8000);
+      return () => clearInterval(interval);
+    }
+
     const reset = () => {
       clearTimeout(timeout);
       document.getElementById("hero-cta")?.classList.remove("cta-attention");
@@ -59,7 +77,7 @@ export default function Hero() {
     : {};
 
   return (
-    <section className="relative min-h-[100svh] bg-neto-bg overflow-hidden flex flex-col justify-center">
+    <section className="relative min-h-[88svh] min-[640px]:min-h-[100svh] bg-neto-bg overflow-hidden flex flex-col justify-center">
       {/* Grid pattern */}
       <div
         className="absolute inset-0 -z-20 opacity-[0.04]"
@@ -102,7 +120,7 @@ export default function Hero() {
                 aria-hidden
               />
               <span className="text-xs text-neto-green-light font-medium">
-                El único asistente financiero con Score 0-100 · Gratis para empezar
+                Score financiero 0-100 · Gratis
               </span>
             </span>
           </motion.div>
@@ -113,10 +131,10 @@ export default function Hero() {
             className="text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold leading-[1.05] tracking-tight"
           >
             <span className="block bg-gradient-to-b from-neto-txt to-neto-txt3 bg-clip-text text-transparent">
-              Descubre a donde se van
+              Tu plata ordenada
             </span>
             <span className="block bg-gradient-to-r from-neto-green-light via-neto-green to-neto-green bg-clip-text text-transparent">
-              tus S/3,000 al mes
+              por WhatsApp
             </span>
           </motion.h1>
 
@@ -125,45 +143,13 @@ export default function Hero() {
             {...fadeUp(0.3)}
             className="text-lg text-neto-txt3 max-w-[520px] leading-relaxed"
           >
-            Chatea con Neto por WhatsApp, registra gastos con IA y recibe tu
-            resumen financiero al instante. Detecta fugas, calcula tu score
-            financiero y te ayuda a ahorrar — sin descargar nada.
+            Mándale un mensaje, foto de Yape o voucher. Neto categoriza,
+            avisa de fugas y te dice cuánto te queda. Sin app, sin Excel.
           </motion.p>
 
-          {/* CTA row */}
+          {/* Stats row — placed between subtitle and CTA so trust signals are above-the-fold on mobile */}
           <motion.div
             {...fadeUp(0.4)}
-            className="flex flex-col gap-2"
-          >
-            <div className="flex flex-row flex-wrap gap-3">
-              <a
-                href={WA_LINK}
-                id="hero-cta"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full bg-gradient-to-br from-neto-green-light to-neto-green text-[#002115] px-7 py-3.5 text-base font-semibold transition-all duration-200 hover:shadow-[0_0_40px_rgba(29,158,117,0.35)] hover:scale-[1.02] active:scale-[0.98]"
-              >
-                Ver a donde va mi plata
-              </a>
-              <a
-                href={DASHBOARD_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full border border-neto-bg5 bg-neto-bg3/60 backdrop-blur-sm px-7 py-3.5 text-base font-medium text-neto-txt2 transition-all duration-200 hover:bg-neto-bg4 hover:text-neto-txt active:scale-[0.98]"
-              >
-                Iniciar sesión
-              </a>
-            </div>
-            <p className="text-xs text-neto-txt3">
-              Setup en 2 min · Sin tarjeta · Pro desde{" "}
-              <span className="text-neto-green font-medium">S/10/mes</span>
-              {" "}— la mitad que la competencia
-            </p>
-          </motion.div>
-
-          {/* Stats row */}
-          <motion.div
-            {...fadeUp(0.5)}
             className="flex flex-row flex-wrap items-center gap-x-4 gap-y-3"
           >
             {[
@@ -188,10 +174,40 @@ export default function Hero() {
               </div>
             ))}
           </motion.div>
+
+          {/* CTA row */}
+          <motion.div
+            {...fadeUp(0.5)}
+            className="flex flex-col gap-2"
+          >
+            <div className="flex flex-row flex-wrap gap-3">
+              <a
+                href={waLink("hero")}
+                id="hero-cta"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackCtaClick("hero", "Probar Neto en WhatsApp")}
+                className="rounded-full bg-gradient-to-br from-neto-green-light to-neto-green text-[#002115] px-7 py-3.5 text-base font-semibold transition-all duration-200 hover:shadow-[0_0_40px_rgba(29,158,117,0.35)] hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Probar Neto en WhatsApp →
+              </a>
+              <a
+                href="#precios"
+                className="rounded-full border border-neto-bg5 bg-neto-bg3/60 backdrop-blur-sm px-7 py-3.5 text-base font-medium text-neto-txt2 transition-all duration-200 hover:bg-neto-bg4 hover:text-neto-txt active:scale-[0.98]"
+              >
+                Ver precios
+              </a>
+            </div>
+            <p className="text-xs text-neto-txt3">
+              Setup en 2 min · Sin tarjeta · Pro desde{" "}
+              <span className="text-neto-green font-medium">S/10/mes</span>
+              {" "}— la mitad que la competencia
+            </p>
+          </motion.div>
         </motion.div>
 
-        {/* Right column — chat simulator */}
-        <div className="flex items-center justify-center relative">
+        {/* Right column — chat simulator (hidden on mobile to reduce paint cost + speed scroll to CTA) */}
+        <div className="hidden min-[1024px]:flex items-center justify-center relative">
           <ChatSimulator />
         </div>
       </div>

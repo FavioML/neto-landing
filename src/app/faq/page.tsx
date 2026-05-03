@@ -8,21 +8,21 @@ const FAQ_DATA = [
     items: [
       {
         q: "¿Qué es Neto exactamente?",
-        a: "Neto es tu asistente financiero personal que opera 100% por WhatsApp. Lee automáticamente los correos de notificación que tu banco y Yape/Plin ya te envían, organiza tus gastos por categoría con IA y te manda un resumen a WhatsApp. Sin apps que descargar, sin ingresar datos manualmente.",
+        a: "Neto es tu asistente financiero personal que opera 100% por WhatsApp. Le mandas un mensaje en lenguaje natural (\"gasté 45 en almuerzo\") o una foto de tu voucher Yape/Plin. Neto lo categoriza con IA y arma tu dashboard. Sin apps que descargar.",
         aPlain:
-          "Neto es tu asistente financiero personal que opera 100% por WhatsApp. Lee automáticamente los correos de notificación que tu banco y Yape/Plin ya te envían, organiza tus gastos por categoría con IA y te manda un resumen a WhatsApp. Sin apps que descargar, sin ingresar datos manualmente.",
+          "Neto es tu asistente financiero personal que opera 100% por WhatsApp. Le mandas un mensaje en lenguaje natural o una foto de Yape/Plin. Neto lo categoriza con IA y arma tu dashboard. Sin apps que descargar.",
       },
       {
         q: "¿Qué bancos y billeteras son compatibles?",
-        a: 'Actualmente Neto es compatible con BCP, BBVA Perú, Interbank, Scotiabank, Yape y Plin. Si tu banco no está en la lista, escríbenos a <a href="mailto:hola@neto.pe" class="text-neto-green hover:underline">hola@neto.pe</a> — lo podemos activar a solicitud.',
+        a: 'Funciona con todos. Como tú le mandas el monto o el voucher por WhatsApp, no depende del banco. Funciona con BCP, BBVA, Interbank, Scotiabank, Yape, Plin, Falabella, Ripley, BanBif, Mibanco, CMAC y efectivo. Si tienes un caso especial, escríbenos a <a href="mailto:hola@neto.pe" class="text-neto-green hover:underline">hola@neto.pe</a>.',
         aPlain:
-          "Actualmente Neto es compatible con BCP, BBVA Perú, Interbank, Scotiabank, Yape y Plin. Si tu banco no está en la lista, escríbenos a hola@neto.pe — lo podemos activar a solicitud.",
+          "Funciona con todos. Como tú le mandas el monto o el voucher por WhatsApp, no depende del banco. Funciona con BCP, BBVA, Interbank, Scotiabank, Yape, Plin, Falabella, Ripley, BanBif, Mibanco, CMAC y efectivo.",
       },
       {
         q: "¿Neto funciona sin internet o fuera de Lima?",
-        a: "Neto procesa los correos en la nube, así que necesitas que tu correo de Gmail reciba las notificaciones bancarias. Funciona desde cualquier lugar del Perú — no importa dónde estés.",
+        a: "Necesitas internet para mandarle mensajes a Neto por WhatsApp y para que el dashboard sincronice. Funciona desde cualquier lugar del Perú — no importa dónde estés.",
         aPlain:
-          "Neto procesa los correos en la nube, así que necesitas que tu correo de Gmail reciba las notificaciones bancarias. Funciona desde cualquier lugar del Perú — no importa dónde estés.",
+          "Necesitas internet para mandarle mensajes a Neto por WhatsApp y para que el dashboard sincronice. Funciona desde cualquier lugar del Perú — no importa dónde estés.",
       },
     ],
   },
@@ -31,15 +31,15 @@ const FAQ_DATA = [
     items: [
       {
         q: "¿Neto accede a mi cuenta bancaria?",
-        a: "No. Neto nunca accede a tu banca en línea ni te pide usuario o contraseña bancaria. Solo lee los correos de notificación automática que tu banco ya te envía — los mismos que llegarían aunque no usaras Neto.",
+        a: "No. Neto nunca accede a tu banca en línea ni te pide usuario o contraseña bancaria. Tus datos de gasto se construyen a partir de lo que tú le mandas a Neto por WhatsApp — un mensaje, una foto de voucher Yape/Plin o un screenshot.",
         aPlain:
-          "No. Neto nunca accede a tu banca en línea ni te pide usuario o contraseña bancaria. Solo lee los correos de notificación automática que tu banco ya te envía — los mismos que llegarían aunque no usaras Neto.",
+          "No. Neto nunca accede a tu banca en línea ni te pide usuario o contraseña bancaria. Tus datos de gasto se construyen a partir de lo que tú le mandas a Neto por WhatsApp.",
       },
       {
-        q: "¿Qué correos exactamente lee Neto?",
-        a: 'Solo los correos de transacciones: notificaciones de compras, transferencias y cargos bancarios. Neto no lee tus correos personales, laborales ni ningún otro tipo de correo. Puedes verificar y revocar este acceso en cualquier momento desde <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">myaccount.google.com/permissions</a>.',
+        q: "¿Qué información guarda Neto sobre mí?",
+        a: 'Solo los datos de los gastos que tú le mandas: monto, comercio, fecha y categoría. No accedemos a tus correos, mensajes ni a otra información personal. Puedes solicitar la eliminación de tus datos cuando quieras escribiéndonos por WhatsApp. Más detalles en nuestra <a href="/privacidad" class="text-neto-green hover:underline">Política de Privacidad</a>.',
         aPlain:
-          "Solo los correos de transacciones: notificaciones de compras, transferencias y cargos bancarios. Neto no lee tus correos personales, laborales ni ningún otro tipo de correo. Puedes verificar y revocar este acceso en cualquier momento desde myaccount.google.com/permissions.",
+          "Solo los datos de los gastos que tú le mandas: monto, comercio, fecha y categoría. No accedemos a tus correos, mensajes ni a otra información personal. Puedes solicitar la eliminación de tus datos cuando quieras.",
       },
       {
         q: "¿Venden mis datos a terceros?",
@@ -83,9 +83,9 @@ const FAQ_DATA = [
     items: [
       {
         q: "¿Cómo empiezo a usar Neto?",
-        a: `Escríbenos por WhatsApp al <a href="https://wa.me/${WA_NUMBER}" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">+51 933 014 505</a>. Neto te guiará paso a paso para conectar tu Gmail. El proceso toma menos de 2 minutos.`,
+        a: `Escríbenos por WhatsApp al <a href="https://wa.me/${WA_NUMBER}" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">+51 933 014 505</a>. Neto te guiará paso a paso para registrar tu primer gasto. El proceso toma menos de 2 minutos.`,
         aPlain:
-          "Escríbenos por WhatsApp al +51 933 014 505. Neto te guiará paso a paso para conectar tu Gmail. El proceso toma menos de 2 minutos.",
+          "Escríbenos por WhatsApp al +51 933 014 505. Neto te guiará paso a paso para registrar tu primer gasto. El proceso toma menos de 2 minutos.",
       },
       {
         q: "¿Puedo corregir una categoría incorrecta?",

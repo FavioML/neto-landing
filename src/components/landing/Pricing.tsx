@@ -7,7 +7,7 @@ import BlurReveal from "@/components/shared/BlurReveal";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-import { WA_LINK } from "@/lib/constants";
+import { waLink, waLinkPro, trackCtaClick } from "@/lib/constants";
 
 /* ─── Features ─── */
 const FREE_FEATURES = [
@@ -18,7 +18,6 @@ const FREE_FEATURES = [
   { text: "Score financiero básico", included: true },
   { text: "Lectura de imágenes Yape/Plin", included: true },
   { text: "Referidos (3 Pro = 1 mes gratis)", included: true },
-  { text: "Lectura automática de correos", included: false },
   { text: "Score detallado + tendencia + tips", included: false },
   { text: "Reportes PDF", included: false },
   { text: "Historial completo + heatmap", included: false },
@@ -34,7 +33,6 @@ const PRO_FEATURES = [
   { text: "Score financiero básico", included: true, isProExclusive: false },
   { text: "Lectura de imágenes Yape/Plin", included: true, isProExclusive: false },
   { text: "Referidos (3 Pro = 1 mes gratis)", included: true, isProExclusive: false },
-  { text: "Lectura automática de correos", included: true, isProExclusive: true },
   { text: "Score detallado + tendencia + tips", included: true, isProExclusive: true },
   { text: "Reportes PDF", included: true, isProExclusive: true },
   { text: "Historial completo + heatmap", included: true, isProExclusive: true },
@@ -81,7 +79,8 @@ function FeatureItem({
 }
 
 export default function Pricing() {
-  const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
+  // Default to yearly — better LTV, user can downgrade to monthly explicitly.
+  const [billing, setBilling] = useState<"monthly" | "yearly">("yearly");
 
   const prices = {
     monthly: { free: "S/0", pro: "S/10" },
@@ -120,8 +119,8 @@ export default function Pricing() {
               </span>
             </h2>
             <p className="text-neto-txt3 text-base max-w-[520px] leading-relaxed">
-              Registra tus gastos sin costo. Activa Pro cuando quieras lectura automática
-              de correos y todo ilimitado.
+              Registra tus gastos sin costo. Activa Pro cuando quieras score detallado,
+              reportes PDF y todo ilimitado.
             </p>
           </div>
         </BlurReveal>
@@ -190,9 +189,10 @@ export default function Pricing() {
 
             {/* CTA */}
             <a
-              href={WA_LINK}
+              href={waLink("pricing-free")}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackCtaClick("pricing-free", "Empezar gratis")}
               className="mt-auto w-full rounded-full border border-neto-bg5 bg-neto-bg4 px-6 py-3.5 text-sm font-semibold text-neto-txt2 text-center transition-all duration-200 hover:border-neto-green/40 hover:text-neto-txt"
             >
               Empezar gratis
@@ -206,16 +206,21 @@ export default function Pricing() {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.6, delay: 0.08, ease: EASE }}
           >
-            <div className="group relative rounded-[24px] overflow-hidden pro-card cursor-default">
-              {/* Conic gradient border */}
+            {/*
+              On mobile: static green border (cheap on CPU, no jank in IG browser).
+              On desktop (>=860px): keep the conic-gradient animated border.
+            */}
+            <div className="group relative rounded-[24px] overflow-hidden border border-neto-green/40 min-[860px]:border-0 min-[860px]:pro-card cursor-default">
+              {/* Conic gradient border — desktop only */}
               <div
-                className="absolute inset-0 rounded-[24px]"
+                className="absolute inset-0 rounded-[24px] hidden min-[860px]:block"
                 style={{
                   background:
                     "conic-gradient(from var(--angle), #0F6E56, #68dbae, #1D9E75, #0F6E56)",
                 }}
               />
-              <div className="absolute inset-[1px] rounded-[23px] bg-neto-bg2" />
+              <div className="absolute inset-[1px] rounded-[23px] bg-neto-bg2 hidden min-[860px]:block" />
+              <div className="absolute inset-0 rounded-[24px] bg-neto-bg2 min-[860px]:hidden" />
               {/* Glow */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-20 bg-neto-green/15 blur-[60px] pointer-events-none" />
 
@@ -260,9 +265,10 @@ export default function Pricing() {
 
                 {/* CTA */}
                 <a
-                  href={WA_LINK}
+                  href={waLinkPro("pricing-pro")}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackCtaClick("pricing-pro", "Activar Pro")}
                   className="mt-auto w-full rounded-full bg-gradient-to-br from-neto-green-light to-neto-green px-6 py-3.5 text-sm font-semibold text-[#002115] text-center transition-all duration-200 hover:shadow-[0_0_24px_rgba(29,158,117,0.4)] hover:scale-[1.02]"
                 >
                   Activar Pro

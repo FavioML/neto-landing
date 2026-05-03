@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
-import { WA_LINK, APP_URL } from "@/lib/constants";
+import { waLink, trackCtaClick, APP_URL } from "@/lib/constants";
 const DASHBOARD_URL = APP_URL;
 
 const NAV_LINKS = [
@@ -57,9 +57,10 @@ export default function Navbar() {
             Iniciar sesión
           </a>
           <a
-            href={WA_LINK}
+            href={waLink("navbar")}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackCtaClick("navbar", "Empezar gratis")}
             className="rounded-full bg-neto-green px-5 py-2 text-sm font-medium text-white hover:bg-neto-green-dark transition-colors duration-200"
           >
             Empezar gratis
@@ -93,9 +94,13 @@ export default function Navbar() {
             Iniciar sesión
           </a>
           <a
-            href={WA_LINK}
+            href={waLink("navbar")}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => {
+              trackCtaClick("navbar", "Empezar gratis (mobile menu)");
+              setOpen(false);
+            }}
             className="rounded-full bg-neto-green px-5 py-2.5 text-sm font-medium text-white text-center hover:bg-neto-green-dark transition-colors duration-200"
           >
             Empezar gratis

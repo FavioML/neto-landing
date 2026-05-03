@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/Footer";
-import { ArrowRight, Mail, Brain, MessageSquare, LayoutDashboard, Shield, HelpCircle } from "lucide-react";
+import { ArrowRight, MessageSquare, Brain, LayoutDashboard, Camera, Shield, HelpCircle } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Cómo funciona Neto — Asistente financiero por WhatsApp",
   description:
-    "Conecta tu Gmail en 1 clic, Neto lee tus correos bancarios automáticamente, categoriza con IA y te resume todo por WhatsApp. Sin contraseñas. Sin apps.",
+    "Le mandas un mensaje o foto de Yape/Plin a Neto por WhatsApp, lo categoriza con IA y te muestra todo en un dashboard. Sin descargar apps, sin contraseñas bancarias.",
   keywords:
-    "cómo funciona neto, asistente financiero whatsapp, conectar banco whatsapp, control gastos automático peru",
+    "cómo funciona neto, asistente financiero whatsapp, registrar gastos whatsapp, control gastos peru",
   openGraph: {
     title: "Cómo funciona Neto — 4 pasos, cero fricción",
     description:
-      "Conecta tu Gmail, Neto lee tus correos bancarios, categoriza con IA y te resume por WhatsApp. Gratis.",
+      "Mándale un mensaje o foto a Neto por WhatsApp. Categoriza con IA y te resume todo. Gratis.",
     url: "https://neto.pe/como-funciona",
     type: "website",
     locale: "es_PE",
@@ -26,28 +26,28 @@ import { WA_LINK } from "@/lib/constants";
 const STEPS = [
   {
     num: "01",
-    Icon: Mail,
-    title: "Conectas tu Gmail",
-    desc: "Escríbele \"Hola\" a Neto por WhatsApp. Te enviará un enlace para conectar tu Gmail con un solo clic. Neto solo accede a los correos de notificación bancaria — nunca tus correos personales, laborales ni contraseñas.",
-    detail: "Usamos Google OAuth, el mismo sistema que usan apps como Uber o Rappi. Puedes revocar el acceso en cualquier momento desde tu cuenta de Google.",
+    Icon: MessageSquare,
+    title: "Le escribes a Neto por WhatsApp",
+    desc: "Mándale un mensaje en lenguaje natural — \"gasté 45 en almuerzo\" o \"recibí 1500 de sueldo\". Neto te responde al instante con la confirmación y la categoría asignada.",
+    detail: "Funciona con el WhatsApp que ya tienes. Sin descargas, sin formularios, sin código.",
     accent: "text-[#EF9F27]",
     bg: "bg-[#EF9F27]/10",
   },
   {
     num: "02",
-    Icon: Brain,
-    title: "Neto lee y categoriza automáticamente",
-    desc: "Cada vez que tu banco te envía un correo de notificación (compra, transferencia, pago), Neto lo detecta al instante. Extrae el monto, el comercio y la fecha.",
-    detail: "La IA clasifica cada gasto en 11 categorías (alimentación, transporte, vivienda, etc.) y aprende tus comercios frecuentes para mejorar con el tiempo.",
+    Icon: Camera,
+    title: "Le mandas fotos de Yape, Plin o vouchers",
+    desc: "Si pagaste por Yape o Plin, mándale el screenshot. Neto lee el monto, el comercio y la fecha automáticamente con IA de visión.",
+    detail: "También funciona con vouchers de POS, recibos físicos y capturas del app de tu banco. Si el monto está visible, Neto lo registra.",
     accent: "text-[#68dbae]",
     bg: "bg-[#1D9E75]/10",
   },
   {
     num: "03",
-    Icon: MessageSquare,
-    title: "Recibes resúmenes por WhatsApp",
-    desc: "Sin abrir ninguna app, Neto te manda resúmenes directamente a WhatsApp. Semanal con tu total gastado y mensual con análisis completo.",
-    detail: "Con el plan Pro también recibes resumen diario, consejos personalizados con IA y alertas cuando te acercas al límite de tus presupuestos.",
+    Icon: Brain,
+    title: "Neto categoriza y arma tu dashboard",
+    desc: "Cada gasto se clasifica en una de 11 categorías (alimentación, transporte, vivienda, etc.). Neto aprende tus comercios frecuentes y mejora con el tiempo.",
+    detail: "Recibes resúmenes semanales y mensuales por WhatsApp con tu total gastado, top categorías y alertas cuando te acercas al límite de tus presupuestos.",
     accent: "text-[#25D366]",
     bg: "bg-[#25D366]/10",
   },
@@ -55,7 +55,7 @@ const STEPS = [
     num: "04",
     Icon: LayoutDashboard,
     title: "Exploras tu dashboard web",
-    desc: "Entra a app.neto.pe para ver gráficos interactivos, score financiero, calendario de gastos, detección de suscripciones y reportes PDF descargables.",
+    desc: "Entra a app.neto.pe para ver gráficos interactivos, score financiero 0-100, calendario de gastos, detección de suscripciones y reportes PDF descargables.",
     detail: "El dashboard funciona en cualquier navegador (computadora o celular). No necesitas descargar ninguna aplicación.",
     accent: "text-[#818cf8]",
     bg: "bg-[#818cf8]/10",
@@ -64,24 +64,24 @@ const STEPS = [
 
 const FAQS = [
   {
-    q: "¿Es seguro conectar mi Gmail?",
-    a: "Sí. Usamos Google OAuth (el mismo sistema de Uber, Spotify, etc.). Solo leemos correos de notificación bancaria. Nunca accedemos a tus correos personales, laborales ni a tu banca en línea. Puedes revocar el acceso en cualquier momento.",
+    q: "¿Tengo que descargar algún app?",
+    a: "No. Neto funciona 100% por WhatsApp — el app que ya tienes. Tu dashboard web está en app.neto.pe y se ve igual de bien en celular que en computadora.",
   },
   {
     q: "¿Necesito dar mi contraseña del banco?",
-    a: "No. Nunca pedimos usuario ni contraseña de tu banco. Neto solo lee los correos que tu banco ya te envía automáticamente cuando haces una compra o transferencia.",
+    a: "No. Nunca pedimos usuario ni contraseña de tu banco ni accedemos a tu banca en línea. Tus datos de gasto se construyen a partir de lo que tú le mandas a Neto por WhatsApp.",
   },
   {
-    q: "¿Con qué bancos funciona?",
-    a: "BCP, BBVA, Interbank, Scotiabank, Yape, Plin, Falabella, Ripley, BanBif, Mibanco y CMAC. Si tu banco envía correos de notificación, probablemente funciona.",
+    q: "¿Con qué bancos y wallets funciona?",
+    a: "Con todos. Si pagaste por Yape, Plin, BCP, BBVA, Interbank, Scotiabank, Falabella, Ripley, BanBif, Mibanco, CMAC o efectivo, le puedes mandar el voucher o el monto a Neto y lo registra. No depende del banco.",
   },
   {
     q: "¿Cuánto cuesta?",
-    a: "El plan gratuito incluye WhatsApp ilimitado, presupuestos y metas ilimitados, lectura de fotos Yape/Plin y dashboard del mes actual. El plan Pro cuesta S/10/mes (o S/99/año) y desbloquea lectura automática de correos bancarios, historial completo, reportes PDF, resumen diario con IA y más.",
+    a: "El plan gratuito incluye WhatsApp ilimitado, presupuestos y metas ilimitados, lectura de fotos Yape/Plin y dashboard del mes actual. El plan Pro cuesta S/10/mes (o S/99/año) y desbloquea historial completo, score detallado, reportes PDF, resumen diario con IA y export CSV.",
   },
   {
     q: "¿Puedo dejar de usarlo cuando quiera?",
-    a: "Sí. Puedes revocar el acceso a tu Gmail desde tu cuenta de Google en cualquier momento. Tus datos se eliminan si lo solicitas. Sin contratos, sin permanencia.",
+    a: "Sí. Sin contratos, sin permanencia. Puedes pausar tu suscripción Pro cuando quieras y solicitar la eliminación de tus datos por WhatsApp.",
   },
 ];
 
@@ -90,7 +90,7 @@ export default function ComoFunciona() {
     "@context": "https://schema.org",
     "@type": "HowTo",
     name: "Cómo funciona Neto — Asistente financiero por WhatsApp",
-    description: "Conecta tu Gmail, Neto lee tus correos bancarios, categoriza con IA y te resume todo por WhatsApp.",
+    description: "Le mandas un mensaje o foto de Yape/Plin a Neto por WhatsApp, categoriza con IA y te resume todo. Sin descargar apps, sin contraseñas bancarias.",
     step: STEPS.map((s, i) => ({
       "@type": "HowToStep",
       position: i + 1,
@@ -129,8 +129,8 @@ export default function ComoFunciona() {
               </span>
             </h1>
             <p className="text-lg text-[#87948c] max-w-[560px] mx-auto leading-relaxed">
-              Neto se conecta a tu correo, lee las notificaciones de tu banco y te manda
-              todo resumido a WhatsApp. Así de simple.
+              Le mandas un mensaje o foto a Neto por WhatsApp, lo categoriza con IA y
+              te resume todo en un dashboard. Así de simple.
             </p>
           </div>
         </section>
@@ -143,20 +143,20 @@ export default function ComoFunciona() {
             </h2>
             <p className="text-base leading-7 text-[#c8c5bd]">
               Neto es un asistente financiero personal por WhatsApp para Perú
-              que automatiza el control de gastos en cuatro pasos. Primero, el
-              usuario conecta su cuenta de Gmail mediante Google OAuth, sin
-              entregar contraseñas bancarias. Segundo, Neto lee únicamente los
-              correos de notificación que el banco envía cuando ocurre una
-              transacción y extrae monto, comercio y fecha. Tercero, una capa
-              de inteligencia artificial clasifica cada gasto en una de once
-              categorías (alimentación, transporte, vivienda, salud,
-              educación, entretenimiento, servicios, deudas, ahorro,
-              transferencias e ingresos) y aprende los comercios frecuentes
-              del usuario. Cuarto, el usuario recibe resúmenes semanales y
-              mensuales por WhatsApp y accede a un dashboard web en
-              app.neto.pe con gráficos, score financiero, presupuestos y
-              reportes PDF. Funciona con BCP, BBVA, Interbank, Scotiabank,
-              Yape, Plin, Falabella, Ripley, BanBif, Mibanco y CMAC. Plan
+              que registra y categoriza gastos en cuatro pasos. Primero, el
+              usuario le manda un mensaje en lenguaje natural por WhatsApp
+              (&quot;gasté 45 en almuerzo&quot;) o una foto de un voucher Yape,
+              Plin o de POS. Segundo, Neto extrae monto, comercio y fecha del
+              mensaje o de la imagen con IA. Tercero, una capa de inteligencia
+              artificial clasifica cada gasto en una de once categorías
+              (alimentación, transporte, vivienda, salud, educación,
+              entretenimiento, servicios, deudas, ahorro, transferencias e
+              ingresos) y aprende los comercios frecuentes del usuario.
+              Cuarto, el usuario recibe resúmenes semanales y mensuales por
+              WhatsApp y accede a un dashboard web en app.neto.pe con
+              gráficos, score financiero, presupuestos y reportes PDF.
+              Funciona con cualquier banco o wallet del Perú porque el
+              registro lo hace el usuario directamente desde WhatsApp. Plan
               Gratis disponible. Plan Pro a S/10/mes o S/99/año.
             </p>
           </div>
@@ -208,10 +208,11 @@ export default function ComoFunciona() {
                   Tu seguridad es nuestra prioridad
                 </h3>
                 <p className="text-[#87948c] leading-relaxed">
-                  Neto nunca accede a tu banca en línea. Solo lee correos de notificación
-                  bancaria usando Google OAuth (el mismo sistema que usan Uber, Spotify y
-                  miles de apps). Tus datos están encriptados con TLS y protegidos con
-                  Row-Level Security. Puedes revocar el acceso cuando quieras.
+                  Neto nunca accede a tu banca en línea ni te pide contraseñas
+                  bancarias. Tus datos de gasto se construyen a partir de lo que tú
+                  le mandas por WhatsApp. Todo está encriptado con TLS 1.3 y protegido
+                  con Row-Level Security en Supabase. Puedes solicitar la eliminación
+                  de tus datos cuando quieras.
                 </p>
               </div>
             </div>
@@ -243,8 +244,8 @@ export default function ComoFunciona() {
               Empieza en 2 minutos
             </h2>
             <p className="text-[#87948c] mb-8 max-w-md mx-auto">
-              Escríbele &quot;Hola&quot; a Neto por WhatsApp y conecta tu banco.
-              Gratis, sin contraseñas, sin descargar nada.
+              Escríbele &quot;Hola&quot; a Neto por WhatsApp y empieza a registrar
+              tu primer gasto. Gratis, sin contraseñas, sin descargar nada.
             </p>
             <a
               href={WA_LINK}

@@ -63,7 +63,7 @@ const APPS: App[] = [
     scoreFinanciero: "yes",
     pricingPen: "Gratis · Pro S/10/mes",
     notes:
-      "Único asistente financiero por WhatsApp en Perú. Lee correos de notificación bancaria por Gmail.",
+      "Único asistente financiero por WhatsApp en Perú. Registro por mensaje de texto, voucher Yape/Plin o foto.",
   },
   {
     name: "Fintonic",
@@ -199,7 +199,7 @@ const faqJsonLd = {
       name: "¿Cuál es la mejor app de finanzas personales en Perú?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Depende del flujo de uso del usuario. Para usuarios peruanos que prefieren registrar gastos por WhatsApp y tienen cuentas en BCP, BBVA, Interbank, Scotiabank, Yape o Plin, Neto es la única opción que combina mensajería instantánea, lectura automática de correos bancarios sin contraseñas y un score de salud financiera adaptado al mercado peruano. Para usuarios que prefieren registro manual, Money Manager y Mobills son alternativas populares.",
+        text: "Depende del flujo de uso del usuario. Para usuarios peruanos que prefieren registrar gastos por WhatsApp con mensajes de texto, vouchers de Yape/Plin o fotos, Neto es la única opción que combina mensajería instantánea, registro con IA sin contraseñas bancarias y un score de salud financiera adaptado al mercado peruano. Para usuarios que prefieren un app dedicado, Money Manager y Mobills son alternativas populares.",
       },
     },
     {
@@ -451,10 +451,10 @@ export default function ComparativasAppsFinanzasPeru() {
           <div className="bg-neto-green rounded-2xl p-7 flex items-center justify-between gap-5 flex-wrap">
             <div>
               <h3 className="text-lg font-bold text-white mb-1">
-                Probá Neto gratis
+                Prueba Neto gratis
               </h3>
               <p className="text-sm text-white/80 max-w-[420px]">
-                Conecta tu Gmail en 2 minutos. Sin contraseñas bancarias.
+                Empieza en 2 minutos por WhatsApp. Sin contraseñas bancarias.
                 Funciona con BCP, BBVA, Interbank, Scotiabank, Yape y Plin.
               </p>
             </div>

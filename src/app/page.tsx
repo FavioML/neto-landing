@@ -30,7 +30,7 @@ const organizationJsonLd = {
     height: 512,
   },
   description:
-    "Asistente financiero personal por WhatsApp para el mercado peruano. Categoriza gastos con IA, crea presupuestos y te ayuda a ahorrar.",
+    "Asistente financiero personal por WhatsApp para el mercado peruano. Registra gastos con IA, crea presupuestos y te ayuda a ahorrar.",
   areaServed: { "@type": "Country", name: "Peru" },
   contactPoint: [
     {
@@ -69,7 +69,7 @@ const websiteJsonLd = {
   name: "Neto",
   url: "https://neto.pe",
   description:
-    "Neto lee tus correos bancarios, categoriza tus gastos automáticamente y te da un dashboard completo por WhatsApp.",
+    "Neto registra tus gastos por WhatsApp, los categoriza con IA y te da un dashboard completo. Sin app, sin contraseñas bancarias.",
   potentialAction: {
     "@type": "SearchAction",
     target: {
@@ -86,7 +86,7 @@ const softwareJsonLd = {
   name: "Neto",
   url: "https://neto.pe",
   description:
-    "Asistente financiero personal por WhatsApp para el mercado peruano. Lee tus correos bancarios, categoriza gastos automáticamente con IA y calcula tu score financiero 0-100. Sin contraseñas bancarias.",
+    "Asistente financiero personal por WhatsApp para el mercado peruano. Registra gastos con IA en lenguaje natural, lee fotos de Yape/Plin y calcula tu score financiero 0-100. Sin descargar apps, sin contraseñas bancarias.",
   operatingSystem: "Web, Android, iOS",
   applicationCategory: "FinanceApplication",
   inLanguage: "es-PE",

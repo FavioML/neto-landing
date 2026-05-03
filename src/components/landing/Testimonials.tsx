@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Quote, Star } from "lucide-react";
+import { Quote, Briefcase, Wallet, Smartphone, PieChart } from "lucide-react";
 import BlurReveal from "@/components/shared/BlurReveal";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -31,65 +31,53 @@ function useTilt() {
 }
 
 /* ─── Data ─── */
+// Casos de uso anonimizados — sin nombres ni "métricas reales" hasta tener
+// testimonios con consentimiento de usuarios reales. Evita riesgo Indecopi
+// y se mantiene útil como social proof por tipología.
 const TESTIMONIALS = [
   {
-    name: "Carlos M.",
-    role: "Analista financiero",
-    location: "Lima",
-    initials: "CM",
+    persona: "Si trabajas en planilla",
+    role: "Sueldo fijo, gastos variables",
+    icon: Briefcase,
     quote:
-      "Antes gastaba sin darme cuenta. Ahora Neto me avisa al instante y sé exactamente a dónde va mi plata. Lo mejor: no tuve que instalar nada.",
-    metric: "S/2,400",
-    metricLabel: "ahorrados en 3 meses",
+      "Sabes cuánto ganas, pero a fin de mes no sabes a dónde se fue. Neto te muestra exactamente en qué categoría se va tu plata cada semana.",
+    metric: "Categorías",
+    metricLabel: "ordenadas por % del mes",
   },
   {
-    name: "Valeria R.",
-    role: "Diseñadora independiente",
-    location: "Arequipa",
-    initials: "VR",
+    persona: "Si eres freelance",
+    role: "Ingresos irregulares",
+    icon: Wallet,
     quote:
-      "Como freelancer mis ingresos varían mucho. Neto me ayuda a ver patrones que yo sola no veía. El resumen semanal es oro puro.",
-    metric: "+32%",
-    metricLabel: "mejor control de gastos",
+      "Tus ingresos cambian mes a mes y separar gasto personal del trabajo es un dolor. Neto detecta patrones por categoría y te avisa cuando algo se sale de tu promedio.",
+    metric: "Promedio",
+    metricLabel: "por categoría y mes",
   },
   {
-    name: "Diego P.",
-    role: "Emprendedor",
-    location: "Lima",
-    initials: "DP",
+    persona: "Si tienes un negocio",
+    role: "Decisiones rápidas",
+    icon: Smartphone,
     quote:
-      "Lo conecté en 2 minutos y ya no necesito revisar los correos del banco. Neto me dice todo por WhatsApp. Simple y directo.",
-    metric: "2 min",
-    metricLabel: "de setup inicial",
+      "No tienes tiempo para abrir un dashboard. Le escribes a Neto por WhatsApp, te responde con el dato que necesitas y sigues con tu día.",
+    metric: "WhatsApp",
+    metricLabel: "sin abrir nada más",
   },
   {
-    name: "Lucía F.",
-    role: "Contadora",
-    location: "Trujillo",
-    initials: "LF",
+    persona: "Si tienes gastos hormiga",
+    role: "Delivery, taxis, suscripciones",
+    icon: PieChart,
     quote:
-      "Mis gastos hormiga eran un problema serio. Desde que uso Neto bajé mi gasto diario en delivery un 40%. La data no miente.",
-    metric: "-40%",
-    metricLabel: "en gastos hormiga",
+      "Sabes que se te va plata en cositas pero no sabes cuánta. Neto suma los micro-gastos por categoría y te avisa cuando una categoría se está disparando.",
+    metric: "Alertas",
+    metricLabel: "cuando una categoría sube",
   },
 ];
 
-/* ─── StarRow ─── */
-function StarRow() {
+/* ─── PersonaIcon ─── */
+function PersonaIcon({ Icon }: { Icon: typeof Briefcase }) {
   return (
-    <div className="flex gap-0.5">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Star key={i} size={14} className="fill-neto-amber text-neto-amber" />
-      ))}
-    </div>
-  );
-}
-
-/* ─── Avatar ─── */
-function Avatar({ initials }: { initials: string }) {
-  return (
-    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-neto-green to-neto-green-dark flex items-center justify-center shrink-0">
-      <span className="text-white font-semibold text-sm">{initials}</span>
+    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-neto-green/20 to-neto-green-dark/20 border border-neto-green/30 flex items-center justify-center shrink-0">
+      <Icon size={20} className="text-neto-green-light" />
     </div>
   );
 }
@@ -105,7 +93,7 @@ export default function Testimonials() {
         <BlurReveal>
           <div className="flex flex-col items-center text-center mb-14">
             <span className="rounded-full border border-neto-green/30 bg-neto-green/10 px-4 py-1.5 text-xs font-semibold tracking-wide text-neto-green uppercase mb-5">
-              Historias reales
+              Para qué te sirve
             </span>
             <h2 className="text-3xl min-[860px]:text-5xl font-extrabold tracking-tight leading-[1.1]">
               <span
@@ -116,9 +104,13 @@ export default function Testimonials() {
                   WebkitBackgroundClip: "text",
                 }}
               >
-                Resultados reales.
+                Casos de uso reales.
               </span>
             </h2>
+            <p className="text-neto-txt3 text-base max-w-[520px] leading-relaxed mt-4">
+              Neto se adapta a cómo manejas tu plata. Estos son los escenarios más
+              comunes de la gente que lo usa.
+            </p>
           </div>
         </BlurReveal>
 
@@ -140,12 +132,18 @@ export default function Testimonials() {
             <div className="h-[1px] bg-gradient-to-r from-transparent via-neto-green to-transparent opacity-40" />
 
             <div className="p-8 min-[860px]:p-10 flex flex-col gap-6">
-              <StarRow />
+              <div className="flex items-center gap-3">
+                <PersonaIcon Icon={t0.icon} />
+                <div>
+                  <p className="text-sm font-semibold text-neto-txt">{t0.persona}</p>
+                  <p className="text-xs text-neto-txt3">{t0.role}</p>
+                </div>
+              </div>
 
               <div className="flex flex-col gap-4">
                 <Quote size={32} className="text-neto-green/20" />
                 <blockquote className="text-xl min-[860px]:text-2xl font-medium text-neto-txt leading-relaxed">
-                  &ldquo;{t0.quote}&rdquo;
+                  {t0.quote}
                 </blockquote>
               </div>
 
@@ -154,17 +152,6 @@ export default function Testimonials() {
                 <p className="text-3xl font-bold text-neto-green-light">{t0.metric}</p>
                 <p className="text-sm text-neto-txt3 mt-0.5">{t0.metricLabel}</p>
               </div>
-
-              {/* Author row */}
-              <div className="flex items-center gap-3 pt-2">
-                <Avatar initials={t0.initials} />
-                <div>
-                  <p className="text-sm font-semibold text-neto-txt">{t0.name}</p>
-                  <p className="text-xs text-neto-txt3">
-                    {t0.role} · {t0.location}
-                  </p>
-                </div>
-              </div>
             </div>
           </motion.div>
 
@@ -172,31 +159,26 @@ export default function Testimonials() {
           <div className="min-[860px]:col-span-5 flex flex-col gap-4">
             {[t1, t2].map((t, idx) => (
               <motion.div
-                key={t.name}
+                key={t.persona}
                 className="bg-neto-bg3 rounded-[24px] p-7 flex flex-col gap-4 border border-white/5"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.6, delay: 0.1 + idx * 0.08, ease: EASE }}
               >
-                <StarRow />
+                <div className="flex items-center gap-3">
+                  <PersonaIcon Icon={t.icon} />
+                  <div>
+                    <p className="text-sm font-semibold text-neto-txt">{t.persona}</p>
+                    <p className="text-xs text-neto-txt3">{t.role}</p>
+                  </div>
+                </div>
                 <p className="text-sm text-neto-txt2 leading-relaxed">
-                  &ldquo;{t.quote}&rdquo;
+                  {t.quote}
                 </p>
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <Avatar initials={t.initials} />
-                    <div>
-                      <p className="text-sm font-semibold text-neto-txt">{t.name}</p>
-                      <p className="text-xs text-neto-txt3">
-                        {t.role} · {t.location}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right shrink-0">
-                    <p className="text-lg font-bold text-neto-green-light">{t.metric}</p>
-                    <p className="text-xs text-neto-txt3">{t.metricLabel}</p>
-                  </div>
+                <div className="text-right shrink-0">
+                  <p className="text-lg font-bold text-neto-green-light">{t.metric}</p>
+                  <p className="text-xs text-neto-txt3">{t.metricLabel}</p>
                 </div>
               </motion.div>
             ))}
@@ -213,19 +195,16 @@ export default function Testimonials() {
           >
             <div className="p-8 min-[860px]:p-10 flex flex-col min-[860px]:flex-row min-[860px]:items-center gap-6 min-[860px]:gap-10">
               <div className="flex flex-col gap-4 flex-1">
-                <StarRow />
-                <p className="text-lg min-[860px]:text-xl font-medium text-white/95 leading-relaxed">
-                  &ldquo;{t3.quote}&rdquo;
-                </p>
                 <div className="flex items-center gap-3">
-                  <Avatar initials={t3.initials} />
+                  <PersonaIcon Icon={t3.icon} />
                   <div>
-                    <p className="text-sm font-semibold text-white">{t3.name}</p>
-                    <p className="text-xs text-white/70">
-                      {t3.role} · {t3.location}
-                    </p>
+                    <p className="text-sm font-semibold text-white">{t3.persona}</p>
+                    <p className="text-xs text-white/70">{t3.role}</p>
                   </div>
                 </div>
+                <p className="text-lg min-[860px]:text-xl font-medium text-white/95 leading-relaxed">
+                  {t3.quote}
+                </p>
               </div>
 
               {/* Metric — right on desktop */}

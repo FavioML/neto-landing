@@ -24,8 +24,8 @@ const TRUST_QA = [
   },
   {
     icon: Shield,
-    q: "¿Puedo automatizar el registro?",
-    a: "Sí. Si conectas tu Gmail, Neto lee solo las notificaciones de tu banco (BCP, BBVA, Interbank, Yape) y registra todo automáticamente. Es opcional.",
+    q: "¿Quién está detrás de Neto?",
+    a: "Neto lo hace Vortik, un estudio peruano. No somos un banco ni te pedimos credenciales. Si tienes dudas, escríbenos a hola@neto.pe.",
   },
 ];
 

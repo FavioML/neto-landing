@@ -19,19 +19,20 @@ export default function IntroBlock() {
         </h2>
         <p className="text-base sm:text-[17px] leading-7 text-[#c8c5bd]">
           Neto es un asistente financiero personal que opera 100% por WhatsApp
-          para usuarios en Perú. Lee los correos de notificación bancaria que
-          recibes en Gmail (acceso de lectura, sin contraseñas y sin entrar a
-          tu banca en línea), extrae cada compra, transferencia o pago, y los
-          categoriza automáticamente con inteligencia artificial. El resultado
-          aparece en un dashboard web con tu historial de gastos, ingresos,
-          presupuestos, metas y un score de salud financiera del 0 al 100.
-          Neto funciona con BCP, BBVA Perú, Interbank, Scotiabank, Yape y
-          Plin, además de Falabella, Ripley, BanBif, Mibanco y CMAC. El plan
-          gratuito incluye registro por WhatsApp, presupuestos ilimitados,
-          lectura de fotos Yape y dashboard del mes actual. El plan Pro
-          cuesta S/10 al mes o S/99 al año y desbloquea lectura automática
-          de correos bancarios, historial completo, reportes PDF y resumen
-          diario con IA. Neto está desarrollado por Vortik en Lima, Perú.
+          para usuarios en Perú. Le mandas un mensaje en lenguaje natural
+          (&quot;gasté 45 en almuerzo&quot;) o una foto de tu voucher Yape o
+          Plin, y Neto categoriza el gasto con inteligencia artificial. El
+          resultado aparece en un dashboard web con tu historial de gastos,
+          ingresos, presupuestos, metas y un score de salud financiera del 0
+          al 100. Neto funciona con BCP, BBVA Perú, Interbank, Scotiabank,
+          Yape y Plin, además de Falabella, Ripley, BanBif, Mibanco y CMAC.
+          No te pide contraseñas bancarias ni accede a tu banca en línea: tus
+          datos de gasto se construyen a partir de lo que tú registras. El
+          plan gratuito incluye registro por WhatsApp, presupuestos
+          ilimitados, lectura de imágenes de Yape/Plin y dashboard del mes
+          actual. El plan Pro cuesta S/10 al mes o S/99 al año y desbloquea
+          historial completo, reportes PDF, score detallado y resumen diario
+          con IA. Neto está desarrollado por Vortik en Lima, Perú.
         </p>
       </div>
     </section>
