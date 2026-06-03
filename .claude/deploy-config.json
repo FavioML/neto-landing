@@ -1,0 +1,51 @@
+{
+  "platform": "cloudflare-pages",
+  "project_name": "neto-site",
+  "production_url": "https://neto.pe",
+  "cloudflare": {
+    "account_id": "f5b742b797b7a03b8d25140bb9c3594f",
+    "root_directory": "landing/",
+    "watch_paths": ["landing/**"]
+  },
+  "health_check": {
+    "endpoint": "/",
+    "method": "GET",
+    "expected_status": 200,
+    "must_contain": ["Neto"],
+    "timeout_ms": 10000
+  },
+  "deploy_strategy": {
+    "trigger": "git push origin main",
+    "branch": "main",
+    "ci_required": false,
+    "deploy_time_estimate_min": 3,
+    "known_issue": "Cloudflare a veces skipea deploys — verificar con CF API si no aparece"
+  },
+  "canary": {
+    "enabled": true,
+    "checks": [
+      { "name": "homepage", "type": "http", "url": "https://neto.pe/", "expect_status": 200, "must_contain": ["Neto"] },
+      { "name": "faq", "type": "http", "url": "https://neto.pe/faq", "expect_status": 200 },
+      { "name": "privacidad", "type": "http", "url": "https://neto.pe/privacidad", "expect_status": 200 },
+      { "name": "terminos", "type": "http", "url": "https://neto.pe/terminos", "expect_status": 200 },
+      { "name": "blog", "type": "http", "url": "https://neto.pe/blog", "expect_status": 200 }
+    ],
+    "core_web_vitals": {
+      "track": true,
+      "source": "CrUX",
+      "alert_on_lcp_above_ms": 2500,
+      "alert_on_inp_above_ms": 200,
+      "alert_on_cls_above": 0.1
+    },
+    "post_deploy_window_min": 10,
+    "alert_on_failure": true
+  },
+  "integrations": {
+    "posthog": { "site_property": "neto-landing" },
+    "better_stack": { "monitor": "neto.pe" }
+  },
+  "notes": [
+    "Restricción marketing CASA: NO mencionar email parser / Gmail API / lectura de notificaciones bancarias en landing.",
+    "Static export Next.js — todo es HTML/JS estático servido por Cloudflare CDN."
+  ]
+}

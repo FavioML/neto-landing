@@ -50,3 +50,8 @@ src/
 - Static export — no server-side features (no API routes en prod)
 - Imagenes optimizadas en public/
 - Blog posts para SEO (comparativos, educativos)
+
+## Deploy & monitoring
+- Config: `.claude/deploy-config.json` (Cloudflare Pages neto-site, CWV thresholds, canary checks).
+- Daily canary 10am Lima vía scheduled task `canary-daily-deploys`. Reporte solo si hay fallo en `C:/Vortik.dev/memory/canary/`.
+- Verificación manual post-push: `curl -I https://neto.pe/`. Cloudflare a veces skipea deploys — verificar con CF API si no aparece.

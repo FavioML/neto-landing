@@ -1,12 +1,13 @@
 {
+  "_comment": "Windows fix: invoke node directly against next's bin to bypass npm/npx .cmd shim issues with the preview wrapper. Mirror in workspace root C:/Vortik.dev/.claude/launch.json with cwd set, since the preview wrapper runs from workspace root.",
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "landing",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "name": "neto-landing",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["./node_modules/next/dist/bin/next", "dev", "--port", "3000"],
       "port": 3000,
-      "cwd": "landing"
+      "autoPort": false
     }
   ]
 }
