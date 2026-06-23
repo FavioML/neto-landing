@@ -1,4 +1,5 @@
 import { WA_LINK, APP_URL } from "@/lib/constants";
+import PrivacyToggle from "@/components/PrivacyToggle";
 
 const PRODUCT_LINKS = [
   { label: "Cómo funciona", href: "/como-funciona" },
@@ -163,6 +164,8 @@ export default function Footer() {
             >
               Términos
             </a>
+            <span className="text-neto-txt3 text-sm">|</span>
+            <PrivacyToggle className="text-sm text-neto-txt3 hover:text-neto-txt2 transition-colors duration-200" />
           </div>
         </div>
       </div>

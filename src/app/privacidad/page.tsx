@@ -217,10 +217,23 @@ export default function PrivacidadPage() {
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
                   <strong>Railway:</strong> infraestructura de servidores.
                 </li>
+                <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
+                  <strong>PostHog, Google Analytics y Meta Pixel:</strong>{" "}
+                  analiticas de producto para entender como se usa Neto y
+                  mejorarlo. PostHog incluye grabaciones de sesion en las que
+                  todos tus datos financieros (montos, comercios, transacciones)
+                  van enmascarados y nunca quedan visibles.
+                </li>
               </ul>
               <p className="text-sm text-neto-txt2 leading-7 mt-3">
                 No vendemos, alquilamos ni compartimos tus datos con ninguna
                 otra empresa, anunciante o tercero.
+              </p>
+              <p className="text-sm text-neto-txt2 leading-7 mt-3">
+                Respetamos la senal &quot;Do Not Track&quot; de tu navegador.
+                Ademas puedes desactivar las analiticas cuando quieras desde el
+                enlace &quot;No rastrear mi actividad&quot; en el pie de pagina,
+                o desde Configuracion en tu dashboard.
               </p>
             </section>
 

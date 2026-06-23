@@ -104,6 +104,7 @@ export default function RootLayout({
               capture_pageview: 'history_change',
               capture_pageleave: true,
               autocapture: true,
+              respect_dnt: true,
               session_recording: { maskAllInputs: true },
               loaded: function(ph){ ph.register({ app: 'neto-landing' }); }
             });

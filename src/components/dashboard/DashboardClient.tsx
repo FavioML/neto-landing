@@ -143,7 +143,8 @@ export default function DashboardClient() {
   }
 
   return (
-    <div ref={dashboardRef}>
+    // ph-no-capture: enmascara todo el reporte financiero en session replay de PostHog.
+    <div ref={dashboardRef} className="ph-no-capture">
     <DashboardShell data={data}>
       <div>
         <MonthSelector
