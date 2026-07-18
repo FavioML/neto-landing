@@ -23,6 +23,8 @@ const FREE_FEATURES = [
   { text: "Historial completo + heatmap", included: false },
   { text: "Consejo IA diario + resumen diario", included: false },
   { text: "Export CSV/JSON + carga Excel", included: false },
+  { text: "Detector de fugas + alertas", included: false },
+  { text: "Finanzas compartidas (espacios)", included: false },
 ];
 
 const PRO_FEATURES = [
@@ -38,6 +40,8 @@ const PRO_FEATURES = [
   { text: "Historial completo + heatmap", included: true, isProExclusive: true },
   { text: "Consejo IA diario + resumen diario", included: true, isProExclusive: true },
   { text: "Export CSV/JSON + carga Excel", included: true, isProExclusive: true },
+  { text: "Detector de fugas + alertas", included: true, isProExclusive: true },
+  { text: "Finanzas compartidas (espacios)", included: true, isProExclusive: true },
 ];
 
 /* ─── FeatureItem ─── */
