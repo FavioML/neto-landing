@@ -6,7 +6,6 @@ Landing page y blog de Neto. Static export desplegado en Cloudflare Pages.
 - Next.js 16 (static export, output: "export")
 - React 19 + TypeScript + Tailwind CSS
 - Framer Motion para animaciones
-- jsPDF + html-to-image para reportes compartibles
 
 ## Comandos
 ```bash
@@ -22,7 +21,6 @@ src/
 │   ├── blog/             Posts SEO
 │   ├── contacto/         Formulario de contacto
 │   ├── faq/              Preguntas frecuentes
-│   ├── mi-reporte/       Reporte compartible
 │   ├── privacidad/       Politica de privacidad
 │   └── terminos/         Terminos de servicio
 ├── components/   Componentes React reutilizables
