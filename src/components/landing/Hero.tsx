@@ -131,10 +131,10 @@ export default function Hero() {
             className="text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold leading-[1.05] tracking-tight"
           >
             <span className="block bg-gradient-to-b from-neto-txt to-neto-txt3 bg-clip-text text-transparent">
-              Tu plata ordenada
+              Entiende tu plata,
             </span>
             <span className="block bg-gradient-to-r from-neto-green-light via-neto-green to-neto-green bg-clip-text text-transparent">
-              por WhatsApp
+              no solo la anotes.
             </span>
           </motion.h1>
 
@@ -143,8 +143,9 @@ export default function Hero() {
             {...fadeUp(0.3)}
             className="text-lg text-neto-txt3 max-w-[520px] leading-relaxed"
           >
-            Mándale un mensaje, foto de Yape o voucher. Neto categoriza,
-            avisa de fugas y te dice cuánto te queda. Sin app, sin Excel.
+            Anotar gastos es el piso. Neto te da un score de salud financiera
+            del 0 al 100 y te dice, en soles, a dónde se va tu plata y cuánto
+            te queda. Todo por WhatsApp.
           </motion.p>
 
           {/* Stats row — placed between subtitle and CTA so trust signals are above-the-fold on mobile */}

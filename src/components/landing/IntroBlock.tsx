@@ -1,49 +1,49 @@
 /**
- * IntroBlock — dual-layer: scannable for humans, full text for AI search.
+ * Reframe — el gancho de posicionamiento + qué es Neto.
  *
- * Visible layer: 3 bold-led sentences (Apple-style) for IG mobile traffic.
- * Hidden layer (sr-only): 140-word self-contained block optimized for
- * extraction by ChatGPT, Perplexity, Google AI Overviews and Claude.
- * Both layers must stay roughly in sync.
+ * Capa visible: reframe emocional ("no es que gastes mal, es que nadie te dijo
+ * cuánto") + una línea de qué es Neto + perfiles. Apple-style, escaneable.
+ * Capa oculta (sr-only): bloque autocontenido de ~140 palabras para extracción
+ * por ChatGPT, Perplexity, Google AI Overviews y Claude. Mantener ambas en sync.
+ *
+ * id="que-es" — anclado desde el Navbar (/#que-es).
  */
 export default function IntroBlock() {
   return (
     <section
-      id="que-es-neto"
-      aria-labelledby="que-es-neto-heading"
-      className="px-6 py-16 sm:py-20"
+      id="que-es"
+      aria-labelledby="que-es-heading"
+      className="px-6 py-24 sm:py-28"
     >
-      <div className="mx-auto max-w-[760px]">
+      <div className="mx-auto max-w-[820px] text-center">
         <h2
-          id="que-es-neto-heading"
-          className="text-2xl sm:text-3xl font-bold tracking-tight mb-8 text-[#e5e2de]"
+          id="que-es-heading"
+          className="font-extrabold tracking-tight leading-[1.12] text-[clamp(2rem,5.2vw,3.4rem)] text-neto-txt"
         >
-          ¿Qué es Neto?
+          <span className="text-neto-txt3">No es que gastes mal.</span>
+          <br />
+          Es que <span className="text-neto-green-light">nadie te dijo cuánto.</span>
         </h2>
 
-        {/* Human-facing: scannable bold-led sentences */}
-        <div className="flex flex-col gap-5 text-base sm:text-[17px] leading-7 text-[#c8c5bd]">
-          <p>
-            <strong className="text-[#e5e2de] font-semibold">
-              Tu asistente financiero por WhatsApp.
-            </strong>{" "}
-            Le mandas un mensaje en lenguaje natural (&ldquo;gasté 45 en
-            almuerzo&rdquo;) o una foto de tu voucher Yape o Plin. Neto lo
-            categoriza con IA.
-          </p>
-          <p>
-            <strong className="text-[#e5e2de] font-semibold">
-              Compatible con cualquier banco o wallet del Perú.
-            </strong>{" "}
-            Como tú haces el registro desde WhatsApp, no depende del banco.
-            Sin contraseñas bancarias, sin acceso a tu banca en línea.
-          </p>
-          <p>
-            <strong className="text-[#e5e2de] font-semibold">
-              Gratis para empezar, S/10/mes para todo.
-            </strong>{" "}
-            Hecho en Lima por Vortik.
-          </p>
+        <p className="mx-auto mt-7 max-w-[560px] text-lg leading-relaxed text-neto-txt2">
+          Neto es tu asistente financiero por WhatsApp. Le escribes en lenguaje
+          natural o le mandas una foto de tu voucher, y él ordena, entiende y te
+          devuelve claridad. Sin contraseñas bancarias, sin Excel, sin apps que
+          instalar.
+        </p>
+
+        <p className="mt-9 text-sm text-neto-txt3">
+          Para gente que maneja su plata día a día:
+        </p>
+        <div className="mt-3 flex flex-wrap justify-center gap-2.5">
+          {["En planilla", "Freelance", "Con negocio propio"].map((w) => (
+            <span
+              key={w}
+              className="rounded-full border border-neto-bg5 px-4 py-1.5 text-sm text-neto-txt3"
+            >
+              {w}
+            </span>
+          ))}
         </div>
 
         {/* AI-facing: dense, self-contained extract for LLMs and screen readers */}

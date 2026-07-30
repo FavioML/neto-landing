@@ -10,12 +10,12 @@ interface Message {
 }
 
 const MESSAGES: Message[] = [
-  { id: 0, from: "neto", text: "¡Hola! 👋 Soy Neto, tu asistente financiero." },
-  { id: 1, from: "neto", text: "Registré tu gasto del BCP." },
-  { id: 2, from: "neto", text: "Rappi · S/45.00 · Comida 🍔\nLlevas S/847 esta semana.\nTe quedan S/403 de tu presupuesto." },
-  { id: 3, from: "neto", text: "💡 Tip: Llevas 3 pedidos de delivery esta semana. ¿Quieres que te avise cuando pases de S/200 en delivery?" },
+  { id: 0, from: "user", text: "Gasté 45 en almuerzo 🍽️" },
+  { id: 1, from: "neto", text: "¡Anotado! ✅\nAlmuerzo · S/45.00 · Comida 🍔" },
+  { id: 2, from: "neto", text: "Llevas S/847 esta semana.\nTe quedan S/403 de tu presupuesto." },
+  { id: 3, from: "neto", text: "💡 Van 3 deliverys esta semana. ¿Te aviso si pasas de S/200?" },
   { id: 4, from: "user", text: "Sí porfa" },
-  { id: 5, from: "neto", text: "Listo ✅ Te avisaré. ¡Sigue así!" },
+  { id: 5, from: "neto", text: "Listo ✅ Te avisaré.\nTu score va en 74 este mes 📈" },
 ];
 
 const SEQUENCE_TIMINGS = [600, 2000, 3500, 6500, 8500, 10000];

@@ -2,78 +2,41 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, X, Zap, Crown } from "lucide-react";
+import { Check, Zap, Crown } from "lucide-react";
 import BlurReveal from "@/components/shared/BlurReveal";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 import { waLink, waLinkPro, trackCtaClick } from "@/lib/constants";
 
-/* ─── Features ─── */
+/* ─── Features (grouped: Free = short list, Pro = "everything free + …") ─── */
 const FREE_FEATURES = [
-  { text: "WhatsApp: registro de gastos", included: true },
-  { text: "Dashboard web completo", included: true },
-  { text: "Clasificación con IA", included: true },
-  { text: "Presupuestos + metas de ahorro", included: true },
-  { text: "Score financiero básico", included: true },
-  { text: "Lectura de imágenes Yape/Plin", included: true },
-  { text: "Referidos (3 Pro = 1 mes gratis)", included: true },
-  { text: "Score detallado + tendencia + tips", included: false },
-  { text: "Reportes PDF", included: false },
-  { text: "Historial completo + heatmap", included: false },
-  { text: "Consejo IA diario + resumen + recordatorios", included: false },
-  { text: "Export CSV/JSON + carga Excel", included: false },
-  { text: "Detector de fugas + alertas", included: false },
-  { text: "Finanzas compartidas (espacios)", included: false },
+  "Registro por WhatsApp + fotos Yape/Plin",
+  "Dashboard web del mes actual",
+  "Clasificación con IA",
+  "Presupuestos y metas de ahorro",
+  "Score financiero básico",
 ];
 
 const PRO_FEATURES = [
-  { text: "WhatsApp: registro de gastos", included: true, isProExclusive: false },
-  { text: "Dashboard web completo", included: true, isProExclusive: false },
-  { text: "Clasificación con IA", included: true, isProExclusive: false },
-  { text: "Presupuestos + metas de ahorro", included: true, isProExclusive: false },
-  { text: "Score financiero básico", included: true, isProExclusive: false },
-  { text: "Lectura de imágenes Yape/Plin", included: true, isProExclusive: false },
-  { text: "Referidos (3 Pro = 1 mes gratis)", included: true, isProExclusive: false },
-  { text: "Score detallado + tendencia + tips", included: true, isProExclusive: true },
-  { text: "Reportes PDF", included: true, isProExclusive: true },
-  { text: "Historial completo + heatmap", included: true, isProExclusive: true },
-  { text: "Consejo IA diario + resumen + recordatorios", included: true, isProExclusive: true },
-  { text: "Export CSV/JSON + carga Excel", included: true, isProExclusive: true },
-  { text: "Detector de fugas + alertas", included: true, isProExclusive: true },
-  { text: "Finanzas compartidas (espacios)", included: true, isProExclusive: true },
+  "Score detallado + tendencia + tips",
+  "Detector de fugas + alertas",
+  "Finanzas compartidas (espacios)",
+  "Historial completo + reportes PDF",
+  "Consejo IA diario + recordatorios",
+  "Export CSV/Excel",
 ];
 
 /* ─── FeatureItem ─── */
-function FeatureItem({
-  text,
-  included,
-  isProExclusive,
-}: {
-  text: string;
-  included: boolean;
-  isProExclusive?: boolean;
-}) {
+function FeatureItem({ text, accent = false }: { text: string; accent?: boolean }) {
   return (
     <li className="flex items-center gap-3">
-      <div
-        className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 ${
-          included ? "bg-neto-green/20" : "bg-white/5"
-        }`}
-      >
-        {included ? (
-          <Check size={10} className="text-neto-green" />
-        ) : (
-          <X size={10} className="text-neto-txt3" />
-        )}
+      <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 bg-neto-green/20">
+        <Check size={10} className="text-neto-green" />
       </div>
       <span
         className={`text-sm ${
-          isProExclusive
-            ? "text-neto-green-light font-medium"
-            : included
-            ? "text-neto-txt2"
-            : "text-neto-txt3 line-through opacity-50"
+          accent ? "text-neto-green-light font-medium" : "text-neto-txt2"
         }`}
       >
         {text}
@@ -123,8 +86,8 @@ export default function Pricing() {
               </span>
             </h2>
             <p className="text-neto-txt3 text-base max-w-[520px] leading-relaxed">
-              Registra tus gastos sin costo. Activa Pro cuando quieras score detallado,
-              reportes PDF y todo ilimitado.
+              Registra tus gastos sin costo. Activa Pro cuando quieras entender
+              más a fondo.
             </p>
           </div>
         </BlurReveal>
@@ -187,7 +150,7 @@ export default function Pricing() {
             {/* Features */}
             <ul className="flex flex-col gap-3 mb-8">
               {FREE_FEATURES.map((f) => (
-                <FeatureItem key={f.text} text={f.text} included={f.included} />
+                <FeatureItem key={f} text={f} />
               ))}
             </ul>
 
@@ -257,13 +220,11 @@ export default function Pricing() {
 
                 {/* Features */}
                 <ul className="flex flex-col gap-3 mb-8">
+                  <li className="text-sm font-semibold text-neto-txt">
+                    Todo lo de Gratis, y además:
+                  </li>
                   {PRO_FEATURES.map((f) => (
-                    <FeatureItem
-                      key={f.text}
-                      text={f.text}
-                      included={f.included}
-                      isProExclusive={f.isProExclusive}
-                    />
+                    <FeatureItem key={f} text={f} accent />
                   ))}
                 </ul>
 
