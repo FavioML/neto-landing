@@ -22,3 +22,7 @@ npm-debug.log*
 next-env.d.ts
 
 _basura/
+
+# local working material (redesign sprint specs, captures, previews)
+.redesign-spec/
+LANDING-REDESIGN-SPRINT.md
