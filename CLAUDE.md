@@ -30,7 +30,7 @@ src/
 ```
 
 ## Deploy
-- Cloudflare Pages: proyecto "neto-site"
+- Cloudflare Pages: proyecto "neto-landing"
 - Account ID: f5b742b797b7a03b8d25140bb9c3594f
 - Auto-deploy on push (root directory: "landing/", watch paths: "landing/**")
 - A veces Cloudflare skipea deploys — verificar con API si no aparece
@@ -50,6 +50,6 @@ src/
 - Blog posts para SEO (comparativos, educativos)
 
 ## Deploy & monitoring
-- Config: `.claude/deploy-config.json` (Cloudflare Pages neto-site, CWV thresholds, canary checks).
+- Config: `.claude/deploy-config.json` (Cloudflare Pages neto-landing, CWV thresholds, canary checks).
 - Daily canary 10am Lima vía scheduled task `canary-daily-deploys`. Reporte solo si hay fallo en `C:/Vortik.dev/memory/canary/`.
 - Verificación manual post-push: `curl -I https://neto.pe/`. Cloudflare a veces skipea deploys — verificar con CF API si no aparece.

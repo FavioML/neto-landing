@@ -1,6 +1,6 @@
 {
   "platform": "cloudflare-pages",
-  "project_name": "neto-site",
+  "project_name": "neto-landing",
   "production_url": "https://neto.pe",
   "cloudflare": {
     "account_id": "f5b742b797b7a03b8d25140bb9c3594f",
