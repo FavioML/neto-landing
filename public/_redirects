@@ -1,5 +1,5 @@
-# Mini-landing de referido: /r/CODE se sirve con el HTML de /r (200 = rewrite, la URL se
-# conserva) y la página lee el CODE del pathname client-side. Los codes son dinámicos, así que
-# no se pueden pre-renderizar con generateStaticParams en el static export.
-# Target = /r.html (el archivo real que emite el export; no existe /r/index.html).
-/r/*  /r.html  200
+# Mini-landing de referido: los codes son dinámicos (no se pre-renderizan con
+# generateStaticParams en el static export). Redirigimos /r/CODE a /r llevando el code en
+# ?ref= (302), y la página lo lee de la query client-side. Se usa 302+query en vez de un
+# rewrite 200 a /r.html porque Cloudflare normaliza los .html a clean-URL (308) y perdía el code.
+/r/:code  /r?ref=:code  302

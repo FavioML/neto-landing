@@ -5,10 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { WA_NUMBER, APP_URL, API_URL, waReferralLink, appReferralUrl } from "@/lib/constants";
 
-// El code viene en el pathname (/r/CODE). Con static export no hay segmento [code]
-// pre-renderizado: Cloudflare (_redirects) sirve el HTML de /r y aquí lo leemos en runtime.
+// Con static export no hay segmento [code] pre-renderizado. Cloudflare (_redirects)
+// redirige /r/CODE → /r?ref=CODE, así que el code llega por la query. Se lee también del
+// pathname como fallback (por si algún día se sirve /r/CODE con la URL preservada).
 function extraerCode(): string | null {
   if (typeof window === "undefined") return null;
+  const q = new URLSearchParams(window.location.search).get("ref");
+  if (q && /^[A-Za-z0-9]{4,12}$/.test(q)) return q.toUpperCase();
   const m = window.location.pathname.match(/\/r\/([A-Za-z0-9]{4,12})/);
   return m ? m[1].toUpperCase() : null;
 }
