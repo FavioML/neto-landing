@@ -8,8 +8,6 @@ import StartButton from "./StartButton";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-import { waLinkPro, trackCtaClick } from "@/lib/constants";
-
 /* ─── Features (grouped: Free = short list, Pro = "everything free + …") ─── */
 const FREE_FEATURES = [
   "Registro por WhatsApp + fotos Yape/Plin",
@@ -227,15 +225,13 @@ export default function Pricing() {
                 </ul>
 
                 {/* CTA */}
-                <a
-                  href={waLinkPro("pricing-pro")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackCtaClick("pricing-pro", "Activar Pro")}
-                  className="mt-auto w-full rounded-full bg-gradient-to-br from-neto-green-light to-neto-green px-6 py-3.5 text-sm font-semibold text-[#002115] text-center transition-all duration-200 hover:shadow-[0_0_24px_rgba(29,158,117,0.4)] hover:scale-[1.02]"
+                <StartButton
+                  source="pricing-pro"
+                  intent="pro"
+                  className="mt-auto block w-full rounded-full bg-gradient-to-br from-neto-green-light to-neto-green px-6 py-3.5 text-sm font-semibold text-[#002115] text-center transition-all duration-200 hover:shadow-[0_0_24px_rgba(29,158,117,0.4)] hover:scale-[1.02]"
                 >
                   Activar Pro
-                </a>
+                </StartButton>
                 {/* Trust badges */}
                 <p className="text-center text-xs text-neto-txt3 mt-3">
                   Cancela cuando quieras · Sin permanencia · Paga con Yape

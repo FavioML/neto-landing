@@ -82,8 +82,15 @@ export const trackStartOpen = (source: CtaSource) => {
   }
 };
 
-export const openChannelSelector = (source: CtaSource) => {
+export type StartIntent = 'start' | 'pro';
+
+export const openChannelSelector = (
+  source: CtaSource,
+  intent: StartIntent = 'start'
+) => {
   if (typeof window === 'undefined') return;
-  window.dispatchEvent(new CustomEvent('neto:start', { detail: { source } }));
+  window.dispatchEvent(
+    new CustomEvent('neto:start', { detail: { source, intent } })
+  );
   trackStartOpen(source);
 };

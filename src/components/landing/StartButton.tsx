@@ -1,10 +1,18 @@
 "use client";
 
-import { waLink, openChannelSelector, type CtaSource } from "@/lib/constants";
+import {
+  waLink,
+  waLinkPro,
+  openChannelSelector,
+  type CtaSource,
+  type StartIntent,
+} from "@/lib/constants";
 
 interface StartButtonProps {
   /** Where the CTA lives — used for analytics + the WhatsApp deep-link. */
   source: CtaSource;
+  /** "start" (register) or "pro" (activate Pro). Changes the selector copy. */
+  intent?: StartIntent;
   className?: string;
   children: React.ReactNode;
   id?: string;
@@ -20,6 +28,7 @@ interface StartButtonProps {
  */
 export default function StartButton({
   source,
+  intent = "start",
   className,
   children,
   id,
@@ -27,13 +36,13 @@ export default function StartButton({
 }: StartButtonProps) {
   return (
     <a
-      href={waLink(source)}
+      href={intent === "pro" ? waLinkPro(source) : waLink(source)}
       id={id}
       className={className}
       onClick={(e) => {
         e.preventDefault();
         onClick?.();
-        openChannelSelector(source);
+        openChannelSelector(source, intent);
       }}
     >
       {children}

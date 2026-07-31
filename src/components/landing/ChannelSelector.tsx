@@ -3,9 +3,45 @@
 import { useEffect, useState, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle, LayoutDashboard, X } from "lucide-react";
-import { waLink, APP_URL, trackCtaClick, type CtaSource } from "@/lib/constants";
+import {
+  waLink,
+  waLinkPro,
+  APP_URL,
+  trackCtaClick,
+  type CtaSource,
+  type StartIntent,
+} from "@/lib/constants";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
+
+const COPY = {
+  start: {
+    title: "¿Cómo prefieres empezar?",
+    sub: "Neto funciona por los dos lados. Elige por dónde arrancar.",
+    waDesc: "Escríbele a Neto y registra tu primer gasto en el chat",
+    appDesc: "Crea tu cuenta con Google o correo en app.neto.pe",
+    appHref: APP_URL,
+    footer: (
+      <>
+        Empieza por donde quieras. Conéctalos y es{" "}
+        <span className="text-neto-txt2">una sola cuenta, sincronizada.</span>
+      </>
+    ),
+  },
+  pro: {
+    title: "¿Cómo quieres activar Pro?",
+    sub: "Actívalo por el canal que prefieras. Vale en los dos lados.",
+    waDesc: "Neto te pasa los datos de pago y activa tu Pro",
+    appDesc: "Actívalo desde app.neto.pe, paga con Yape",
+    appHref: `${APP_URL}/dashboard/pro`,
+    footer: (
+      <>
+        Tu Pro es{" "}
+        <span className="text-neto-txt2">la misma cuenta en WhatsApp y app.</span>
+      </>
+    ),
+  },
+} as const;
 
 /**
  * "¿Cómo prefieres empezar?" — the dual-registration selector.
@@ -15,13 +51,16 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 export default function ChannelSelector() {
   const [open, setOpen] = useState(false);
   const [source, setSource] = useState<CtaSource>("hero");
+  const [intent, setIntent] = useState<StartIntent>("start");
 
   const close = useCallback(() => setOpen(false), []);
 
   useEffect(() => {
     const onStart = (e: Event) => {
-      const detail = (e as CustomEvent<{ source?: CtaSource }>).detail;
+      const detail = (e as CustomEvent<{ source?: CtaSource; intent?: StartIntent }>)
+        .detail;
       setSource(detail?.source ?? "hero");
+      setIntent(detail?.intent ?? "start");
       setOpen(true);
     };
     window.addEventListener("neto:start", onStart as EventListener);
@@ -38,6 +77,8 @@ export default function ChannelSelector() {
       document.body.style.overflow = "";
     };
   }, [open, close]);
+
+  const c = COPY[intent];
 
   return (
     <AnimatePresence>
@@ -74,16 +115,14 @@ export default function ChannelSelector() {
             </button>
 
             <h3 id="channel-title" className="text-xl font-bold text-neto-txt">
-              ¿Cómo prefieres empezar?
+              {c.title}
             </h3>
-            <p className="mt-1.5 text-sm text-neto-txt3">
-              Neto funciona por los dos lados. Elige por dónde arrancar.
-            </p>
+            <p className="mt-1.5 text-sm text-neto-txt3">{c.sub}</p>
 
             <div className="mt-6 flex flex-col gap-3">
               {/* WhatsApp */}
               <a
-                href={waLink(source)}
+                href={intent === "pro" ? waLinkPro(source) : waLink(source)}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackCtaClick(source, "channel:whatsapp")}
@@ -97,14 +136,14 @@ export default function ChannelSelector() {
                     Por WhatsApp
                   </span>
                   <span className="text-[13px] text-neto-txt3 leading-snug">
-                    Escríbele a Neto y registra tu primer gasto en el chat
+                    {c.waDesc}
                   </span>
                 </span>
               </a>
 
               {/* Webapp */}
               <a
-                href={APP_URL}
+                href={c.appHref}
                 onClick={() => trackCtaClick(source, "channel:app")}
                 className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-neto-bg3 px-5 py-4 transition-all hover:border-neto-green/40 hover:bg-neto-bg4"
               >
@@ -116,15 +155,14 @@ export default function ChannelSelector() {
                     Desde la app
                   </span>
                   <span className="text-[13px] text-neto-txt3 leading-snug">
-                    Crea tu cuenta con Google o correo en app.neto.pe
+                    {c.appDesc}
                   </span>
                 </span>
               </a>
             </div>
 
             <p className="mt-5 text-center text-xs text-neto-txt3 leading-relaxed">
-              Empieza por donde quieras. Conéctalos y es{" "}
-              <span className="text-neto-txt2">una sola cuenta, sincronizada.</span>
+              {c.footer}
             </p>
           </motion.div>
         </motion.div>
