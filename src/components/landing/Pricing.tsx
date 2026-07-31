@@ -267,7 +267,7 @@ export default function Pricing() {
         >
           <span className="text-lg" aria-hidden>🎁</span>
           <p className="text-sm text-neto-txt2">
-            <span className="text-neto-txt font-semibold">Invita 3 amigos a Pro</span> y tu mes es gratis
+            <span className="text-neto-txt font-semibold">Cada amigo que invites y se haga Pro</span> te da 1 mes gratis — y él estrena a mitad de precio
           </p>
         </motion.div>
       </div>
