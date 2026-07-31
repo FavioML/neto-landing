@@ -86,16 +86,16 @@ export default function ReferidoPage() {
             </p>
           </div>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a
               href={waHref}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-neto-green px-6 py-3.5 font-semibold text-white transition-transform hover:scale-[1.02] active:scale-95"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-neto-green px-6 py-3.5 font-semibold text-white transition-transform hover:scale-[1.02] active:scale-95"
             >
-              Empezar gratis por WhatsApp
+              Empezar por WhatsApp
             </a>
             <a
               href={appHref}
-              className="inline-flex items-center justify-center rounded-xl border border-white/10 px-6 py-3.5 font-medium text-neto-txt transition-colors hover:bg-white/[0.04]"
+              className="inline-flex flex-1 items-center justify-center rounded-xl border border-white/10 bg-neto-bg3 px-6 py-3.5 font-semibold text-neto-txt transition-colors hover:bg-neto-bg4"
             >
               Crear cuenta en la app
             </a>
