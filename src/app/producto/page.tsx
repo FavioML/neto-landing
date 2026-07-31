@@ -4,7 +4,7 @@ import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/Footer";
 import BrowserFrame from "@/components/landing/BrowserFrame";
 import BlurReveal from "@/components/shared/BlurReveal";
-import { waLink, trackCtaClick } from "@/lib/constants";
+import StartButton from "@/components/landing/StartButton";
 
 interface Row {
   eyebrow: string;
@@ -137,15 +137,12 @@ export default function ProductoPage() {
               </p>
             </BlurReveal>
             <BlurReveal delay={240}>
-              <a
-                href={waLink("hero")}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackCtaClick("hero", "Probar Neto (producto hero)")}
+              <StartButton
+                source="producto"
                 className="mt-8 inline-block rounded-full bg-gradient-to-br from-neto-green-light to-neto-green text-[#002115] px-7 py-3.5 text-base font-semibold transition-all duration-200 hover:shadow-[0_0_40px_rgba(29,158,117,0.35)] hover:scale-[1.02] active:scale-[0.98]"
               >
-                Probar Neto en WhatsApp →
-              </a>
+                Probar Neto gratis →
+              </StartButton>
             </BlurReveal>
             <div className="mt-14 w-full max-w-[960px]">
               <BrowserFrame
@@ -228,17 +225,14 @@ export default function ProductoPage() {
               con un mensaje.
             </h2>
             <p className="mt-5 text-neto-txt3 text-lg">
-              Escríbele a Neto por WhatsApp y tu dashboard se arma solo.
+              Regístrate en la app o por WhatsApp y tu dashboard se arma solo.
             </p>
-            <a
-              href={waLink("final")}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackCtaClick("final", "Probar Neto (producto final)")}
+            <StartButton
+              source="producto"
               className="mt-8 inline-block rounded-full bg-gradient-to-br from-neto-green-light to-neto-green text-[#002115] px-7 py-3.5 text-base font-semibold transition-all duration-200 hover:shadow-[0_0_40px_rgba(29,158,117,0.35)] hover:scale-[1.02] active:scale-[0.98]"
             >
-              Probar Neto en WhatsApp →
-            </a>
+              Probar Neto gratis →
+            </StartButton>
             <p className="mt-4 text-xs text-neto-txt3">
               Setup en 2 min · Gratis · Sin contraseñas bancarias
             </p>

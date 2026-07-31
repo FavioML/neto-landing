@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, ChevronDown } from "lucide-react";
 import ChatSimulator from "./ChatSimulator";
-
-import { waLink, trackCtaClick } from "@/lib/constants";
+import StartButton from "./StartButton";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -145,7 +144,7 @@ export default function Hero() {
           >
             Anotar gastos es el piso. Neto te da un score de salud financiera
             del 0 al 100 y te dice, en soles, a dónde se va tu plata y cuánto
-            te queda. Todo por WhatsApp.
+            te queda. Por WhatsApp o desde la app.
           </motion.p>
 
           {/* Stats row — placed between subtitle and CTA so trust signals are above-the-fold on mobile */}
@@ -182,16 +181,13 @@ export default function Hero() {
             className="flex flex-col gap-2"
           >
             <div className="flex flex-row flex-wrap gap-3">
-              <a
-                href={waLink("hero")}
+              <StartButton
+                source="hero"
                 id="hero-cta"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackCtaClick("hero", "Probar Neto en WhatsApp")}
                 className="rounded-full bg-gradient-to-br from-neto-green-light to-neto-green text-[#002115] px-7 py-3.5 text-base font-semibold transition-all duration-200 hover:shadow-[0_0_40px_rgba(29,158,117,0.35)] hover:scale-[1.02] active:scale-[0.98]"
               >
-                Probar Neto en WhatsApp →
-              </a>
+                Probar Neto gratis →
+              </StartButton>
               <a
                 href="#precios"
                 className="rounded-full border border-neto-bg5 bg-neto-bg3/60 backdrop-blur-sm px-7 py-3.5 text-base font-medium text-neto-txt2 transition-all duration-200 hover:bg-neto-bg4 hover:text-neto-txt active:scale-[0.98]"

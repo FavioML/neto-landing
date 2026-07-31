@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/Footer";
-import { WA_LINK } from "@/lib/constants";
+import StartButton from "@/components/landing/StartButton";
 
 export const metadata: Metadata = {
   title: "Score Financiero 0-100 — Neto",
@@ -337,14 +337,12 @@ export default function ScoreFinancieroPage() {
                 junto con 3 acciones concretas para mejorarlo.
               </p>
             </div>
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
+            <StartButton
+              source="score"
               className="bg-white text-neto-green-dark rounded-full px-6 py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity shrink-0"
             >
               Empezar gratis
-            </a>
+            </StartButton>
           </div>
 
         </div>

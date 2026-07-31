@@ -4,10 +4,11 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Zap, Crown } from "lucide-react";
 import BlurReveal from "@/components/shared/BlurReveal";
+import StartButton from "./StartButton";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-import { waLink, waLinkPro, trackCtaClick } from "@/lib/constants";
+import { waLinkPro, trackCtaClick } from "@/lib/constants";
 
 /* ─── Features (grouped: Free = short list, Pro = "everything free + …") ─── */
 const FREE_FEATURES = [
@@ -155,15 +156,12 @@ export default function Pricing() {
             </ul>
 
             {/* CTA */}
-            <a
-              href={waLink("pricing-free")}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackCtaClick("pricing-free", "Empezar gratis")}
-              className="mt-auto w-full rounded-full border border-neto-bg5 bg-neto-bg4 px-6 py-3.5 text-sm font-semibold text-neto-txt2 text-center transition-all duration-200 hover:border-neto-green/40 hover:text-neto-txt"
+            <StartButton
+              source="pricing-free"
+              className="mt-auto block w-full rounded-full border border-neto-bg5 bg-neto-bg4 px-6 py-3.5 text-sm font-semibold text-neto-txt2 text-center transition-all duration-200 hover:border-neto-green/40 hover:text-neto-txt"
             >
               Empezar gratis
-            </a>
+            </StartButton>
           </motion.div>
 
           {/* Pro card */}

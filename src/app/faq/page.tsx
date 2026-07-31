@@ -83,9 +83,15 @@ const FAQ_DATA = [
     items: [
       {
         q: "¿Cómo empiezo a usar Neto?",
-        a: `Escríbenos por WhatsApp al <a href="https://wa.me/${WA_NUMBER}" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">+51 933 014 505</a>. Neto te guiará paso a paso para registrar tu primer gasto. El proceso toma menos de 2 minutos.`,
+        a: `Tienes dos caminos: crea tu cuenta en <a href="https://app.neto.pe" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">app.neto.pe</a> con Google o tu correo, o escríbele a Neto por WhatsApp al <a href="https://wa.me/${WA_NUMBER}" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">+51 933 014 505</a>. Empiezas por donde quieras, en menos de 2 minutos.`,
         aPlain:
-          "Escríbenos por WhatsApp al +51 933 014 505. Neto te guiará paso a paso para registrar tu primer gasto. El proceso toma menos de 2 minutos.",
+          "Tienes dos caminos: crea tu cuenta en app.neto.pe con Google o tu correo, o escríbele a Neto por WhatsApp al +51 933 014 505. Empiezas por donde quieras, en menos de 2 minutos.",
+      },
+      {
+        q: "¿Se sincroniza mi cuenta entre la app y WhatsApp?",
+        a: "Sí, cuando conectas los dos canales. Si empezaste en la web, entra a tu cuenta y conecta tu WhatsApp: Neto te da un código que envías por chat y desde ahí es una sola cuenta, todo lo que registres aparece en los dos lados. Igual funciona si empezaste por WhatsApp y también quieres el dashboard web.",
+        aPlain:
+          "Sí, cuando conectas los dos canales. Si empezaste en la web, entra a tu cuenta y conecta tu WhatsApp: Neto te da un código que envías por chat y desde ahí es una sola cuenta, todo lo que registres aparece en los dos lados. Igual funciona si empezaste por WhatsApp y también quieres el dashboard web.",
       },
       {
         q: "¿Puedo corregir una categoría incorrecta?",

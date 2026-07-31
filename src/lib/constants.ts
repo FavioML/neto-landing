@@ -1,6 +1,6 @@
 export const WA_NUMBER = '51933014505';
 
-type CtaSource =
+export type CtaSource =
   | 'hero'
   | 'hero-secondary'
   | 'sticky'
@@ -8,7 +8,13 @@ type CtaSource =
   | 'pricing-pro'
   | 'final'
   | 'exit-intent'
-  | 'navbar';
+  | 'navbar'
+  | 'faq'
+  | 'como-funciona'
+  | 'score'
+  | 'comparativas'
+  | 'blog'
+  | 'producto';
 
 const buildWaLink = (source: CtaSource, intent: 'start' | 'pro' = 'start') => {
   const text =
@@ -60,4 +66,24 @@ export const trackCtaClick = (source: CtaSource, label?: string) => {
   } catch {
     // never break navigation because of analytics
   }
+};
+
+// Channel selector ("¿Cómo prefieres empezar?") — WhatsApp vs webapp.
+// A "start" CTA dispatches this event; <ChannelSelector> (mounted once in the
+// root layout) listens and opens the modal. Kept decoupled via a DOM event so it
+// works from both server and client pages in the static export.
+export const trackStartOpen = (source: CtaSource) => {
+  if (typeof window === 'undefined') return;
+  try {
+    window.gtag?.('event', 'cta_start_open', { source });
+    window.posthog?.capture?.('cta_start_open', { source });
+  } catch {
+    // analytics must never break the UI
+  }
+};
+
+export const openChannelSelector = (source: CtaSource) => {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new CustomEvent('neto:start', { detail: { source } }));
+  trackStartOpen(source);
 };

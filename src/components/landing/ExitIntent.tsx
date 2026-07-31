@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { X } from "lucide-react";
-import { waLink, trackCtaClick } from "@/lib/constants";
+import StartButton from "./StartButton";
 
 const STORAGE_KEY = "neto_exit_shown";
 
@@ -104,15 +104,13 @@ export default function ExitIntent() {
             contraseñas bancarias.
           </p>
 
-          <a
-            href={waLink("exit-intent")}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackCtaClick("exit-intent", "Empezar gratis ahora")}
+          <StartButton
+            source="exit-intent"
+            onClick={dismiss}
             className="w-full rounded-full bg-gradient-to-r from-neto-green to-neto-green-dark px-6 py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity duration-200 text-center"
           >
             Empezar gratis ahora
-          </a>
+          </StartButton>
 
           <p
             onClick={dismiss}

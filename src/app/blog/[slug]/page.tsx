@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/Footer";
-import { WA_LINK } from "@/lib/constants";
+import StartButton from "@/components/landing/StartButton";
 import { getPost, getAllSlugs } from "@/lib/blog";
 import { articleContent } from "@/lib/blog-content";
 
@@ -232,14 +232,12 @@ export default async function BlogPostPage({
               Mándale un mensaje o foto a Neto por WhatsApp. Categoriza con IA y
               te muestra todo en un dashboard. Sin apps, sin contraseñas bancarias.
             </p>
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
+            <StartButton
+              source="blog"
               className="inline-flex items-center gap-2 rounded-full bg-neto-green px-6 py-3 text-sm font-semibold text-white hover:brightness-110 transition-all duration-200"
             >
-              Empezar gratis por WhatsApp
-            </a>
+              Empezar gratis
+            </StartButton>
           </div>
         </article>
       </main>

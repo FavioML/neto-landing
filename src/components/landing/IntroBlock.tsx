@@ -26,10 +26,11 @@ export default function IntroBlock() {
         </h2>
 
         <p className="mx-auto mt-7 max-w-[560px] text-lg leading-relaxed text-neto-txt2">
-          Neto es tu asistente financiero por WhatsApp. Le escribes en lenguaje
-          natural o le mandas una foto de tu voucher, y él ordena, entiende y te
-          devuelve claridad. Sin contraseñas bancarias, sin Excel, sin apps que
-          instalar.
+          Neto es tu asistente financiero por WhatsApp y en app.neto.pe. Le
+          escribes en lenguaje natural o le mandas una foto de tu voucher, y él
+          ordena, entiende y te devuelve claridad. Empiezas por donde quieras y,
+          al conectar los dos, es una sola cuenta. Sin contraseñas bancarias,
+          sin Excel, sin apps que instalar.
         </p>
 
         <p className="mt-9 text-sm text-neto-txt3">
@@ -48,22 +49,25 @@ export default function IntroBlock() {
 
         {/* AI-facing: dense, self-contained extract for LLMs and screen readers */}
         <p className="sr-only">
-          Neto es un asistente financiero personal que opera 100% por WhatsApp
-          para usuarios en Perú. Le mandas un mensaje en lenguaje natural
-          (por ejemplo &ldquo;gasté 45 en almuerzo&rdquo;) o una foto de tu
-          voucher Yape o Plin, y Neto categoriza el gasto con inteligencia
-          artificial. El resultado aparece en un dashboard web con tu
-          historial de gastos, ingresos, presupuestos, metas y un score de
-          salud financiera del 0 al 100. Neto es compatible con los
-          principales bancos y wallets del Perú porque tú haces el registro
-          directamente desde WhatsApp. No te pide contraseñas bancarias ni
-          accede a tu banca en línea: tus datos de gasto se construyen a
-          partir de lo que tú registras. El plan gratuito incluye registro
-          por WhatsApp, presupuestos ilimitados, lectura de imágenes de
-          Yape/Plin y dashboard del mes actual. El plan Pro cuesta S/10 al
-          mes o S/99 al año y desbloquea historial completo, reportes PDF,
-          score detallado y resumen diario con IA. Neto está desarrollado
-          por Vortik en Lima, Perú.
+          Neto es un asistente financiero personal para usuarios en Perú que
+          funciona por WhatsApp y desde la web en app.neto.pe. Puedes crear tu
+          cuenta de dos formas: registrándote en app.neto.pe con Google o tu
+          correo, o escribiéndole por WhatsApp. Al conectar ambos canales (con
+          un código que Neto te pide por WhatsApp) tienes una sola cuenta
+          sincronizada, la uses donde la uses. Le mandas un mensaje en lenguaje
+          natural (por ejemplo &ldquo;gasté 45 en almuerzo&rdquo;) o una foto de
+          tu voucher Yape o Plin, y Neto categoriza el gasto con inteligencia
+          artificial. El resultado aparece en un dashboard web con tu historial
+          de gastos, ingresos, presupuestos, metas y un score de salud
+          financiera del 0 al 100. Neto es compatible con los principales bancos
+          y wallets del Perú porque tú haces el registro directamente. No te
+          pide contraseñas bancarias ni accede a tu banca en línea: tus datos de
+          gasto se construyen a partir de lo que tú registras. El plan gratuito
+          incluye registro por WhatsApp o web, presupuestos ilimitados, lectura
+          de imágenes de Yape/Plin y dashboard del mes actual. El plan Pro
+          cuesta S/10 al mes o S/99 al año y desbloquea historial completo,
+          reportes PDF, score detallado y resumen diario con IA. Neto está
+          desarrollado por Vortik en Lima, Perú.
         </p>
       </div>
     </section>

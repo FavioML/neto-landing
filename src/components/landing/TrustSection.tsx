@@ -13,8 +13,8 @@ const CARDS = [
   },
   {
     icon: "💬",
-    title: "Sin apps que instalar",
-    desc: "Vive en el WhatsApp que ya tienes. Tu dashboard está en app.neto.pe, sin descargar nada.",
+    title: "WhatsApp o app, una sola cuenta",
+    desc: "Entra por el WhatsApp que ya tienes o desde app.neto.pe. Conéctalos y todo queda sincronizado, sin descargar nada.",
   },
   {
     icon: "🛡️",

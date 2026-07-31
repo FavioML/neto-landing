@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope, Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import ChannelSelector from "@/components/landing/ChannelSelector";
 
 const GA_ID = "G-6M907HW1YM";
 const ADS_ID = "AW-8115117081";
@@ -140,6 +141,7 @@ export default function RootLayout({
           />
         </noscript>
         {children}
+        <ChannelSelector />
       </body>
     </html>
   );

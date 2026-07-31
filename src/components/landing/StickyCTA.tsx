@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { waLink, trackCtaClick } from "@/lib/constants";
+import StartButton from "./StartButton";
 
 export default function StickyCTA() {
   const [visible, setVisible] = useState(false);
@@ -36,15 +36,12 @@ export default function StickyCTA() {
           </div>
 
           {/* CTA button */}
-          <a
-            href={waLink("sticky")}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackCtaClick("sticky", "Probar gratis en WhatsApp")}
+          <StartButton
+            source="sticky"
             className="ml-auto rounded-full bg-gradient-to-r from-neto-green to-neto-green-dark px-6 py-2.5 text-sm font-semibold text-white hover:opacity-90 transition-opacity duration-200 whitespace-nowrap"
           >
-            Probar gratis en WhatsApp →
-          </a>
+            Probar gratis →
+          </StartButton>
         </div>
       </div>
     </div>

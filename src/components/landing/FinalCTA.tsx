@@ -2,7 +2,7 @@
 
 import { ArrowRight } from "lucide-react";
 import BlurReveal from "@/components/shared/BlurReveal";
-import { waLink, trackCtaClick } from "@/lib/constants";
+import StartButton from "./StartButton";
 
 export default function FinalCTA() {
   return (
@@ -33,16 +33,13 @@ export default function FinalCTA() {
           </p>
 
           {/* CTA button */}
-          <a
-            href={waLink("final")}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackCtaClick("final", "Probar Neto en WhatsApp")}
+          <StartButton
+            source="final"
             className="inline-flex items-center gap-2 rounded-full bg-neto-amber px-8 py-4 text-base font-semibold text-neto-bg transition-all duration-200 hover:brightness-110"
           >
-            Probar Neto en WhatsApp
+            Probar Neto gratis
             <ArrowRight size={18} />
-          </a>
+          </StartButton>
 
           {/* Sub note */}
           <p className="text-sm text-white/60 mt-6">

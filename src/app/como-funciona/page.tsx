@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://neto.pe/como-funciona" },
 };
 
-import { WA_LINK } from "@/lib/constants";
+import StartButton from "@/components/landing/StartButton";
 
 const STEPS = [
   {
@@ -244,18 +244,16 @@ export default function ComoFunciona() {
               Empieza en 2 minutos
             </h2>
             <p className="text-[#87948c] mb-8 max-w-md mx-auto">
-              Escríbele &quot;Hola&quot; a Neto por WhatsApp y empieza a registrar
-              tu primer gasto. Gratis, sin contraseñas, sin descargar nada.
+              Empieza en la app o por WhatsApp y registra tu primer gasto.
+              Gratis, sin contraseñas, sin descargar nada.
             </p>
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
+            <StartButton
+              source="como-funciona"
               className="inline-flex items-center gap-2 rounded-full bg-[#1D9E75] hover:bg-[#1D9E75]/90 text-white font-semibold px-8 py-4 text-lg transition-colors"
             >
               Regístrate ahora
               <ArrowRight size={18} />
-            </a>
+            </StartButton>
           </div>
         </section>
       </main>
