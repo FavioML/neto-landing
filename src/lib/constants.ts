@@ -33,6 +33,17 @@ export const WA_LINK_PRO = buildWaLink('pricing-pro', 'pro');
 
 export const APP_URL = 'https://app.neto.pe';
 
+// URL del backend (para la mini-landing de referido: resolver ref_code → nombre del referrer).
+export const API_URL = 'https://api.neto.pe';
+
+// Link de referido a WhatsApp. El texto DEBE ser exactamente "Hola NETO ref:CODE" para que el
+// webhook del backend (handlers/webhook.js) lo reconozca y vincule al referido con su referrer.
+export const waReferralLink = (code: string) =>
+  `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hola NETO ref:' + code)}`;
+
+// Registro por la webapp llevando el código en query (alta web con referido).
+export const appReferralUrl = (code: string) => `${APP_URL}/?ref=${encodeURIComponent(code)}`;
+
 // Tracking helper — fire on every CTA tap
 type GtagFn = (
   command: 'event',
