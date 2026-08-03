@@ -107,11 +107,11 @@ export default function Navbar() {
               className="block rounded-xl px-3.5 py-3 hover:bg-neto-bg3 transition-colors duration-150"
             >
               <span className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-neto-txt">Gratis</span>
+                <span className="text-sm font-semibold text-neto-txt">Siempre gratis</span>
                 <span className="text-sm font-semibold text-neto-txt2">S/0</span>
               </span>
               <span className="block text-xs text-neto-txt3 leading-snug mt-0.5">
-                Registra y ordena tus gastos, para siempre
+                Anota tus gastos por WhatsApp, sin límite
               </span>
             </a>
             <a
@@ -128,7 +128,7 @@ export default function Navbar() {
                 <span className="text-sm font-semibold text-neto-amber">S/10/mes</span>
               </span>
               <span className="block text-xs text-neto-txt3 leading-snug mt-0.5">
-                Score detallado, fugas, espacios y reportes
+                14 días gratis. Dashboard, score, historial y reportes
               </span>
             </a>
             <a

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, ChevronDown } from "lucide-react";
-import ChatSimulator from "./ChatSimulator";
+import HeroShowcase from "./HeroShowcase";
 import StartButton from "./StartButton";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -119,7 +119,7 @@ export default function Hero() {
                 aria-hidden
               />
               <span className="text-xs text-neto-green-light font-medium">
-                Score financiero 0-100 · Gratis
+                Score financiero 0-100 · 14 días de Pro gratis
               </span>
             </span>
           </motion.div>
@@ -196,16 +196,18 @@ export default function Hero() {
               </a>
             </div>
             <p className="text-xs text-neto-txt3">
-              Setup en 2 min · Gratis · Pro desde{" "}
+              Setup en 2 min · 14 días de Pro gratis · Después{" "}
               <span className="text-neto-green font-medium">S/10/mes</span>
               {" "}— la mitad que la competencia
             </p>
           </motion.div>
         </motion.div>
 
-        {/* Right column — chat simulator (hidden on mobile to reduce paint cost + speed scroll to CTA) */}
+        {/* Right column — chat + app, synchronised. Hidden on mobile to reduce
+            paint cost, speed the scroll to the CTA and keep the mobile LCP
+            exactly where it was. */}
         <div className="hidden min-[1024px]:flex items-center justify-center relative">
-          <ChatSimulator />
+          <HeroShowcase />
         </div>
       </div>
 

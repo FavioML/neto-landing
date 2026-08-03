@@ -53,28 +53,34 @@ const FAQ_DATA = [
     group: "Planes y pagos",
     items: [
       {
-        q: "¿Qué incluye el plan gratis?",
-        a: 'El plan gratis incluye: resumen de gastos por WhatsApp, categorización automática con IA, corrección de categorías y consultas en lenguaje natural ("¿cuánto gasté en delivery?"). Es gratis para siempre, sin tarjeta de crédito.',
+        q: "¿Cómo funciona la prueba de 14 días?",
+        a: 'Cuando anotas tu primer gasto se activan 14 días de Neto Pro con todo abierto: dashboard, score, historial completo, presupuestos y reportes. Los días arrancan con ese primer gasto, no con el registro, así que nadie quema la prueba sin haber usado nada. No se pide tarjeta.',
         aPlain:
-          'El plan gratis incluye: resumen de gastos por WhatsApp, categorización automática con IA, corrección de categorías y consultas en lenguaje natural. Es gratis para siempre, sin tarjeta de crédito.',
+          "Cuando anotas tu primer gasto se activan 14 días de Neto Pro con todo abierto: dashboard, score, historial completo, presupuestos y reportes. Los días arrancan con ese primer gasto, no con el registro. No se pide tarjeta.",
       },
       {
-        q: "¿Qué incluye el plan Pro?",
-        a: "El plan Pro (S/10/mes o S/99/año) incluye todo lo del plan Gratis más: reportes mensuales web ilimitados, historial ilimitado de transacciones, resúmenes automáticos configurables, score de salud financiera detallado y la opción de pagar con Yape o tarjeta.",
+        q: "¿Qué pasa cuando terminan los 14 días?",
+        a: 'Neto sigue anotando todo lo que le mandes por WhatsApp, sin límite y sin costo, incluidas las fotos de tu Yape o Plin, y sigue mostrándote tu total del mes. No se borra nada. Lo que se cierra es verlos ordenados: dashboard, gráficos, categorías, historial y reportes quedan detrás de Pro.',
         aPlain:
-          "El plan Pro (S/10/mes o S/99/año) incluye todo lo del plan Gratis más: reportes mensuales web ilimitados, historial ilimitado de transacciones, resúmenes automáticos configurables, score de salud financiera detallado y la opción de pagar con Yape o tarjeta.",
+          "Neto sigue anotando todo lo que le mandes por WhatsApp, sin límite y sin costo, incluidas las fotos de tu Yape o Plin, y sigue mostrándote tu total del mes. No se borra nada. Lo que se cierra es verlos ordenados: dashboard, gráficos, categorías, historial y reportes quedan detrás de Pro.",
       },
       {
-        q: "¿Puedo pagar con Yape?",
-        a: "Sí. Neto acepta Yape, tarjeta de débito y tarjeta de crédito. Somos el único asistente financiero en Perú que acepta Yape como método de pago.",
+        q: "¿Qué incluye Neto Pro?",
+        a: "Neto Pro cuesta S/10 al mes o S/99 al año e incluye: dashboard completo con gráficos y categorías, Neto Score con detalle y tendencia, historial completo sin límite de meses, presupuestos y metas ilimitados, detector de fugas y alertas, espacios compartidos hasta 6 personas, y reportes con export CSV/Excel.",
         aPlain:
-          "Sí. Neto acepta Yape, tarjeta de débito y tarjeta de crédito. Somos el único asistente financiero en Perú que acepta Yape como método de pago.",
+          "Neto Pro cuesta S/10 al mes o S/99 al año e incluye: dashboard completo con gráficos y categorías, Neto Score con detalle y tendencia, historial completo sin límite de meses, presupuestos y metas ilimitados, detector de fugas y alertas, espacios compartidos hasta 6 personas, y reportes con export CSV/Excel.",
+      },
+      {
+        q: "¿Cómo se paga?",
+        a: "Por Yape. Eliges el plan, yapeas el monto y envías la captura: no hay pasarela ni datos de tarjeta de por medio. Por eso tampoco hay cobro automático — Pro no se renueva solo.",
+        aPlain:
+          "Por Yape. Eliges el plan, yapeas el monto y envías la captura: no hay pasarela ni datos de tarjeta de por medio. Por eso tampoco hay cobro automático: Pro no se renueva solo.",
       },
       {
         q: "¿Puedo cancelar cuando quiera?",
-        a: "Sí, sin trámites ni penalidades. Si cancelas, mantienes el acceso Pro hasta el final del periodo pagado y luego bajas automáticamente al plan Gratis. Tus datos históricos se conservan.",
+        a: "No hay nada que cancelar: como el pago es un Yape manual, Pro simplemente no se renueva solo. Al terminar el periodo que pagaste, Neto sigue anotando tus gastos gratis y tus datos históricos se conservan completos.",
         aPlain:
-          "Sí, sin trámites ni penalidades. Si cancelas, mantienes el acceso Pro hasta el final del periodo pagado y luego bajas automáticamente al plan Gratis. Tus datos históricos se conservan.",
+          "No hay nada que cancelar: como el pago es un Yape manual, Pro simplemente no se renueva solo. Al terminar el periodo que pagaste, Neto sigue anotando tus gastos gratis y tus datos históricos se conservan completos.",
       },
     ],
   },
@@ -101,9 +107,9 @@ const FAQ_DATA = [
       },
       {
         q: "¿Cada cuánto llega el resumen automático?",
-        a: "Con el plan Pro puedes configurar la frecuencia y el horario que prefieras. Con el plan Gratis puedes pedir tu resumen cuando quieras escribiendo a Neto por WhatsApp.",
+        a: "Con Neto Pro puedes configurar la frecuencia y el horario que prefieras, y pedir tu resumen cuando quieras por WhatsApp. Sin Pro, Neto sigue anotando todo y te muestra tu total del mes en cada gasto que registras.",
         aPlain:
-          "Con el plan Pro puedes configurar la frecuencia y el horario que prefieras. Con el plan Gratis puedes pedir tu resumen cuando quieras escribiendo a Neto por WhatsApp.",
+          "Con Neto Pro puedes configurar la frecuencia y el horario que prefieras, y pedir tu resumen cuando quieras por WhatsApp. Sin Pro, Neto sigue anotando todo y te muestra tu total del mes en cada gasto que registras.",
       },
       {
         q: "¿Qué es el reporte mensual web?",

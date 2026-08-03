@@ -106,29 +106,40 @@ export default function TerminosPage() {
                 4. Planes y pagos
               </h2>
               <p className="text-sm text-neto-txt2 leading-7 mb-2">
-                <strong>Plan Gratis:</strong> acceso permanente a
-                funcionalidades basicas sin costo. No requiere tarjeta de
-                credito.
+                <strong>Prueba de Neto Pro:</strong> al registrar tu primer
+                gasto se activan 14 dias de acceso completo, sin costo y sin
+                requerir medio de pago. Los dias se cuentan desde ese primer
+                registro, no desde la creacion de la cuenta.
+              </p>
+              <p className="text-sm text-neto-txt2 leading-7 mb-2">
+                <strong>Uso sin costo:</strong> terminada la prueba, el registro
+                de gastos por WhatsApp o desde la aplicacion continua disponible
+                sin costo y sin limite de operaciones, incluida la lectura de
+                imagenes de comprobantes, junto con el total del mes en curso.
+                Tus datos se conservan integros.
               </p>
               <p className="text-sm text-neto-txt2 leading-7 mb-3">
-                <strong>Plan Pro:</strong> S/10.00 por mes o S/99.00 por ano. El
-                cobro es recurrente y se realiza automaticamente. Puedes
-                cancelar en cualquier momento desde tu cuenta.
+                <strong>Neto Pro:</strong> S/10.00 por mes o S/99.00 por ano.
+                Habilita las funciones de consulta y analisis: tablero,
+                categorias, historial completo, presupuestos, metas, reportes y
+                exportacion.
               </p>
               <ul className="space-y-2">
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
                   Los precios incluyen IGV cuando aplica.
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
+                  El pago se realiza por Yape, mediante transferencia manual y
+                  envio del comprobante. No procesamos ni almacenamos datos de
+                  tarjetas.
+                </li>
+                <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
+                  No existe cobro automatico ni recurrente: Neto Pro no se
+                  renueva solo. Al vencer el periodo pagado, la cuenta vuelve al
+                  uso sin costo descrito arriba.
+                </li>
+                <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
                   No ofrecemos reembolsos por periodos parciales ya iniciados.
-                </li>
-                <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
-                  Si cancelas, mantienes el acceso Pro hasta el final del
-                  periodo pagado.
-                </li>
-                <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
-                  Aceptamos pago con Yape, tarjeta de debito y tarjeta de
-                  credito.
                 </li>
               </ul>
             </section>

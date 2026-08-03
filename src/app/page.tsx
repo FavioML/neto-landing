@@ -98,7 +98,9 @@ const softwareJsonLd = {
   offers: [
     {
       "@type": "Offer",
-      name: "Plan Gratis",
+      name: "Registro de gastos",
+      description:
+        "Registrar gastos por WhatsApp o desde la app, sin límite y sin costo, incluidas las fotos de Yape o Plin, con el total del mes siempre visible.",
       price: "0",
       priceCurrency: "PEN",
       availability: "https://schema.org/InStock",
@@ -106,7 +108,9 @@ const softwareJsonLd = {
     },
     {
       "@type": "Offer",
-      name: "Plan Pro",
+      name: "Neto Pro mensual",
+      description:
+        "Dashboard completo, Neto Score detallado, historial sin límite, presupuestos, metas, reportes y export. Incluye 14 días de prueba que arrancan con el primer gasto registrado.",
       price: "10",
       priceCurrency: "PEN",
       availability: "https://schema.org/InStock",
@@ -116,6 +120,22 @@ const softwareJsonLd = {
         price: "10",
         priceCurrency: "PEN",
         unitCode: "MON",
+      },
+    },
+    {
+      "@type": "Offer",
+      name: "Neto Pro anual",
+      description:
+        "Neto Pro facturado por año, equivalente a dos meses gratis frente al plan mensual.",
+      price: "99",
+      priceCurrency: "PEN",
+      availability: "https://schema.org/InStock",
+      url: "https://neto.pe/#precios",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: "99",
+        priceCurrency: "PEN",
+        unitCode: "ANN",
       },
     },
   ],

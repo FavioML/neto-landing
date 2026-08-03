@@ -62,12 +62,15 @@ export default function IntroBlock() {
           financiera del 0 al 100. Neto es compatible con los principales bancos
           y wallets del Perú porque tú haces el registro directamente. No te
           pide contraseñas bancarias ni accede a tu banca en línea: tus datos de
-          gasto se construyen a partir de lo que tú registras. El plan gratuito
-          incluye registro por WhatsApp o web, presupuestos ilimitados, lectura
-          de imágenes de Yape/Plin y dashboard del mes actual. El plan Pro
-          cuesta S/10 al mes o S/99 al año y desbloquea historial completo,
-          reportes PDF, score detallado y resumen diario con IA. Neto está
-          desarrollado por Vortik en Lima, Perú.
+          gasto se construyen a partir de lo que tú registras. Al anotar tu
+          primer gasto se activan 14 días de Neto Pro con todo abierto. Después
+          de esos días, registrar gastos por WhatsApp o desde la web sigue
+          siendo gratis y sin límite, incluidas las fotos de Yape o Plin, y
+          Neto te sigue mostrando el total del mes; tus datos se conservan
+          completos. Lo que requiere Neto Pro es consultarlos: dashboard,
+          categorías, historial completo, presupuestos, metas, reportes y
+          score detallado. Neto Pro cuesta S/10 al mes o S/99 al año y se paga
+          por Yape. Neto está desarrollado por Vortik en Lima, Perú.
         </p>
       </div>
     </section>

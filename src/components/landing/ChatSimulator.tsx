@@ -18,14 +18,33 @@ const MESSAGES: Message[] = [
   { id: 5, from: "neto", text: "Listo ✅ Te avisaré.\nTu score va en 74 este mes 📈" },
 ];
 
-const SEQUENCE_TIMINGS = [600, 2000, 3500, 6500, 8500, 10000];
-const TYPING_SHOW = 5200;
-const TYPING_HIDE = 6500;
-const RESET_DELAY = 13000;
+export const SEQUENCE_TIMINGS = [600, 2000, 3500, 6500, 8500, 10000];
+export const TYPING_SHOW = 5200;
+export const TYPING_HIDE = 6500;
+export const RESET_DELAY = 13000;
 
-export default function ChatSimulator() {
-  const [visibleCount, setVisibleCount] = useState<number>(0);
-  const [showTyping, setShowTyping] = useState<boolean>(false);
+interface ChatSimulatorProps {
+  /**
+   * How many messages to show. Leave undefined and the simulator runs its own
+   * loop, as it always has. Pass it (from HeroShowcase) to drive the chat and
+   * something else — the dashboard next to it — off a single clock.
+   */
+  step?: number;
+  typing?: boolean;
+  className?: string;
+}
+
+export default function ChatSimulator({
+  step,
+  typing,
+  className = "",
+}: ChatSimulatorProps = {}) {
+  const controlled = step !== undefined;
+  const [selfCount, setSelfCount] = useState<number>(0);
+  const [selfTyping, setSelfTyping] = useState<boolean>(false);
+
+  const visibleCount = controlled ? step : selfCount;
+  const showTyping = controlled ? typing === true : selfTyping;
 
   const runSequence = useCallback(() => {
     const timeouts: ReturnType<typeof setTimeout>[] = [];
@@ -33,27 +52,27 @@ export default function ChatSimulator() {
     SEQUENCE_TIMINGS.forEach((delay, index) => {
       timeouts.push(
         setTimeout(() => {
-          setVisibleCount(index + 1);
+          setSelfCount(index + 1);
         }, delay)
       );
     });
 
     timeouts.push(
       setTimeout(() => {
-        setShowTyping(true);
+        setSelfTyping(true);
       }, TYPING_SHOW)
     );
 
     timeouts.push(
       setTimeout(() => {
-        setShowTyping(false);
+        setSelfTyping(false);
       }, TYPING_HIDE)
     );
 
     timeouts.push(
       setTimeout(() => {
-        setVisibleCount(0);
-        setShowTyping(false);
+        setSelfCount(0);
+        setSelfTyping(false);
       }, RESET_DELAY)
     );
 
@@ -61,6 +80,8 @@ export default function ChatSimulator() {
   }, []);
 
   useEffect(() => {
+    if (controlled) return;
+
     let timeouts: ReturnType<typeof setTimeout>[] = [];
 
     const start = () => {
@@ -71,8 +92,8 @@ export default function ChatSimulator() {
 
     const loopInterval = setInterval(() => {
       timeouts.forEach(clearTimeout);
-      setVisibleCount(0);
-      setShowTyping(false);
+      setSelfCount(0);
+      setSelfTyping(false);
       setTimeout(() => {
         timeouts = runSequence();
       }, 100);
@@ -82,13 +103,13 @@ export default function ChatSimulator() {
       timeouts.forEach(clearTimeout);
       clearInterval(loopInterval);
     };
-  }, [runSequence]);
+  }, [runSequence, controlled]);
 
   const visibleMessages = MESSAGES.slice(0, visibleCount);
 
   return (
     <div
-      className="animate-float rounded-[44px] bg-neto-bg2 border border-neto-bg5 shadow-[0_40px_120px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden"
+      className={`animate-float rounded-[44px] bg-neto-bg2 border border-neto-bg5 shadow-[0_40px_120px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden ${className}`}
       style={{ width: "320px", height: "580px" }}
     >
       {/* WhatsApp Header */}

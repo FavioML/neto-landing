@@ -406,7 +406,7 @@ export const articleContent: Record<string, string> = {
 <ul>
   <li><strong>Excel / Google Sheets:</strong> Gratis, flexible, pero manual. Funciona si tienes disciplina para mantenerte al día.</li>
   <li><strong>App de tu banco:</strong> Muestra transacciones, pero sin categorización automática y sin consolidar múltiples bancos.</li>
-  <li><strong>Neto (plan gratis):</strong> Lee correos bancarios automáticamente, categoriza con IA, resumen por WhatsApp. Sin costo.</li>
+  <li><strong>Neto:</strong> anotas el gasto por WhatsApp o mandas la foto del voucher y lo categoriza con IA. Registrar es gratis y sin límite; los 14 días de prueba abren el dashboard completo.</li>
 </ul>
 <p>
   La regla: no pagues por una herramienta de finanzas hasta que hayas probado que
