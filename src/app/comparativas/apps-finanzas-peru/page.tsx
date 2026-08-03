@@ -61,7 +61,7 @@ const APPS: App[] = [
     noPasswords: "yes",
     spanishPe: "yes",
     scoreFinanciero: "yes",
-    pricingPen: "Gratis · Pro S/10/mes",
+    pricingPen: "Anotar gratis · Pro S/10/mes",
     notes:
       "Único asistente financiero por WhatsApp en Perú. Registro por mensaje de texto, voucher Yape/Plin o foto.",
   },
@@ -223,7 +223,7 @@ const faqJsonLd = {
       name: "¿Cuáles apps de finanzas personales soportan Yape y Plin?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Neto es la única app de finanzas personales con soporte nativo para Yape y Plin en Perú. Lee las notificaciones de Gmail que estos servicios envían y categoriza automáticamente los movimientos. La mayoría de apps internacionales (Fintonic, Mobills, Money Manager, Wallet, Spendee) no integran Yape ni Plin.",
+        text: "Neto es la única app de finanzas personales con soporte nativo para Yape y Plin en Perú. Le mandas la captura del yapeo por WhatsApp, Neto lee el monto, el comercio y la fecha con IA de visión y categoriza el movimiento automáticamente. La mayoría de apps internacionales (Fintonic, Mobills, Money Manager, Wallet, Spendee) no integran Yape ni Plin.",
       },
     },
   ],
@@ -300,8 +300,9 @@ export default function ComparativasAppsFinanzasPeru() {
               simultáneamente con: operar por WhatsApp, soportar BCP, BBVA
               Perú, Interbank, Scotiabank, Yape y Plin de forma nativa,
               funcionar sin contraseñas bancarias, calcular un score de salud
-              financiera 0-100, y ofrecer un plan gratuito completo más un
-              plan Pro a S/10 al mes. Fintonic y Spendee tienen sincronización
+              financiera 0-100, y dejar el registro de gastos gratis e
+              ilimitado de forma permanente, con un plan Pro a S/10 al mes que
+              abre el dashboard y el análisis. Fintonic y Spendee tienen sincronización
               bancaria pero requieren credenciales y no cubren bancos
               peruanos. Mobills, Money Manager y Wallet funcionan mediante
               registro manual o sincronización limitada. Para un usuario

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Cómo funciona Neto — 4 pasos, cero fricción",
     description:
-      "Mándale un mensaje o foto a Neto por WhatsApp. Categoriza con IA y te resume todo. Gratis.",
+      "Mándale un mensaje o foto a Neto por WhatsApp. Categoriza con IA y te resume todo. 14 días de Pro gratis.",
     url: "https://neto.pe/como-funciona",
     type: "website",
     locale: "es_PE",
@@ -77,11 +77,11 @@ const FAQS = [
   },
   {
     q: "¿Cuánto cuesta?",
-    a: "El plan gratuito incluye WhatsApp ilimitado, presupuestos y metas ilimitados, lectura de fotos Yape/Plin y dashboard del mes actual. El plan Pro cuesta S/10/mes (o S/99/año) y desbloquea historial completo, score detallado, reportes PDF, resumen diario con IA y export CSV.",
+    a: "Anotar gastos por WhatsApp es gratis para siempre y sin límite, incluidas las fotos de tu Yape o Plin, y tu total del mes queda siempre a la vista. Cuando registras tu primer gasto se activan 14 días de Neto Pro con todo abierto. Después, lo que queda detrás de Pro (S/10 al mes o S/99 al año) es consultarlos: dashboard con gráficos y categorías, historial completo, presupuestos, metas, score detallado y reportes con export. Se paga por Yape y no se renueva solo.",
   },
   {
     q: "¿Puedo dejar de usarlo cuando quiera?",
-    a: "Sí. Sin contratos, sin permanencia. Puedes pausar tu suscripción Pro cuando quieras y solicitar la eliminación de tus datos por WhatsApp.",
+    a: "Sí. Sin contratos, sin permanencia. Como Pro se paga por Yape manual, no hay nada que cancelar: simplemente no se renueva solo. Al terminar el periodo que pagaste, Neto sigue anotando tus gastos gratis y tus datos se conservan completos. También puedes solicitar la eliminación de tus datos por WhatsApp.",
   },
 ];
 
@@ -156,8 +156,11 @@ export default function ComoFunciona() {
               WhatsApp y accede a un dashboard web en app.neto.pe con
               gráficos, score financiero, presupuestos y reportes PDF.
               Funciona con cualquier banco o wallet del Perú porque el
-              registro lo hace el usuario directamente desde WhatsApp. Plan
-              Gratis disponible. Plan Pro a S/10/mes o S/99/año.
+              registro lo hace el usuario directamente desde WhatsApp. Anotar
+              gastos es gratis e ilimitado de forma permanente; consultarlos
+              en el dashboard requiere Neto Pro, a S/10/mes o S/99/año, con 14
+              días de prueba completa que arrancan con el primer gasto
+              registrado.
             </p>
           </div>
         </section>
@@ -244,8 +247,8 @@ export default function ComoFunciona() {
               Empieza en 2 minutos
             </h2>
             <p className="text-[#87948c] mb-8 max-w-md mx-auto">
-              Empieza en la app o por WhatsApp y registra tu primer gasto.
-              Gratis, sin contraseñas, sin descargar nada.
+              Empieza en la app o por WhatsApp y registra tu primer gasto. Ahí
+              arrancan tus 14 días de Pro. Sin contraseñas, sin descargar nada.
             </p>
             <StartButton
               source="como-funciona"

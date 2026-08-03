@@ -1088,18 +1088,21 @@ export const articleContent: Record<string, string> = {
 
 <h2>¿Cuánto cuesta?</h2>
 <p>
-  El plan gratis incluye: resumen de gastos por WhatsApp, categorización automática
-  con IA, corrección de categorías, consultas en lenguaje natural y acceso al
-  dashboard web básico. Gratis para siempre, sin tarjeta de crédito.
+  Anotar gastos es gratis para siempre y sin límite: mensajes por WhatsApp,
+  fotos de tu Yape o Plin, correcciones de categoría y tu total del mes
+  siempre a la vista. Nada de eso se corta ni se borra.
 </p>
 <p>
-  El plan Pro (S/10/mes o S/99/año) añade: historial ilimitado, reportes PDF,
-  presupuestos con alertas automáticas, score financiero detallado, espacios
-  compartidos y acceso prioritario a nuevas funciones.
+  Cuando registras tu primer gasto arrancan 14 días de Neto Pro con todo
+  abierto. Después, lo que queda detrás de Pro (S/10/mes o S/99/año) es verlos
+  ordenados: dashboard con gráficos y categorías, historial ilimitado,
+  presupuestos y metas con alertas, score financiero detallado, espacios
+  compartidos y reportes con export.
 </p>
 <p>
   Puedes pagar con <strong>Yape</strong> — somos el único asistente financiero
-  en Perú que acepta Yape como método de pago.
+  en Perú que acepta Yape como método de pago. No hay tarjeta de por medio y
+  Pro no se renueva solo.
 </p>
 
 <h2>Preguntas frecuentes</h2>
