@@ -34,9 +34,13 @@ const CATEGORIES = [
   { name: "Otros", base: 95, addAt: null, add: 0, color: "#87948c" },
 ];
 
+// Rows are labelled by CATEGORY, never subcategory: the legend above lists four
+// category names and a row saying "Mercado" invents a fifth that the weekly summary
+// in the chat never reports. Metro is also the week's largest expense, which is what
+// the summary's `🔝 Mayor gasto` line names — so the two halves chain there too.
 const BASE_ROWS = [
   { id: "rappi", title: "Rappi", category: "Alimentación", amount: "S/89.00" },
-  { id: "metro", title: "Metro", category: "Mercado", amount: "S/126.40" },
+  { id: "metro", title: "Metro", category: "Alimentación", amount: "S/126.40" },
 ];
 
 const DONUT_R = 30;

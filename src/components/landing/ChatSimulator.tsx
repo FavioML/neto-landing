@@ -13,17 +13,37 @@ interface Message {
 }
 
 /**
- * The script mirrors what Neto actually replies today, taken from the backend
- * verbatim: a terse one-line confirmation for a typed expense
- * (handlers/intents/transacciones.js), the photo confirmation with the merchant
- * in bold (handlers/webhook.js), and an on-demand weekly summary
- * (lib/formatters.js formatearResumen + handlers/intents/gastos.js).
+ * The script is the backend's output, character for character. Every bubble below
+ * is the template it came from, so a drift is a diff and not a memory exercise:
+ *
+ *  · id 1 — handlers/intents/transacciones.js:228. `'✅ ' + montoStr + ' en ' +
+ *    cat + ' > ' + sub + ' · ' + formatFecha(fecha)`. montoStr on the typed path is
+ *    `'S/' + toFixed(2)`, with NO space after the slash. formatFecha
+ *    (lib/formatters.js:3) gives `03-ago-26`.
+ *  · id 3 — handlers/webhook.js:203. Here montoStr IS `'S/ ' + toFixed(2)`, with a
+ *    space: the two paths differ and the difference is real, not a typo here. The
+ *    emoji is `getEmojiCategoria(categoria)` (lib/constants.js:31), so it's the
+ *    CATEGORY's — Transporte is 🚌. A 🚕 would be the subcategory's and the backend
+ *    never looks one up.
+ *  · id 5 — lib/formatters.js:32-36 (formatearResumen) plus the two tails that
+ *    handlers/intents/gastos.js:74-81 appends. formatearResumen prints EVERY
+ *    category it found, sorted by amount, so a two-line legend under a S/847 total
+ *    is a bubble the backend cannot produce. The `🔝 Mayor gasto` line is likewise
+ *    unconditional whenever the week has any expense.
+ *
+ * The confirmations carry no tail because of who this scene shows: someone with
+ * app.neto.pe already open beside the phone. `colaConfirmacionGasto` (lib/trial.js:353)
+ * returns null for exactly that person — the trial banner only fires on the very
+ * first expense ever, `nudgeMuro` only for a lapsed account, and `nudgeActivacion`
+ * (lib/activacion.js:104) bails the moment `supabase_auth_id` exists.
  *
  * It deliberately does NOT show Neto volunteering totals, offering "¿te aviso
  * si pasas de S/200?" or announcing the score after a confirmation. That was the
  * old conversational Neto and none of it exists anymore: every opinion moved to
- * scheduled crons (weekly summary Monday 8am, leaks Wednesday 11am, score Sunday
- * 10am). WhatsApp here is plain text only — the channel has no buttons.
+ * scheduled crons (weekly summary Monday 8am cron/checks.js:66, leaks Wednesday
+ * 11am :704/:723, score Sunday 10am :776). WhatsApp here is plain text only —
+ * lib/whatsapp.js only ever sends type:'text' or type:'template', so the channel
+ * has no buttons to draw.
  */
 const MESSAGES: Message[] = [
   { id: 0, from: "user", text: "Gasté 45 en almuerzo" },
@@ -32,7 +52,7 @@ const MESSAGES: Message[] = [
   {
     id: 3,
     from: "neto",
-    text: "📸 *Gasto registrado*\n\n🚕 *Taxi Directo* — S/ 22.00\nTransporte > taxi · 03-ago-26",
+    text: "📸 *Gasto registrado*\n\n🚌 *Taxi Directo* — S/ 22.00\nTransporte > taxi · 03-ago-26",
   },
   { id: 4, from: "user", text: "cuánto gasté esta semana" },
   {
@@ -40,8 +60,10 @@ const MESSAGES: Message[] = [
     from: "neto",
     text:
       "📊 *esta semana*\nTotal: *S/ 847.00* • 18 movimientos\n\n" +
-      "🍽️ Alimentación: *S/ 412.00* (49%)\n🚌 Transporte: *S/ 210.00* (25%)\n\n" +
-      "📈 Semana pasada: *S/ 688.00* (+S/ 159.00)",
+      "🍽️ Alimentación: *S/ 412.00* (49%)\n🚌 Transporte: *S/ 210.00* (25%)\n" +
+      "🛒 Compras: *S/ 130.00* (15%)\n📋 Otros: *S/ 95.00* (11%)\n\n" +
+      "📈 Semana pasada: *S/ 688.00* (+S/ 159.00)\n" +
+      "🔝 Mayor gasto: Metro *S/ 126.40* (01-ago-26)",
   },
 ];
 

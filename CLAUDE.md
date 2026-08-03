@@ -49,6 +49,29 @@ src/
 - Imagenes optimizadas en public/
 - Blog posts para SEO (comparativos, educativos)
 
+## El hero es una afirmacion sobre el producto
+
+`ChatSimulator.tsx` reproduce respuestas reales del bot. Cada burbuja de Neto sale
+literal de una plantilla del backend (`neto/app`), citada en el comentario de `MESSAGES`:
+`handlers/intents/transacciones.js:228`, `handlers/webhook.js:203`, y
+`lib/formatters.js:32-36` + `handlers/intents/gastos.js:74-81`.
+
+Se desactualiza en silencio cuando cambian los handlers — ya paso: el hero mostro
+durante meses un Neto conversacional que opinaba solo. **Todo lo que Neto opina
+(resumen semanal, fugas, score) es un cron agendado, nunca una respuesta inmediata.**
+El canal es texto plano: `lib/whatsapp.js` solo manda `type:'text'` o `type:'template'`,
+asi que el simulador no puede dibujar botones.
+
+Guard: `scripts/verify-hero.mjs` fija las tres burbujas caracter por caracter en un
+navegador real, y chequea que el total del MiniDashboard coincida con el que el propio
+chat reporta. Ojo: el guion vive en el bundle JS, no en el HTML — un grep sobre
+`index.html` da 0 aunque el deploy este bien.
+
+```bash
+npm run build && npx serve out -l 4321 -s
+node scripts/verify-hero.mjs http://localhost:4321/
+```
+
 ## Deploy & monitoring
 - Config: `.claude/deploy-config.json` (Cloudflare Pages neto-landing, CWV thresholds, canary checks).
 - Daily canary 10am Lima vía scheduled task `canary-daily-deploys`. Reporte solo si hay fallo en `C:/Vortik.dev/memory/canary/`.
