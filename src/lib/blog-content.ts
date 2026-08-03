@@ -138,13 +138,14 @@ export const articleContent: Record<string, string> = {
 <p>
   El primer paso — y el más importante — es <strong>ver</strong> a dónde se va tu plata.
   No puedes controlar lo que no mides. La mayoría de apps de finanzas te piden
-  ingresar cada gasto manualmente. Eso funciona 3 días y luego lo abandonas.
+  llenar un formulario por cada gasto. Eso funciona 3 días y luego lo abandonas.
 </p>
 <p>
-  Una alternativa más realista: dejar que la tecnología haga el trabajo.
-  <a href="/">Neto</a> lee automáticamente las notificaciones que tu banco ya te
-  envía por correo (BCP, BBVA, Interbank, Scotiabank, Yape, Plin) y te muestra
-  exactamente en qué estás gastando. Sin ingresar nada manualmente.
+  Lo que sí aguanta es bajar la fricción hasta que no cueste nada: con
+  <a href="/">Neto</a> anotas escribiéndole por WhatsApp como le escribirías a un
+  amigo ("gasté 8 en café") o mandándole la foto de tu Yape, y él categoriza y suma
+  por ti. Y si además quieres que los cargos que tu banco ya te notifica por correo
+  entren solos, en Neto Pro puedes conectar tu Gmail y olvidarte de esos.
 </p>
 
 <h3>Paso 2: Identificar patrones</h3>
@@ -230,9 +231,11 @@ export const articleContent: Record<string, string> = {
 
 <h3>¿Cómo sé cuáles son mis gastos hormiga actuales?</h3>
 <p>
-  La forma más rápida es conectar <a href="${WA_LINK}">Neto por WhatsApp</a>. En
-  2 minutos te muestra tus gastos del último mes organizados por categoría. Sin
-  hacer nada manual — solo conectas tu Gmail y Neto hace el trabajo.
+  La forma más rápida es escribirle a <a href="${WA_LINK}">Neto por WhatsApp</a>.
+  Le vas mandando los gastos como se te ocurran y en el dashboard los ves ya
+  organizados por categoría, con los hormiga saltando a la vista. Si prefieres
+  arrancar con el mes ya corrido en vez de desde cero, en Neto Pro puedes conectar
+  tu Gmail para que los cargos que el banco te notificó por correo entren solos.
 </p>
 `,
 
@@ -389,11 +392,12 @@ export const articleContent: Record<string, string> = {
   La solución no es más disciplina — es eliminar la necesidad de disciplina.
 </p>
 <p>
-  El enfoque que sí funciona a largo plazo es un sistema que <strong>trabaje solo</strong>.
-  Que lea tus gastos automáticamente y te muestre el resumen sin que hagas nada.
-  <a href="/">Neto</a> hace exactamente eso: lee las notificaciones que tu banco
-  ya te envía por correo, categoriza todo con IA, y te manda un resumen por
-  WhatsApp cuando quieras o de forma automática.
+  El enfoque que sí aguanta a largo plazo es el que casi no te pide nada.
+  <a href="/">Neto</a> vive en el WhatsApp que ya tienes abierto: le escribes el
+  gasto en una línea o le mandas la foto del voucher, y él categoriza con IA y te
+  devuelve el resumen cuando lo pidas o de forma automática. Y en Neto Pro puedes
+  conectar tu Gmail para que, encima de eso, los gastos que el banco ya te notifica
+  por correo se registren sin que hagas nada.
 </p>
 <p>
   Si tienes curiosidad sobre qué bancos son compatibles y cómo funciona sin dar

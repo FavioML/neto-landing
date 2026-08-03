@@ -32,12 +32,13 @@ Desarrollado por Vortik (vortik.dev), Lima, Perú.
 - Reportes PDF mensuales
 - Espacios compartidos para gastos en pareja o familia
 - Gestión de deudas entre personas
+- Opcional, en Neto Pro: conectar Gmail para que Neto lea los correos de notificación que el banco ya envía y registre esos gastos solo. Es un complemento del registro manual, no lo reemplaza: se activa a pedido del usuario, el permiso es de solo lectura sobre correos de notificación bancaria y se puede desconectar cuando quiera
 
 ## Precios
 El modelo es: escribir nunca se cobra, leer sí.
 - Prueba: 14 días de Neto Pro con todo abierto. Arrancan cuando el usuario registra su primer gasto, no cuando crea la cuenta. No se pide tarjeta.
 - Siempre gratis: S/0 — registrar gastos por WhatsApp o web sin límite de operaciones, lectura de fotos de Yape y Plin sin límite, corregir y editar lo registrado, y el total del mes en curso. Los datos se conservan completos.
-- Neto Pro: S/10/mes o S/99/año (el anual equivale a dos meses gratis) — dashboard completo con gráficos y categorías, score detallado con tendencia y tips, historial completo sin límite de meses, presupuestos y metas ilimitados, detector de fugas y alertas, espacios compartidos hasta 6 personas, reportes y export CSV/Excel.
+- Neto Pro: S/10/mes o S/99/año (el anual equivale a dos meses gratis) — dashboard completo con gráficos y categorías, score detallado con tendencia y tips, historial completo sin límite de meses, presupuestos y metas ilimitados, detector de fugas y alertas, espacios compartidos hasta 6 personas, reportes y export CSV/Excel, y la opción de conectar Gmail para que los gastos de las notificaciones bancarias se registren solos.
 - Pago: por Yape, con envío del comprobante. No hay pasarela ni cobro recurrente; Neto Pro no se renueva solo.
 - Referidos: quien invita gana 1 mes gratis por cada amigo que se hace Pro; el invitado estrena Pro a mitad de precio (S/5 el primer mes, solo plan mensual), con 7 días para decidir contados desde que termina su prueba.
 
