@@ -1,27 +1,94 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Fragment } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Message {
   id: number;
   from: "neto" | "user";
-  text: string;
+  text?: string;
+  /** A photo the user sends: a Yape/Plin voucher. */
+  kind?: "voucher";
 }
 
+/**
+ * The script mirrors what Neto actually replies today, taken from the backend
+ * verbatim: a terse one-line confirmation for a typed expense
+ * (handlers/intents/transacciones.js), the photo confirmation with the merchant
+ * in bold (handlers/webhook.js), and an on-demand weekly summary
+ * (lib/formatters.js formatearResumen + handlers/intents/gastos.js).
+ *
+ * It deliberately does NOT show Neto volunteering totals, offering "¿te aviso
+ * si pasas de S/200?" or announcing the score after a confirmation. That was the
+ * old conversational Neto and none of it exists anymore: every opinion moved to
+ * scheduled crons (weekly summary Monday 8am, leaks Wednesday 11am, score Sunday
+ * 10am). WhatsApp here is plain text only — the channel has no buttons.
+ */
 const MESSAGES: Message[] = [
-  { id: 0, from: "user", text: "Gasté 45 en almuerzo 🍽️" },
-  { id: 1, from: "neto", text: "¡Anotado! ✅\nAlmuerzo · S/45.00 · Comida 🍔" },
-  { id: 2, from: "neto", text: "Llevas S/847 esta semana.\nTe quedan S/403 de tu presupuesto." },
-  { id: 3, from: "neto", text: "💡 Van 3 deliverys esta semana. ¿Te aviso si pasas de S/200?" },
-  { id: 4, from: "user", text: "Sí porfa" },
-  { id: 5, from: "neto", text: "Listo ✅ Te avisaré.\nTu score va en 74 este mes 📈" },
+  { id: 0, from: "user", text: "Gasté 45 en almuerzo" },
+  { id: 1, from: "neto", text: "✅ S/45.00 en Alimentación > restaurante · 03-ago-26" },
+  { id: 2, from: "user", kind: "voucher" },
+  {
+    id: 3,
+    from: "neto",
+    text: "📸 *Gasto registrado*\n\n🚌 *Uber* — S/ 22.00\nTransporte > taxi · 03-ago-26",
+  },
+  { id: 4, from: "user", text: "cuánto gasté esta semana" },
+  {
+    id: 5,
+    from: "neto",
+    text:
+      "📊 *esta semana*\nTotal: *S/ 847.00* • 18 movimientos\n\n" +
+      "🍽️ Alimentación: *S/ 412.00* (49%)\n🚌 Transporte: *S/ 210.00* (25%)\n\n" +
+      "📈 Semana pasada: *S/ 688.00* (+S/ 159.00)",
+  },
 ];
 
-export const SEQUENCE_TIMINGS = [600, 2000, 3500, 6500, 8500, 10000];
-export const TYPING_SHOW = 5200;
-export const TYPING_HIDE = 6500;
-export const RESET_DELAY = 13000;
+// The first message lands almost immediately after a reset on purpose: the
+// dashboard beside the phone stays populated, so a long blank chat reads as
+// broken rather than as a loop restarting.
+export const SEQUENCE_TIMINGS = [200, 1600, 3400, 4900, 7100, 8900];
+export const TYPING_SHOW = 8000;
+export const TYPING_HIDE = 8900;
+export const RESET_DELAY = 15000;
+/** Gap between clearing and restarting — just enough for React to flush. */
+export const RESTART_GAP = 60;
+
+/** WhatsApp markdown: *bold* and _italic_, rendered as nodes (never as HTML). */
+function renderWa(text: string) {
+  return text.split(/(\*[^*\n]+\*|_[^_\n]+_)/g).map((part, i) => {
+    if (/^\*[^*\n]+\*$/.test(part)) {
+      return (
+        <strong key={i} className="font-semibold text-neto-txt">
+          {part.slice(1, -1)}
+        </strong>
+      );
+    }
+    if (/^_[^_\n]+_$/.test(part)) {
+      return <em key={i}>{part.slice(1, -1)}</em>;
+    }
+    return <Fragment key={i}>{part}</Fragment>;
+  });
+}
+
+/** Stand-in for the payment screenshot the user shares. Drawn, not loaded. */
+function VoucherThumb() {
+  return (
+    <div className="w-[150px] rounded-[10px] bg-[#101a20] border border-white/10 p-3 flex flex-col gap-2">
+      <div className="flex items-center gap-2">
+        <span className="w-5 h-5 rounded-full bg-neto-bg6 shrink-0" />
+        <span className="h-1.5 flex-1 rounded-full bg-neto-bg6" />
+      </div>
+      <span className="text-white font-semibold text-[15px] leading-none">
+        S/ 22.00
+      </span>
+      <div className="flex flex-col gap-1">
+        <span className="h-1 w-2/3 rounded-full bg-neto-bg5" />
+        <span className="h-1 w-1/2 rounded-full bg-neto-bg5" />
+      </div>
+    </div>
+  );
+}
 
 interface ChatSimulatorProps {
   /**
@@ -69,13 +136,6 @@ export default function ChatSimulator({
       }, TYPING_HIDE)
     );
 
-    timeouts.push(
-      setTimeout(() => {
-        setSelfCount(0);
-        setSelfTyping(false);
-      }, RESET_DELAY)
-    );
-
     return timeouts;
   }, []);
 
@@ -83,24 +143,22 @@ export default function ChatSimulator({
     if (controlled) return;
 
     let timeouts: ReturnType<typeof setTimeout>[] = [];
+    let restart: ReturnType<typeof setTimeout> | undefined;
 
-    const start = () => {
-      timeouts = runSequence();
-    };
-
-    start();
+    timeouts = runSequence();
 
     const loopInterval = setInterval(() => {
       timeouts.forEach(clearTimeout);
       setSelfCount(0);
       setSelfTyping(false);
-      setTimeout(() => {
+      restart = setTimeout(() => {
         timeouts = runSequence();
-      }, 100);
-    }, RESET_DELAY + 500);
+      }, RESTART_GAP);
+    }, RESET_DELAY);
 
     return () => {
       timeouts.forEach(clearTimeout);
+      clearTimeout(restart);
       clearInterval(loopInterval);
     };
   }, [runSequence, controlled]);
@@ -135,11 +193,13 @@ export default function ChatSimulator({
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               className={
                 msg.from === "neto"
-                  ? "rounded-[18px] rounded-tl-[4px] bg-neto-bg3 text-neto-txt2 text-sm px-4 py-2.5 max-w-[85%] mr-auto leading-relaxed whitespace-pre-line"
-                  : "rounded-[18px] rounded-tr-[4px] bg-[#005C4B] text-white text-sm px-4 py-2.5 max-w-[85%] ml-auto whitespace-pre-line"
+                  ? "rounded-[18px] rounded-tl-[4px] bg-neto-bg3 text-neto-txt2 text-[13px] px-4 py-2.5 max-w-[88%] mr-auto leading-relaxed whitespace-pre-line"
+                  : msg.kind === "voucher"
+                    ? "rounded-[18px] rounded-tr-[4px] bg-[#005C4B] p-1.5 ml-auto"
+                    : "rounded-[18px] rounded-tr-[4px] bg-[#005C4B] text-white text-sm px-4 py-2.5 max-w-[85%] ml-auto whitespace-pre-line"
               }
             >
-              {msg.text}
+              {msg.kind === "voucher" ? <VoucherThumb /> : renderWa(msg.text ?? "")}
             </motion.div>
           ))}
 

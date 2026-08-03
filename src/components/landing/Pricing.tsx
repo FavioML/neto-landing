@@ -35,19 +35,31 @@ const FREE_FEATURES = [
   "Tus datos guardados — no se borra nada",
 ];
 
-/* What Pro unlocks — PLAN_CONFIG.premium. No email reading here: CASA. */
-const PRO_FEATURES = [
-  "Dashboard completo con gráficos y categorías",
-  "Neto Score con detalle, tendencia y tips",
-  "Historial completo, sin límite de meses",
-  "Presupuestos y metas ilimitados",
-  "Detector de fugas y alertas",
-  "Espacios compartidos hasta 6 personas",
-  "Reportes y export CSV/Excel",
+/* What Pro unlocks — PLAN_CONFIG.premium. */
+const PRO_FEATURES: { text: string; badge?: string }[] = [
+  { text: "Dashboard completo con gráficos y categorías" },
+  { text: "Neto Score con detalle, tendencia y tips" },
+  { text: "Historial completo, sin límite de meses" },
+  { text: "Presupuestos y metas ilimitados" },
+  { text: "Detector de fugas y alertas" },
+  // Live feature, deliberately marked beta: it's the one capability that needs
+  // *paid* Pro rather than the trial, because each connection burns one of the
+  // 100 Google OAuth slots left until CASA. See project_gmail_solo_pro_pagado.
+  { text: "Lectura de tus correos bancarios", badge: "beta" },
+  { text: "Espacios compartidos hasta 6 personas" },
+  { text: "Reportes y export CSV/Excel" },
 ];
 
 /* ─── FeatureItem ─── */
-function FeatureItem({ text, accent = false }: { text: string; accent?: boolean }) {
+function FeatureItem({
+  text,
+  accent = false,
+  badge,
+}: {
+  text: string;
+  accent?: boolean;
+  badge?: string;
+}) {
   return (
     <li className="flex items-start gap-3">
       <div className="w-4 h-4 mt-1 rounded-full flex items-center justify-center shrink-0 bg-neto-green/20">
@@ -59,6 +71,11 @@ function FeatureItem({ text, accent = false }: { text: string; accent?: boolean 
         }`}
       >
         {text}
+        {badge && (
+          <span className="ml-2 align-middle rounded-full border border-neto-amber/40 bg-neto-amber/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-neto-amber">
+            {badge}
+          </span>
+        )}
       </span>
     </li>
   );
@@ -264,9 +281,21 @@ export default function Pricing() {
                     Todo lo de arriba, y además <span className="text-neto-green-light">verlo</span>:
                   </li>
                   {PRO_FEATURES.map((f) => (
-                    <FeatureItem key={f} text={f} accent />
+                    <FeatureItem
+                      key={f.text}
+                      text={f.text}
+                      badge={f.badge}
+                      accent
+                    />
                   ))}
                 </ul>
+
+                {/* The trial says "Pro completo", and it is — except for this one
+                    thing, so it gets said instead of glossed over. */}
+                <p className="-mt-5 mb-8 text-xs text-neto-txt3 leading-relaxed">
+                  La lectura de correos se habilita al activar Pro, no durante la
+                  prueba. Es opcional y la conectas tú.
+                </p>
 
                 {/* CTA */}
                 <StartButton

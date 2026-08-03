@@ -6,8 +6,9 @@ import ChatSimulator, {
   TYPING_SHOW,
   TYPING_HIDE,
   RESET_DELAY,
+  RESTART_GAP,
 } from "./ChatSimulator";
-import MiniDashboard from "./MiniDashboard";
+import { DashboardSummary, DashboardMovements } from "./MiniDashboard";
 
 /**
  * Chat + app, on one clock. The timing used to live inside ChatSimulator; it
@@ -29,12 +30,6 @@ export default function HeroShowcase() {
     });
     timeouts.push(setTimeout(() => setTyping(true), TYPING_SHOW));
     timeouts.push(setTimeout(() => setTyping(false), TYPING_HIDE));
-    timeouts.push(
-      setTimeout(() => {
-        setStep(0);
-        setTyping(false);
-      }, RESET_DELAY)
-    );
 
     return timeouts;
   }, []);
@@ -51,8 +46,8 @@ export default function HeroShowcase() {
       setTyping(false);
       restart = setTimeout(() => {
         timeouts = runSequence();
-      }, 100);
-    }, RESET_DELAY + 500);
+      }, RESTART_GAP);
+    }, RESET_DELAY);
 
     return () => {
       timeouts.forEach(clearTimeout);
@@ -67,13 +62,16 @@ export default function HeroShowcase() {
     // the *scaled* dimensions, because a transform doesn't shrink the layout box
     // and a 562px child would otherwise set the grid column's min-width and steal
     // the headline's room at 1024.
-    <div className="relative shrink-0 w-[422px] h-[450px] min-[1152px]:w-[478px] min-[1152px]:h-[510px] min-[1280px]:w-[534px] min-[1280px]:h-[570px]">
-      <div className="absolute left-0 top-0 w-[562px] h-[600px] origin-top-left scale-[0.75] min-[1152px]:scale-[0.85] min-[1280px]:scale-[0.95]">
-        {/* App card — behind, offset down and to the right. The overlap is only
-            18px, just the card's border tucking under the phone: any deeper and
-            the phone eats the left padding, which is where the total sits. */}
-        <div className="absolute right-0 top-[112px] z-10">
-          <MiniDashboard step={step} />
+    <div className="relative shrink-0 w-[418px] h-[432px] min-[1152px]:w-[476px] min-[1152px]:h-[492px] min-[1280px]:w-[534px] min-[1280px]:h-[552px]">
+      <div className="absolute left-0 top-0 w-[580px] h-[600px] origin-top-left scale-[0.72] min-[1152px]:scale-[0.82] min-[1280px]:scale-[0.92]">
+        {/* Two app cards, staggered. Card B is nudged left so its border tucks
+            under the phone by ~14px — just the edge. Any deeper and the phone
+            eats the card's left padding, which is where the labels sit. */}
+        <div className="absolute right-0 top-[36px] z-10">
+          <DashboardSummary step={step} />
+        </div>
+        <div className="absolute right-[22px] top-[352px] z-30">
+          <DashboardMovements step={step} />
         </div>
 
         {/* Phone — in front and to the left */}

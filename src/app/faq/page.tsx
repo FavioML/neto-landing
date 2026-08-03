@@ -71,6 +71,12 @@ const FAQ_DATA = [
           "Neto Pro cuesta S/10 al mes o S/99 al año e incluye: dashboard completo con gráficos y categorías, Neto Score con detalle y tendencia, historial completo sin límite de meses, presupuestos y metas ilimitados, detector de fugas y alertas, espacios compartidos hasta 6 personas, y reportes con export CSV/Excel.",
       },
       {
+        q: "¿Neto puede leer mis correos del banco?",
+        a: 'Sí, está en beta. Con Neto Pro activo puedes conectar tu Gmail y Neto registra solo los gastos de las notificaciones que tu banco ya te envía, sin que anotes nada. Es opcional y la conectas tú: el permiso es de solo lectura y únicamente sobre correos de notificación bancaria, nunca tu banca en línea ni tus contraseñas, y puedes desconectarla cuando quieras. Como está en beta, hay cupos limitados y no se habilita durante la prueba de 14 días.',
+        aPlain:
+          "Sí, está en beta. Con Neto Pro activo puedes conectar tu Gmail y Neto registra solo los gastos de las notificaciones que tu banco ya te envía. Es opcional: el permiso es de solo lectura y únicamente sobre correos de notificación bancaria, nunca tu banca en línea ni tus contraseñas, y puedes desconectarla cuando quieras. Como está en beta, hay cupos limitados y no se habilita durante la prueba de 14 días.",
+      },
+      {
         q: "¿Cómo se paga?",
         a: "Por Yape. Eliges el plan, yapeas el monto y envías la captura: no hay pasarela ni datos de tarjeta de por medio. Por eso tampoco hay cobro automático — Pro no se renueva solo.",
         aPlain:
