@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, Fragment } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Check } from "lucide-react";
 
 interface Message {
   id: number;
@@ -31,7 +32,7 @@ const MESSAGES: Message[] = [
   {
     id: 3,
     from: "neto",
-    text: "📸 *Gasto registrado*\n\n🚌 *Uber* — S/ 22.00\nTransporte > taxi · 03-ago-26",
+    text: "📸 *Gasto registrado*\n\n🚕 *Taxi Directo* — S/ 22.00\nTransporte > taxi · 03-ago-26",
   },
   { id: 4, from: "user", text: "cuánto gasté esta semana" },
   {
@@ -71,20 +72,58 @@ function renderWa(text: string) {
   });
 }
 
-/** Stand-in for the payment screenshot the user shares. Drawn, not loaded. */
+/**
+ * The payment screenshot the user shares — drawn, never loaded, so it costs 0 KB
+ * and can't go stale.
+ *
+ * Three cues do the work of making a Peruvian read this as a Yape capture without
+ * a single pixel of Yape's brand: the purple, the tall screenshot proportions, and
+ * the phone status bar across the top. There is deliberately no Yape logo or
+ * wordmark here — naming Yape in body copy is one thing, redrawing their identity
+ * inside our hero is another, and it's the same line we drew when the bank-logo
+ * strip came out of this section.
+ */
 function VoucherThumb() {
   return (
-    <div className="w-[150px] rounded-[10px] bg-[#101a20] border border-white/10 p-3 flex flex-col gap-2">
-      <div className="flex items-center gap-2">
-        <span className="w-5 h-5 rounded-full bg-neto-bg6 shrink-0" />
-        <span className="h-1.5 flex-1 rounded-full bg-neto-bg6" />
+    <div className="w-[152px] rounded-[10px] overflow-hidden bg-[#5B1F6B] shadow-[0_8px_24px_rgba(0,0,0,0.4)]">
+      {/* Status bar — the cue that says "this is a screenshot", not a card */}
+      <div className="flex items-center justify-between px-2.5 pt-1.5 pb-1">
+        <span className="text-white/80 text-[8px] font-medium leading-none">
+          2:14
+        </span>
+        <div className="flex items-center gap-[3px]">
+          <span className="w-[3px] h-[3px] rounded-full bg-white/70" />
+          <span className="w-[3px] h-[3px] rounded-full bg-white/70" />
+          <span className="w-3.5 h-[6px] rounded-[2px] border border-white/60" />
+        </div>
       </div>
-      <span className="text-white font-semibold text-[15px] leading-none">
-        S/ 22.00
-      </span>
-      <div className="flex flex-col gap-1">
-        <span className="h-1 w-2/3 rounded-full bg-neto-bg5" />
-        <span className="h-1 w-1/2 rounded-full bg-neto-bg5" />
+
+      <div
+        className="px-3 pt-4 pb-4 flex flex-col items-center text-center"
+        style={{
+          background: "linear-gradient(160deg, #7B2D8E 0%, #5B1F6B 100%)",
+        }}
+      >
+        {/* Check */}
+        <span className="w-8 h-8 rounded-full bg-white/95 flex items-center justify-center mb-2">
+          <Check size={16} strokeWidth={3} className="text-[#6B2680]" />
+        </span>
+
+        <span className="text-white/75 text-[9px] leading-none mb-1.5">
+          Pago exitoso
+        </span>
+        <span className="text-white font-bold text-[19px] leading-none tracking-tight">
+          S/ 22.00
+        </span>
+
+        <span className="mt-2.5 h-px w-10 bg-white/25" />
+
+        <span className="mt-2.5 text-white/85 text-[9px] leading-tight">
+          a Taxi Directo
+        </span>
+        <span className="text-white/50 text-[8px] leading-tight mt-0.5">
+          03 ago 2026 · 2:14 pm
+        </span>
       </div>
     </div>
   );

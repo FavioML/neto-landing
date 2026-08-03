@@ -171,8 +171,8 @@ export function DashboardMovements({ step }: { step: number }) {
           <AnimatePresence initial={false}>
             {photo && (
               <Row
-                key="uber"
-                title="Uber"
+                key="taxi"
+                title="Taxi Directo"
                 category="Transporte"
                 amount="S/22.00"
                 fresh
