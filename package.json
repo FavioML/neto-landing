@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "verify:hero": "node scripts/verify-hero.mjs",
+    "probe:deploy": "node scripts/probe-deploy-fresh.mjs"
   },
   "keywords": [],
   "author": "",
