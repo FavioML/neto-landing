@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "verify:hero": "node scripts/verify-hero.mjs",
+    "verify:claims": "node scripts/verify-claims.mjs",
     "probe:deploy": "node scripts/probe-deploy-fresh.mjs"
   },
   "keywords": [],

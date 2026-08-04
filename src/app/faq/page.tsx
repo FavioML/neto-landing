@@ -31,15 +31,15 @@ const FAQ_DATA = [
     items: [
       {
         q: "¿Neto accede a mi cuenta bancaria?",
-        a: "No. Neto nunca accede a tu banca en línea ni te pide usuario o contraseña bancaria. Tus datos de gasto se construyen a partir de lo que tú le mandas a Neto por WhatsApp — un mensaje, una foto de voucher Yape/Plin o un screenshot.",
+        a: "No. Neto nunca accede a tu banca en línea ni te pide usuario o contraseña bancaria, y no existe ninguna conexión directa con tu banco. Tus datos de gasto se construyen a partir de lo que tú le mandas a Neto por WhatsApp — un mensaje, una foto de voucher Yape/Plin o un screenshot — y, si tienes Pro y lo activas tú, de los correos de notificación que tu banco ya te envía.",
         aPlain:
-          "No. Neto nunca accede a tu banca en línea ni te pide usuario o contraseña bancaria. Tus datos de gasto se construyen a partir de lo que tú le mandas a Neto por WhatsApp.",
+          "No. Neto nunca accede a tu banca en línea ni te pide usuario o contraseña bancaria, y no existe ninguna conexión directa con tu banco. Tus datos de gasto se construyen a partir de lo que tú le mandas a Neto por WhatsApp y, si tienes Pro y lo activas tú, de los correos de notificación que tu banco ya te envía.",
       },
       {
         q: "¿Qué información guarda Neto sobre mí?",
-        a: 'Solo los datos de los gastos que tú le mandas: monto, comercio, fecha y categoría. No accedemos a tus correos, mensajes ni a otra información personal. Puedes solicitar la eliminación de tus datos cuando quieras escribiéndonos por WhatsApp. Más detalles en nuestra <a href="/privacidad" class="text-neto-green hover:underline">Política de Privacidad</a>.',
+        a: 'Los datos de los gastos que tú le mandas: monto, comercio, fecha y categoría. No leemos tus correos personales ni tus chats. Lo único que Neto puede leer de tu bandeja son los correos de notificación bancaria, y solo si tienes Pro y conectas tu Gmail tú mismo: es opcional, es de solo lectura y lo desconectas cuando quieras. Puedes solicitar la eliminación de tus datos cuando quieras escribiéndonos por WhatsApp. Más detalles en nuestra <a href="/privacidad" class="text-neto-green hover:underline">Política de Privacidad</a>.',
         aPlain:
-          "Solo los datos de los gastos que tú le mandas: monto, comercio, fecha y categoría. No accedemos a tus correos, mensajes ni a otra información personal. Puedes solicitar la eliminación de tus datos cuando quieras.",
+          "Los datos de los gastos que tú le mandas: monto, comercio, fecha y categoría. No leemos tus correos personales ni tus chats. Lo único que Neto puede leer de tu bandeja son los correos de notificación bancaria, y solo si tienes Pro y conectas tu Gmail tú mismo: es opcional, es de solo lectura y lo desconectas cuando quieras.",
       },
       {
         q: "¿Venden mis datos a terceros?",

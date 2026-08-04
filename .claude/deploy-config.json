@@ -26,6 +26,7 @@
     "checks": [
       { "name": "homepage", "type": "http", "url": "https://neto.pe/", "expect_status": 200, "must_contain": ["Neto"] },
       { "name": "faq", "type": "http", "url": "https://neto.pe/faq", "expect_status": 200 },
+      { "name": "producto", "type": "http", "url": "https://neto.pe/producto", "expect_status": 200 },
       { "name": "privacidad", "type": "http", "url": "https://neto.pe/privacidad", "expect_status": 200 },
       { "name": "terminos", "type": "http", "url": "https://neto.pe/terminos", "expect_status": 200 },
       { "name": "blog", "type": "http", "url": "https://neto.pe/blog", "expect_status": 200 }
@@ -44,6 +45,13 @@
         "cwd": "C:/Vortik.dev/products/neto/landing",
         "cost": "~25s Chromium (playwright), 5 viewports, READ-ONLY sobre produccion",
         "on_fail": "exit 1 = el hero DIVERGIO del backend o se rompio el layout. El guion del ChatSimulator es una afirmacion publica sobre como responde Neto y se desactualiza en silencio cuando cambian los handlers (ya paso: durante meses el hero mostro un Neto conversacional que no existia). Mira que linea dice FAIL: 'burbuja N literal' = una plantilla del backend cambio y nadie toco la landing (comparar contra handlers/intents/transacciones.js:228, handlers/webhook.js:203, lib/formatters.js:32-36 + handlers/intents/gastos.js:74-81 en el repo FinBot); 'total del dashboard == total del resumen' = el MiniDashboard y el chat se contradicen en pantalla; 'H1 visible (guard de hidratacion)' = el hero quedo en opacity:0 en movil; 'sin errores de consola' = JS roto en produccion. Ojo: el guion vive en el bundle JS, no en el HTML, asi que un grep sobre index.html da 0 aunque el deploy este bien — por eso corre en un navegador real."
+      },
+      {
+        "name": "verify-claims",
+        "cmd": "node scripts/verify-claims.mjs",
+        "cwd": "C:/Vortik.dev/products/neto/landing",
+        "cost": "lectura de src/ y public/sitemap.xml (milisegundos, sin red)",
+        "on_fail": "exit 1 = el copy afirma algo que el producto no hace, o el sitemap quedo desfasado. Tres reglas: '[integracion-bancaria]' = una pagina promete conectar/vincular el banco, y esa integracion NO EXISTE (el dato entra porque la persona lo escribe, por foto del voucher, o —Pro y opt-in— por el correo que el banco ya envia); '[negacion-absoluta-correos]' = el sitio niega en absoluto leer los correos del usuario, lo cual es falso con Gmail conectado y contradice a /privacidad, que es divulgacion legal obligatoria; '[sitemap]' = una pagina de src/app no esta anunciada a Google, o el sitemap anuncia una que ya no existe. Corre sobre el arbol de FUENTES, no sobre la URL: falla igual antes de desplegar."
       }
     ],
     "core_web_vitals": {
@@ -61,7 +69,8 @@
     "better_stack": { "monitor": "neto.pe" }
   },
   "notes": [
-    "Restricción marketing CASA: NO mencionar email parser / Gmail API / lectura de notificaciones bancarias en landing.",
+    "Gmail (lectura de correos de notificación bancaria) es una regla de PROMINENCIA, no de prohibición — esta nota decía lo contrario hasta el 04-ago-2026 y la fuente de verdad es products/neto/CLAUDE.md. La función está VIVA: es de Pro, es opt-in, y es un diferenciador. NO va en hero, navbar, meta description ni OG, ni con logos de bancos. SÍ va donde alguien ya está profundizando (blog, FAQ, /producto, llms.txt) y, obligatoriamente, en /privacidad y /terminos, donde quitarla EMPEORA el cumplimiento: es divulgación de un tratamiento de datos que sí ocurre. Excepción decidida por Favio (04-ago): la tarjeta Pro del Pricing puede listarla en una línea marcada [beta]. Framing obligatorio donde aparezca: Pro, opt-in y complemento del registro por WhatsApp — solo el 9.5% de las transacciones nacen de un correo.",
+    "Lo que NUNCA se dice: que Neto se conecta, vincula o sincroniza con un banco. Esa integración no existe y además insinúa que pedimos credenciales bancarias. Guard: scripts/verify-claims.mjs.",
     "Static export Next.js — todo es HTML/JS estático servido por Cloudflare CDN."
   ]
 }

@@ -161,9 +161,10 @@ export default function ScoreFinancieroPage() {
               promesa vaga de "ahorrar más".
             </p>
             <p className="text-sm text-neto-txt2 leading-7">
-              El score se calcula automáticamente usando los datos de tus transacciones reales.
-              No requiere que ingreses información manual. Si conectaste tu banco a Neto, el
-              score se actualiza solo.
+              El score se calcula solo, a partir de las transacciones que ya registraste. No
+              tienes que llenar un formulario aparte ni mantener una hoja de cálculo: cada gasto
+              que le mandas a Neto por WhatsApp —un mensaje o la foto de tu voucher— entra al
+              cálculo y el score se recalcula con él.
             </p>
           </section>
 
@@ -274,7 +275,7 @@ export default function ScoreFinancieroPage() {
               {[
                 {
                   q: "¿Con qué frecuencia se actualiza el score?",
-                  a: "El score se recalcula cada vez que Neto procesa una nueva transacción. En la práctica, si conectaste tu banco y recibes correos de notificación regularmente, tu score se actualiza en tiempo casi real.",
+                  a: "El score se recalcula cada vez que Neto procesa una nueva transacción. En la práctica, si vas anotando tus gastos a medida que ocurren, tu score se actualiza en tiempo casi real.",
                 },
                 {
                   q: "¿Un score bajo significa que soy mala persona con el dinero?",
@@ -333,7 +334,7 @@ export default function ScoreFinancieroPage() {
             <div>
               <h3 className="text-lg font-bold text-white mb-1">Conoce tu score ahora</h3>
               <p className="text-sm text-white/75">
-                Conecta tu banco en 2 minutos y recibe tu score de salud financiera
+                Anota tu primer gasto por WhatsApp y recibe tu score de salud financiera
                 junto con 3 acciones concretas para mejorarlo.
               </p>
             </div>
