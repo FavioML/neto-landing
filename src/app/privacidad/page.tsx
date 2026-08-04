@@ -6,12 +6,12 @@ import { WA_NUMBER } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "Política de Privacidad — Neto",
   description:
-    "Conoce cómo Neto protege tu información financiera. Solo leemos correos bancarios, nunca accedemos a tu cuenta. Datos encriptados con TLS 1.3.",
+    "Conoce cómo Neto protege tu información financiera. Tus datos son los que tú registras, nunca accedemos a tu banca en línea, y todo viaja y se guarda cifrado.",
   alternates: { canonical: "https://neto.pe/privacidad" },
   openGraph: {
     title: "Política de Privacidad — Neto",
     description:
-      "Conoce cómo Neto protege tu información financiera. Solo leemos correos bancarios, nunca accedemos a tu cuenta.",
+      "Conoce cómo Neto protege tu información financiera. Tus datos son los que tú registras y nunca accedemos a tu banca en línea.",
     url: "https://neto.pe/privacidad",
     type: "website",
     locale: "es_PE",
@@ -34,7 +34,7 @@ export default function PrivacidadPage() {
             Politica de Privacidad
           </h1>
           <p className="text-sm text-neto-txt3 mb-10 pb-6 border-b border-white/7">
-            Ultima actualizacion: marzo 2026 · Aplicable a usuarios de neto.pe
+            Ultima actualizacion: agosto 2026 · Aplicable a usuarios de neto.pe
             y el servicio Neto por WhatsApp
           </p>
 
@@ -43,10 +43,12 @@ export default function PrivacidadPage() {
             {/* Highlight box */}
             <div className="bg-neto-bg3 border border-white/7 border-l-[3px] border-l-neto-green rounded-r-xl p-4">
               <p className="text-sm text-neto-txt2">
-                <strong>Resumen simple:</strong> Neto solo accede a tus correos
-                de notificacion de transacciones bancarias. Nunca leemos correos
-                personales, nunca almacenamos contrasenas, y nunca vendemos tus
-                datos a terceros.
+                <strong>Resumen simple:</strong> tus datos son los movimientos
+                que tu registras. Si ademas conectas tu Gmail —opcional y solo
+                en Pro— Neto lee unicamente los correos de notificacion de
+                transacciones. Nunca leemos correos personales, nunca accedemos
+                a tu banca en linea, nunca almacenamos contrasenas y nunca
+                vendemos tus datos a terceros.
               </p>
             </div>
 
@@ -88,15 +90,28 @@ export default function PrivacidadPage() {
                   notificaciones.
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
-                  <strong>Correos de notificacion bancaria:</strong> solo los
-                  correos automaticos que tu banco envia por cada transaccion
-                  (ej. &quot;Se realizo un cargo de S/50 en tu tarjeta&quot;).
-                  No accedemos a correos personales, laborales ni de ningun otro
-                  tipo.
+                  <strong>Los movimientos que registras:</strong> lo que
+                  escribes por WhatsApp o en la aplicacion web, y las capturas
+                  de comprobante que nos envias. La imagen se procesa para
+                  extraer el monto, el comercio y la fecha; no la conservamos.
+                </li>
+                <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
+                  <strong>Correos de notificacion bancaria (opcional, solo
+                  Pro):</strong> si conectas tu Gmail, unicamente los correos
+                  automaticos que tu banco envia por cada transaccion (ej.
+                  &quot;Se realizo un cargo de S/50 en tu tarjeta&quot;). No
+                  accedemos a correos personales, laborales ni de ningun otro
+                  tipo. Si no conectas Gmail, Neto no lee ningun correo tuyo.
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
                   <strong>Datos de transacciones:</strong> montos, comercios,
-                  fechas y categorias extraidas de los correos bancarios.
+                  fechas y categorias, provenientes de lo que registras y, si
+                  corresponde, de esos correos de notificacion.
+                </li>
+                <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
+                  <strong>Comprobante de pago de Neto Pro:</strong> si contratas
+                  Pro, la captura del Yape con la que acreditas el pago se
+                  conserva como respaldo de la operacion.
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
                   <strong>Datos de cuenta:</strong> nombre, numero de telefono y
@@ -141,14 +156,21 @@ export default function PrivacidadPage() {
                 4. Acceso a Gmail
               </h2>
               <p className="text-sm text-neto-txt2 leading-7 mb-3">
-                Neto solicita acceso limitado a tu cuenta de Gmail bajo el
-                estandar OAuth 2.0 de Google. Este acceso es especifico y
-                restringido a:
+                Conectar Gmail es <strong>opcional</strong>: es una funcion del
+                plan Pro, la activas tu desde tu cuenta y Neto funciona
+                completo sin ella. Si decides activarla, Neto solicita acceso
+                limitado bajo el estandar OAuth 2.0 de Google. Ese acceso es
+                especifico y restringido a:
               </p>
               <ul className="space-y-2">
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
                   Lectura de correos identificados como notificaciones de
-                  transacciones de bancos y billeteras digitales peruanas.
+                  transacciones de bancos y billeteras digitales peruanas. El
+                  permiso es de solo lectura: Neto no puede enviar, borrar ni
+                  modificar correos.
+                </li>
+                <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
+                  Una sola cuenta de Google por usuario.
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
                   No leemos, almacenamos ni procesamos ningun otro correo de tu
@@ -203,12 +225,20 @@ export default function PrivacidadPage() {
               </p>
               <ul className="space-y-2">
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
-                  <strong>OpenAI:</strong> procesamiento de lenguaje natural
-                  para categorizacion y resumenes (datos de transacciones
-                  anonimizados).
+                  <strong>OpenAI:</strong> interpretacion de los mensajes y las
+                  capturas que nos envias, para extraer el monto, el comercio y
+                  la categoria, y para generar resumenes. Se transmite el
+                  contenido del movimiento —incluida la imagen del comprobante
+                  cuando registras por foto—, no tus credenciales. Segun la
+                  politica de la API de OpenAI, estos datos no se utilizan para
+                  entrenar sus modelos.
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
                   <strong>Supabase:</strong> almacenamiento de base de datos.
+                </li>
+                <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
+                  <strong>Vercel:</strong> alojamiento de la aplicacion web
+                  app.neto.pe.
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
                   <strong>Meta (WhatsApp Business API):</strong> envio de

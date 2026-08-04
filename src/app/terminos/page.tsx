@@ -34,7 +34,7 @@ export default function TerminosPage() {
             Terminos de Uso
           </h1>
           <p className="text-sm text-neto-txt3 mb-10 pb-6 border-b border-white/7">
-            Ultima actualizacion: marzo 2026 · Al usar Neto, aceptas estos
+            Ultima actualizacion: agosto 2026 · Al usar Neto, aceptas estos
             terminos.
           </p>
 
@@ -55,10 +55,20 @@ export default function TerminosPage() {
               </h2>
               <p className="text-sm text-neto-txt2 leading-7">
                 Neto es un asistente financiero personal que opera a traves de
-                WhatsApp. El servicio lee automaticamente los correos de
-                notificacion de transacciones de bancos y billeteras digitales
-                peruanas, categoriza los gastos con inteligencia artificial y
-                genera resumenes y reportes financieros personales.
+                WhatsApp y de una aplicacion web (app.neto.pe). Tu registras tus
+                gastos e ingresos escribiendolos en lenguaje natural o enviando
+                la captura del comprobante; Neto los categoriza con inteligencia
+                artificial y genera resumenes, tableros y reportes financieros
+                personales.
+              </p>
+              <p className="text-sm text-neto-txt2 leading-7 mt-3">
+                De forma opcional, y unicamente con el plan Pro, puedes autorizar
+                a Neto a leer los correos de notificacion de transacciones que tu
+                banco o billetera digital ya te envia, para que esos movimientos
+                queden registrados sin que los anotes. Esa autorizacion la
+                otorgas tu, no es necesaria para usar el servicio y puedes
+                revocarla cuando quieras. Neto no se conecta a tu banca en linea
+                ni te solicita credenciales bancarias en ningun caso.
               </p>
             </section>
 
@@ -67,16 +77,18 @@ export default function TerminosPage() {
                 2. Aceptacion de los terminos
               </h2>
               <p className="text-sm text-neto-txt2 leading-7">
-                Al registrarte en Neto y autorizar el acceso a tu Gmail, aceptas
-                estos Terminos de Uso y nuestra{" "}
+                Al registrarte en Neto y usar el servicio, aceptas estos
+                Terminos de Uso y nuestra{" "}
                 <a
                   href="/privacidad"
                   className="text-neto-green hover:underline"
                 >
                   Politica de Privacidad
                 </a>
-                . Si no estas de acuerdo con alguno de estos terminos, no debes
-                usar el servicio.
+                . Si ademas decides conectar tu Gmail, ese tratamiento adicional
+                se rige por la seccion 4 de la Politica de Privacidad. Si no
+                estas de acuerdo con alguno de estos terminos, no debes usar el
+                servicio.
               </p>
             </section>
 
@@ -86,8 +98,14 @@ export default function TerminosPage() {
               </h2>
               <ul className="space-y-2">
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
-                  Para usar Neto necesitas un numero de WhatsApp activo y una
-                  cuenta de Gmail.
+                  Para usar Neto necesitas un numero de WhatsApp activo o una
+                  cuenta de correo con la que registrarte en app.neto.pe. Puedes
+                  vincular ambos canales para operar la misma cuenta desde los
+                  dos.
+                </li>
+                <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
+                  Conectar una cuenta de Gmail es opcional, requiere plan Pro
+                  vigente y admite una sola cuenta de Google por usuario.
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
                   Eres responsable de mantener la seguridad de tu cuenta.
@@ -178,12 +196,14 @@ export default function TerminosPage() {
               </p>
               <ul className="space-y-2">
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
-                  Los resumenes y reportes son referenciales y dependen de la
-                  calidad de los correos bancarios recibidos.
+                  Los resumenes y reportes son referenciales: reflejan los
+                  movimientos que registraste y, si conectaste tu Gmail, los que
+                  se hayan podido extraer de los correos de notificacion.
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
-                  No garantizamos que todos los correos de transacciones sean
-                  detectados y procesados.
+                  No garantizamos la lectura completa de una captura ni, cuando
+                  el Gmail esta conectado, la deteccion de todos los correos de
+                  transaccion.
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
                   Las categorias asignadas por IA pueden no ser siempre exactas
