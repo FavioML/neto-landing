@@ -29,7 +29,11 @@ export default function ReferidoPage() {
       return;
     }
     let vivo = true;
-    fetch(`${API_URL}/api/referidor/${c}`, { cache: "no-store" })
+    // Sin `cache: "no-store"`. El backend manda `max-age=300` a propósito (el nombre del
+    // referidor no cambia entre pestañazos) y el no-store lo anulaba: cada visita al link
+    // pegaba a Railway en frío, con picos medidos de 4.8 a 7s en la ráfaga de las 10am.
+    // Es la primera pantalla que ve un invitado, o sea el peor sitio donde gastar eso.
+    fetch(`${API_URL}/api/referidor/${c}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((j) => {
         if (vivo && j?.ok) setNombre(j.nombre || null);
