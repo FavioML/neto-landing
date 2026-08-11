@@ -144,6 +144,12 @@ export default function ProductoPage() {
                 Probar Neto gratis →
               </StartButton>
             </BlurReveal>
+            <BlurReveal delay={280}>
+              <p className="mt-4 text-xs text-neto-txt3">
+                14 días de Pro gratis · Después{" "}
+                <span className="text-neto-green font-medium">S/10/mes</span>
+              </p>
+            </BlurReveal>
             <div className="mt-14 w-full max-w-[960px]">
               <BrowserFrame
                 url="app.neto.pe/dashboard"
@@ -227,6 +233,15 @@ export default function ProductoPage() {
             <p className="mt-5 text-neto-txt3 text-lg">
               Regístrate en la app o por WhatsApp y tu dashboard se arma solo.
             </p>
+            {/* Toda esta página recorre pantallas que viven detrás del muro
+                (dashboard, presupuestos, transacciones, deudas). Antes cerraba con
+                "Gratis" sin nombrar Pro ni el precio en ningún lado. */}
+            <p className="mt-6 max-w-[520px] text-[15px] text-neto-txt2 leading-relaxed">
+              Todo lo que viste acá es Neto Pro. Lo estrenas 14 días completos desde
+              tu primer gasto y después cuesta{" "}
+              <span className="text-neto-txt font-semibold">S/10 al mes</span>.
+              Anotar tus gastos por WhatsApp no se cobra nunca.
+            </p>
             <StartButton
               source="producto"
               className="mt-8 inline-block rounded-full bg-gradient-to-br from-neto-green-light to-neto-green text-[#002115] px-7 py-3.5 text-base font-semibold transition-all duration-200 hover:shadow-[0_0_40px_rgba(29,158,117,0.35)] hover:scale-[1.02] active:scale-[0.98]"
@@ -234,7 +249,7 @@ export default function ProductoPage() {
               Probar Neto gratis →
             </StartButton>
             <p className="mt-4 text-xs text-neto-txt3">
-              Setup en 2 min · Gratis · Sin contraseñas bancarias
+              Setup en 2 min · Sin contraseñas bancarias
             </p>
           </div>
         </section>

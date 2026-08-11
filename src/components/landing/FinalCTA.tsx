@@ -41,9 +41,11 @@ export default function FinalCTA() {
             <ArrowRight size={18} />
           </StartButton>
 
-          {/* Sub note */}
+          {/* Sub note. "Setup en 2 min" sale porque el subtítulo de arriba ya dice
+              "en 2 minutos", y el hueco lo ocupa el precio: la página entera vende
+              lo que está detrás del muro. */}
           <p className="text-sm text-white/60 mt-6">
-            Setup en 2 min · Gratis · Sin contraseñas bancarias
+            14 días de Pro gratis · Después S/10/mes · Sin contraseñas bancarias
           </p>
         </div>
       </BlurReveal>

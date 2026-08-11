@@ -32,7 +32,11 @@ export default function StickyCTA() {
           <div className="hidden sm:flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/neto-icon.png" alt="Neto" width={24} height={24} className="rounded-md" />
-            <span className="text-sm text-neto-txt2">Setup en 2 min · Gratis</span>
+            {/* "Gratis" a secas describía mal el producto: lo gratis para siempre es
+                anotar, no leer. Mismo patrón que Hero.tsx:198-202. */}
+            <span className="text-sm text-neto-txt2">
+              14 días de Pro gratis · Después S/10/mes
+            </span>
           </div>
 
           {/* CTA button */}

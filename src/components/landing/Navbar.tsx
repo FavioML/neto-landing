@@ -100,8 +100,12 @@ export default function Navbar() {
             ))}
           </Dropdown>
 
-          {/* Planes */}
-          <Dropdown label="Planes">
+          {/* Precios. El título es "Precios" y no "Planes" a propósito: no hay dos
+              tiers entre los que elegir. Todo el mundo estrena Pro 14 días y cae al
+              muro el día 15. El subtítulo del ítem gratuito es el mismo de la tarjeta
+              de Pricing (Pricing.tsx:199-201) para que el menú no reinstale el modelo
+              que la sección desarma. */}
+          <Dropdown label="Precios">
             <a
               href="/#precios"
               className="block rounded-xl px-3.5 py-3 hover:bg-neto-bg3 transition-colors duration-150"
@@ -111,7 +115,7 @@ export default function Navbar() {
                 <span className="text-sm font-semibold text-neto-txt2">S/0</span>
               </span>
               <span className="block text-xs text-neto-txt3 leading-snug mt-0.5">
-                Anota tus gastos por WhatsApp, sin límite
+                No es un plan que elijas. Es lo que Neto sigue haciendo cuando termina tu prueba
               </span>
             </a>
             <a
@@ -135,7 +139,7 @@ export default function Navbar() {
               href="/#precios"
               className="block text-center text-sm font-semibold text-neto-green-light hover:text-neto-green py-2.5 mt-1 border-t border-white/5"
             >
-              Ver comparación completa →
+              Ver precios en detalle →
             </a>
           </Dropdown>
 

@@ -99,9 +99,11 @@ export default function ExitIntent() {
           <h3 className="text-2xl font-bold text-neto-txt mb-3">
             ¿Te vas sin ordenar tu plata?
           </h3>
+          {/* "Gratis" estaba pegado a "organiza", que es justamente lo que se cobra
+              pasado el trial. Ahora el gratis califica a la prueba, no al producto. */}
           <p className="text-neto-txt3 text-sm mb-6 leading-relaxed">
-            Tus gastos se siguen acumulando. Neto los organiza por ti — en 2 minutos, gratis, sin
-            contraseñas bancarias.
+            Tus gastos se siguen acumulando. Neto los ordena por ti en 2 minutos: 14 días de Pro
+            gratis desde tu primer gasto, después S/10 al mes. Sin contraseñas bancarias.
           </p>
 
           <StartButton
