@@ -112,8 +112,20 @@ export default function RootLayout({
           `}
         </Script>
 
-        {/* Meta Pixel */}
-        <Script id="meta-pixel" strategy="afterInteractive">
+        {/* Meta Pixel — `lazyOnload` y no `afterInteractive` a propósito.
+            `fbevents.js` pesa 400 KB, más que TODO el JS propio de la landing
+            junto (91 KB medidos en móvil el 17-ago-2026), y con
+            `afterInteractive` competía con la hidratación: diferirlo bajó el TBT
+            móvil de 1417ms a 1245ms (mediana de 3 corridas de Lighthouse contra
+            el build local; una sola corrida no alcanza, el rango del score es de
+            ±10 puntos).
+            El costo aceptado: el `PageView` se dispara después del evento load,
+            así que un rebote muy rápido en móvil lento puede no contarse.
+            Decisión de Favio del 17-ago con el número delante — a 38 altas por
+            mes, esa precisión no cambia ninguna decisión de campaña. Si algún día
+            hay volumen de Meta Ads que dependa de la atribución fina, esto se
+            revierte cambiando una palabra. */}
+        <Script id="meta-pixel" strategy="lazyOnload">
           {`
             !function(f,b,e,v,n,t,s)
             {if(f.fbq)return;n=f.fbq=function(){n.callMethod?

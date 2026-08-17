@@ -1,12 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { Sparkles, ChevronDown } from "lucide-react";
-import HeroShowcase from "./HeroShowcase";
+import HeroShowcaseLazy from "./HeroShowcaseLazy";
 import StartButton from "./StartButton";
-
-const EASE = [0.16, 1, 0.3, 1] as const;
 
 export default function Hero() {
   // Prevent Framer Motion from serializing opacity:0 into the static HTML
@@ -56,24 +53,24 @@ export default function Hero() {
     };
   }, []);
 
-  // SSR / pre-hydration: no animation props → content renders at full opacity (LCP-safe)
-  // Post-hydration: standard fadeUp entrance animation
-  const fadeUp = (delay: number) =>
-    mounted
-      ? {
-          initial: { opacity: 0, y: 20 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.6, ease: EASE, delay },
-        }
-      : {};
+  // La entrada se hace con el `.animate-fade-up` que ya vive en globals.css, no
+  // con framer-motion: la librería entera estaba en el bundle CRÍTICO de la
+  // primera pantalla para animar cinco bloques una sola vez. El CSS ya respeta
+  // `prefers-reduced-motion` (globals.css), que antes había que recordar aparte.
+  //
+  // Se conserva el gate por `mounted`, y su razón original no cambió: sin él, el
+  // HTML estático saldría con `opacity: 0` serializado y eso retrasa el LCP. En
+  // SSR y hasta hidratar, el contenido va visible y sin clase de animación.
+  // El helper RECIBE las clases del elemento y las combina. Devolver `className`
+  // suelto para spreadearlo sería un bug silencioso: en JSX el último gana, así
+  // que `{...fadeUp(100)} className="..."` borraría la animación (o al revés,
+  // borraría el layout del bloque).
+  const fadeUp = (delayMs: number, className = "") => ({
+    className: mounted ? `animate-fade-up ${className}`.trim() : className,
+    ...(mounted ? { style: { animationDelay: `${delayMs}ms` } } : {}),
+  });
 
-  const fadeIn = mounted
-    ? {
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        transition: { duration: 0.4, ease: EASE },
-      }
-    : {};
+  const fadeIn = (className = "") => fadeUp(0, className);
 
   return (
     <section className="relative min-h-[88svh] min-[640px]:min-h-[100svh] bg-neto-bg overflow-hidden flex flex-col justify-center">
@@ -106,12 +103,9 @@ export default function Hero() {
       {/* Main content grid */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 min-[1024px]:grid-cols-[55fr_45fr] gap-12 min-[1024px]:gap-8 items-center">
         {/* Left column — text */}
-        <motion.div
-          {...fadeIn}
-          className="flex flex-col gap-8 min-[1024px]:pr-8"
-        >
+        <div {...fadeIn("flex flex-col gap-8 min-[1024px]:pr-8")}>
           {/* Eyebrow badge */}
-          <motion.div {...fadeUp(0.1)}>
+          <div {...fadeUp(100)}>
             <span className="inline-flex items-center gap-2 border border-neto-green/30 bg-neto-green/10 px-5 py-1.5 rounded-full">
               <Sparkles
                 size={14}
@@ -122,12 +116,14 @@ export default function Hero() {
                 Score financiero 0-100 · 14 días de Pro gratis
               </span>
             </span>
-          </motion.div>
+          </div>
 
           {/* H1 */}
-          <motion.h1
-            {...fadeUp(0.2)}
-            className="text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold leading-[1.05] tracking-tight"
+          <h1
+            {...fadeUp(
+              200,
+              "text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold leading-[1.05] tracking-tight",
+            )}
           >
             <span className="block bg-gradient-to-b from-neto-txt to-neto-txt3 bg-clip-text text-transparent">
               Entiende tu plata,
@@ -135,22 +131,20 @@ export default function Hero() {
             <span className="block bg-gradient-to-r from-neto-green-light via-neto-green to-neto-green bg-clip-text text-transparent">
               no solo la anotes.
             </span>
-          </motion.h1>
+          </h1>
 
           {/* Subtitle */}
-          <motion.p
-            {...fadeUp(0.3)}
-            className="text-lg text-neto-txt3 max-w-[520px] leading-relaxed"
+          <p
+            {...fadeUp(300, "text-lg text-neto-txt3 max-w-[520px] leading-relaxed")}
           >
             Anotar gastos es el piso. Neto te da un score de salud financiera
             del 0 al 100 y te dice, en soles, a dónde se va tu plata y cuánto
             te queda. Por WhatsApp o desde la app.
-          </motion.p>
+          </p>
 
           {/* Stats row — placed between subtitle and CTA so trust signals are above-the-fold on mobile */}
-          <motion.div
-            {...fadeUp(0.4)}
-            className="flex flex-row flex-wrap items-center gap-x-4 gap-y-3"
+          <div
+            {...fadeUp(400, "flex flex-row flex-wrap items-center gap-x-4 gap-y-3")}
           >
             {[
               { value: "Bancos", label: "Compatibles" },
@@ -173,13 +167,10 @@ export default function Hero() {
                 </div>
               </div>
             ))}
-          </motion.div>
+          </div>
 
           {/* CTA row */}
-          <motion.div
-            {...fadeUp(0.5)}
-            className="flex flex-col gap-2"
-          >
+          <div {...fadeUp(500, "flex flex-col gap-2")}>
             <div className="flex flex-row flex-wrap gap-3">
               <StartButton
                 source="hero"
@@ -200,14 +191,15 @@ export default function Hero() {
               <span className="text-neto-green font-medium">S/10/mes</span>
               {" "}— la mitad que la competencia
             </p>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-        {/* Right column — chat + app, synchronised. Hidden on mobile to reduce
-            paint cost, speed the scroll to the CTA and keep the mobile LCP
-            exactly where it was. */}
-        <div className="hidden min-[1024px]:flex items-center justify-center relative">
-          <HeroShowcase />
+        {/* Right column — chat + app, synchronised. Oculto en móvil, y desde el
+            17-ago tampoco se DESCARGA ahí: `hidden` es CSS y el chunk se bajaba
+            igual (ver HeroShowcaseLazy). La altura mínima está reservada porque
+            ahora entra después de hidratar y sin eso sería CLS en desktop. */}
+        <div className="hidden min-[1024px]:flex min-h-[560px] items-center justify-center relative">
+          <HeroShowcaseLazy />
         </div>
       </div>
 
