@@ -283,8 +283,11 @@ export default function PrivacidadPage() {
                   <strong>Rectificacion:</strong> corregir datos inexactos.
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
-                  <strong>Cancelacion:</strong> solicitar la eliminacion de tus
-                  datos.
+                  <strong>Cancelacion:</strong> eliminar tus datos. No hace falta
+                  solicitarlo: puedes hacerlo tu mismo desde{" "}
+                  <strong>Configuracion &rarr; Zona de peligro</strong> en la
+                  aplicacion. El detalle de que se borra y que se conserva esta
+                  en la seccion 8.
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
                   <strong>Oposicion:</strong> oponerte al tratamiento de tus
@@ -308,10 +311,52 @@ export default function PrivacidadPage() {
                 8. Retencion de datos
               </h2>
               <p className="text-sm text-neto-txt2 leading-7">
-                Conservamos tus datos mientras uses el servicio activamente. Si
-                solicitas la cancelacion de tu cuenta, eliminamos todos tus
-                datos en un plazo maximo de 30 dias, excepto aquellos que
-                debamos conservar por obligacion legal.
+                Conservamos tus datos mientras uses el servicio activamente.
+              </p>
+              <p className="text-sm text-neto-txt2 leading-7 mt-3">
+                Puedes eliminar tu cuenta desde{" "}
+                <strong>Configuracion &rarr; Zona de peligro</strong> en{" "}
+                <a
+                  href="https://app.neto.pe/dashboard/configuracion"
+                  className="text-neto-green hover:underline"
+                >
+                  app.neto.pe
+                </a>{" "}
+                o pidiendonoslo por WhatsApp. El borrado ocurre en el momento, no
+                en 30 dias: se eliminan tus movimientos, presupuestos, categorias,
+                metas, deudas, alertas, notificaciones, el historial de tu
+                conversacion con Neto y los comprobantes de pago que nos hayas
+                enviado. Si tenias Gmail conectado, revocamos el permiso ante
+                Google y borramos la direccion.
+              </p>
+              <p className="text-sm text-neto-txt2 leading-7 mt-3 mb-2">
+                Esto es lo unico que se conserva despues, y por que:
+              </p>
+              <ul className="space-y-2">
+                <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
+                  <strong>El registro contable de tus pagos:</strong> monto, fecha
+                  y plan contratado. Sin tu nombre, sin tu numero y sin el
+                  comprobante que enviaste. Es la excepcion por obligacion legal.
+                </li>
+                <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
+                  <strong>Un identificador interno sin datos personales:</strong>{" "}
+                  guarda la constancia de que pediste la baja, el plan que habias
+                  pagado por si vuelves, y una huella irreversible del correo de
+                  Google que hubieras conectado, para que no consuma dos veces un
+                  cupo de conexion. No permite identificarte ni contactarte.
+                </li>
+                <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
+                  <strong>Nuestras copias de respaldo cifradas</strong>, que por
+                  seguridad no se pueden reescribir. Se eliminan solas por
+                  rotacion: hasta 30 dias las diarias y hasta 12 meses las
+                  mensuales.
+                </li>
+              </ul>
+              <p className="text-sm text-neto-txt2 leading-7 mt-3">
+                Si compartias un espacio, una deuda o una meta con otra persona,
+                los movimientos que registraste ahi siguen en las cuentas de esa
+                persona, ya sin tu nombre: son parte de su historial, no solo del
+                tuyo.
               </p>
             </section>
 

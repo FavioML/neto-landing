@@ -245,7 +245,15 @@ export default function TerminosPage() {
               </h2>
               <ul className="space-y-2">
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
-                  Puedes cancelar tu cuenta en cualquier momento escribiendo a{" "}
+                  Puedes eliminar tu cuenta en cualquier momento desde{" "}
+                  <strong>Configuracion &rarr; Zona de peligro</strong> en{" "}
+                  <a
+                    href="https://app.neto.pe/dashboard/configuracion"
+                    className="text-neto-green hover:underline"
+                  >
+                    app.neto.pe
+                  </a>
+                  , pidiendonoslo por WhatsApp, o escribiendo a{" "}
                   <a
                     href="mailto:hola@neto.pe"
                     className="text-neto-green hover:underline"
@@ -255,8 +263,13 @@ export default function TerminosPage() {
                   .
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
-                  Al cancelar, tus datos seran eliminados en un plazo maximo de
-                  30 dias.
+                  El borrado ocurre en el momento, no en 30 dias. Lo unico que
+                  se conserva es el registro contable de tus pagos y las copias
+                  de respaldo cifradas, que rotan solas. El detalle esta en la{" "}
+                  <a href="/privacidad" className="text-neto-green hover:underline">
+                    Politica de Privacidad
+                  </a>
+                  .
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
                   Nos reservamos el derecho de suspender o cancelar cuentas que
