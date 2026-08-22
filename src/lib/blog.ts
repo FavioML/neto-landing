@@ -47,7 +47,7 @@ export const posts: BlogPost[] = [
     slug: "en-que-gasto-mi-plata",
     title: "¿En qué gasto mi plata? Descúbrelo en 2 minutos",
     description:
-      "¿No sabes a dónde se va tu sueldo? Aprende cómo ver todos tus gastos organizados automáticamente sin anotar nada a mano.",
+      "¿No sabes a dónde se va tu sueldo? Aprende a ver todos tus gastos organizados por categoría, en minutos y desde WhatsApp.",
     date: "2026-03-22",
     readingTime: "4 min",
     keywords: [

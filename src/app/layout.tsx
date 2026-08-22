@@ -22,17 +22,27 @@ const inter = Inter({
   variable: "--font-sans",
 });
 
+// Un solo sitio, porque estaba copiado en CUATRO campos (title, og:title, twitter:title y
+// el alt del og:image), y cuatro copias son cuatro chances de divergir.
+//
+// Decia "Neto — Ordena tu plata sin mover un dedo" y se cambio el 22-ago-2026. Es el claim
+// que la regla de prominencia de Gmail marca como falso (solo el 9.5% de las transacciones
+// nacen de un correo), puesto justo en el `<title>` y el `og:title`, que son las superficies
+// que esa regla nombra. Y contradecia al hero de esta misma pagina, que vende "Anotar gastos
+// es el piso". Lo vigila `scripts/verify-claims.mjs`.
+const SHARED_TITLE = "Neto — Controla tus gastos por WhatsApp en Perú";
+
 const SHARED_DESCRIPTION =
   "Asistente financiero por WhatsApp para Perú. Registra gastos en lenguaje natural, lee fotos de Yape/Plin y te da un dashboard completo. 14 días de Pro gratis. Sin descargar apps, sin contraseñas bancarias.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://neto.pe"),
-  title: "Neto — Ordena tu plata sin mover un dedo",
+  title: SHARED_TITLE,
   description: SHARED_DESCRIPTION,
   keywords:
-    "finanzas personales Peru, asistente financiero WhatsApp, control de gastos Peru, Yape BCP Interbank BBVA, gastos hormiga, ahorro Peru",
+    "finanzas personales Peru, asistente financiero WhatsApp, control de gastos Peru, registrar gastos Yape Plin, gastos hormiga, ahorro Peru",
   openGraph: {
-    title: "Neto — Ordena tu plata sin mover un dedo",
+    title: SHARED_TITLE,
     description: SHARED_DESCRIPTION,
     url: "https://neto.pe",
     type: "website",
@@ -43,13 +53,13 @@ export const metadata: Metadata = {
         url: "https://neto.pe/og-default.jpg",
         width: 1200,
         height: 630,
-        alt: "Neto — Ordena tu plata sin mover un dedo",
+        alt: SHARED_TITLE,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Neto — Ordena tu plata sin mover un dedo",
+    title: SHARED_TITLE,
     description: SHARED_DESCRIPTION,
     images: ["https://neto.pe/og-default.jpg"],
   },

@@ -397,7 +397,7 @@ export const articleContent: Record<string, string> = {
   gasto en una línea o le mandas la foto del voucher, y él categoriza con IA y te
   devuelve el resumen cuando lo pidas o de forma automática. Y en Neto Pro puedes
   conectar tu Gmail para que, encima de eso, los gastos que el banco ya te notifica
-  por correo se registren sin que hagas nada.
+  por correo los anote Neto por ti.
 </p>
 <p>
   Si tienes curiosidad sobre qué bancos son compatibles y cómo funciona sin dar
@@ -551,9 +551,15 @@ export const articleContent: Record<string, string> = {
   <strong>nadie los está organizando por ti</strong>.
 </p>
 <p>
-  <a href="/">Neto</a> lee esos correos automáticamente, los categoriza con IA
-  (comida, transporte, entretenimiento, servicios...) y te manda un resumen
-  organizado por WhatsApp. Sin descargar apps, sin anotar nada.
+  <a href="/">Neto</a> vive en el WhatsApp que ya tienes abierto: le escribes el gasto
+  en una línea o le mandas la foto del voucher, y él lo categoriza con IA (comida,
+  transporte, entretenimiento, servicios...) y te devuelve el resumen organizado. Sin
+  descargar apps.
+</p>
+<p>
+  Y en <strong>Neto Pro</strong>, si conectas tu Gmail, los gastos que el banco ya te
+  notifica por correo los anota Neto por ti. Es opcional y va encima de lo que escribes,
+  no en su lugar.
 </p>
 <p>
   ¿Quieres saber cómo funciona técnicamente y qué bancos son compatibles?
