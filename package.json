@@ -9,7 +9,9 @@
     "start": "next start",
     "verify:hero": "node scripts/verify-hero.mjs",
     "verify:claims": "node scripts/verify-claims.mjs",
-    "probe:deploy": "node scripts/probe-deploy-fresh.mjs"
+    "probe:deploy": "node scripts/probe-deploy-fresh.mjs",
+    "probe:rum": "node scripts/probe-rum-vitals.mjs",
+    "measure:cwv": "node scripts/measure-cwv-lab.mjs"
   },
   "keywords": [],
   "author": "",

@@ -94,7 +94,44 @@ export default function RootLayout({
           `}
         </Script>
 
-        {/* PostHog — product analytics, heatmaps, session replay, A/B testing */}
+        {/* PostHog — product analytics, heatmaps, session replay, A/B testing.
+
+            `capture_performance: { web_vitals: true }` no enciende nada nuevo: lo que hace
+            es DECLARAR en el código algo que hasta el 22-ago-2026 decidía un toggle en la
+            consola de PostHog. Sin esta línea, `capture_performance` queda `undefined` y
+            posthog-js cae en `$web_vitals_enabled_server_side`, o sea en la configuración
+            remota del proyecto — que efectivamente estaba en `true`
+            (`GET https://us-assets.i.posthog.com/array/<token>/config` devuelve
+            `capturePerformance.web_vitals: true`), reportando LCP/FCP/CLS/INP de usuarios
+            reales sin que nadie lo hubiera escrito ni mirado.
+
+            Importa porque esos son los ÚNICOS datos de campo que tiene neto.pe: los
+            `deploy-config.json` declaran `LCP 2500 / INP 200 / CLS 0.1` y el canary
+            (`tools/canary-cwv/check-cwv.mjs`) los evalúa contra CrUX, que no publica
+            agregado para este dominio por tráfico insuficiente. Un umbral cuya única
+            fuente de datos vive en un toggle de un tercero se apaga sin dejar diff ni
+            commit, y el día que pase nada grita.
+
+            **Son DOS propiedades y hace falta declarar las dos.** `web_vitals` decide el
+            on/off y ahí el código gana. Pero QUÉ métricas se capturan lo decide
+            `web_vitals_allowed_metrics`, que por separado también cae al server-side cuando
+            no está declarada (`allowedMetrics` en el bundle: si es null/undefined usa
+            `persistence.props['$web_vitals_allowed_metrics']`). O sea que sin la segunda,
+            un cambio en la consola a `["FCP","CLS"]` apagaba LCP e INP —dos de los tres
+            umbrales— sin dejar diff, que es exactamente el agujero que esta línea vino a
+            tapar, sólo que un nivel más abajo. Lo encontró la revisión adversarial.
+
+            Costo en bytes: **cero hoy**, y conviene decirlo con la condición puesta. La
+            implementación viaja en `/static/<ver>/web-vitals.js`, un chunk aparte que la
+            página ya descarga **porque la captura está encendida**. En el mundo donde el
+            toggle estuviera apagado —el único donde estas líneas cambian algo— la descarga
+            sí sería un costo nuevo.
+
+            Guard: `scripts/probe-rum-vitals.mjs` abre un navegador real contra producción y
+            exige ver salir el POST con las métricas adentro. Ojo con dos trampas que ya
+            dieron un falso negativo: PostHog descarta el tráfico automatizado (mira
+            `navigator.webdriver` Y `userAgentData.brands`), y el cuerpo del evento va
+            gzippeado, no en el `data=<base64>` de la documentación vieja. */}
         <Script id="posthog-init" strategy="afterInteractive">
           {`
             !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ie Ts Ms capture Ee calculateEventProperties Os register register_once register_for_session unregister unregister_for_session Rs getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getPersonProperties getRawPersonProperties getRawGroupProperties getSessionProperty createPersonProfile generateRecordingURL Vs Fs $s registerForSurvey registerSurveyEventListener removeSurveyEventListener captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
@@ -107,6 +144,7 @@ export default function RootLayout({
               autocapture: true,
               respect_dnt: true,
               session_recording: { maskAllInputs: true },
+              capture_performance: { web_vitals: true, web_vitals_allowed_metrics: ['LCP', 'INP', 'CLS', 'FCP'] },
               loaded: function(ph){ ph.register({ app: 'neto-landing' }); }
             });
           `}

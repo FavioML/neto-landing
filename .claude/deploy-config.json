@@ -47,6 +47,14 @@
         "on_fail": "exit 1 = el hero DIVERGIO del backend o se rompio el layout. El guion del ChatSimulator es una afirmacion publica sobre como responde Neto y se desactualiza en silencio cuando cambian los handlers (ya paso: durante meses el hero mostro un Neto conversacional que no existia). Mira que linea dice FAIL: 'burbuja N literal' = una plantilla del backend cambio y nadie toco la landing (comparar contra handlers/intents/transacciones.js:228, handlers/webhook.js:203, lib/formatters.js:32-36 + handlers/intents/gastos.js:74-81 en el repo FinBot); 'total del dashboard == total del resumen' = el MiniDashboard y el chat se contradicen en pantalla; 'H1 visible (guard de hidratacion)' = el hero quedo en opacity:0 en movil; 'sin errores de consola' = JS roto en produccion. Ojo: el guion vive en el bundle JS, no en el HTML, asi que un grep sobre index.html da 0 aunque el deploy este bien — por eso corre en un navegador real."
       },
       {
+        "name": "probe-rum-vitals",
+        "cmd": "node scripts/probe-rum-vitals.mjs \"https://neto.pe/\"",
+        "cwd": "C:/Vortik.dev/products/neto/landing",
+        "cost": "~25-50s Chromium (playwright; reintenta hasta 3 visitas), READ-ONLY sobre produccion. Intercepta TODOS los POST a posthog.com y responde 200 fingido, asi que no llega nada al dataset real — ni eventos ni grabaciones de sesion. Verificado con un censo: 0 POST escapan.",
+        "on_fail": "exit 1 = la landing dejo de emitir $web_vitals con LCP, y ese es el UNICO dato de campo que existe para neto.pe (CrUX no publica agregado por trafico insuficiente). Va al canary porque se rompe SIN commit: hasta el 22-ago-2026 la captura la decidia un toggle en la consola de PostHog, que no deja diff al apagarse; ahora estan fijadas en src/app/layout.tsx las DOS propiedades que importan (capture_performance.web_vitals y .web_vitals_allowed_metrics — la segunda tambien caia al server-side y podia apagar LCP e INP por separado). Siguen habiendo causas externas: CSP, un cambio del bundle de PostHog, o que deprecien la propiedad. LEER EL CAMPO 'queSignifica' DE LA SALIDA: distingue 'no salio ninguna ingesta' de 'hubo ingesta sin vitals' de 'hubo vitals pero sin la metrica exigida'. QUE CUBRE ESTE VERDE Y QUE NO: exige LCP y NO exige INP ni CLS, porque el INP no existe sin interaccion y el CLS puede ser 0 y omitirse — un verde aca NO prueba que esas dos esten llegando, eso lo contesta check-cwv-rum.mjs sobre 28 dias. OJO con el falso positivo conocido: PostHog descarta el trafico automatizado mirando navigator.webdriver Y userAgentData.brands, y el probe enmascara las dos; si PostHog endurece esa deteccion, este check empieza a fallar por el TERCERO y no por la landing. Si eso pasa y no se puede reparar el enmascarado, sacarlo del canary en vez de convivir con una alarma que grita por nada.",
+        "requiere": "nada (no usa credenciales)"
+      },
+      {
         "name": "verify-claims",
         "cmd": "node scripts/verify-claims.mjs",
         "cwd": "C:/Vortik.dev/products/neto/landing",
@@ -56,16 +64,24 @@
     ],
     "core_web_vitals": {
       "track": true,
-      "source": "CrUX",
+      "source": "posthog-rum",
+      "source_fallback": "CrUX",
       "alert_on_lcp_above_ms": 2500,
       "alert_on_inp_above_ms": 200,
-      "alert_on_cls_above": 0.1
+      "alert_on_cls_above": 0.1,
+      "_nota": "Estos tres umbrales estuvieron declarados desde el 03-ago-2026 SIN que ningún instrumento pudiera evaluarlos: tools/canary-cwv/check-cwv.mjs los mide contra CrUX, y CrUX no publica agregado de campo para neto.pe por trafico insuficiente — o sea que salia exit 2 todos los dias y nunca iba a salir otra cosa. Desde el 22-ago-2026 la fuente de campo es el RUM propio (PostHog, evento $web_vitals), que ya estaba capturando. CrUX queda como fallback para el dia que haya volumen. Los umbrales se evaluan sobre el p75, que es como estan DEFINIDOS los Core Web Vitals; la regla de las medianas aplica al laboratorio (measure-cwv-lab.mjs), no a esto.",
+      "_quien_los_evalua": "node C:/Vortik.dev/tools/canary-cwv/check-cwv-rum.mjs <este archivo>. NO esta en canary.harnesses TODAVIA, y es a proposito: requiere POSTHOG_PERSONAL_API_KEY (scopes query:read + project:read), que al 22-ago-2026 no existe, asi que hoy saldria exit 2 todos los dias — que es exactamente el ruido del que este cambio vino a sacarnos. Meterlo al canary DESPUES de verlo salir verde una vez con la key real. Dos cosas que hay que saber al leer su salida: (1) agrupa por $device_type, asi que el minimo de 100 muestras es POR BUCKET (Mobile / Desktop / Tablet / desconocido) y no total — el veredicto se da sobre los buckets que llegan y lista aparte los que no; (2) filtra por LIKE '<origen>%', o sea TODA la origin y no solo la home, asi que una regresion en /blog/* tambien lo dispara, y el reporte agrupa por dispositivo y no por pagina: si falla, hay que ir a PostHog a ver que URL la movio."
     },
     "post_deploy_window_min": 10,
     "alert_on_failure": true
   },
   "integrations": {
-    "posthog": { "site_property": "neto-landing" },
+    "posthog": {
+      "site_property": "neto-landing",
+      "public_token": "phc_oWcB57kywdubiAVa2ewYF32YBDFzgPxMoKWPQaPuE8Jb",
+      "api_host": "https://us.posthog.com",
+      "_nota": "El public_token es el MISMO que va en el HTML de la landing (src/app/layout.tsx) — es público por diseño, no es un secreto. Está acá para que check-cwv-rum.mjs encuentre el proyecto por su token en vez de cablear un id numérico que nadie puede verificar de un vistazo. Si algún día se rota, se cambia en los dos lados."
+    },
     "better_stack": { "monitor": "neto.pe" }
   },
   "notes": [
