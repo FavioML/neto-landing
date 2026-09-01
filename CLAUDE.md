@@ -74,7 +74,7 @@ node scripts/verify-hero.mjs http://localhost:4321/
 
 ## Core Web Vitals: el dato de campo sale del RUM propio, no de CrUX
 
-Los umbrales (`LCP 2500 / INP 200 / CLS 0.1`) viven en `.claude/deploy-config.json` y
+Los umbrales viven en `.claude/deploy-config.json` — ahí se leen, acá no se copian — y
 desde el 03-ago-2026 hasta el 22-ago-2026 **no los evaluó nadie**: el canary los medía
 contra CrUX, que no publica agregado de campo para neto.pe por tráfico insuficiente. No
 era un bug del canary — era una espera sin fecha.
