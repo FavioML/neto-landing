@@ -72,6 +72,66 @@ npm run build && npx serve out -l 4321 -s
 node scripts/verify-hero.mjs http://localhost:4321/
 ```
 
+## La atribución cruza el salto, y es un contrato con OTRO repo
+
+Hasta el 2026-09-09 la landing tiraba el UTM al saltar: los CTA eran `href="https://app.neto.pe"`
+pelado y `wa.me/...?text=...[hero]`. Medido contra PostHog, de 2898 pageviews de app.neto.pe en 90
+días **10 traían `utm_` (0,3%)**, y esos 10 eran links directos, no propagación. Ninguna de las 48
+altas de agosto tenía canal.
+
+Hoy `src/lib/atribucion.ts` resuelve el origen de cada visita y `src/hooks/useAtribucion.ts` lo pega
+a los dos destinos, cada uno por su vía:
+
+| destino | cómo viaja | quién lo lee |
+|---|---|---|
+| `app.neto.pe` | query string (`utm_source=ig&utm_medium=bio`) | PostHog, del otro lado del salto |
+| `wa.me` | DENTRO del texto: `[hero]` pasa a `[hero\|ig]` | `app/lib/atribucion.js` → `usuarios.origen` |
+
+**La segunda fila es el punto de todo esto.** El alta de Neto ocurre en WhatsApp, no en la web, así
+que ese mensaje es el único lugar donde una sesión de esta landing toca un alta.
+
+Tres cosas que cuestan una tarde si se re-descubren:
+
+- **Static export, o sea que se resuelve en cliente.** El HTML sale del build, igual para todos
+  (`curl https://neto.pe/` devuelve los `[hero]` horneados). Por lo mismo **no puede calcularse
+  durante el render**: el HTML del build no tiene query string y el del navegador sí, y React lo
+  trataría como mismatch de hidratación. El hook devuelve el link PELADO hasta que monta, que de
+  paso es el comportamiento correcto sin JS.
+- **`<Link>` de Next tira el query string.** Por eso la captura se persiste en `sessionStorage` en
+  el primer pageview. Es la mitad del problema que un `curl` no puede ver, y la que se rompió
+  primero cuando se escribió esto.
+- **El contrato con el backend es el FORMATO DEL CORCHETE y nada más.** Se eligió no anclar el
+  parser sobre la frase ("Hola Neto, quiero empezar") a propósito: ataría la atribución al copy de
+  este repo, y un cambio de copy acá no puede poner rojo el CI de `app/`. Si cambiás el separador o
+  el juego de caracteres, el que se rompe es `app/lib/atribucion.js`, y su test vive allá.
+
+```bash
+npm run build && npx serve out -l 4321 -s
+npm run verify:atribucion -- http://127.0.0.1:4321/   # los 4 casos del salto, navegador real
+npm run verify:atribucion                             # contra PRODUCCIÓN
+npm run probe:atribucion                              # los dos números del audit, a 30 días
+```
+
+**Ninguno de los dos va al canary, y por motivos distintos.** `verify-atribucion.mjs` se rompe
+**con** commit —el copy y los hooks viven en este repo— así que su lugar es antes de publicar, al
+lado de `verify:claims` y `verify:hero`; en el canary serían ~60s de Chromium diarios sin señal
+nueva, que es el mismo argumento por el que `measure-cwv-lab.mjs` tampoco está. Un deploy a medias
+de Cloudflare ya lo agarra `probe-deploy-fresh`. Y `probe-atribucion.mjs` es un instrumento de
+MEDICIÓN, no un guard: sus dos números dependen de tráfico real y nunca da PASS/FAIL.
+
+**Lo que NINGUNO de los dos cubre, y conviene saberlo:** que el backend siga parseando el formato.
+Ese lado vive en otro repositorio y su CI no hace checkout de éste, así que la forma del corchete
+está fijada **dos veces a propósito** —acá en los casos de `verify-atribucion.mjs`, allá en
+`app/tests/lib/atribucion.test.js`— igual que las reglas de `verify-claims.mjs` y su hermano de la
+webapp. Al cambiar el formato hay que tocar los dos; si sólo se toca uno, lo que se rompe no es un
+test: son las altas, en silencio.
+
+Al tocarlo, lo que hay que saber: el caso 4 del verificador (navegación interna) es el único que un
+`curl` no alcanza, y **el gate de hidratación son dos esperas, no una** — React pega sus props
+ANTES de correr los efectos, así que esperar sólo la prop navega antes de que se guarde nada y
+reporta una pérdida de UTM que no existe. Medido: a 0 ms la prop está y el `sessionStorage` es
+`null`; a 200 ms están los dos.
+
 ## Core Web Vitals: el dato de campo sale del RUM propio, no de CrUX
 
 Los umbrales viven en `.claude/deploy-config.json` — ahí se leen, acá no se copian — y

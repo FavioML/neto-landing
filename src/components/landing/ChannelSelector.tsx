@@ -4,13 +4,11 @@ import { useEffect, useState, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle, LayoutDashboard, X } from "lucide-react";
 import {
-  waLink,
-  waLinkPro,
-  APP_URL,
   trackCtaClick,
   type CtaSource,
   type StartIntent,
 } from "@/lib/constants";
+import { useCtaHrefs } from "@/hooks/useAtribucion";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -20,7 +18,6 @@ const COPY = {
     sub: "Neto funciona por los dos lados. Elige por dónde arrancar.",
     waDesc: "Escríbele a Neto y registra tu primer gasto en el chat",
     appDesc: "Crea tu cuenta con Google o correo en app.neto.pe",
-    appHref: APP_URL,
     footer: (
       <>
         Empieza por donde quieras. Conéctalos y es{" "}
@@ -33,7 +30,6 @@ const COPY = {
     sub: "Actívalo por el canal que prefieras. Vale en los dos lados.",
     waDesc: "Neto te pasa los datos de pago y activa tu Pro",
     appDesc: "Actívalo desde app.neto.pe, paga con Yape",
-    appHref: `${APP_URL}/dashboard/pro`,
     footer: (
       <>
         Tu Pro es{" "}
@@ -79,6 +75,11 @@ export default function ChannelSelector() {
   }, [open, close]);
 
   const c = COPY[intent];
+  // Los DOS destinos del modal llevan la atribución, cada uno por su vía: el de WhatsApp dentro
+  // del texto prellenado (es donde ocurre el alta) y el de la app en el query string (es lo que
+  // PostHog lee del otro lado). Este componente sólo renderiza con el modal abierto, o sea
+  // siempre después de montar, así que acá el valor ya es el real.
+  const hrefs = useCtaHrefs(source, intent);
 
   return (
     <AnimatePresence>
@@ -122,7 +123,7 @@ export default function ChannelSelector() {
             <div className="mt-6 flex flex-col gap-3">
               {/* WhatsApp */}
               <a
-                href={intent === "pro" ? waLinkPro(source) : waLink(source)}
+                href={hrefs.wa}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackCtaClick(source, "channel:whatsapp")}
@@ -143,7 +144,7 @@ export default function ChannelSelector() {
 
               {/* Webapp */}
               <a
-                href={c.appHref}
+                href={hrefs.app}
                 onClick={() => trackCtaClick(source, "channel:app")}
                 className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-neto-bg3 px-5 py-4 transition-all hover:border-neto-green/40 hover:bg-neto-bg4"
               >

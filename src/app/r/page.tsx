@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { WA_NUMBER, APP_URL, API_URL, waReferralLink, appReferralUrl } from "@/lib/constants";
+import { useAppHref } from "@/hooks/useAtribucion";
 
 // Con static export no hay segmento [code] pre-renderizado. Cloudflare (_redirects)
 // redirige /r/CODE → /r?ref=CODE, así que el code llega por la query. Se lee también del
@@ -52,7 +53,11 @@ export default function ReferidoPage() {
   const waHref = code
     ? waReferralLink(code)
     : `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hola NETO")}`;
-  const appHref = code ? appReferralUrl(code) : APP_URL;
+  // El `?ref=CODE` lo pone `appReferralUrl` y `conAtribucion` no lo pisa: un invitado que además
+  // llegó con UTM conserva las dos cosas. El texto de WhatsApp NO se toca acá a propósito — su
+  // formato (`Hola NETO ref:CODE`) es un contrato con `handlers/webhook.js` y la atribución del
+  // referido ya viaja por el código, que es más preciso que un utm_source.
+  const appHref = useAppHref(code ? appReferralUrl(code) : APP_URL);
   const titulo = cargado && nombre ? `${nombre} te invitó a Neto` : "Te invitaron a Neto";
 
   return (

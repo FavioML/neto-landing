@@ -9,6 +9,8 @@
     "start": "next start",
     "verify:hero": "node scripts/verify-hero.mjs",
     "verify:claims": "node scripts/verify-claims.mjs",
+    "verify:atribucion": "node scripts/verify-atribucion.mjs",
+    "probe:atribucion": "node scripts/probe-atribucion.mjs",
     "probe:deploy": "node scripts/probe-deploy-fresh.mjs",
     "probe:rum": "node scripts/probe-rum-vitals.mjs",
     "measure:cwv": "node scripts/measure-cwv-lab.mjs"

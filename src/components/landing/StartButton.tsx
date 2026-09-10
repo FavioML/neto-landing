@@ -1,12 +1,11 @@
 "use client";
 
 import {
-  waLink,
-  waLinkPro,
   openChannelSelector,
   type CtaSource,
   type StartIntent,
 } from "@/lib/constants";
+import { useCtaHrefs } from "@/hooks/useAtribucion";
 
 interface StartButtonProps {
   /** Where the CTA lives — used for analytics + the WhatsApp deep-link. */
@@ -34,9 +33,12 @@ export default function StartButton({
   id,
   onClick,
 }: StartButtonProps) {
+  // Con JS el clic abre el modal y este href no se usa; sin JS es el fallback a WhatsApp, y ahí
+  // el origen tiene que viajar igual. Antes de montar vale el link pelado (static export).
+  const { wa } = useCtaHrefs(source, intent);
   return (
     <a
-      href={intent === "pro" ? waLinkPro(source) : waLink(source)}
+      href={wa}
       id={id}
       className={className}
       onClick={(e) => {

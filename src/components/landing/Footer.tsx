@@ -1,11 +1,12 @@
 import { WA_LINK, APP_URL } from "@/lib/constants";
 import PrivacyToggle from "@/components/PrivacyToggle";
+import AppLink from "@/components/AppLink";
 
 const PRODUCT_LINKS = [
   { label: "Cómo funciona", href: "/como-funciona" },
   { label: "Precios", href: "/#precios" },
   { label: "Score financiero", href: "/score-financiero" },
-  { label: "Dashboard", href: APP_URL },
+  { label: "Dashboard", href: APP_URL, app: true },
   { label: "Blog", href: "/blog" },
   { label: "FAQ", href: "/faq" },
   { label: "Contacto", href: "/contacto" },
@@ -97,15 +98,20 @@ export default function Footer() {
 
           {/* Col 2 — Producto */}
           <FooterCol title="Producto">
-            {PRODUCT_LINKS.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="text-sm text-neto-txt3 hover:text-neto-txt2 transition-colors duration-200"
-              >
-                {l.label}
-              </a>
-            ))}
+            {PRODUCT_LINKS.map((l) => {
+              const clase = "text-sm text-neto-txt3 hover:text-neto-txt2 transition-colors duration-200";
+              // El de app.neto.pe sale por <AppLink> para que el UTM cruce el salto. El resto son
+              // rutas internas y no lo necesitan: quedan server-rendered.
+              return l.app ? (
+                <AppLink key={l.href} href={l.href} className={clase}>
+                  {l.label}
+                </AppLink>
+              ) : (
+                <a key={l.href} href={l.href} className={clase}>
+                  {l.label}
+                </a>
+              );
+            })}
           </FooterCol>
 
           {/* Col 3 — Contacto */}

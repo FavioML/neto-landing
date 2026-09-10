@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 
 import { APP_URL } from "@/lib/constants";
+import { useAppHref } from "@/hooks/useAtribucion";
 import StartButton from "./StartButton";
-const DASHBOARD_URL = APP_URL;
 
 /* ─── Mega-menu data ─── */
 const CONOCE = [
@@ -60,6 +60,9 @@ function Dropdown({
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  // Lleva el UTM de la visita al salto a app.neto.pe. Devuelve el link pelado hasta que monta
+  // (static export, ver useAtribucion), así que el HTML del build no cambia.
+  const dashboardUrl = useAppHref(APP_URL);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
@@ -157,7 +160,7 @@ export default function Navbar() {
           </Dropdown>
 
           <a
-            href={DASHBOARD_URL}
+            href={dashboardUrl}
             className="text-sm font-medium text-neto-txt2 hover:text-neto-txt transition-colors duration-200"
           >
             Iniciar sesión
@@ -201,7 +204,7 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href={DASHBOARD_URL}
+            href={dashboardUrl}
             className="text-sm font-medium text-neto-txt2 text-center mt-2 py-2"
           >
             Iniciar sesión
