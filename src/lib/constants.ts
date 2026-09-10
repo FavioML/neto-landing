@@ -14,7 +14,9 @@ export type CtaSource =
   | 'score'
   | 'comparativas'
   | 'blog'
-  | 'producto';
+  | 'producto'
+  | 'footer'
+  | 'referido';
 
 const buildWaLink = (source: CtaSource, intent: 'start' | 'pro' = 'start') => {
   const text =
@@ -24,22 +26,25 @@ const buildWaLink = (source: CtaSource, intent: 'start' | 'pro' = 'start') => {
   return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
 };
 
+// Estos dos arman el link SIN origen (`[blog]`): es lo que queda horneado en el HTML estático.
+// El origen se agrega en cliente, con `useCtaHrefs` o, para HTML que viene como string, con
+// `<HtmlAtribuido>`. Ya no existe un `WA_LINK` fijo: etiquetaba como `hero` los clics del footer
+// y del cuerpo del blog, así que la posición mentía justo donde el origen faltaba.
 export const waLink = (source: CtaSource) => buildWaLink(source, 'start');
 export const waLinkPro = (source: CtaSource) => buildWaLink(source, 'pro');
-
-// Backwards-compat exports (legacy callers)
-export const WA_LINK = buildWaLink('hero');
-export const WA_LINK_PRO = buildWaLink('pricing-pro', 'pro');
 
 export const APP_URL = 'https://app.neto.pe';
 
 // URL del backend (para la mini-landing de referido: resolver ref_code → nombre del referrer).
 export const API_URL = 'https://api.neto.pe';
 
-// Link de referido a WhatsApp. El texto DEBE ser exactamente "Hola NETO ref:CODE" para que el
-// webhook del backend (handlers/webhook.js) lo reconozca y vincule al referido con su referrer.
-export const waReferralLink = (code: string) =>
-  `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hola NETO ref:' + code)}`;
+// Link de referido a WhatsApp. El texto DEBE EMPEZAR con "Hola NETO ref:CODE" para que el webhook
+// del backend (handlers/webhook.js, `/^hola\s+neto\s+ref:([A-Z0-9]{4,12})/i`) lo reconozca y vincule
+// al referido con su referrer. Ese regex ancla solo el inicio, así que la etiqueta de atribución va
+// DETRÁS (`[referido|ig]`, el mismo contrato del corchete que los CTA). Sin ella el alta por
+// referido quedaba con `origen` NULL, porque `registrarOrigenDelAlta` no escribe nada sin etiqueta.
+export const waReferralLink = (code: string, etiqueta: string = 'referido') =>
+  `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hola NETO ref:' + code + ' [' + etiqueta + ']')}`;
 
 // Registro por la webapp llevando el código en query (alta web con referido).
 export const appReferralUrl = (code: string) => `${APP_URL}/?ref=${encodeURIComponent(code)}`;

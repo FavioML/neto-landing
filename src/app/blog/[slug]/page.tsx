@@ -6,6 +6,7 @@ import Footer from "@/components/landing/Footer";
 import StartButton from "@/components/landing/StartButton";
 import { getPost, getAllSlugs } from "@/lib/blog";
 import { articleContent } from "@/lib/blog-content";
+import HtmlAtribuido from "@/components/HtmlAtribuido";
 
 /* Static export: generate all blog slugs at build time */
 export function generateStaticParams() {
@@ -217,11 +218,9 @@ export default async function BlogPostPage({
             </p>
           </header>
 
-          {/* Article body */}
-          <div
-            className="prose-neto"
-            dangerouslySetInnerHTML={{ __html: html }}
-          />
+          {/* Article body. Sus links a WhatsApp salen `[blog]` en el HTML y `[blog|<origen>]`
+              después de montar (HtmlAtribuido). */}
+          <HtmlAtribuido className="prose-neto" html={html} />
 
           {/* CTA */}
           <div className="mt-16 rounded-2xl border border-neto-green/20 bg-neto-bg2 p-8 text-center">

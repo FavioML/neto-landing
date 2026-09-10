@@ -90,6 +90,23 @@ a los dos destinos, cada uno por su vía:
 **La segunda fila es el punto de todo esto.** El alta de Neto ocurre en WhatsApp, no en la web, así
 que ese mensaje es el único lugar donde una sesión de esta landing toca un alta.
 
+**Todo link a WhatsApp de la landing lleva su POSICIÓN real, no `[hero]`** (10-sep-2026, Acción 5 del
+audit). Hasta ese día existía un `WA_LINK` fijo con `[hero]` que usaban el footer y el cuerpo del
+blog, así que un clic desde un post llegaba al backend como si fuera del hero y sin origen. Ya no
+existe. Tres vías, según de dónde salga el link:
+
+| el link vive en | cómo se atribuye |
+|---|---|
+| JSX (CTA, navbar, modal) | `useCtaHrefs(posicion)` |
+| un server component (footer) | `<WaLink posicion>` / `<AppLink>` |
+| un STRING de HTML (cuerpo del blog, respuestas de la FAQ) | `waLink('blog')` en el string + `<HtmlAtribuido>`, que reescribe los `href` en el DOM después de montar |
+
+Y `/r` (referidos) deriva el origen `referido` de la PÁGINA: el `302 /r/CODE → /r?ref=CODE` de
+`_redirects` tira el query string entrante, así que un UTM pegado al link de referido no llega nunca.
+El texto de referido pasa a `Hola NETO ref:CODE [referido|<origen>]`, con la etiqueta DETRÁS porque
+el regex de referidos del backend ancla solo el inicio. El vocabulario de `utm_source` y las
+posiciones válidas viven en el `CLAUDE.md` de `products/neto/`, que es el que cruza los dos repos.
+
 Tres cosas que cuestan una tarde si se re-descubren:
 
 - **Static export, o sea que se resuelve en cliente.** El HTML sale del build, igual para todos
@@ -107,7 +124,7 @@ Tres cosas que cuestan una tarde si se re-descubren:
 
 ```bash
 npm run build && npx serve out -l 4321 -s
-npm run verify:atribucion -- http://127.0.0.1:4321/   # los 4 casos del salto, navegador real
+npm run verify:atribucion -- http://127.0.0.1:4321/   # los 8 casos (salto, referido, blog, faq), navegador real
 npm run verify:atribucion                             # contra PRODUCCIÓN
 npm run probe:atribucion                              # los dos números del audit, a 30 días
 ```
@@ -124,7 +141,9 @@ Ese lado vive en otro repositorio y su CI no hace checkout de éste, así que la
 está fijada **dos veces a propósito** —acá en los casos de `verify-atribucion.mjs`, allá en
 `app/tests/lib/atribucion.test.js`— igual que las reglas de `verify-claims.mjs` y su hermano de la
 webapp. Al cambiar el formato hay que tocar los dos; si sólo se toca uno, lo que se rompe no es un
-test: son las altas, en silencio.
+test: son las altas, en silencio. Desde el 10-sep hay además un tercero que mira el backend
+DESPLEGADO: `app/qa-e2e/qa-atribucion-wa.mjs` manda por el webhook firmado los textos que esta
+landing reparte y lee `usuarios.origen`. Corrélo al tocar un texto o una posición.
 
 Al tocarlo, lo que hay que saber: el caso 4 del verificador (navegación interna) es el único que un
 `curl` no alcanza, y **el gate de hidratación son dos esperas, no una** — React pega sus props

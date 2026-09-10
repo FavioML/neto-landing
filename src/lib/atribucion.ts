@@ -55,6 +55,17 @@ const CLAVE = 'neto:atribucion';
 export const ORIGEN_DESCONOCIDO = 'directo';
 
 /**
+ * El origen de quien entra por un link de referido (`neto.pe/r/CODE`), cuando el link no trae UTM.
+ *
+ * **Sale de la PÁGINA y no del link, y no es preferencia: medido el 2026-09-10.** El `_redirects`
+ * de Cloudflare hace `302 /r/CODE → /r?ref=CODE` y descarta el query string entrante
+ * (`curl -sSI "https://neto.pe/r/X?utm_source=y"` devuelve `Location: /r?ref=X`), así que un UTM
+ * pegado al link de referido no llega nunca. Y el link lo reparten tres superficies (el bot, la
+ * webapp y cualquiera que lo copie a mano): derivarlo acá lo cubre en un solo lugar.
+ */
+export const ORIGEN_REFERIDO = 'referido';
+
+/**
  * Lo único que se propaga. Lista CERRADA a propósito: propagar el query string entero convierte
  * cualquier parámetro que alguien pegue en la URL en parte del link de salida, y eso es un vector
  * de ruido (y de cosas peores) sin ninguna ventaja. `ref` queda FUERA a propósito: el flujo de
@@ -148,10 +159,17 @@ const leerGuardada = (): Atribucion | null => {
  * La regla de precedencia, en una línea: **una visita que trae UTM pisa lo guardado; una que no
  * trae nada, no.** Sin eso, navegar internamente tras entrar con `?utm_source=ig` machacaría el
  * `ig` con un `directo`, que es el bug que esta función existe para no tener.
+ *
+ * `porDefecto` es el origen que implica la PÁGINA misma (hoy solo `/r`, que es `referido`). Va
+ * después del UTM —un link de referido que alguien pegó en su bio con `?utm_source=ig` sigue
+ * siendo `ig`— y antes del referrer, porque "vino desde WhatsApp" dice menos que "vino por un
+ * referido". No pisa lo guardado: primer toque dentro de la sesión, igual que el resto.
  */
-export const capturarAtribucion = (): Atribucion => {
+export const capturarAtribucion = (porDefecto?: string): Atribucion => {
+  const defecto = sanear(porDefecto);
   if (typeof window === 'undefined') {
-    return { params: { utm_source: ORIGEN_DESCONOCIDO, utm_medium: 'landing' }, origen: ORIGEN_DESCONOCIDO };
+    const o = defecto || ORIGEN_DESCONOCIDO;
+    return { params: { utm_source: o, utm_medium: 'landing' }, origen: o };
   }
 
   const entrante = deLaUrl(window.location.search);
@@ -166,7 +184,7 @@ export const capturarAtribucion = (): Atribucion => {
 
   // Si el referrer no dice nada y había algo guardado, se respeta: una recarga en medio de la
   // sesión no convierte a alguien de Instagram en 'directo'.
-  const origen = params.utm_source || porReferrer || guardada?.origen || ORIGEN_DESCONOCIDO;
+  const origen = params.utm_source || defecto || porReferrer || guardada?.origen || ORIGEN_DESCONOCIDO;
 
   if (!params.utm_source) {
     // El par derivado. `utm_medium` sólo se completa si no vino uno de afuera.
@@ -215,4 +233,39 @@ export const conAtribucion = (url: string, atr: Atribucion | null): string => {
 export const etiquetaCta = (posicion: string, atr: Atribucion | null): string => {
   const o = atr ? sanear(atr.origen) : '';
   return o ? `${posicion}|${o}` : posicion;
+};
+
+/**
+ * Atribuye un link que YA está en el DOM: el que sale de un string de HTML (cuerpo del blog,
+ * respuestas de la FAQ) y por eso no puede pasar por `useCtaHrefs`.
+ *
+ *   · `app.neto.pe`  → se le pegan los params, igual que `conAtribucion`.
+ *   · `wa.me`        → una etiqueta SIN origen (`[blog]`) pasa a `[blog|ig]`. Una que ya trae
+ *                      origen no se toca: no hay caso en que re-etiquetar sea correcto.
+ *   · cualquier otro → intacto.
+ *
+ * El texto se re-codifica con `encodeURIComponent`, no con `searchParams.set`: este último escribe
+ * los espacios como `+`, y el texto prellenado de WhatsApp no garantiza leerlo como espacio. Los
+ * demás params y el `#hash` se conservan (lo encontró la revisión adversarial: la primera versión
+ * los tiraba). Se etiqueta solo el PRIMER corchete, que es también el único que lee el parser del
+ * backend (`msg.match` sin `g`).
+ */
+export const atribuirHref = (href: string, atr: Atribucion | null): string => {
+  if (!atr || !href) return href;
+  let u: URL;
+  try {
+    u = new URL(href);
+  } catch {
+    return href;
+  }
+  if (u.hostname === 'app.neto.pe') return conAtribucion(href, atr);
+  if (u.hostname !== 'wa.me') return href;
+  const texto = u.searchParams.get('text');
+  if (!texto) return href;
+  const nuevo = texto.replace(/\[([a-z][a-z0-9-]{1,23})\]/, (_, pos: string) => `[${etiquetaCta(pos, atr)}]`);
+  if (nuevo === texto) return href;
+  const qs = [...u.searchParams]
+    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(k === 'text' ? nuevo : v)}`)
+    .join('&');
+  return `${u.origin}${u.pathname}?${qs}${u.hash}`;
 };

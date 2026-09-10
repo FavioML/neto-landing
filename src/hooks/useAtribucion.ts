@@ -21,11 +21,12 @@ import { APP_URL, WA_NUMBER, type CtaSource, type StartIntent } from "@/lib/cons
  * La ventana entre el primer pintado y el mount es de milisegundos y el peor caso es un clic que
  * sale sin atribución, o sea el comportamiento actual. Ningún caso sale roto.
  */
-export function useAtribucion(): Atribucion | null {
+export function useAtribucion(porDefecto?: string): Atribucion | null {
   const [atr, setAtr] = useState<Atribucion | null>(null);
   // La captura es idempotente y no toca la red, así que llamarla en cada componente que use el
   // hook no cuesta nada y evita depender de que alguien se acuerde de montar un capturador.
-  useEffect(() => setAtr(capturarAtribucion()), []);
+  // `porDefecto` es el origen que implica la página (ver `capturarAtribucion`).
+  useEffect(() => setAtr(capturarAtribucion(porDefecto)), [porDefecto]);
   return atr;
 }
 

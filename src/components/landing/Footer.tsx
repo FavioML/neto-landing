@@ -1,6 +1,7 @@
-import { WA_LINK, APP_URL } from "@/lib/constants";
+import { APP_URL } from "@/lib/constants";
 import PrivacyToggle from "@/components/PrivacyToggle";
 import AppLink from "@/components/AppLink";
+import WaLink from "@/components/WaLink";
 
 const PRODUCT_LINKS = [
   { label: "Cómo funciona", href: "/como-funciona" },
@@ -14,7 +15,6 @@ const PRODUCT_LINKS = [
 
 const CONTACT_LINKS = [
   { label: "hola@neto.pe", href: "mailto:hola@neto.pe" },
-  { label: "WhatsApp", href: WA_LINK, target: "_blank" },
 ];
 
 const LEGAL_LINKS = [
@@ -120,13 +120,18 @@ export default function Footer() {
               <a
                 key={l.href}
                 href={l.href}
-                target={l.target}
-                rel={l.target === "_blank" ? "noopener noreferrer" : undefined}
                 className="text-sm text-neto-txt3 hover:text-neto-txt2 transition-colors duration-200"
               >
                 {l.label}
               </a>
             ))}
+            {/* Por <WaLink>, no por un href fijo: sale `[footer|<origen>]`. Antes era `[hero]`. */}
+            <WaLink
+              posicion="footer"
+              className="text-sm text-neto-txt3 hover:text-neto-txt2 transition-colors duration-200"
+            >
+              WhatsApp
+            </WaLink>
           </FooterCol>
 
           {/* Col 4 — Legal */}

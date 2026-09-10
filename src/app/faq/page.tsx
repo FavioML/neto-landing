@@ -1,6 +1,7 @@
 import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/Footer";
-import { WA_NUMBER } from "@/lib/constants";
+import { WA_NUMBER, waLink } from "@/lib/constants";
+import HtmlAtribuido from "@/components/HtmlAtribuido";
 
 const FAQ_DATA = [
   {
@@ -95,7 +96,7 @@ const FAQ_DATA = [
     items: [
       {
         q: "¿Cómo empiezo a usar Neto?",
-        a: `Tienes dos caminos: crea tu cuenta en <a href="https://app.neto.pe" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">app.neto.pe</a> con Google o tu correo, o escríbele a Neto por WhatsApp al <a href="https://wa.me/${WA_NUMBER}" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">+51 933 014 505</a>. Empiezas por donde quieras, en menos de 2 minutos.`,
+        a: `Tienes dos caminos: crea tu cuenta en <a href="https://app.neto.pe" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">app.neto.pe</a> con Google o tu correo, o escríbele a Neto por WhatsApp al <a href="${waLink('faq')}" target="_blank" rel="noopener noreferrer" class="text-neto-green hover:underline">+51 933 014 505</a>. Empiezas por donde quieras, en menos de 2 minutos.`,
         aPlain:
           "Tienes dos caminos: crea tu cuenta en app.neto.pe con Google o tu correo, o escríbele a Neto por WhatsApp al +51 933 014 505. Empiezas por donde quieras, en menos de 2 minutos.",
       },
@@ -188,9 +189,10 @@ export default function FaqPage() {
                           +
                         </span>
                       </summary>
-                      <div
+                      {/* HtmlAtribuido: las respuestas traen links a app.neto.pe y WhatsApp. */}
+                      <HtmlAtribuido
                         className="pb-4 text-sm text-neto-txt2 leading-7"
-                        dangerouslySetInnerHTML={{ __html: item.a }}
+                        html={item.a}
                       />
                     </details>
                   ))}

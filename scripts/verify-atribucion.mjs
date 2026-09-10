@@ -30,6 +30,22 @@
  *
  * El caso 2 es además la contraprueba de vacuidad del caso 1: si el hook devolviera siempre el
  * mismo valor fijo, uno de los dos falla.
+ *
+ * LOS CUATRO QUE SE SUMARON el 2026-09-10 (Acción 5 del audit), y ninguno pasa por el modal:
+ *
+ *   5. REFERIDO SIN UTM   `/r?ref=CODE` → el texto de WhatsApp EMPIEZA con `ref:CODE` (contrato con
+ *                        el regex de referidos del backend) y lleva `[referido|referido]` detrás.
+ *                        El origen sale de la página porque el 302 de `/r/CODE` tira el UTM.
+ *   6. REFERIDO CON UTM  el UTM explícito gana sobre el que implica la página. Contraprueba del 5.
+ *                        6b: y el de la página le gana al referrer (llegar desde WhatsApp).
+ *
+ * Además, todo link de WhatsApp que se lee se valida en su FORMA cruda (`formaWa`): número y texto
+ * sin `+`. La etiqueta sola no alcanzaba (ver `formaWa`).
+ *   7. BLOG              el link del CUERPO del post dice `[blog|ig]` y el del footer `[footer|ig]`.
+ *                        Los dos salían `[hero]` fijo, sin origen. Se mira también el HTML crudo:
+ *                        sin JS tienen que decir `[blog]`, no `[hero]`.
+ *   8. FAQ               la respuesta "¿cómo empiezo?" trae un link a WhatsApp y otro a la app, los
+ *                        dos dentro de un string de HTML: tienen que salir atribuidos igual.
  */
 
 import { chromium } from 'playwright';
@@ -108,6 +124,54 @@ async function hrefsDelModal(browser, url, { referer, pasos } = {}) {
   }
 }
 
+/**
+ * Lee `href`s de links que están en la PÁGINA (no en el modal) después de que la atribución
+ * corrió. `listos` es la condición que dice que el efecto ya reescribió los links; se espera
+ * NO FATAL por la misma razón que la segunda espera de `listo`: si la reescritura se rompiera,
+ * las aserciones tienen que fallar solas por exit 1, no irse al cajón de "no se pudo medir".
+ */
+async function hrefsDePagina(browser, url, selectores, listos, { referer } = {}) {
+  const ctx = await browser.newContext();
+  const page = await ctx.newPage();
+  try {
+    const res = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45_000, referer });
+    if (!res || !res.ok()) throw new Error(`${url} devolvió ${res ? res.status() : 'sin respuesta'}`);
+    await page.waitForFunction(listos, { timeout: 10_000 }).catch(() => {});
+    const out = {};
+    for (const [k, sel] of Object.entries(selectores)) {
+      const href = await page.locator(sel).first().getAttribute('href').catch(() => null);
+      if (!href) throw new Error(`no hay "${sel}" en ${url}: cambió el marcado`);
+      out[k] = decodeURIComponent(href);
+      formaWa(`${url} → ${k}`, href);
+    }
+    return out;
+  } finally {
+    await ctx.close();
+  }
+}
+
+/**
+ * La FORMA del link de WhatsApp, sobre el href CRUDO (sin decodificar). Buscar la etiqueta no
+ * alcanza: la revisión adversarial le hizo perder el número y codificar los espacios como `+` a la
+ * reescritura, y los ocho casos seguían verdes porque la etiqueta seguía ahí. Un link sin número no
+ * abre ningún chat. Los que no son de WhatsApp pasan de largo.
+ */
+function formaWa(donde, crudo) {
+  if (!crudo.startsWith('https://wa.me/')) return;
+  if (!/^https:\/\/wa\.me\/51933014505\?text=[^+&#\s]+$/.test(crudo)) {
+    fallos.push(`forma del link de WhatsApp (${donde}): se esperaba wa.me/51933014505?text=<texto sin "+"> → ${crudo}`);
+  }
+}
+
+/** Cada par [nombre, href, fragmento]: falla si el href no contiene el fragmento. */
+const casoLinks = (nombre, pares) => {
+  const problemas = pares
+    .filter(([, href, frag]) => !href.includes(frag))
+    .map(([que, href, frag]) => `${que} no trae "${frag}" → ${href}`);
+  if (problemas.length) fallos.push(`${nombre}:\n    ` + problemas.join('\n    '));
+  else notas.push(`  ✓ ${nombre.padEnd(22)} ${pares.map(([, , f]) => f).join('  ')}`);
+};
+
 const caso = (nombre, { wa, app }, { etiqueta, enApp }) => {
   const problemas = [];
   if (!wa.includes(etiqueta)) problemas.push(`el texto de WhatsApp no trae "${etiqueta}" → ${wa}`);
@@ -162,6 +226,69 @@ try {
     }),
     { etiqueta: '[hero|tiktok]', enApp: ['utm_source=tiktok', 'utm_medium=bio'] }
   );
+
+  // 5 y 6. Referido. Código inventado a propósito: el backend no lo resuelve y la página cae a la
+  // invitación genérica, que es lo que se quiere (no se consulta ni se toca la cuenta de nadie).
+  const REF = 'QAPROBE1';
+  const refListo = () => {
+    const a = document.querySelector('main a[href^="https://wa.me/"]');
+    return !!a && decodeURIComponent(a.getAttribute('href')).includes('|');
+  };
+  const refSel = { wa: 'main a[href^="https://wa.me/"]', app: 'main a[href*="app.neto.pe"]' };
+  const r5 = await hrefsDePagina(browser, `${base}r?ref=${REF}`, refSel, refListo);
+  casoLinks('5. referido sin UTM', [
+    ['el texto de WhatsApp', r5.wa, `text=Hola NETO ref:${REF} [referido|referido]`],
+    ['el link a la app', r5.app, `ref=${REF}`],
+    ['el link a la app', r5.app, 'utm_source=referido'],
+  ]);
+  const r6 = await hrefsDePagina(browser, `${base}r?ref=${REF}&utm_source=ig&utm_medium=story`, refSel, refListo);
+  casoLinks('6. referido con UTM', [
+    ['el texto de WhatsApp', r6.wa, `ref:${REF} [referido|ig]`],
+    ['el link a la app', r6.app, 'utm_source=ig'],
+  ]);
+  // 6b. La precedencia: el origen que implica la página le gana al referrer. Quien abre un link de
+  // referido casi siempre llega desde WhatsApp, y sin esto se contaría como `whatsapp` y no como
+  // `referido` (la revisión movió `defecto` detrás del referrer y los ocho casos seguían verdes).
+  const r6b = await hrefsDePagina(browser, `${base}r?ref=${REF}`, refSel, refListo, { referer: 'https://web.whatsapp.com/' });
+  casoLinks('6b. referido vía WhatsApp', [
+    ['el texto de WhatsApp', r6b.wa, `ref:${REF} [referido|referido]`],
+    ['el link a la app', r6b.app, 'utm_source=referido'],
+  ]);
+
+  // 7. Blog: el cuerpo del post y el footer. Primero el HTML crudo, que es lo que ve quien no
+  // corre JS y lo que queda si la hidratación falla: tiene que decir la posición correcta.
+  const POST = 'blog/gastos-hormiga-peru';
+  const crudo = await (await fetch(`${base}${POST}`)).text();
+  const enCrudo = (s) => crudo.includes(encodeURIComponent(s));
+  if (!enCrudo('[blog]') || !enCrudo('[footer]') || enCrudo('[hero]')) {
+    fallos.push(`7. blog (HTML sin JS): [blog]=${enCrudo('[blog]')} [footer]=${enCrudo('[footer]')} [hero]=${enCrudo('[hero]')} — se esperaba true/true/false`);
+  }
+  const r7 = await hrefsDePagina(
+    browser,
+    `${base}${POST}?utm_source=ig&utm_medium=bio`,
+    { cuerpo: '.prose-neto a[href^="https://wa.me/"]', footer: 'footer a[href^="https://wa.me/"]' },
+    () => [...document.querySelectorAll('.prose-neto a[href^="https://wa.me/"], footer a[href^="https://wa.me/"]')]
+      .every((a) => decodeURIComponent(a.getAttribute('href')).includes('|'))
+  );
+  casoLinks('7. blog con UTM', [
+    ['el link del cuerpo', r7.cuerpo, '[blog|ig]'],
+    ['el link del footer', r7.footer, '[footer|ig]'],
+  ]);
+
+  // 8. FAQ: links adentro de una respuesta que es un string de HTML.
+  const r8 = await hrefsDePagina(
+    browser,
+    `${base}faq?utm_source=tiktok&utm_medium=bio`,
+    { wa: 'details a[href^="https://wa.me/"]', app: 'details a[href*="app.neto.pe"]' },
+    () => {
+      const a = document.querySelector('details a[href*="app.neto.pe"]');
+      return !!a && a.getAttribute('href').includes('utm_source');
+    }
+  );
+  casoLinks('8. faq con UTM', [
+    ['el link a WhatsApp', r8.wa, '[faq|tiktok]'],
+    ['el link a la app', r8.app, 'utm_source=tiktok'],
+  ]);
 } catch (e) {
   await browser.close();
   fatal(e.message);
@@ -171,7 +298,7 @@ await browser.close();
 console.log(`\nATRIBUCIÓN DEL SALTO — ${base}\n`);
 console.log(notas.join('\n'));
 if (fallos.length) {
-  console.error(`\n✗ ${fallos.length} de 4 casos pierden la atribución:\n\n  ` + fallos.join('\n\n  ') + '\n');
+  console.error(`\n✗ ${fallos.length} caso(s) pierden la atribución:\n\n  ` + fallos.join('\n\n  ') + '\n');
   process.exit(1);
 }
-console.log('\n✓ verify-atribucion: los 4 casos conservan el origen hasta el otro lado del salto\n');
+console.log(`\n✓ verify-atribucion: los ${notas.length} casos conservan el origen hasta el otro lado del salto\n`);

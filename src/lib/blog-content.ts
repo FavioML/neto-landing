@@ -4,7 +4,11 @@
  * and avoids MDX/remark dependencies.
  */
 
-import { WA_LINK } from "./constants";
+import { waLink } from "./constants";
+
+// `[blog]`, no `[hero]`: la posición tiene que decir de dónde salió el clic. El origen de la visita
+// lo agrega `<HtmlAtribuido>` en cliente, porque este HTML es un string y no pasa por un hook.
+const WA_BLOG = waLink("blog");
 
 export const articleContent: Record<string, string> = {
   "gastos-hormiga-peru": `
@@ -231,7 +235,7 @@ export const articleContent: Record<string, string> = {
 
 <h3>¿Cómo sé cuáles son mis gastos hormiga actuales?</h3>
 <p>
-  La forma más rápida es escribirle a <a href="${WA_LINK}">Neto por WhatsApp</a>.
+  La forma más rápida es escribirle a <a href="${WA_BLOG}">Neto por WhatsApp</a>.
   Le vas mandando los gastos como se te ocurran y en el dashboard los ves ya
   organizados por categoría, con los hormiga saltando a la vista. Si prefieres
   arrancar con el mes ya corrido en vez de desde cero, en Neto Pro puedes conectar
@@ -419,7 +423,7 @@ export const articleContent: Record<string, string> = {
 
 <h2>Plan de acción de 30 días</h2>
 <ol>
-  <li><strong>Día 1:</strong> Conecta <a href="${WA_LINK}">Neto por WhatsApp</a> (2 minutos, gratis). Obtén tu primer resumen de gastos del mes actual.</li>
+  <li><strong>Día 1:</strong> Conecta <a href="${WA_BLOG}">Neto por WhatsApp</a> (2 minutos, gratis). Obtén tu primer resumen de gastos del mes actual.</li>
   <li><strong>Días 2–7:</strong> Solo observa. Sin juzgar ni cambiar nada. El objetivo es entender tus patrones reales.</li>
   <li><strong>Semana 2:</strong> Identifica tus 3 categorías con más gasto. Elige una para reducir en 20%.</li>
   <li><strong>Semana 3:</strong> Implementa el presupuesto de esa categoría. Usa las alertas de Neto para saber cuándo te acercas al tope.</li>
@@ -883,7 +887,7 @@ export const articleContent: Record<string, string> = {
 <h2>Empieza gratis</h2>
 <p>
   Si quieres ver cómo funciona en la práctica,
-  <a href="${WA_LINK}">escríbele a Neto por WhatsApp</a>. En 2 minutos
+  <a href="${WA_BLOG}">escríbele a Neto por WhatsApp</a>. En 2 minutos
   conectas tu primer banco y ves tus gastos organizados automáticamente.
   Sin contraseñas bancarias. Sin apps que descargar.
 </p>

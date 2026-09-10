@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { WA_NUMBER, APP_URL, API_URL, waReferralLink, appReferralUrl } from "@/lib/constants";
-import { useAppHref } from "@/hooks/useAtribucion";
+import { useAtribucion } from "@/hooks/useAtribucion";
+import { ORIGEN_REFERIDO, conAtribucion, etiquetaCta } from "@/lib/atribucion";
 
 // Con static export no hay segmento [code] pre-renderizado. Cloudflare (_redirects)
 // redirige /r/CODE → /r?ref=CODE, así que el code llega por la query. Se lee también del
@@ -50,14 +51,20 @@ export default function ReferidoPage() {
     };
   }, []);
 
+  // Esta página ES la señal de canal: quien llega acá vino por un referido, así que sin UTM el
+  // origen es `referido` y no `directo` (ver `ORIGEN_REFERIDO`: el 302 de `/r/CODE` tira cualquier
+  // UTM del link). Una sola captura alimenta los dos destinos, para que no puedan divergir.
+  const atr = useAtribucion(ORIGEN_REFERIDO);
+  const etiqueta = etiquetaCta("referido", atr);
+  // El texto EMPIEZA con `Hola NETO ref:CODE` (contrato con el regex de `handlers/webhook.js`, que
+  // ancla solo el inicio) y la etiqueta va detrás. Antes no llevaba ninguna y el alta por referido
+  // quedaba con `origen` NULL: el código viaja en `referidos`, pero no en la columna del canal.
   const waHref = code
-    ? waReferralLink(code)
-    : `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hola NETO")}`;
+    ? waReferralLink(code, etiqueta)
+    : `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(`Hola NETO [${etiqueta}]`)}`;
   // El `?ref=CODE` lo pone `appReferralUrl` y `conAtribucion` no lo pisa: un invitado que además
-  // llegó con UTM conserva las dos cosas. El texto de WhatsApp NO se toca acá a propósito — su
-  // formato (`Hola NETO ref:CODE`) es un contrato con `handlers/webhook.js` y la atribución del
-  // referido ya viaja por el código, que es más preciso que un utm_source.
-  const appHref = useAppHref(code ? appReferralUrl(code) : APP_URL);
+  // llegó con UTM conserva las dos cosas.
+  const appHref = conAtribucion(code ? appReferralUrl(code) : APP_URL, atr);
   const titulo = cargado && nombre ? `${nombre} te invitó a Neto` : "Te invitaron a Neto";
 
   return (
