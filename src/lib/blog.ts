@@ -3,6 +3,12 @@ export interface BlogPost {
   title: string;
   description: string;
   date: string; // YYYY-MM-DD
+  /**
+   * Solo si el contenido cambió materialmente después de `date` (YYYY-MM-DD). Alimenta el
+   * `dateModified` del JSON-LD y la "Última actualización" visible, y el `<lastmod>` del sitemap
+   * tiene que decir lo mismo (`verify-claims.mjs` lo exige). Sin él, las dos fechas son `date`.
+   */
+  dateModified?: string;
   readingTime: string;
   keywords: string[];
   content: string; // HTML content
@@ -104,10 +110,11 @@ export const posts: BlogPost[] = [
   },
   {
     slug: "gastos-hormiga-peru",
-    title: "Gastos hormiga: cómo te roban S/200 al mes sin verte",
+    title: "Gastos hormiga: qué son y cómo verlos en tu sueldo",
     description:
-      "Descubre qué son los gastos hormiga, cuánto dinero pierdes al mes en Perú y cómo controlarlos automáticamente con WhatsApp.",
+      "Qué son los gastos hormiga, cómo sumarlos con tus propios números y cómo ponerles un tope. Con un ejemplo en soles y el ingreso promedio de Lima según el INEI.",
     date: "2026-03-21",
+    dateModified: "2026-09-11",
     readingTime: "5 min",
     keywords: [
       "gastos hormiga",
@@ -122,8 +129,9 @@ export const posts: BlogPost[] = [
     slug: "como-controlar-gastos-personales-peru",
     title: "Cómo controlar gastos personales en Perú: guía 2026",
     description:
-      "Guía paso a paso para controlar tus gastos en Perú. Métodos probados, herramientas gratuitas y tips adaptados a la realidad peruana.",
+      "Cuatro métodos para controlar tus gastos en Perú (50/30/20, topes por categoría, presupuesto cero y quitar tres gastos), con ejemplos en soles y un plan de 30 días.",
     date: "2026-03-22",
+    dateModified: "2026-09-11",
     readingTime: "6 min",
     keywords: [
       "cómo controlar gastos personales",
@@ -136,32 +144,34 @@ export const posts: BlogPost[] = [
   },
   {
     slug: "en-que-gasto-mi-plata",
-    title: "¿En qué gasto mi plata? Descúbrelo en 2 minutos",
+    title: "¿En qué gasto mi plata? Cómo averiguarlo mes a mes",
     description:
-      "¿No sabes a dónde se va tu sueldo? Aprende a ver todos tus gastos organizados por categoría, en minutos y desde WhatsApp.",
+      "Si llegas al 20 sin plata y no sabes por qué, es porque tus gastos están repartidos. Cómo juntarlos y verlos por categoría, a mano o desde WhatsApp.",
     date: "2026-03-22",
-    readingTime: "4 min",
+    dateModified: "2026-09-11",
+    readingTime: "5 min",
     keywords: [
       "en qué gasto mi plata",
       "a dónde se va mi dinero",
       "control de gastos whatsapp",
-      "rastrear gastos automáticamente",
+      "rastrear gastos",
       "gastos por categoría",
     ],
     content: "",
   },
   {
     slug: "bancos-peru-rastrear-sin-contrasena",
-    title: "11 bancos peruanos que rastrear sin dar tu contraseña",
+    title: "Bancos peruanos que Neto lee sin pedirte tu contraseña",
     description:
-      "BCP, BBVA, Interbank, Scotiabank, Yape y más. Conoce qué bancos puedes monitorear automáticamente sin compartir tus credenciales bancarias.",
+      "Neto no se conecta a tu banco. Con Neto Pro y tu Gmail conectado, lee los correos de notificación de BCP, BBVA, Interbank, Scotiabank, Yape y otros. Qué lee, qué no y cómo quitarle el acceso.",
     date: "2026-03-22",
-    readingTime: "5 min",
+    dateModified: "2026-09-11",
+    readingTime: "6 min",
     keywords: [
       "bancos perú",
       "app finanzas perú sin contraseña",
       "rastrear gastos bcp",
-      "monitorear banco automáticamente",
+      "leer correos bancarios",
       "seguridad financiera perú",
     ],
     content: "",
@@ -170,15 +180,16 @@ export const posts: BlogPost[] = [
     slug: "asistente-financiero-whatsapp-peru",
     title: "Asistente financiero por WhatsApp: cómo funciona Neto",
     description:
-      "Neto es el primer asistente financiero peruano que funciona 100% por WhatsApp. Conoce cómo te ayuda a ordenar tu plata automáticamente.",
+      "Qué hace Neto, qué no hace y cuánto cuesta. Anotas tus gastos por WhatsApp con un mensaje o la captura del yapeo, y los ves ordenados en tu dashboard.",
     date: "2026-03-22",
+    dateModified: "2026-09-11",
     readingTime: "5 min",
     keywords: [
       "asistente financiero whatsapp",
       "asistente financiero perú",
       "neto finanzas",
       "bot whatsapp finanzas",
-      "control de gastos automático",
+      "control de gastos whatsapp",
     ],
     content: "",
   },

@@ -42,6 +42,16 @@ const BCRP_INTEROPERABILIDAD = "https://www.bcrp.gob.pe/sistema-de-pagos/interop
 const CREDICORP_2T26 = "https://www.sec.gov/Archives/edgar/data/0001001290/000114036126033379/ef20080305_ex99-1.htm";
 const CONSULTA_YAPE_PLIN = fechaLarga("2026-09-11");
 
+/*
+ * Revisión de los cinco posts de marzo (2026-09-11), con la misma regla que los posts nuevos: cada
+ * cifra de terceros lleva fuente y fecha, y lo que no se pudo verificar se borró. Lo que estos posts
+ * dicen de Neto (bancos que lee, 30 días de histórico, AES-256-GCM en los tokens de Gmail) sale del
+ * código de `neto/app` (`gmail.js`, `services/gmail-scanner.js`, `lib/crypto.js`) a esa fecha.
+ */
+const INEI_INGRESO_LIMA = "https://www.gob.pe/institucion/inei/noticias/1430813-inei-poblacion-ocupada-aumento-7-7-en-lima-metropolitana-en-el-trimestre-movil-mayo-junio-julio-de-2026";
+const SUPABASE_SEGURIDAD = "https://supabase.com/security";
+const CONSULTA_REVISION = fechaLarga("2026-09-11");
+
 export const articleContent: Record<string, string> = {
   "cuanto-cuesta-app-finanzas-personales-peru": `
 <p>
@@ -202,313 +212,261 @@ ${precioPorApp}
 `,
 
   "gastos-hormiga-peru": `
+<p>
+  <strong>Un gasto hormiga es un gasto chico y frecuente que no se siente cuando lo haces, pero que
+  sumado a fin de mes pesa.</strong> El café, el taxi corto, el snack de la tarde, la suscripción
+  que ya no abres. Ninguno duele solo. La única forma de saber cuánto se llevan es sumarlos con tus
+  propios números, y para eso primero hay que anotarlos.
+</p>
+
 <h2>Qué son los gastos hormiga</h2>
 <p>
-  Los gastos hormiga son esos gastos pequeños, casi invisibles, que haces todos los
-  días sin pensarlo mucho. Un café de S/8 aquí, un taxi de S/12 allá, el delivery
-  del almuerzo, la Coca-Cola de la tarde. Cada uno parece insignificante. Pero
-  cuando los sumas al final del mes, el resultado duele.
-</p>
-<p>
-  Se llaman "hormiga" justamente por eso: son pequeños, pasan desapercibidos y
-  trabajan en silencio. Pero juntos, <strong>pueden comerse entre S/200 y S/500
-  de tu sueldo cada mes</strong> sin que te des cuenta.
-</p>
-<p>
-  En el Perú, donde el sueldo mínimo es de S/1,025 y el sueldo promedio en Lima
-  ronda los S/2,800–S/3,200, ese rango representa entre el 7% y el 18% de tus
-  ingresos. Plata que se podría convertir en ahorro, en pagar deudas más rápido,
-  o en algo que realmente quieres.
+  Se llaman así porque son pequeños, pasan desapercibidos y trabajan juntos. Un café de S/8, un taxi
+  de S/12, el delivery del almuerzo, la gaseosa de la tarde. Cada uno por separado parece nada. El
+  problema aparece cuando los sumas al final del mes, y casi nadie los suma.
 </p>
 
-<h2>Cuánto dinero pierdes realmente</h2>
-<p>Hagamos cuentas con un ejemplo típico de un limeño con sueldo de S/3,000:</p>
+<h2>Cuánto pueden sumar: un ejemplo para hacer la cuenta</h2>
+<p>
+  Los montos de abajo son un ejemplo, no un promedio de nadie. Sirven para ver cómo se acumulan:
+  cambia cada uno por lo que tú gastas y la cuenta es la misma.
+</p>
 <ul>
-  <li><strong>Café diario (de cadena o de la esquina):</strong> S/8 × 22 días hábiles = <strong>S/176 al mes</strong></li>
-  <li><strong>Delivery (Rappi, PedidosYa — 2 veces por semana):</strong> S/35 promedio × 8 = <strong>S/280 al mes</strong></li>
-  <li><strong>Taxi/Uber "porque estoy cansado" (3 veces por semana):</strong> S/12 × 12 = <strong>S/144 al mes</strong></li>
-  <li><strong>Antojos y snacks durante el día:</strong> S/5 × 20 días = <strong>S/100 al mes</strong></li>
-  <li><strong>Suscripciones que apenas usas:</strong> Netflix + Spotify + HBO = <strong>S/80 al mes</strong></li>
+  <li>Café cinco días a la semana, a S/8: S/8 × 22 días hábiles = <strong>S/176 al mes</strong></li>
+  <li>Delivery dos veces por semana, a S/35: S/35 × 8 = <strong>S/280 al mes</strong></li>
+  <li>Taxi corto tres veces por semana, a S/12: S/12 × 12 = <strong>S/144 al mes</strong></li>
+  <li>Un snack en los días de trabajo, a S/5: S/5 × 20 días = <strong>S/100 al mes</strong></li>
 </ul>
 <p>
-  <strong>Total: S/780 al mes. S/9,360 al año.</strong>
+  <strong>Total del ejemplo: S/700 al mes, S/8,400 al año.</strong>
 </p>
 <p>
-  Casi diez mil soles al año que simplemente desaparecen. Para la mayoría de peruanos, eso
-  es más de tres meses de sueldo. Y la gran mayoría no lo sabe porque nunca ha sumado
-  estos gastos por categoría.
+  Para ponerlo en escala: según el INEI, el ingreso promedio mensual por trabajo en Lima
+  Metropolitana fue de S/2,312.6 en el trimestre de mayo a julio de 2026
+  (<a href="${INEI_INGRESO_LIMA}" target="_blank" rel="noopener noreferrer nofollow">INEI</a>).
+  Con ese ingreso, los S/700 del ejemplo serían alrededor del 30% de lo que entra en el mes. Tu
+  número puede ser mucho menor o mucho mayor; lo que importa es que lo conozcas.
+</p>
+<p><small>Fuente consultada el ${CONSULTA_REVISION}.</small></p>
+
+<h2>Por qué no los notas</h2>
+<p>
+  Un gasto de S/8 no activa ninguna alarma. Los gastos grandes (el alquiler, un pasaje, una compra
+  fuerte) los piensas antes de hacerlos; los chicos se aprueban solos. Y como cada uno se paga por
+  un medio distinto (un yapeo, la tarjeta, un billete), no queda un lugar donde se vean juntos.
 </p>
 
-<h2>El impacto psicológico: por qué tu cerebro los ignora</h2>
+<h2>Los gastos hormiga más comunes</h2>
 <p>
-  Los gastos hormiga no son solo un problema matemático. Son un problema de percepción.
-  Cuando gastas S/8 en café, tu cerebro no registra una alarma porque <strong>S/8 no
-  duele</strong>. El dolor financiero que sentimos es proporcional al número, y los
-  números pequeños pasan bajo el radar cognitivo.
-</p>
-<p>
-  Los economistas del comportamiento llaman a esto "negligencia de pequeñas cantidades".
-  Tu cerebro tiene dos sistemas de evaluación financiera:
+  No hay un ranking oficial de gastos hormiga en Perú. Estos son los que conviene revisar primero,
+  porque se repiten muchas veces en un mes:
 </p>
 <ol>
-  <li><strong>Sistema 1 (automático):</strong> Evalúa rápido. "S/8 — no es nada." Aprobado sin pensar.</li>
-  <li><strong>Sistema 2 (analítico):</strong> Evalúa lento. Hace cuentas. Proyecta el impacto mensual. Pero solo lo activamos para gastos grandes: la renta, el auto, el viaje.</li>
-</ol>
-<p>
-  El resultado es que tomamos cientos de micro-decisiones financieras al mes usando
-  solo el Sistema 1. Y cuando al fin de mes sumamos el daño, nos sorprendemos.
-</p>
-
-<h2>Los 5 gastos hormiga más comunes en Perú</h2>
-<p>Estos son los que más aparecen al analizar el comportamiento de usuarios peruanos:</p>
-<ol>
   <li>
-    <strong>Delivery (Rappi, PedidosYa):</strong> El campeón indiscutido. Un almuerzo
-    de S/20 más S/8 de delivery fee más propina no son S/20 — son S/32. Y si lo haces
-    dos veces por semana, son S/256 al mes solo en delivery. Muchos usuarios se
-    sorprenden cuando Neto les muestra este número por primera vez.
+    <strong>Delivery.</strong> Al precio de la comida se suman el costo de envío y la propina, así
+    que el pedido cuesta más de lo que marca el plato. Mira el total que pagaste, no el precio del
+    menú.
   </li>
   <li>
-    <strong>Café de cadena:</strong> Starbucks, Juan Valdez, o cualquier café artesanal
-    de Miraflores. Un latte a S/18 parece razonable in the moment. Pero 5 veces por
-    semana son S/360 al mes. Más que muchos planes de ahorro.
+    <strong>Café y antojos fuera de casa.</strong> Un latte o un snack de todos los días es de los
+    gastos que más veces se repiten.
   </li>
   <li>
-    <strong>Transporte impulsivo:</strong> Trayectos de S/8–15 que podrías hacer en
-    combi o caminando 10 minutos. No hay nada malo en tomar un taxi — el problema
-    es no saber cuántos tomas al mes.
+    <strong>Taxis cortos.</strong> Tomar un taxi no tiene nada de malo; lo que falla es no saber
+    cuántos tomaste en el mes.
   </li>
   <li>
-    <strong>Suscripciones olvidadas:</strong> Netflix, Spotify, Disney+, HBO, YouTube
-    Premium, Amazon Prime, la app de meditación que usaste dos semanas. Aquí en Perú
-    el precio promedio de suscripciones digitales activas por usuario es de S/95–S/130
-    al mes. Más de la mitad son plataformas con uso mínimo.
+    <strong>Suscripciones que no usas.</strong> Streaming, música, almacenamiento en la nube, la app
+    que probaste dos semanas. Se cobran solas cada mes.
   </li>
   <li>
-    <strong>Antojos de tienda:</strong> La galleta, la gaseosa, el chocolate en la caja
-    del supermercado. S/3–5 cada vez, varias veces por semana. El supermercado está
-    diseñado exactamente para esto: los productos de impulso están estratégicamente
-    ubicados en zonas de alta visibilidad.
+    <strong>Compras de impulso.</strong> La galleta o la gaseosa en la caja del supermercado. S/3 o
+    S/5 cada vez, varias veces por semana.
   </li>
 </ol>
 
-<h2>Gastos hormiga vs gastos fijos: la diferencia clave</h2>
+<h2>Gastos hormiga vs gastos fijos</h2>
 <p>
-  Un gasto fijo es predecible: tu alquiler, tu seguro, tus cuotas del préstamo. Sabes
-  exactamente cuánto pagas y cuándo. Un gasto hormiga es variable, frecuente y
-  generalmente impulsivo.
+  Un gasto fijo es predecible: el alquiler, el seguro, la cuota del préstamo. Sabes cuánto pagas y
+  cuándo. Un gasto hormiga es variable, frecuente y casi siempre impulsivo.
 </p>
 <p>
-  La diferencia importante: <strong>los gastos fijos son difíciles de reducir a corto
-  plazo</strong>. Los gastos hormiga los puedes controlar hoy mismo, sin romper contratos
-  ni hacer cambios grandes en tu vida. Por eso son el mejor punto de partida para
-  cualquier plan de ahorro.
+  La diferencia que importa: <strong>los gastos fijos son difíciles de bajar rápido</strong>, porque
+  dependen de contratos. Los gastos hormiga los puedes ajustar desde hoy sin cambiar nada grande en
+  tu vida. Por eso son un buen punto de partida para cualquier plan de ahorro.
 </p>
 <p>
-  Si quieres aprender a controlar todos tus gastos de forma sistemática, lee nuestra
-  <a href="/blog/como-controlar-gastos-personales-peru">guía completa de control de gastos personales en Perú</a>.
+  Si quieres ordenar todos tus gastos y no solo los chicos, lee nuestra
+  <a href="/blog/como-controlar-gastos-personales-peru">guía de control de gastos personales en Perú</a>.
 </p>
 
-<h2>Las suscripciones: el gasto hormiga digital del siglo XXI</h2>
+<h2>Las suscripciones: el gasto hormiga que se cobra solo</h2>
 <p>
-  Las suscripciones digitales merecen un capítulo aparte porque tienen un superpoder
-  que otros gastos hormiga no tienen: se cobran automáticamente. No tienes que tomar
-  ninguna decisión activa — simplemente continúan mes a mes mientras tú te olvidas.
+  Las suscripciones tienen algo que los otros gastos hormiga no tienen: no decides nada para que se
+  cobren. Siguen mes a mes hasta que las cancelas, y cancelar suele pedir más pasos que suscribirse.
 </p>
 <p>
-  El modelo de negocio está diseñado para aprovechar nuestra inercia. Cancelar una
-  suscripción requiere acción activa: buscar el menú de configuración, navegar hasta
-  "Cancelar suscripción", confirmar múltiples veces. La fricción es intencional.
-</p>
-<p>
-  La solución: hacer un inventario de todas tus suscripciones activas una vez al año.
-  Herramientas como <a href="/">Neto</a> detectan automáticamente los cargos recurrentes
-  en tus correos bancarios y los agrupan para que puedas ver de un vistazo cuánto
-  pagas en total y decidir cuáles realmente usas.
+  Lo práctico es hacer un inventario de todo lo que pagas cada mes y cancelar lo que no usas. En
+  <a href="/">Neto</a> Pro, las suscripciones que reconoce entre los gastos que anotaste (Netflix,
+  Disney+, Max y otras de su catálogo) aparecen juntas, con cuánto suman al mes.
 </p>
 
-<h2>Cómo controlar tus gastos hormiga: paso a paso</h2>
-<h3>Paso 1: Hacerlos visibles</h3>
+<h2>Cómo controlar tus gastos hormiga, paso a paso</h2>
+<h3>Paso 1: hacerlos visibles</h3>
 <p>
-  El primer paso — y el más importante — es <strong>ver</strong> a dónde se va tu plata.
-  No puedes controlar lo que no mides. La mayoría de apps de finanzas te piden
-  llenar un formulario por cada gasto. Eso funciona 3 días y luego lo abandonas.
+  No puedes controlar lo que no ves. Y como los gastos hormiga son justo los que no anotas, lo que
+  funciona es bajar el esfuerzo de anotar hasta que casi no cueste.
 </p>
 <p>
-  Lo que sí aguanta es bajar la fricción hasta que no cueste nada: con
-  <a href="/">Neto</a> anotas escribiéndole por WhatsApp como le escribirías a un
-  amigo ("gasté 8 en café") o mandándole la foto de tu Yape, y él categoriza y suma
-  por ti. Y si además quieres que los cargos que tu banco ya te notifica por correo
-  entren solos, en Neto Pro puedes conectar tu Gmail y olvidarte de esos.
+  Con <a href="/">Neto</a> le escribes por WhatsApp como le escribirías a un amigo («café 8») o le
+  mandas la captura de tu yapeo, y él lo categoriza y lo suma. Si además quieres que los cargos que
+  tu banco te notifica por correo entren solos, en Neto Pro puedes conectar tu Gmail: es opcional y
+  va encima de lo que anotas, no en su lugar.
 </p>
 
-<h3>Paso 2: Identificar patrones</h3>
+<h3>Paso 2: identificar patrones</h3>
 <p>
-  Una vez que ves tus gastos organizados por categoría, los patrones saltan a la
-  vista: "Gasto S/300 al mes en delivery" o "Mi café me cuesta S/200 mensuales".
-  Con esa información, puedes tomar decisiones conscientes.
+  Con un par de semanas anotadas, los patrones aparecen solos: «se me va más en delivery de lo que
+  creía» o «el café me cuesta más que el gimnasio». Con esa información puedes decidir con calma.
 </p>
 <p>
-  La clave es no juzgarte. El objetivo de este paso es solo <strong>ver</strong>,
-  no cambiar todavía. Muchas personas se frustran porque quieren cambiar todo de
-  golpe. El cambio sostenible empieza con comprensión.
+  No te juzgues en este paso. El objetivo es solo <strong>ver</strong>; cambiar viene después.
+  Querer cambiar todo de golpe es lo que suele frustrar.
 </p>
 
-<h3>Paso 3: Decidir, no eliminar</h3>
+<h3>Paso 3: decidir, no eliminar</h3>
 <p>
-  No se trata de dejar el café para siempre. Se trata de <strong>decidir con
-  información</strong>. Tal vez el café diario vale la pena para ti, pero el delivery
-  3 veces por semana no. O viceversa. El punto es que sea tu decisión, no un
-  accidente.
+  No se trata de dejar el café para siempre. Se trata de <strong>decidir con información</strong>.
+  Tal vez el café diario vale la pena para ti y el delivery tres veces por semana no, o al revés.
+  Lo importante es que sea tu decisión y no un accidente.
 </p>
 
-<h3>Paso 4: Poner un presupuesto por categoría</h3>
+<h3>Paso 4: ponerle un tope a cada categoría</h3>
 <p>
-  Define un tope mensual para tus categorías de gastos hormiga. Por ejemplo:
-  "Máximo S/150 en delivery este mes" o "No más de S/80 en cafés". Cuando te
-  acercas al límite, ajustas.
+  Define un tope mensual para tus categorías hormiga, por ejemplo «máximo S/150 en delivery este
+  mes» o «no más de S/80 en cafés». Cuando te acercas al límite, ajustas.
 </p>
 <p>
-  Neto te puede alertar por WhatsApp cuando te acercas a tu tope de categoría.
-  Así no necesitas revisar nada — el sistema te avisa solo.
+  En Neto Pro puedes poner un presupuesto por categoría, y Neto te avisa cuando te acercas al tope.
 </p>
 
 <h2>La matemática del ahorro</h2>
 <p>
-  Si reduces tus gastos hormiga en solo <strong>S/200 al mes</strong>:
+  Si bajas tus gastos hormiga en <strong>S/200 al mes</strong>, sin contar intereses:
 </p>
 <ul>
-  <li>En 3 meses: S/600 (fondo de emergencia básico para una sola persona)</li>
-  <li>En 6 meses: S/1,200 (viaje corto dentro del país)</li>
-  <li>En 1 año: S/2,400 (fondo de emergencia sólido o inicio de ahorro)</li>
-  <li>En 3 años: S/7,200 (inicial de un negocio pequeño o cuota inicial)</li>
+  <li>En 3 meses: S/600</li>
+  <li>En 6 meses: S/1,200</li>
+  <li>En 1 año: S/2,400</li>
+  <li>En 3 años: S/7,200</li>
 </ul>
 <p>
-  Y lo mejor: no cambiaste tu estilo de vida. Solo dejaste de gastar en cosas
-  que no te importaban tanto.
+  Y no cambiaste tu estilo de vida: solo dejaste de gastar en cosas que no te importaban tanto.
 </p>
 
 <h2>Errores comunes al intentar controlar gastos hormiga</h2>
 <ul>
   <li>
-    <strong>Intentar eliminar todo de golpe:</strong> Si te propones no gastar nada en
-    delivery ni café ni taxis desde mañana, durarás dos semanas. Los cambios drásticos
-    no se sostienen. Empieza por reducir en 20%, no en 100%.
+    <strong>Eliminar todo de golpe:</strong> si desde mañana no gastas nada en delivery, café ni
+    taxis, lo más probable es que no lo sostengas. Empieza reduciendo una parte, no el 100%.
   </li>
   <li>
-    <strong>No tener datos reales:</strong> Si estimas "más o menos" cuánto gastas, no
-    puedes mejorar. Necesitas números concretos para tomar decisiones concretas.
+    <strong>Trabajar con estimados:</strong> «más o menos gasto tanto» no sirve para decidir.
+    Necesitas el número real.
   </li>
   <li>
-    <strong>Culpar solo al ingreso:</strong> "Si ganara más, ahorraría más." No
-    necesariamente. La mayoría de personas que gana más simplemente incrementa sus
-    gastos hormiga proporcionalmente (esto se llama inflación de estilo de vida).
+    <strong>Culpar solo al sueldo:</strong> ganar más no garantiza ahorrar más. Es común que, al
+    subir el ingreso, también suban los gastos chicos.
   </li>
 </ul>
 
 <h2>Preguntas frecuentes</h2>
 <h3>¿Cuánto debería gastar en gastos hormiga al mes?</h3>
 <p>
-  No hay una regla única, pero una buena referencia es que los gastos discrecionales
-  pequeños no superen el 10–15% de tu ingreso neto. Con un sueldo de S/3,000, eso
-  es entre S/300 y S/450 al mes para la categoría completa. Si estás gastando más,
-  tienes margen de mejora.
+  No hay una regla oficial. Lo útil es anotar un mes completo, ver cuánto sumaron y decidir un tope
+  que te parezca razonable a ti. Si al ver el número te incomoda, ahí tienes margen.
 </p>
 
 <h3>¿El café de todos los días me arruina?</h3>
 <p>
-  No por sí solo. El problema no es el café — es la suma de todos los gastos
-  hormiga juntos. Un café de S/8 al día son S/2,920 al año, que es significativo.
-  Pero si es el único gasto hormiga que tienes y el resto de tus finanzas están
-  ordenadas, no es un problema urgente.
+  No por sí solo. Un café de S/8 al día son S/2,920 al año, que no es poco, pero el problema es la
+  suma de todos los gastos hormiga juntos. Si es el único y el resto de tus finanzas está en orden,
+  no es urgente.
 </p>
 
-<h3>¿Cómo sé cuáles son mis gastos hormiga actuales?</h3>
+<h3>¿Cómo sé cuáles son mis gastos hormiga?</h3>
 <p>
-  La forma más rápida es escribirle a <a href="${WA_BLOG}">Neto por WhatsApp</a>.
-  Le vas mandando los gastos como se te ocurran y en el dashboard los ves ya
-  organizados por categoría, con los hormiga saltando a la vista. Si prefieres
-  arrancar con el mes ya corrido en vez de desde cero, en Neto Pro puedes conectar
-  tu Gmail para que los cargos que el banco te notificó por correo entren solos.
+  Anotándolos. La forma más rápida es escribirle a <a href="${WA_BLOG}">Neto por WhatsApp</a> cada
+  gasto cuando lo haces. Anotar es gratis siempre; ver tus gastos ordenados por categoría en el
+  dashboard es de Neto Pro, y tienes 14 días de prueba desde que registras tu primer gasto.
 </p>
 `,
 
   "como-controlar-gastos-personales-peru": `
-<h2>El problema real de las finanzas personales en Perú</h2>
 <p>
-  La mayoría de peruanos no tiene un sistema para controlar sus gastos. No porque
-  no quieran, sino porque las herramientas disponibles no se adaptan a cómo
-  realmente manejamos la plata aquí.
-</p>
-<p>
-  Usamos Yape para el almuerzo, tarjeta para el supermercado, efectivo para el taxi,
-  Plin para la comida del fin de semana. <strong>Todo está fragmentado en 3–5 medios
-  de pago diferentes</strong>. Ninguna app te muestra todo junto, consolidado y
-  categorizado automáticamente.
-</p>
-<p>
-  Resultado: llegas a fin de mes sin saber exactamente en qué se fue tu sueldo.
-  Sabes que pagaste el alquiler y los servicios. Pero el resto — esa plata que
-  "desapareció" — es un misterio.
-</p>
-<p>
-  El primer paso para resolver este problema no es disciplina ni fuerza de voluntad.
-  Es <strong>visibilidad</strong>. Antes de controlar, necesitas ver. Antes de ver,
-  necesitas datos. Y para tener datos sin volverse loco, necesitas automatización.
+  <strong>Controlar tus gastos en Perú empieza por juntar en un solo lugar lo que pagas con Yape,
+  Plin, tarjeta y efectivo, y anotarlo cuando pagas.</strong> Con un mes de datos reales ya puedes
+  elegir un método: la regla 50/30/20, topes por categoría o el presupuesto cero. Abajo va cada uno
+  con un ejemplo en soles, y un plan de 30 días para empezar.
 </p>
 
-<h2>El ciclo vicioso del "ya empiezo el lunes"</h2>
+<h2>El problema: tu plata está repartida</h2>
 <p>
-  Hay un patrón muy común: cada vez que alguien decide controlar sus gastos, empieza
-  fuerte los primeros días. Descarga una app, anota los primeros gastos, se siente
-  productivo. Luego el ritmo de vida se impone, se olvida de anotar una compra, y
-  después de una semana de datos incompletos, abandona.
+  Yape para el almuerzo, tarjeta para el supermercado, efectivo para el taxi, Plin para la comida
+  del fin de semana. Cada medio de pago guarda su propio historial y ninguno te muestra el total
+  junto ni ordenado por categoría.
 </p>
 <p>
-  El problema no es la persona — es el sistema. Cualquier sistema que requiera
-  acción manual y disciplina constante está condenado a fallar con el tiempo.
-  Los hábitos que se sostienen son los que tienen <strong>fricción mínima</strong>.
+  Resultado: llegas a fin de mes sin saber exactamente en qué se fue tu sueldo. Sabes que pagaste el
+  alquiler y los servicios; el resto es un misterio.
 </p>
 <p>
-  Por eso el control de gastos moderno no se trata de anotar más — se trata de
-  automatizar más. Si quieres entender por dónde empezar,
-  <a href="/blog/en-que-gasto-mi-plata">este artículo explica cómo saber a dónde va
-  tu plata en 2 minutos</a>.
+  Por eso el primer paso no es disciplina ni fuerza de voluntad: es <strong>visibilidad</strong>.
+  Antes de controlar necesitas ver, y para ver necesitas datos. Si quieres saber por dónde empezar,
+  <a href="/blog/en-que-gasto-mi-plata">este artículo explica cómo averiguar a dónde va tu plata</a>.
 </p>
 
-<h2>Método 1: La regla 50/30/20 adaptada a Perú</h2>
+<h2>El ciclo del «ya empiezo el lunes»</h2>
 <p>
-  Este método divide tu sueldo en tres categorías. Es simple, funciona para la
-  mayoría de situaciones y da un marco claro para tomar decisiones:
+  Es un patrón común: alguien decide controlar sus gastos, empieza fuerte los primeros días, se
+  olvida de anotar una compra y, después de una semana con datos incompletos, lo deja.
+</p>
+<p>
+  El problema no es la persona: es cuánto cuesta anotar. Cualquier sistema de control de gastos
+  depende de que registres lo que pagas, y lo que cambia entre uno y otro es cuánto esfuerzo te pide
+  cada registro. Los hábitos que duran son los que tienen <strong>fricción mínima</strong>.
+</p>
+
+<h2>Método 1: la regla 50/30/20 adaptada a Perú</h2>
+<p>
+  Este método divide tu sueldo en tres partes. Es simple y te da un marco claro para decidir:
 </p>
 <ul>
-  <li><strong>50% — Necesidades:</strong> alquiler, servicios (luz, agua, internet), comida del día, transporte al trabajo, medicamentos, colegios.</li>
-  <li><strong>30% — Gustos:</strong> salidas, delivery, ropa, suscripciones (Netflix, Spotify), entretenimiento, viajes.</li>
-  <li><strong>20% — Ahorro y deudas:</strong> fondo de emergencia, cuotas de préstamos, ahorro para metas específicas.</li>
+  <li><strong>50% para necesidades:</strong> alquiler, servicios (luz, agua, internet), comida del día, transporte al trabajo, medicamentos, colegios.</li>
+  <li><strong>30% para gustos:</strong> salidas, delivery, ropa, suscripciones, entretenimiento, viajes.</li>
+  <li><strong>20% para ahorro y deudas:</strong> fondo de emergencia, cuotas de préstamos, ahorro para metas.</li>
 </ul>
 <p>
   <strong>Ejemplo con un sueldo de S/3,000:</strong>
 </p>
 <ul>
-  <li>Necesidades (50%): S/1,500 — alquiler S/800 + comida S/400 + servicios S/200 + transporte S/100</li>
-  <li>Gustos (30%): S/900 — salidas S/300 + delivery S/200 + ropa S/200 + suscripciones S/200</li>
-  <li>Ahorro (20%): S/600 — fondo de emergencia S/300 + pago deuda S/300</li>
+  <li>Necesidades (50%): S/1,500. Alquiler S/800 + comida S/400 + servicios S/200 + transporte S/100</li>
+  <li>Gustos (30%): S/900. Salidas S/300 + delivery S/200 + ropa S/200 + suscripciones S/200</li>
+  <li>Ahorro (20%): S/600. Fondo de emergencia S/300 + pago de deuda S/300</li>
 </ul>
 <p>
-  <strong>¿La realidad en Perú?</strong> El 50% para necesidades puede ser difícil
-  en Lima: solo el alquiler en un distrito medio ya consume S/800–S/1,200. Si tu
-  alquiler es S/1,200 con un sueldo de S/3,000, ya estás en 40% solo en renta.
-  En ese caso, ajusta la regla a tus circunstancias — lo importante es el
-  <em>principio</em>, no los porcentajes exactos.
+  <strong>¿Y si no te alcanza?</strong> Si el alquiler solo ya se come casi todo el 50% de
+  necesidades, ajusta los porcentajes a tu situación. Lo importante es el <em>principio</em> de
+  separar necesidades, gustos y ahorro, no los porcentajes exactos.
 </p>
 
-<h2>Método 2: Control por categoría (el más efectivo)</h2>
+<h2>Método 2: control por categoría</h2>
 <p>
-  En vez de rastrear cada sol, agrupa tus gastos en categorías y pon un tope mensual
-  a cada una. Funciona especialmente bien porque <strong>no requiere revisar cada
-  transacción</strong> — solo monitoreas si te pasas de la categoría.
+  En vez de revisar cada sol, agrupa tus gastos en categorías y ponle un tope mensual a cada una.
+  Funciona bien porque <strong>no te obliga a revisar cada transacción</strong>: solo miras si te
+  pasaste en alguna categoría.
 </p>
-<p>Categorías recomendadas para el contexto peruano:</p>
+<p>Categorías que funcionan bien en Perú:</p>
 <ul>
   <li><strong>Comida en casa:</strong> supermercado, mercado, Tottus, Metro</li>
   <li><strong>Comida fuera y delivery:</strong> restaurantes, Rappi, PedidosYa, cafés</li>
@@ -517,20 +475,19 @@ ${precioPorApp}
   <li><strong>Ropa y cuidado personal:</strong> ropa, zapatos, peluquería, cosméticos</li>
   <li><strong>Servicios del hogar:</strong> luz, agua, internet, teléfono</li>
   <li><strong>Salud:</strong> medicamentos, consultas, seguro de salud</li>
-  <li><strong>Ahorro / inversión:</strong> este es el que más peruanos olvidan incluir</li>
+  <li><strong>Ahorro e inversión:</strong> la categoría que más se olvida incluir</li>
 </ul>
 <p>
-  El truco: <strong>asigna el ahorro como si fuera un gasto fijo</strong>. No ahorres
-  "lo que sobra" — ese modelo nunca funciona. Separa el ahorro el primer día del mes,
-  igual que pagas el alquiler.
+  El truco: <strong>trata el ahorro como si fuera un gasto fijo</strong>. No ahorres «lo que
+  sobra», porque casi nunca sobra. Separa el ahorro el primer día del mes, igual que pagas el
+  alquiler.
 </p>
 
-<h2>Método 3: El presupuesto cero</h2>
+<h2>Método 3: el presupuesto cero</h2>
 <p>
-  Este método avanzado consiste en asignar cada sol de tu sueldo a una categoría
-  específica antes de empezar el mes, de modo que Ingresos - Gastos = 0. No
-  significa que gastas todo — significa que tienes un destino definido para
-  cada sol, incluyendo el ahorro.
+  Consiste en asignar cada sol de tu sueldo a una categoría antes de empezar el mes, de modo que
+  ingresos menos gastos dé cero. No significa que gastas todo: significa que cada sol tiene un
+  destino definido, incluido el ahorro.
 </p>
 <p>
   Ejemplo con S/3,000:
@@ -540,100 +497,99 @@ ${precioPorApp}
   <li>Comida en casa: S/400</li>
   <li>Transporte: S/200</li>
   <li>Servicios: S/200</li>
-  <li>Delivery/salidas: S/200</li>
+  <li>Delivery y salidas: S/200</li>
   <li>Ropa: S/100</li>
   <li>Entretenimiento: S/150</li>
   <li>Fondo de emergencia: S/300</li>
-  <li>Pago deuda: S/250</li>
-  <li>Ahorro meta: S/300</li>
+  <li>Pago de deuda: S/250</li>
+  <li>Ahorro para una meta: S/300</li>
   <li><strong>Total asignado: S/3,000</strong></li>
 </ol>
 <p>
-  El presupuesto cero requiere más planificación al inicio, pero es el método que
-  más control da sobre tus finanzas.
+  Pide más planificación al inicio, pero es el método que más control te da.
 </p>
 
-<h2>Método 4: La eliminación quirúrgica (para empezar ya)</h2>
+<h2>Método 4: quitar tres gastos (para empezar ya)</h2>
 <p>
-  Si no quieres complicarte con porcentajes ni categorías todavía, usa este método
-  de entrada:
+  Si todavía no quieres porcentajes ni categorías, empieza por aquí:
 </p>
 <ol>
   <li>Revisa tu estado de cuenta del último mes.</li>
   <li>Identifica 3 gastos recurrentes que <strong>no necesitas o casi no usas</strong>.</li>
-  <li>Elimínalos. Solo 3.</li>
+  <li>Quítalos. Solo 3.</li>
 </ol>
-<p>Ejemplos comunes en Perú:</p>
+<p>Ejemplos comunes:</p>
 <ul>
-  <li>¿Ves HBO y Disney+ además de Netflix? Elige una — ahorras S/40–S/60/mes.</li>
-  <li>¿Delivery 3 veces por semana? Bája a 1 — ahorras S/180/mes fácil.</li>
-  <li>¿Café de cadena todos los días? Llévalo de casa 3 de 5 días — ahorras S/130/mes.</li>
+  <li>¿Pagas dos o tres plataformas de streaming? Quédate con una y te ahorras lo que cuestan las otras.</li>
+  <li>¿Pides delivery tres veces por semana? Baja a una.</li>
+  <li>¿Café de cadena todos los días? Llévalo de casa tres de cinco días.</li>
 </ul>
 <p>
-  Tres cambios. Sin cambiar el resto de tu vida. S/350–S/370 al mes de ahorro potencial.
-  Una vez que tienes eso bajo control, amplías el sistema.
+  Tres cambios, sin tocar el resto de tu vida. Anota cuánto te ahorró cada uno el primer mes y, con
+  eso bajo control, amplías el sistema.
 </p>
 
-<h2>Por qué las apps de finanzas no funcionan (y qué sí funciona)</h2>
+<h2>Por qué mucha gente deja de anotar (y qué ayuda)</h2>
 <p>
-  Las apps tradicionales como Money Manager, Wallet o Fintonic fallan por la misma razón:
-  <strong>te piden ingresar cada gasto a mano</strong>. La promesa es que si anotes
-  todo durante un mes, tendrás claridad sobre tus gastos. La realidad es que
-  la mayoría abandona antes de la semana 2.
+  Casi todas las apps de finanzas personales, incluida Neto, dependen de que tú registres tus
+  gastos: ninguna de las siete apps de nuestra
+  <a href="/comparativas/apps-finanzas-peru">comparativa de apps de finanzas en Perú</a> se
+  sincroniza con bancos peruanos, según sus propias fuentes oficiales. Lo que cambia es cuánto te
+  cuesta cada registro. Llenar un formulario con monto, categoría y fecha por cada café es justo lo
+  que hace que la gente lo deje.
 </p>
 <p>
-  Las hojas de cálculo tienen el mismo problema con más complejidad técnica encima.
-  La solución no es más disciplina — es eliminar la necesidad de disciplina.
+  Las hojas de cálculo tienen el mismo problema, con más trabajo encima: todo lo categorizas y lo
+  sumas a mano.
 </p>
 <p>
-  El enfoque que sí aguanta a largo plazo es el que casi no te pide nada.
-  <a href="/">Neto</a> vive en el WhatsApp que ya tienes abierto: le escribes el
-  gasto en una línea o le mandas la foto del voucher, y él categoriza con IA y te
-  devuelve el resumen cuando lo pidas o de forma automática. Y en Neto Pro puedes
-  conectar tu Gmail para que, encima de eso, los gastos que el banco ya te notifica
-  por correo los anote Neto por ti.
+  <a href="/">Neto</a> apuesta por el canal que ya tienes abierto: le escribes el gasto en una línea
+  por WhatsApp o le mandas la foto del voucher o la captura del yapeo, y él lo categoriza con IA.
+  Los resúmenes y el dashboard son de Neto Pro. En Pro también puedes conectar tu Gmail para que
+  los gastos que el banco te notifica por correo los anote Neto por ti; es opcional y complementa
+  lo que escribes, no lo reemplaza.
 </p>
 <p>
-  Si tienes curiosidad sobre qué bancos son compatibles y cómo funciona sin dar
-  contraseñas, <a href="/blog/bancos-peru-rastrear-sin-contrasena">lee este artículo
-  sobre los 11 bancos peruanos que puedes rastrear sin entregar credenciales</a>.
+  Si quieres saber qué bancos lee Neto por correo y cómo lo hace sin pedirte contraseñas,
+  <a href="/blog/bancos-peru-rastrear-sin-contrasena">lee qué bancos lee Neto sin tu contraseña</a>.
 </p>
 
 <h2>Herramientas gratuitas vs de pago</h2>
-<p>Antes de gastar en herramientas, prueba el nivel gratuito:</p>
+<p>Antes de pagar por una herramienta, prueba lo gratuito:</p>
 <ul>
-  <li><strong>Excel / Google Sheets:</strong> Gratis, flexible, pero manual. Funciona si tienes disciplina para mantenerte al día.</li>
-  <li><strong>App de tu banco:</strong> Muestra transacciones, pero sin categorización automática y sin consolidar múltiples bancos.</li>
-  <li><strong>Neto:</strong> anotas el gasto por WhatsApp o mandas la foto del voucher y lo categoriza con IA. Registrar es gratis y sin límite; los 14 días de prueba abren el dashboard completo.</li>
+  <li><strong>Excel o Google Sheets:</strong> gratis y flexible, pero todo lo categorizas y sumas a mano.</li>
+  <li><strong>La app de tu banco:</strong> muestra los movimientos de ese banco, y solo de ese.</li>
+  <li><strong>Neto:</strong> anotas el gasto por WhatsApp o mandas la foto del voucher y lo categoriza con IA. Registrar es gratis y sin límite; los 14 días de prueba abren el dashboard completo, y después verlo es de Neto Pro (S/10 al mes o S/99 al año).</li>
 </ul>
 <p>
-  La regla: no pagues por una herramienta de finanzas hasta que hayas probado que
-  la usarías. La mayoría de personas que compra una app premium la abandona en 30 días.
+  La regla: no pagues por una herramienta de finanzas antes de comprobar que la usas. Si quieres
+  comparar, en <a href="/blog/cuanto-cuesta-app-finanzas-personales-peru">cuánto cuesta una app de
+  finanzas personales</a> está el precio de cada una con su fuente oficial.
 </p>
 
 <h2>Plan de acción de 30 días</h2>
 <ol>
-  <li><strong>Día 1:</strong> Conecta <a href="${WA_BLOG}">Neto por WhatsApp</a> (2 minutos, gratis). Obtén tu primer resumen de gastos del mes actual.</li>
-  <li><strong>Días 2–7:</strong> Solo observa. Sin juzgar ni cambiar nada. El objetivo es entender tus patrones reales.</li>
+  <li><strong>Día 1:</strong> Escríbele a <a href="${WA_BLOG}">Neto por WhatsApp</a> y anota tu primer gasto, o mándale la captura de un yapeo. Es gratis.</li>
+  <li><strong>Días 2 a 7:</strong> Anota todo y solo observa. Sin juzgar ni cambiar nada: el objetivo es entender tus patrones reales.</li>
   <li><strong>Semana 2:</strong> Identifica tus 3 categorías con más gasto. Elige una para reducir en 20%.</li>
-  <li><strong>Semana 3:</strong> Implementa el presupuesto de esa categoría. Usa las alertas de Neto para saber cuándo te acercas al tope.</li>
+  <li><strong>Semana 3:</strong> Ponle un tope a esa categoría. En Neto Pro, Neto te avisa cuando te acercas.</li>
   <li><strong>Semana 4:</strong> Evalúa. ¿Lo lograste? ¿Qué fue difícil? Ajusta para el mes siguiente.</li>
 </ol>
 
 <h2>Errores comunes que evitar</h2>
 <ul>
   <li>
-    <strong>Intentar cambiarlo todo de golpe:</strong> La restricción total genera rebote.
-    Reduce gradualmente y sosteniblemente.
+    <strong>Querer cambiarlo todo de golpe:</strong> la restricción total genera rebote. Reduce de a
+    pocos.
   </li>
   <li>
-    <strong>No contar el efectivo:</strong> En Perú el efectivo sigue siendo relevante.
-    Si pagas con efectivo, al menos anota los gastos grandes de efectivo semanalmente.
+    <strong>No contar el efectivo:</strong> lo que pagas en efectivo no queda en ningún historial.
+    Si no puedes anotar cada gasto, al menos anota los grandes una vez por semana.
   </li>
   <li>
-    <strong>Olvidar los gastos irregulares:</strong> El cumpleaños, el regalo de navidad,
-    la reparación del celular. Crea una categoría "extras" con un presupuesto mensual
-    pequeño — así no te sorprenden.
+    <strong>Olvidar los gastos irregulares:</strong> el cumpleaños, el regalo de Navidad, la
+    reparación del celular. Crea una categoría «extras» con un presupuesto mensual pequeño, así no
+    te sorprenden.
   </li>
 </ul>
 
@@ -641,696 +597,579 @@ ${precioPorApp}
 
 <h3>¿Cuánto tiempo tarda en verse resultados al controlar los gastos?</h3>
 <p>
-  En el primer mes vas a ganar visibilidad: sabrás exactamente en qué gastas.
-  El cambio real en tu saldo bancario empieza desde el segundo o tercer mes, cuando
-  ya has ajustado algunos hábitos. La mejora sostenida tarda entre 3 y 6 meses.
+  En el primer mes ganas visibilidad: sabes en qué gastas. El cambio en tu saldo llega después,
+  cuando ya ajustaste algunos hábitos, y cuánto tarda depende del margen que tengas.
 </p>
 
 <h3>¿Qué pasa si tengo deudas y no llega el sueldo?</h3>
 <p>
-  Primero necesitas ver el panorama completo: ingresos, gastos fijos, deudas.
-  Con eso claro, puedes priorizar. La regla general: primero cubres necesidades
-  básicas, luego el mínimo de deudas para no acumular intereses, luego cualquier
-  excedente va a pagar la deuda con mayor tasa.
+  Primero necesitas ver el panorama completo: ingresos, gastos fijos y deudas. Con eso claro,
+  priorizas. La regla general: primero cubres las necesidades básicas, luego el mínimo de cada
+  deuda para no acumular intereses, y cualquier excedente va a la deuda con la tasa más alta.
 </p>
 
 <h3>¿Sirve de algo controlar los gastos si el sueldo es muy bajo?</h3>
 <p>
-  Sí, aunque con limitaciones. Con ingresos muy bajos, el margen de maniobra es
-  pequeño. Pero aún en esos casos, la visibilidad ayuda: muchas personas descubren
-  S/50–S/100 de gastos que pueden eliminar sin afectar su calidad de vida.
-  Además, los hábitos de control son más fáciles de mantener cuando los ingresos
-  mejoran si ya los tienes practicados.
+  Sí, aunque con límites. Con ingresos bajos el margen es chico, pero ver en qué se va la plata
+  ayuda a encontrar gastos que puedes quitar sin afectar lo importante. Y cuando el ingreso mejora,
+  el hábito ya lo tienes.
 </p>
 `,
 
   "en-que-gasto-mi-plata": `
+<p>
+  <strong>Para saber en qué gastas tu plata necesitas juntar todos tus movimientos en un solo lugar
+  y sumarlos por categoría.</strong> Tu banco, Yape y tu tarjeta guardan cada uno su parte, y el
+  efectivo no queda en ningún lado. Puedes hacerlo a mano con tus estados de cuenta y una hoja de
+  cálculo, o anotando cada gasto cuando pagas, por ejemplo en Neto por WhatsApp.
+</p>
+
 <h2>El problema: no sabes a dónde va tu sueldo</h2>
 <p>
-  Cobras el 15 o el 30. Pagas alquiler, servicios, alguna deuda. Y de repente
-  es día 20 y ya no tienes plata. ¿En qué se fue? No tienes idea.
+  Cobras el 15 o el 30. Pagas alquiler, servicios, alguna deuda. Y de repente es día 20 y ya no
+  tienes plata. ¿En qué se fue?
 </p>
 <p>
-  No eres el único. La mayoría de peruanos no puede responder con exactitud
-  "¿en qué gasté mi plata este mes?". Y no es por falta de interés — es porque
-  <strong>no existe una forma fácil de saberlo</strong>.
-</p>
-<p>
-  Tu banco muestra transacciones. Yape te manda notificaciones. Pero nadie te da
-  una foto completa, organizada por categoría, de cómo gastas tu plata real. Hasta
-  ahora.
+  Si no puedes responder con exactitud, no es falta de interés: es que no hay un lugar donde se vea
+  todo junto. Tu banco muestra sus movimientos, Yape los suyos, y ninguno te arma la foto completa
+  por categoría.
 </p>
 
 <h2>Por qué es tan difícil rastrear tus gastos</h2>
 <ul>
   <li>
-    <strong>Múltiples medios de pago:</strong> Yape, tarjeta de débito, tarjeta de
-    crédito, Plin, efectivo. Tu plata está fragmentada en al menos 3–5 canales
-    diferentes. Ningún banco ni billetera te muestra todo junto.
+    <strong>Varios medios de pago:</strong> Yape, débito, crédito, Plin, efectivo. Cada uno tiene su
+    historial y ninguno ve a los otros.
   </li>
   <li>
-    <strong>Nadie anota cada gasto:</strong> Las apps que te piden ingresar cada
-    compra manualmente se abandonan en 3–7 días. Es una promesa que ningún ser
-    humano real cumple a largo plazo.
+    <strong>Anotar cansa:</strong> si registrar un gasto te pide abrir una app y llenar un
+    formulario, tarde o temprano lo dejas.
   </li>
   <li>
-    <strong>Los bancos no categorizan:</strong> Tu estado de cuenta muestra
-    "POS WONG 12345" o "TRANSF RECIBIDA YAPE". No dice "comida" ni "transporte".
-    Interpretar eso es trabajo que nadie quiere hacer.
+    <strong>El estado de cuenta no habla claro:</strong> dice «POS WONG 12345» o «TRANSF YAPE», no
+    «comida» ni «transporte». Traducirlo es trabajo.
   </li>
   <li>
-    <strong>El efectivo es invisible:</strong> Lo que pagas con billetes no deja
-    rastro en ningún sistema. En Perú, el efectivo sigue siendo entre el 15–25%
-    del gasto cotidiano en muchos hogares.
+    <strong>El efectivo es invisible:</strong> lo que pagas con billetes no deja rastro en ningún
+    sistema, a menos que lo anotes.
   </li>
 </ul>
 
-<h2>Las 5 categorías donde más se pierden los peruanos</h2>
+<h2>Cinco categorías que conviene revisar primero</h2>
 <p>
-  Basado en el comportamiento de gasto de usuarios de Neto en Lima y otras ciudades
-  del Perú, estas son las categorías que más sorprenden a las personas cuando ven
-  sus datos reales por primera vez:
+  No tenemos un promedio confiable de cuánto gasta un peruano en cada una, así que no te vamos a dar
+  uno. Lo que sí podemos decirte es dónde mirar primero, porque son gastos que se repiten y que se
+  suelen subestimar:
 </p>
 <ol>
-  <li>
-    <strong>Delivery y comida fuera:</strong> Promedio de S/380–S/480 al mes para
-    alguien que come fuera o pide delivery 3–4 veces por semana. Muchos usuarios
-    pensaban que gastaban S/200.
-  </li>
-  <li>
-    <strong>Transporte (incluyendo impulso):</strong> Entre taxis "porque es tarde",
-    Uber al centro y el transporte público, el promedio en Lima supera S/200/mes
-    para trabajadores que usan transporte mixto.
-  </li>
-  <li>
-    <strong>Suscripciones digitales:</strong> El promedio de plataformas activas por
-    usuario peruano es de 3–4. Con precios de S/20–S/45 cada una, son entre S/80–S/150
-    al mes. Muchas con uso mínimo.
-  </li>
-  <li>
-    <strong>Antojos y compras impulsivas:</strong> Las compras de menos de S/30 que
-    "no cuentan". Suman S/100–S/200 al mes en la mayoría de perfiles.
-  </li>
-  <li>
-    <strong>Tragos y salidas sociales:</strong> Una salida "tranquila" con amigos puede
-    costar S/60–S/150 fácilmente. Para personas que salen 2–3 veces al mes, esto
-    es S/150–S/350.
-  </li>
+  <li><strong>Delivery y comida fuera.</strong> Suma el envío y la propina al precio del plato.</li>
+  <li><strong>Transporte.</strong> Los taxis «porque es tarde» se mezclan con el transporte de todos los días.</li>
+  <li><strong>Suscripciones digitales.</strong> Se cobran solas: revisa cuántas pagas y cuántas usas.</li>
+  <li><strong>Compras chicas e impulsivas.</strong> Las de pocos soles que parecen no contar. Son los <a href="/blog/gastos-hormiga-peru">gastos hormiga</a>.</li>
+  <li><strong>Salidas.</strong> Una salida «tranquila» con amigos suele costar más de lo planeado.</li>
 </ol>
 
-<h2>La solución: que la tecnología lo haga por ti</h2>
+<h2>Cómo lo hace Neto</h2>
 <p>
-  Tu banco ya te envía un correo cada vez que haces una transacción. Yape y
-  Plin hacen lo mismo. El problema no es la falta de datos — es que
-  <strong>nadie los está organizando por ti</strong>.
+  <a href="/">Neto</a> vive en el WhatsApp que ya tienes abierto: le escribes el gasto en una línea
+  («almuerzo 18») o le mandas la foto del voucher o la captura del yapeo, y él lo categoriza con IA
+  (comida, transporte, entretenimiento, servicios...). Sin descargar apps.
 </p>
 <p>
-  <a href="/">Neto</a> vive en el WhatsApp que ya tienes abierto: le escribes el gasto
-  en una línea o le mandas la foto del voucher, y él lo categoriza con IA (comida,
-  transporte, entretenimiento, servicios...) y te devuelve el resumen organizado. Sin
-  descargar apps.
+  Y en <strong>Neto Pro</strong>, si conectas tu Gmail, los gastos que el banco ya te notifica por
+  correo los anota Neto por ti. Es opcional y va encima de lo que escribes, no en su lugar, porque
+  no todos los pagos generan un correo: Yape, por ejemplo, te avisa por correo de los yapeos que
+  envías solo si activas ese aviso, según su
+  <a href="${YAPE_CORREO}" target="_blank" rel="noopener noreferrer nofollow">ayuda oficial</a>.
 </p>
 <p>
-  Y en <strong>Neto Pro</strong>, si conectas tu Gmail, los gastos que el banco ya te
-  notifica por correo los anota Neto por ti. Es opcional y va encima de lo que escribes,
-  no en su lugar.
+  ¿Quieres saber qué bancos lee y cómo? Lee
+  <a href="/blog/bancos-peru-rastrear-sin-contrasena">qué bancos lee Neto sin pedirte contraseñas</a>.
 </p>
-<p>
-  ¿Quieres saber cómo funciona técnicamente y qué bancos son compatibles?
-  Lee <a href="/blog/bancos-peru-rastrear-sin-contrasena">cómo Neto rastrea
-  11 bancos peruanos sin pedirte contraseñas</a>.
-</p>
+<p><small>Fuente consultada el ${CONSULTA_REVISION}.</small></p>
 
 <h2>Cómo funciona en 3 pasos</h2>
 <ol>
   <li>
-    <strong>Escríbele a Neto por WhatsApp</strong> — un mensaje de "Hola" al
-    +51 933 014 505. Neto te guía paso a paso.
+    <strong>Escríbele a Neto por WhatsApp.</strong> Un «Hola» al +51 933 014 505 y Neto te guía
+    paso a paso.
   </li>
   <li>
-    <strong>Conecta tu Gmail con un clic</strong> — Neto solo lee los correos de
-    notificaciones bancarias, nunca tus correos personales, laborales ni de otra
-    índole. El acceso es de solo lectura.
+    <strong>Anota cada gasto cuando pagas.</strong> Un mensaje o una captura. Registrar es gratis
+    siempre.
   </li>
   <li>
-    <strong>Recibe tu resumen</strong> — Neto te manda por WhatsApp tus gastos
-    organizados por categoría, con montos y porcentajes. Puedes pedir tu resumen
-    cuando quieras o configurar envíos automáticos.
+    <strong>Mira tus gastos ordenados.</strong> Cuando registras tu primer gasto se activan 14 días
+    de Neto Pro: tus gastos por categoría en el dashboard web y un resumen cada semana. Después, ver
+    tus números es de Neto Pro (S/10 al mes o S/99 al año); anotar sigue siendo gratis.
   </li>
 </ol>
 
 <h2>¿Qué ves exactamente?</h2>
-<p>Un resumen típico de Neto se ve así:</p>
-<blockquote>
-  "Esta semana gastaste S/847. Tu top 3: Comida S/380 (45%), Transporte S/220 (26%),
-  Entretenimiento S/150 (18%). Te quedan S/403 de tu presupuesto. Tip: Comida subió
-  20% vs la semana pasada."
-</blockquote>
 <p>
-  Con esa información puedes tomar decisiones reales. No adivinanzas, no
-  estimaciones — <strong>datos exactos de tu propia plata</strong>.
+  El resumen semanal te dice cuánto gastaste en la semana, cuáles fueron tus categorías más altas y
+  si gastaste más o menos que la semana anterior. En el dashboard web tienes además gráficos, el
+  historial de tus movimientos y tu
+  <a href="/score-financiero">score de salud financiera de 0 a 100</a>.
 </p>
 <p>
-  Además del resumen por WhatsApp, tienes un dashboard web con gráficos, historial
-  de transacciones, y métricas avanzadas incluyendo tu
-  <a href="/score-financiero">score de salud financiera 0–100</a>.
+  Todo sale de lo que anotaste. Un gasto que no le mandaste a Neto no está en el resumen, así que
+  vale la pena comparar de vez en cuando con tu estado de cuenta.
 </p>
 
 <h2>Cómo analizar tu estado de cuenta paso a paso</h2>
 <p>
-  Si prefieres empezar por tu cuenta antes de usar Neto, aquí está el proceso manual:
+  Si prefieres empezar por tu cuenta antes de usar Neto, este es el proceso manual:
 </p>
 <ol>
   <li>
-    <strong>Descarga todos tus estados de cuenta del mes:</strong> Cada banco, cada
-    tarjeta, cada billetera digital (Yape, Plin). La mayoría los genera en PDF
-    desde la app o web.
+    <strong>Descarga los movimientos del mes:</strong> de cada banco y cada tarjeta, desde su app o
+    su web. Yape te deja enviar tu lista de movimientos a tu correo, según su
+    <a href="${YAPE_MOVIMIENTOS}" target="_blank" rel="noopener noreferrer nofollow">ayuda oficial</a>.
   </li>
   <li>
-    <strong>Lista todas las transacciones en una sola tabla:</strong> Fecha, comercio,
-    monto, medio de pago. Excel o Google Sheets son suficientes.
+    <strong>Lista todas las transacciones en una sola tabla:</strong> fecha, comercio, monto y medio
+    de pago. Excel o Google Sheets alcanzan.
   </li>
   <li>
-    <strong>Asigna una categoría a cada transacción:</strong> Comida, transporte,
-    entretenimiento, salud, servicios, etc. Las primeras veces toma tiempo. Con
-    Neto esto es automático.
+    <strong>Asigna una categoría a cada transacción:</strong> comida, transporte, entretenimiento,
+    salud, servicios. Las primeras veces toma tiempo. Con Neto, la categoría la pone él.
   </li>
   <li>
-    <strong>Suma por categoría:</strong> ¿Cuánto fue a comida? ¿A transporte?
-    ¿A ocio? Los totales son reveladores.
+    <strong>Suma por categoría:</strong> ¿cuánto fue a comida? ¿A transporte? ¿A ocio? Los totales
+    dicen mucho.
   </li>
   <li>
-    <strong>Compara con tu ingreso neto:</strong> ¿Qué porcentaje de tu sueldo fue
-    a cada categoría? ¿Qué porcentaje te sobró (o faltó)?
+    <strong>Compara con tu ingreso neto:</strong> ¿qué porcentaje de tu sueldo fue a cada categoría?
+    ¿Cuánto te sobró o te faltó?
   </li>
 </ol>
 <p>
-  Este proceso manual toma entre 45 minutos y 2 horas la primera vez. Neto lo hace
-  automáticamente y actualiza en tiempo real.
+  La primera vez toma su tiempo. Con Neto, sumar y categorizar lo hace él; lo que te toca es anotar.
 </p>
 
-<h2>El truco del "presupuesto asignado"</h2>
+<h2>El truco del «presupuesto asignado»</h2>
 <p>
-  Una vez que sabes en qué gastas, el paso siguiente es decidir en qué <em>quieres</em>
-  gastar. Este es el principio del presupuesto asignado:
+  Una vez que sabes en qué gastas, el paso siguiente es decidir en qué <em>quieres</em> gastar:
 </p>
 <ol>
-  <li>Al inicio de cada mes, asigna un monto a cada categoría basado en tus datos reales del mes anterior.</li>
+  <li>Al inicio de cada mes, asigna un monto a cada categoría según tus datos reales del mes anterior.</li>
   <li>Define qué categorías quieres reducir y en cuánto.</li>
-  <li>Monitorea durante el mes si te estás pasando o no de cada categoría.</li>
+  <li>Durante el mes, revisa si te estás pasando en alguna.</li>
 </ol>
 <p>
-  El objetivo no es restricción — es <strong>intención</strong>. Gastar
-  S/350 en delivery de forma consciente ("sé que gasto esto y lo acepto") es
-  completamente diferente a gastar S/350 sin saberlo.
+  El objetivo no es restringirte, es <strong>gastar con intención</strong>. Gastar S/350 en
+  delivery sabiéndolo y aceptándolo es muy distinto a gastar S/350 sin darte cuenta.
 </p>
 
 <h2>¿Qué hacer cuando encuentras un gasto que no recuerdas?</h2>
 <p>
-  Pasa más seguido de lo que crees. Revisas tu estado de cuenta y hay cargos que
-  no recuerdas. Antes de asustarte:
+  Pasa más seguido de lo que crees. Revisas tu estado de cuenta y hay cargos que no reconoces.
+  Antes de asustarte:
 </p>
 <ul>
   <li>
-    <strong>Revisa si es un cargo recurrente:</strong> Suscripciones, seguros automáticos,
-    planes de telefonía. Muchos cargos son legítimos pero olvidados.
+    <strong>Revisa si es un cargo recurrente:</strong> suscripciones, seguros, planes de telefonía.
+    Muchos cargos son legítimos pero olvidados.
   </li>
   <li>
-    <strong>Busca el nombre del comercio en Google:</strong> Muchas veces "CLXQR3918" es
-    el nombre técnico de un servicio conocido.
+    <strong>Busca el nombre del comercio en Google:</strong> muchas veces un código raro es el
+    nombre técnico de un servicio conocido.
   </li>
   <li>
-    <strong>Si no lo reconoces después de buscar:</strong> Llama a tu banco. Puede ser
-    un cargo duplicado, un error, o en casos raros, fraude.
+    <strong>Si no lo reconoces después de buscar:</strong> llama a tu banco. Puede ser un cargo
+    duplicado, un error o, en casos raros, fraude.
   </li>
 </ul>
 <p>
-  Neto detecta automáticamente cargos recurrentes y los agrupa, así puedes ver de un
-  vistazo qué suscripciones tienes activas y cuánto pagan exactamente al mes.
+  En Neto Pro, las suscripciones que reconoce entre tus gastos anotados (Netflix, Disney+, Max y
+  otras de su catálogo) aparecen juntas, con cuánto pagas al mes.
 </p>
 
 <h2>¿Es seguro conectar tu Gmail a Neto?</h2>
 <p>
-  Neto <strong>nunca accede a tu banca en línea</strong>. No te pide usuario ni
-  contraseña bancaria. Solo lee los correos de notificación que tu banco ya
-  te envía — los mismos que llegarían aunque no usaras Neto.
+  Conectar Gmail es opcional y solo existe en Neto Pro. Neto <strong>nunca accede a tu banca en
+  línea</strong> ni te pide usuario o contraseña bancaria: lee los correos de notificación que tu
+  banco ya te envía, los mismos que te llegarían aunque no usaras Neto.
 </p>
 <p>
-  El acceso se hace via OAuth de Google (el mismo sistema que usan apps como
-  Notion, Slack o Zoom para conectarse a Gmail). El permiso es de solo lectura
-  sobre correos de remitentes bancarios específicos.
+  La conexión se hace con OAuth de Google desde tu panel en la web de Neto. El permiso que Google te
+  pide aprobar es de solo lectura sobre tu correo: Neto no puede enviar, borrar ni modificar nada.
+  Qué correos abre lo limita el código de Neto, que busca solo los de remitentes de bancos y
+  billeteras y algunas frases típicas de sus notificaciones, y descarta los que no son un
+  movimiento.
 </p>
 <p>
-  Puedes desconectar el acceso en cualquier momento desde
+  Puedes quitar el acceso cuando quieras desde
   <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">myaccount.google.com/permissions</a>.
 </p>
 
 <h2>Preguntas frecuentes</h2>
 
-<h3>¿Cuánto tiempo demora ver el primer resumen de gastos?</h3>
+<h3>¿Cuánto tiempo demora ver mi primer resumen?</h3>
 <p>
-  Con Neto, el proceso completo desde que escribes "Hola" por WhatsApp hasta
-  que recibes tu primer resumen de gastos toma menos de 5 minutos. Solo necesitas
-  tu celular y acceso a Gmail.
+  Anotar el primer gasto es un mensaje. El resumen se arma con lo que vas anotando, así que la foto
+  útil aparece después de unos días de registrar todo.
 </p>
 
 <h3>¿Qué pasa con los gastos en efectivo?</h3>
 <p>
-  Neto no puede leer pagos en efectivo ya que no dejan rastro en correos bancarios.
-  Para esos gastos puedes anotarlos manualmente enviando un mensaje a Neto por
-  WhatsApp: "Gasté S/30 en mercado hoy". Neto lo registra y lo incluye en tu
-  resumen.
+  No dejan rastro en ningún banco ni correo, así que se los escribes a Neto por WhatsApp: «Gasté
+  S/30 en el mercado». Neto lo registra y lo incluye en tu resumen.
 </p>
 
 <h3>¿Puedo ver gastos de meses anteriores?</h3>
 <p>
-  Sí. Neto puede procesar correos bancarios de hasta los últimos 6–12 meses
-  (dependiendo de qué tan atrás lleguen los correos en tu Gmail). Así puedes
-  ver patrones históricos desde el primer día.
+  Neto parte de lo que anotas desde el primer día. Si tienes Neto Pro y conectas tu Gmail, al
+  conectarlo importa los correos de notificación bancaria de los últimos 30 días (hasta 50
+  correos). Y en Pro también puedes mandarle por WhatsApp un Excel o un CSV con movimientos
+  anteriores.
 </p>
 `,
 
   "bancos-peru-rastrear-sin-contrasena": `
-<h2>¿Cómo puedes rastrear tu banco sin dar tu contraseña?</h2>
 <p>
-  La pregunta más común que recibimos es: "¿Cómo leen mi banco sin mi
-  contraseña?". La respuesta es simple: <strong>no leemos tu banco. Leemos tu
-  correo.</strong>
-</p>
-<p>
-  Cada vez que haces una compra con tarjeta, recibes un correo de tu banco.
-  Cada vez que recibes una transferencia por Yape, llega un correo. Cada vez
-  que pagas un servicio, tu banco te notifica por email.
-</p>
-<p>
-  Neto lee esas notificaciones automáticamente, extrae el monto, el comercio
-  y la fecha, y las categoriza con IA. Eso es todo. <strong>Cero acceso a tu
-  banca en línea, cero contraseñas bancarias.</strong>
+  <strong>Neto no se conecta a tu banco ni te pide su contraseña.</strong> Lo que sí puede hacer, si
+  tienes Neto Pro y conectas tu Gmail, es leer los correos de notificación que tu banco o billetera
+  ya te manda cuando pagas, y anotar esos movimientos por ti. Es opcional y es un complemento: la
+  mayor parte de tus gastos igual los anotas tú, con un mensaje o la captura del pago por WhatsApp.
+  Abajo va qué bancos lee, qué no puede ver y cómo quitarle el acceso.
 </p>
 
-<h2>Screen scraping vs email parsing: la diferencia de seguridad</h2>
+<h2>¿Cómo lee tus movimientos sin tu contraseña?</h2>
 <p>
-  Existen dos tecnologías principales para rastrear gastos financieros automáticamente,
-  y tienen niveles de riesgo completamente diferentes:
+  La pregunta que más nos hacen es: «¿cómo leen mi banco sin mi contraseña?». La respuesta es
+  simple: <strong>no leemos tu banco, leemos tu correo</strong>, y solo si tú lo conectas.
 </p>
-<h3>Screen scraping (el método riesgoso)</h3>
 <p>
-  Algunas apps te piden tu usuario y contraseña bancaria. Luego se conectan a tu
-  banco simulando ser tú, navegan las pantallas y extraen la información. Esto se
-  llama "screen scraping" y tiene problemas graves:
+  Muchos bancos te mandan un correo cuando haces una compra con tarjeta, una transferencia o un
+  pago de servicio, según las notificaciones que tengas activadas. Neto lee esos correos, saca el
+  monto, el comercio y la fecha, y los categoriza con IA. <strong>Cero acceso a tu banca en línea,
+  cero contraseñas bancarias.</strong>
 </p>
+
+<h2>Pedir tu contraseña vs leer tus notificaciones</h2>
+<p>
+  Hay dos formas de que una app vea tus movimientos sin que los anotes, y el riesgo no se parece:
+</p>
+<h3>Pedirte usuario y clave (screen scraping)</h3>
+<p>
+  Algunas apps te piden tu usuario y clave del banco, entran simulando ser tú y copian lo que ven en
+  pantalla. El problema es que le entregas tus credenciales a un tercero: si esa app sufre una
+  filtración, lo que se filtra es la llave de tu cuenta. Y haber compartido tu clave puede
+  complicarte un reclamo si algo sale mal, así que revisa las condiciones de tu banco antes.
+</p>
+<h3>Leer los correos que ya recibes (lo que hace Neto)</h3>
 <ul>
-  <li>Le estás dando tus credenciales a un tercero — si la app es hackeada, tu banco también lo es.</li>
-  <li>Viola los términos de servicio de casi todos los bancos peruanos.</li>
-  <li>Si algo sale mal, el banco puede negarte responsabilidad porque "tú compartiste tus credenciales".</li>
-  <li>Es técnicamente ilegal en muchos países bajo leyes de acceso no autorizado.</li>
-</ul>
-<h3>Email parsing (el método de Neto)</h3>
-<p>
-  Neto no accede a tu banca en línea para nada. Solo lee los correos de notificación
-  que tu banco ya te envía automáticamente. Este método es:
-</p>
-<ul>
-  <li><strong>Sin riesgo de credenciales:</strong> Nunca pedimos tu usuario ni contraseña bancaria.</li>
-  <li><strong>Autorizado explícitamente por ti:</strong> Tú das permiso via OAuth de Google.</li>
-  <li><strong>Revocable en cualquier momento:</strong> Puedes cancelar el acceso con un clic.</li>
-  <li><strong>No viola términos bancarios:</strong> No accedemos a la banca en línea.</li>
+  <li><strong>Sin credenciales bancarias:</strong> Neto nunca te pide usuario ni clave del banco.</li>
+  <li><strong>Lo autorizas tú:</strong> das permiso con OAuth de Google, y Google te muestra qué permiso das antes de aprobarlo.</li>
+  <li><strong>Revocable:</strong> puedes quitar el acceso cuando quieras desde tu cuenta de Google.</li>
+  <li><strong>Solo lectura:</strong> Neto no puede enviar, borrar ni modificar correos, ni hacer ninguna operación en tu banco.</li>
 </ul>
 
-<h2>Los bancos y billeteras compatibles</h2>
+<h2>Bancos y billeteras cuyos correos lee Neto</h2>
+<p>
+  Esta es la lista de remitentes de notificación que Neto busca en tu Gmail, tomada de su código el
+  ${CONSULTA_REVISION}. Que tu banco esté aquí no garantiza que te llegue un correo por cada
+  movimiento: eso depende de las notificaciones que tengas activadas en tu banco o billetera.
+</p>
 
-<h3>Bancos principales</h3>
-<ol>
-  <li>
-    <strong>BCP (Banco de Crédito del Perú)</strong> — El banco más grande del Perú y el
-    que mejor cobertura de notificaciones tiene. Compatibles: cuenta de ahorros, cuenta
-    corriente, tarjetas de crédito Visa y Mastercard. Detecta compras, transferencias
-    interbancarias, pagos de servicios y retiros en cajero. Los correos de BCP llegan en
-    tiempo real por cada transacción.
-  </li>
-  <li>
-    <strong>BBVA Perú</strong> — Segundo banco más grande. Compatible con cuentas de
-    ahorro y corriente y todas las tarjetas. Detecta compras nacionales e internacionales,
-    transferencias, pagos automáticos de servicios y cuotas de préstamos.
-  </li>
-  <li>
-    <strong>Interbank</strong> — Totalmente compatible. Las notificaciones de Interbank
-    son especialmente detalladas: incluyen el nombre del comercio, la categoría del
-    establecimiento y el monto exacto en PEN o USD.
-  </li>
-  <li>
-    <strong>Scotiabank Perú</strong> — Compatible con notificaciones de compra, transferencias
-    y cargos de suscripciones. Los correos de Scotiabank tardan 1–3 minutos en llegar
-    tras la transacción.
-  </li>
-</ol>
+<h3>Bancos</h3>
+<ul>
+  <li>BCP (Banco de Crédito del Perú)</li>
+  <li>BBVA Perú</li>
+  <li>Interbank</li>
+  <li>Scotiabank Perú</li>
+  <li>BanBif</li>
+  <li>Banco Falabella</li>
+  <li>Banco Ripley</li>
+  <li>Mibanco</li>
+</ul>
 
 <h3>Billeteras digitales</h3>
-<ol start="5">
+<ul>
   <li>
-    <strong>Yape</strong> — La billetera más usada del Perú. Neto detecta tanto los pagos
-    que haces como los que recibes. Muy útil para rastrear gastos de mercado, restaurantes
-    y comercios pequeños que no usan POS.
+    <strong>Yape.</strong> Yape te manda un correo por los yapeos que envías si activas ese aviso, a
+    partir de un monto mínimo que eliges entre S/10, S/50, S/100 y S/500
+    (<a href="${YAPE_CORREO}" target="_blank" rel="noopener noreferrer nofollow">ayuda oficial de
+    Yape</a>). Ese aviso es por los que envías; para los yapeos que recibes, mándale a Neto la
+    captura por WhatsApp y lo registra como ingreso.
   </li>
   <li>
-    <strong>Plin</strong> — Compatible con transferencias entre bancos vía Plin. Detecta
-    pagos salientes y entradas. Especialmente útil para dividir gastos con amigos.
+    <strong>Plin.</strong> Neto lee los avisos de Plin que te lleguen por correo. Si no te llegan, la
+    captura del plin por WhatsApp funciona igual.
   </li>
-</ol>
+</ul>
 
-<h3>Bancos adicionales compatibles</h3>
-<ol start="7">
-  <li><strong>BanBif</strong> — Cuenta corriente y de ahorros. Notificaciones de transacciones y transferencias.</li>
-  <li><strong>Banco Pichincha</strong> — Compatible con notificaciones de movimientos y transferencias recibidas.</li>
-  <li><strong>Banco Falabella</strong> — Tarjeta CMR. Detecta compras en tiendas Falabella y otros establecimientos, así como pagos de cuota mensuales.</li>
-  <li><strong>Banco Ripley</strong> — Tarjeta Ripley. Compras en tiendas y estados de cuenta.</li>
-  <li><strong>MiBanco</strong> — Cuenta básica. Depósitos y retiros. Muy usado por emprendedores y negocios pequeños.</li>
-</ol>
+<h3>Cajas municipales</h3>
+<ul>
+  <li>Caja Huancayo, Caja Piura, Caja Trujillo, Caja Cusco, Caja Ica y Caja Sullana</li>
+</ul>
 
 <h2>¿Tu banco no está en la lista?</h2>
 <p>
-  Escríbenos a <a href="mailto:hola@neto.pe">hola@neto.pe</a> con el nombre de
-  tu banco y lo activamos. Solo necesitamos una muestra del correo de
-  notificación que tu banco envía para configurar el parser. En la mayoría de
-  casos lo activamos en menos de 48 horas.
-</p>
-<p>
-  También estamos trabajando en integrar Financiera Oh!, Caja Arequipa y Caja
-  Cusco, entre otras entidades financieras peruanas. Si usas alguna de estas,
-  avísanos y las priorizamos.
+  Escríbenos a <a href="mailto:hola@neto.pe">hola@neto.pe</a> con el nombre de tu banco y, si
+  puedes, un ejemplo del correo de notificación que te manda (tapa tus datos). Agregar un banco
+  requiere revisar cómo son sus correos, así que no te prometemos un plazo. Mientras tanto, los
+  gastos de ese banco los anotas por WhatsApp con un mensaje o la captura.
 </p>
 
-<h2>¿Qué información NO puede ver Neto?</h2>
-<p>
-  Esta es la lista de lo que Neto <strong>nunca</strong> puede ver, por diseño:
-</p>
+<h2>¿Qué NO puede ver ni hacer Neto?</h2>
 <ul>
-  <li><strong>Tu saldo bancario real:</strong> Solo procesamos las notificaciones de transacciones, no tu saldo actual.</li>
-  <li><strong>Tu contraseña bancaria:</strong> Nunca la pedimos, nunca la necesitamos.</li>
-  <li><strong>Tus correos personales o laborales:</strong> El filtro de remitentes bancarios es específico — solo procesamos correos de dominios bancarios conocidos.</li>
-  <li><strong>Tu token de Yape/Plin:</strong> Solo leemos las confirmaciones por email que ya recibiste.</li>
-  <li><strong>Datos biométricos ni PIN:</strong> No tenemos acceso a ninguna autenticación de tu banco.</li>
+  <li><strong>Tu contraseña o clave del banco:</strong> nunca la pedimos ni la necesitamos.</li>
+  <li><strong>Tu banca en línea:</strong> Neto no entra a tu banco, así que no consulta tu saldo ni puede hacer transferencias o pagos.</li>
+  <li><strong>Tu clave de Yape, tu PIN o tus datos biométricos:</strong> no tenemos acceso a ninguna autenticación de tu banco o billetera.</li>
+  <li><strong>Tus correos personales o de trabajo:</strong> Neto busca solo los correos de los remitentes de la lista y algunas frases típicas de notificaciones bancarias, y descarta lo que no es un movimiento.</li>
 </ul>
 
-<h2>Cómo funciona la conexión técnicamente</h2>
-<p>
-  El proceso usa OAuth 2.0 de Google — el mismo estándar de seguridad que usan
-  Notion, Slack, Zoom y miles de aplicaciones corporativas para conectarse a Gmail.
-</p>
+<h2>Cómo funciona la conexión</h2>
 <ol>
-  <li>Abres el link de autorización que Neto te envía por WhatsApp.</li>
-  <li>Google te muestra exactamente qué permiso estás dando: "Neto puede leer correos de notificaciones bancarias".</li>
-  <li>Tú apruebas. Google envía a Neto un token de acceso limitado — nunca tu contraseña.</li>
-  <li>Neto usa ese token para leer solo los correos que coinciden con remitentes bancarios. No puede leer ningún otro correo.</li>
+  <li>Activas Neto Pro. Conectar Gmail es la única función de Pro que no está en la prueba de 14 días: se habilita cuando pagas.</li>
+  <li>Desde tu panel Pro en la web de Neto eliges qué bancos quieres que lea y conectas tu Gmail.</li>
+  <li>Google te muestra el permiso que estás dando: ver tus correos, sin poder enviarlos, borrarlos ni modificarlos. Tú apruebas, y Google le da a Neto un acceso limitado, nunca tu contraseña.</li>
+  <li>Al conectarlo, Neto importa los movimientos de los correos de notificación de los últimos 30 días (hasta 50 correos), y después revisa los nuevos cada cierto tiempo.</li>
 </ol>
 <p>
-  Puedes revocar el acceso en cualquier momento desde
-  <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">myaccount.google.com/permissions</a>.
-  Si revocas, Neto pierde el acceso inmediatamente y no puede leer correos nuevos.
+  Cada cuenta de Neto admite un solo Gmail. Puedes revocar el acceso cuando quieras desde
+  <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">myaccount.google.com/permissions</a>,
+  y desde ese momento Neto no puede leer correos nuevos.
 </p>
 
 <h2>¿Qué pasa si cambio de banco o de correo?</h2>
 <p>
-  <strong>Cambio de banco:</strong> Si empiezas a usar un banco nuevo, solo necesitas
-  asegurarte de que las notificaciones del banco nuevo lleguen al mismo Gmail conectado.
-  Neto las detectará automáticamente si el banco está en la lista de compatibles.
+  <strong>Cambio de banco:</strong> si el banco nuevo está en la lista y sus notificaciones llegan
+  al mismo Gmail, Neto las lee. Qué bancos lee lo cambias desde tu panel Pro.
 </p>
 <p>
-  <strong>Cambio de correo:</strong> Si migras a otro Gmail, necesitas reconectar Neto
-  con el nuevo correo. El proceso toma menos de 2 minutos. El historial del correo
-  anterior se puede exportar.
+  <strong>Cambio de correo:</strong> cada cuenta de Neto admite un solo Gmail. Si necesitas
+  cambiarlo, escríbenos a <a href="mailto:hola@neto.pe">hola@neto.pe</a> y lo vemos contigo.
 </p>
 
-<h2>¿Es seguro desde el punto de vista de privacidad de datos?</h2>
+<h2>¿Cómo se protegen tus datos?</h2>
 <p>
-  Los datos de transacciones se almacenan en servidores con cifrado AES-256. La
-  base de datos usa Row-Level Security (RLS) de Supabase, lo que significa que
-  cada usuario solo puede acceder a sus propios datos — ni siquiera el equipo de
-  Neto puede ver tus transacciones individuales en producción.
+  Tus movimientos se guardan en Supabase, que cifra en reposo todos los datos de sus clientes con
+  AES-256 y los transmite por TLS, según su
+  <a href="${SUPABASE_SEGURIDAD}" target="_blank" rel="noopener noreferrer nofollow">página de
+  seguridad</a>. Además, Neto guarda los tokens de acceso a tu Gmail cifrados con AES-256-GCM.
 </p>
 <p>
-  Los datos no se venden a terceros ni se usan para ningún propósito fuera del
-  servicio. Puedes leer la política completa en <a href="/privacidad">nuestra
-  política de privacidad</a>.
+  La app web usa Row Level Security (RLS): cada sesión solo puede leer los datos de su propio
+  usuario. Eso no quiere decir que nadie en Neto pueda ver nada. El sistema que procesa tus
+  mensajes opera con acceso de administrador, y ese acceso interno se usa para operar el servicio y
+  darte soporte. Tus datos no se venden a terceros. El detalle está en
+  <a href="/privacidad">nuestra política de privacidad</a>.
 </p>
+<p><small>Fuentes consultadas el ${CONSULTA_REVISION}.</small></p>
 
 <h2>Empieza gratis</h2>
 <p>
-  Si quieres ver cómo funciona en la práctica,
-  <a href="${WA_BLOG}">escríbele a Neto por WhatsApp</a>. En 2 minutos
-  conectas tu primer banco y ves tus gastos organizados automáticamente.
-  Sin contraseñas bancarias. Sin apps que descargar.
+  Si quieres probar Neto, <a href="${WA_BLOG}">escríbele por WhatsApp</a> y anota tu primer gasto
+  o mándale la captura de un yapeo. Anotar es gratis siempre, sin contraseñas bancarias y sin apps
+  que descargar. Si más adelante activas Pro, ahí puedes sumar tu Gmail.
 </p>
 <p>
-  ¿Quieres entender qué hace Neto con esa información una vez que la lee?
-  <a href="/blog/asistente-financiero-whatsapp-peru">Lee aquí cómo funciona
-  el asistente financiero completo</a>.
+  ¿Quieres entender qué hace Neto con tus gastos una vez anotados?
+  <a href="/blog/asistente-financiero-whatsapp-peru">Lee aquí cómo funciona el asistente
+  completo</a>.
 </p>
 
 <h2>Preguntas frecuentes sobre seguridad</h2>
 
 <h3>¿Puede Neto hacer transferencias o pagos desde mi cuenta?</h3>
 <p>
-  No. Absolutamente no. El acceso OAuth que otorgas a Neto es solo de lectura
-  sobre correos de Gmail. Neto no tiene ningún acceso a tu banca en línea,
-  no puede hacer movimientos, no puede iniciar transferencias.
+  No. Neto no tiene ningún acceso a tu banca en línea. El permiso de Gmail es de solo lectura de
+  correo y no sirve para mover plata.
 </p>
 
-<h3>¿Qué pasa si Neto es hackeado?</h3>
+<h3>¿Qué pasa si Neto sufre un ataque?</h3>
 <p>
-  En el peor escenario hipotético, un atacante podría ver el historial de
-  transacciones (montos, comercios, fechas) almacenado en Neto — pero no
-  podría acceder a tu banca en línea, ya que Neto no almacena credenciales
-  bancarias. La arquitectura está diseñada para minimizar el valor de
-  cualquier dato comprometido.
+  Nadie podría entrar a tu banco con lo que guarda Neto, porque Neto no guarda credenciales
+  bancarias. Lo que sí está en Neto es tu historial de movimientos (montos, comercios, fechas) y, si
+  conectaste Gmail, el token de acceso a tu correo, que se guarda cifrado. Si en algún momento
+  tienes dudas, puedes revocar ese acceso desde tu cuenta de Google.
 </p>
 
 <h3>¿Recomienda Neto compartir contraseñas bancarias?</h3>
 <p>
-  Nunca. Si alguna app de finanzas te pide tu usuario y contraseña bancaria,
-  no la uses. Ninguna herramienta legítima necesita tus credenciales bancarias
-  directas. Las alternativas seguras como Neto usan email parsing o APIs
-  bancarias oficiales.
+  Nunca. Si una app de finanzas te pide tu usuario y clave del banco, piénsalo dos veces antes de
+  dársela. Hay formas de ordenar tus gastos sin entregar tus credenciales: anotarlos tú, o dejar
+  que una app lea las notificaciones que ya recibes.
 </p>
 `,
 
   "asistente-financiero-whatsapp-peru": `
+<p>
+  <strong>Neto es un asistente financiero que vive en WhatsApp: le escribes tus gastos como a un
+  amigo («almuerzo 18») o le mandas la captura de tu yapeo, y él los categoriza y te los muestra
+  ordenados.</strong> Anotar es gratis siempre. Ver tus números (resúmenes, dashboard, score y
+  presupuestos) es de Neto Pro, que cuesta S/10 al mes o S/99 al año y tiene 14 días de prueba.
+</p>
+
 <h2>¿Qué es un asistente financiero por WhatsApp?</h2>
 <p>
-  Es exactamente lo que suena: un asistente que te ayuda con tu plata y vive
-  en WhatsApp. Le escribes, te responde. Le preguntas cuánto gastaste, te
-  dice. Le pides un resumen de la semana, te lo manda.
+  Es un asistente que te ayuda con tu plata y vive en WhatsApp. Le escribes un gasto y lo anota. Le
+  preguntas cuánto gastaste en la semana y te responde. No es una app que descargas ni un Excel que
+  llenas: es una conversación.
 </p>
 <p>
-  No es una app que descargas. No es un Excel que llenas. No es un curso de
-  finanzas. Es <strong>una conversación por WhatsApp que te ayuda a ordenar
-  tu plata</strong>.
-</p>
-<p>
-  En el contexto peruano, esto importa especialmente: somos un país donde la
-  mayoría de decisiones financieras del día a día se toman en el celular, entre
-  un Yape, una consulta al banco y un pago de servicio — todo en el mismo
-  dispositivo donde ya tenemos WhatsApp abierto todo el día.
+  En Perú tiene sentido por cómo pagamos: un yapeo, un plin, la tarjeta y algo de efectivo, todo
+  desde el mismo celular donde ya tenemos WhatsApp abierto.
 </p>
 
 <h2>¿Por qué WhatsApp y no una app?</h2>
 <p>
-  En Perú, WhatsApp es la app más usada. Más que Facebook, más que Instagram,
-  más que cualquier otra. <strong>Más del 90% de los peruanos con smartphone
-  usa WhatsApp todos los días.</strong>
+  Porque ya lo tienes abierto. No ocupa espacio en tu celular, no tienes que recordar otra
+  contraseña ni aprender otra interfaz: si sabes mandar un WhatsApp, sabes anotar un gasto en Neto.
 </p>
 <p>
-  Entonces, ¿por qué obligarte a descargar otra app? Neto va donde ya estás.
-  Sin ocupar espacio en tu celular, sin recordar otra contraseña, sin aprender
-  otra interfaz. Si sabes escribir un WhatsApp, sabes usar Neto.
-</p>
-<p>
-  Además, el modelo de WhatsApp elimina las barreras de fricción que matan la
-  adopción de apps financieras. No necesitas abrir la app, recordar abrirla,
-  ni mantener el hábito. El asistente está en el mismo lugar donde ya revisas
-  mensajes todos los días.
+  Y porque lo difícil es el hábito. A una app de finanzas hay que acordarse de abrirla; el chat de
+  Neto está donde ya revisas tus mensajes todos los días. Menos pasos por gasto son menos gastos que
+  se te olvidan.
 </p>
 
 <h2>¿Para quién es Neto?</h2>
-<p>
-  Neto es para cualquier peruano que quiera entender sus finanzas sin complicarse.
-  Pero especialmente útil para:
-</p>
 <ul>
   <li>
-    <strong>Profesionales con ingresos fijos:</strong> Ganan bien pero no saben
-    a dónde se va la plata. Neto les da visibilidad sin esfuerzo.
+    <strong>Quien tiene ingresos fijos y no sabe a dónde se va la plata:</strong> anotar desde el
+    chat le da la foto real con poco esfuerzo.
   </li>
   <li>
-    <strong>Parejas que comparten gastos:</strong> La función de espacios compartidos
-    permite rastrear gastos del hogar juntos sin conflictos por "quién gastó qué".
+    <strong>Parejas que comparten gastos:</strong> los espacios compartidos de Neto Pro juntan los
+    gastos del hogar de los dos, para que no haya discusiones de «quién pagó qué».
   </li>
   <li>
-    <strong>Personas con varias cuentas y tarjetas:</strong> BCP + BBVA + Yape +
-    Plin — todo centralizado en un solo resumen.
+    <strong>Quien paga con varias cuentas y tarjetas:</strong> lo que pagas con BCP, BBVA, Yape o
+    Plin lo anotas en el mismo chat, y ahí queda todo junto.
   </li>
   <li>
-    <strong>Alguien que quiere empezar a ahorrar:</strong> La primera pregunta para
-    ahorrar es "¿de dónde recorto?". Neto responde esa pregunta con datos.
+    <strong>Quien quiere empezar a ahorrar:</strong> la primera pregunta es «¿de dónde recorto?», y
+    se responde mirando tus gastos por categoría.
   </li>
   <li>
-    <strong>Emprendedores y freelancers:</strong> Separa gastos personales de gastos
-    del negocio con categorías personalizadas.
+    <strong>Freelancers y emprendedores:</strong> puedes crear tus propias categorías para separar
+    los gastos del negocio de los personales.
   </li>
 </ul>
 
 <h2>Cómo funciona Neto</h2>
-<h3>1. Se conecta a tu correo (una sola vez)</h3>
+<h3>1. Anotas por WhatsApp</h3>
 <p>
-  Conectas tu Gmail con un clic usando OAuth de Google. Neto recibe permiso de
-  solo lectura sobre correos de remitentes bancarios específicos.
-  No accede a tu banca en línea ni te pide contraseñas bancarias. Funciona con
-  BCP, BBVA, Interbank, Scotiabank, Yape, Plin y 5 bancos más.
-</p>
-<p>
-  Si quieres saber en detalle cómo funciona la seguridad de esta conexión,
-  <a href="/blog/bancos-peru-rastrear-sin-contrasena">este artículo explica
-  la diferencia entre email parsing y screen scraping</a>.
+  Le mandas un mensaje («taxi 12», «almuerzo 18»), una nota de voz, la foto de un voucher o la
+  captura de un yapeo o un plin. Neto lee el monto, el comercio y la fecha, y te confirma lo que
+  anotó. Si la captura es de un yapeo que te hicieron, lo registra como ingreso.
 </p>
 
-<h3>2. Lee y categoriza automáticamente</h3>
+<h3>2. Categoriza con IA, y tú corriges</h3>
 <p>
-  Cada vez que llega un correo de tu banco, Neto lo procesa con IA: extrae
-  el monto, identifica el comercio y asigna una categoría (comida, transporte,
-  entretenimiento, servicios, etc.). Tú no haces absolutamente nada.
-</p>
-<p>
-  Si una categorización está mal (por ejemplo, Neto categoriza un pago a tu
-  gimnasio como "entretenimiento" cuando tú lo consideras "salud"), solo
-  escríbele: "Cambia el cargo de SmartFit a salud". Neto lo corrige y aprende
-  para el futuro.
+  Cada gasto entra con una categoría (comida, transporte, entretenimiento, servicios...). Si una
+  está mal, escríbele «cambia el de SmartFit a salud» y la corrige. Y si quieres que un comercio
+  vaya siempre a la misma categoría, pídeselo: «todo lo de Rappi va en delivery».
 </p>
 
-<h3>3. Te manda resúmenes por WhatsApp</h3>
-<p>
-  Recibes resúmenes automáticos con tus gastos organizados. También puedes
-  escribirle cuando quieras para preguntarle cosas como:
-</p>
+<h3>3. Te muestra tus números</h3>
+<p>Le puedes preguntar cosas como:</p>
 <ul>
-  <li>"¿Cuánto gasté esta semana?"</li>
-  <li>"¿Cuánto llevo en delivery este mes?"</li>
-  <li>"¿Cuáles son mis suscripciones activas?"</li>
-  <li>"Dame mi resumen del mes"</li>
-  <li>"¿En qué gasté más hoy?"</li>
-  <li>"¿Estoy dentro del presupuesto de comida?"</li>
+  <li>«¿Cuánto gasté esta semana?»</li>
+  <li>«¿Cuánto llevo en delivery este mes?»</li>
+  <li>«¿Cuáles son mis suscripciones?»</li>
+  <li>«¿Cuáles son mis gastos hormiga?»</li>
+  <li>«¿Cuánto me queda del presupuesto de comida?»</li>
 </ul>
+<p>
+  Esas consultas, los resúmenes automáticos y el dashboard web son de Neto Pro. Durante los 14 días
+  de prueba los tienes todos; después, anotar sigue siendo gratis y ver tus números es de Pro.
+</p>
+
+<h3>4. Opcional, en Neto Pro: tu Gmail</h3>
+<p>
+  Si tienes Pro, puedes conectar tu Gmail para que los gastos que tu banco te notifica por correo
+  los anote Neto por ti. Es un complemento de lo que escribes, no el mecanismo principal: los pagos
+  que no generan un correo los sigues anotando tú. Neto no se conecta a tu banco ni te pide
+  contraseñas bancarias. Si quieres el detalle,
+  <a href="/blog/bancos-peru-rastrear-sin-contrasena">aquí explicamos qué bancos lee y cómo</a>.
+</p>
 
 <h2>¿Qué puede hacer Neto?</h2>
 <ul>
   <li>
-    <strong>Resumen semanal y mensual:</strong> Gastos totales, por categoría,
-    con porcentajes y comparación vs períodos anteriores.
+    <strong>Resumen semanal:</strong> cuánto gastaste, tus categorías más altas y la comparación con
+    la semana pasada.
   </li>
   <li>
-    <strong>Alertas de presupuesto:</strong> Configura un tope mensual por categoría
-    y Neto te avisa cuando te acercas.
+    <strong>Presupuestos con alertas:</strong> pones un tope mensual por categoría y Neto te avisa
+    cuando te acercas.
   </li>
   <li>
-    <strong>Categorización automática:</strong> IA que aprende tus patrones y
-    categoriza con más del 90% de precisión.
+    <strong>Reglas por comercio:</strong> si fijas una categoría para un comercio, los siguientes
+    gastos de ese comercio entran directo en ella.
   </li>
   <li>
-    <strong>Score de salud financiera:</strong> Una puntuación de 0 a 100 que te
-    dice qué tan bien van tus finanzas. Aprende más sobre
+    <strong>Score de salud financiera:</strong> una puntuación de 0 a 100 que te dice qué tan bien
+    van tus finanzas. Aprende más sobre
     <a href="/score-financiero">cómo funciona el score financiero de Neto</a>.
   </li>
   <li>
-    <strong>Dashboard web:</strong> Además del WhatsApp, tienes un dashboard visual
-    con gráficos detallados y historial completo.
+    <strong>Dashboard web:</strong> además del chat, un dashboard con gráficos, tus categorías y el
+    historial completo.
   </li>
   <li>
-    <strong>Detector de gastos hormiga:</strong> Neto identifica automáticamente
-    los patrones de pequeños gastos recurrentes que más impacto tienen en tu presupuesto.
+    <strong>Gastos hormiga:</strong> Neto junta las compras chicas del mes y te dice cuánto suman.
     <a href="/blog/gastos-hormiga-peru">¿Qué son los gastos hormiga?</a>
   </li>
   <li>
-    <strong>Gestión de deudas:</strong> Registra a quién le debes y quién te debe.
-    Neto te recuerda y lleva el seguimiento.
+    <strong>Deudas entre personas:</strong> anotas a quién le debes y quién te debe, y Neto te lo
+    recuerda.
   </li>
   <li>
-    <strong>Espacios compartidos:</strong> Para gastos de pareja o familia — rastrean
-    juntos sin perder privacidad individual.
+    <strong>Espacios compartidos:</strong> para gastos de pareja o familia, cada uno anota lo suyo y
+    ven el total juntos.
   </li>
 </ul>
 
-<h2>Casos de uso reales</h2>
-<h3>Carlos, 29 años, Lima (analista en banca)</h3>
-<p>
-  "Pensaba que gastaba S/200 al mes en delivery. Neto me mostró que eran S/580.
-  En tres meses bajé a S/180. Sin esfuerzo — solo sabiendo el dato real."
-</p>
-
-<h3>Valeria y Diego, pareja que comparte gastos de casa</h3>
-<p>
-  "Usamos los espacios compartidos de Neto. Ya no hay discusiones de 'tú gastaste
-  más en la canasta'. Todo está registrado y es transparente para los dos."
-</p>
-
-<h3>Andrea, 35 años, freelancer</h3>
-<p>
-  "Tengo ingresos variables. Neto me ayuda a saber cuándo puedo gastar más y
-  cuándo ajustar. Es la diferencia entre vivir con ansiedad financiera y tener
-  claridad."
-</p>
-
-<h2>¿Cómo mejora tu vida financiera en 30 días?</h2>
+<h2>Un primer mes con Neto, semana a semana</h2>
 <ol>
-  <li><strong>Semana 1:</strong> Ves tus datos reales por primera vez. Probablemente te sorprende cuánto gastas en 1–2 categorías específicas.</li>
-  <li><strong>Semana 2:</strong> Empiezas a ser más consciente de tus decisiones de gasto. No porque Neto te juzgue, sino porque ahora tienes números reales.</li>
-  <li><strong>Semana 3:</strong> Puedes configurar tus primeros presupuestos por categoría. Neto te alerta si te pasas.</li>
-  <li><strong>Semana 4:</strong> Compares tu gasto total con la semana 1. La diferencia es concreta.</li>
+  <li><strong>Semana 1:</strong> Anotas todo y ves tus datos reales por primera vez. Lo normal es que una o dos categorías te sorprendan.</li>
+  <li><strong>Semana 2:</strong> Empiezas a notar tus decisiones de gasto. No porque Neto te juzgue, sino porque ahora tienes los números.</li>
+  <li><strong>Semana 3:</strong> Pones tus primeros presupuestos por categoría, y Neto te avisa si te pasas.</li>
+  <li><strong>Semana 4:</strong> Comparas tu gasto con el de la semana 1 y decides qué ajustar el mes siguiente.</li>
 </ol>
-<p>
-  El cambio más común que reportan los usuarios en el primer mes: reducir entre
-  S/150 y S/400 de gastos no esenciales sin sentir que se privaron de nada importante.
-</p>
 
 <h2>¿Cuánto cuesta?</h2>
 <p>
-  Anotar gastos es gratis para siempre y sin límite: mensajes por WhatsApp,
-  fotos de tu Yape o Plin, correcciones de categoría y tu total del mes
-  siempre a la vista. Nada de eso se corta ni se borra.
+  Anotar gastos es gratis para siempre y sin límite: mensajes por WhatsApp, fotos de tu Yape o
+  Plin, correcciones de categoría y tu total del mes siempre a la vista. Nada de eso se corta ni se
+  borra.
 </p>
 <p>
-  Cuando registras tu primer gasto arrancan 14 días de Neto Pro con todo
-  abierto. Después, lo que queda detrás de Pro (S/10/mes o S/99/año) es verlos
-  ordenados: dashboard con gráficos y categorías, historial ilimitado,
-  presupuestos y metas con alertas, score financiero detallado, espacios
-  compartidos y reportes con export.
+  Cuando registras tu primer gasto arrancan 14 días de Neto Pro con todo abierto. Después, lo que
+  queda detrás de Pro (S/10 al mes o S/99 al año) es verlos ordenados: dashboard con gráficos y
+  categorías, historial ilimitado, presupuestos y metas con alertas, score financiero detallado,
+  espacios compartidos y reportes con export.
 </p>
 <p>
-  Puedes pagar con <strong>Yape</strong> — somos el único asistente financiero
-  en Perú que acepta Yape como método de pago. No hay tarjeta de por medio y
-  Pro no se renueva solo.
+  Pro se paga con <strong>Yape</strong>, sin tarjeta de por medio, y no se renueva solo.
 </p>
 
 <h2>Preguntas frecuentes</h2>
 
-<h3>¿Neto funciona si mi banco no envía notificaciones por correo?</h3>
+<h3>¿Necesito conectar mi correo para usar Neto?</h3>
 <p>
-  La mayoría de bancos peruanos envían notificaciones por correo por defecto,
-  pero a veces hay que activarlas. Revisa en la configuración de tu banca en
-  línea que las notificaciones de transacciones estén habilitadas hacia tu
-  Gmail. Si tienes dudas, escríbenos y te ayudamos.
+  No. Neto funciona completo anotando por WhatsApp o en la web. Conectar Gmail es opcional y es de
+  Neto Pro: sirve para que los gastos que tu banco te notifica por correo entren solos, además de
+  los que anotas.
 </p>
 
-<h3>¿Puedo usar Neto si tengo solo Yape y no tarjeta de banco?</h3>
+<h3>¿Puedo usar Neto si solo uso Yape?</h3>
 <p>
-  Sí. Neto es totalmente compatible con Yape como único medio de pago. Si
-  recibes el correo de confirmación de Yape, Neto puede rastrear esos movimientos.
+  Sí. Mándale a Neto la captura de cada yapeo por WhatsApp y él lee el monto, a quién le pagaste y
+  la fecha. El paso a paso está en
+  <a href="/blog/controlar-gastos-yape-plin">cómo controlar tus gastos si pagas con Yape y Plin</a>.
 </p>
 
 <h3>¿Hay una versión para negocios?</h3>
 <p>
-  Actualmente Neto está optimizado para finanzas personales. Si usas Neto para
-  un negocio pequeño o freelance, funciona bien para separar categorías de
-  gastos del negocio. Una versión específicamente diseñada para negocios está
-  en el roadmap.
+  No. Neto está hecho para finanzas personales. Si eres freelancer o tienes un negocio pequeño,
+  puedes usar categorías propias para separar los gastos del negocio de los tuyos.
 </p>
 `,
 };

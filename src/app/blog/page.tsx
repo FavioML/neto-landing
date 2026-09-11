@@ -53,7 +53,7 @@ const blogJsonLd = {
     description: post.description,
     url: `https://neto.pe/blog/${post.slug}`,
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: post.dateModified ?? post.date,
     author: {
       "@type": "Organization",
       name: "Neto",

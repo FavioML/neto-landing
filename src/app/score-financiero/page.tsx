@@ -308,7 +308,7 @@ export default function ScoreFinancieroPage() {
               {[
                 {
                   href: "/blog/gastos-hormiga-peru",
-                  title: "Gastos hormiga: cómo te roban S/200 al mes",
+                  title: "Gastos hormiga: qué son y cómo verlos",
                   desc: "Los pequeños gastos invisibles que más impactan tu score.",
                 },
                 {

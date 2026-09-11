@@ -335,6 +335,37 @@ if (fechadas === 0) {
 }
 notas.push(`${fechadas} página(s) con ACTUALIZADO, cotejadas contra su <lastmod>`);
 
+// ── 3c: lo mismo para cada post del blog: <lastmod> = dateModified ?? date ──────────────
+// `blog.ts` alimenta la fecha visible y el JSON-LD de cada post; el sitemap vuelve a ser la única
+// copia escrita a mano. Los cinco posts de marzo se reescribieron el 11-sep-2026 con su lastmod
+// todavía en marzo, que es exactamente el hueco que 3b cerró para la comparativa.
+const bloquesPost = readFileSync(path.join(SRC, 'lib', 'blog.ts'), 'utf-8')
+  .split(/\n\s*\{\s*\n\s*slug:\s*"/)
+  .slice(1);
+let postsFechados = 0;
+for (const bloque of bloquesPost) {
+  const slug = bloque.match(/^([^"]+)"/)?.[1];
+  const publicado = bloque.match(/\bdate:\s*"(\d{4}-\d{2}-\d{2})"/)?.[1];
+  const modificado = bloque.match(/\bdateModified:\s*"(\d{4}-\d{2}-\d{2})"/)?.[1];
+  if (!slug || !publicado) {
+    fallos.push(`[antivacuidad] un post de blog.ts no tiene slug o date legible: ${JSON.stringify(bloque.slice(0, 60))}`);
+    continue;
+  }
+  postsFechados++;
+  const ruta = '/blog/' + slug;
+  if (modificado && modificado <= publicado) {
+    fallos.push(`[fecha] ${ruta}: dateModified ${modificado} no es posterior a date ${publicado}. Si no cambió después de publicarse, sin dateModified.`);
+  }
+  const esperada = modificado ?? publicado;
+  if (lastmodDe.get(ruta) !== esperada) {
+    fallos.push(`[fecha] ${ruta} dice ${modificado ? 'dateModified' : 'date'} = ${esperada} en src/lib/blog.ts pero public/sitemap.xml tiene <lastmod>${lastmodDe.get(ruta) ?? '(ninguno)'}</lastmod>`);
+  }
+}
+if (postsFechados === 0 || postsFechados !== slugsBlog().length) {
+  fallos.push(`[antivacuidad] se cotejaron ${postsFechados} posts contra su <lastmod>, pero blog.ts tiene ${slugsBlog().length}: el troceo de blog.ts cambió de forma`);
+}
+notas.push(`${postsFechados} post(s) del blog con su fecha cotejada contra <lastmod>`);
+
 // ── Reporte ────────────────────────────────────────────────────────────────────────
 for (const nota of notas) console.log('  · ' + nota);
 if (fallos.length) {

@@ -46,6 +46,7 @@ export async function generateMetadata({
       description: post.description,
       type: "article",
       publishedTime: post.date,
+      modifiedTime: post.dateModified ?? post.date,
       locale: "es_PE",
       siteName: "Neto",
       url: `https://neto.pe/blog/${post.slug}`,
@@ -80,6 +81,7 @@ export default async function BlogPostPage({
   const html = articleContent[slug] ?? "";
   const ogImage = post.ogImage ?? "https://neto.pe/og-default.jpg";
   const postUrl = `https://neto.pe/blog/${post.slug}`;
+  const modificado = post.dateModified ?? post.date;
 
   /* JSON-LD: BlogPosting + BreadcrumbList */
   const articleJsonLd = {
@@ -89,7 +91,7 @@ export default async function BlogPostPage({
     description: post.description,
     url: postUrl,
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: modificado,
     inLanguage: "es-PE",
     image: {
       "@type": "ImageObject",
@@ -232,7 +234,7 @@ export default async function BlogPostPage({
               </a>
               {" · "}
               <span>
-                Última actualización: {fechaVisible(post.date)}
+                Última actualización: {fechaVisible(modificado)}
               </span>
             </p>
           </header>
