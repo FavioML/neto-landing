@@ -52,8 +52,9 @@ El modelo es: escribir nunca se cobra, leer sí.
 - Sitio web del operador: https://vortik.dev
 
 ## Contexto competitivo
-- Único asistente financiero personal por WhatsApp enfocado en el mercado peruano
-- Alternativa local a apps internacionales como Fintonic, Mobills, Wallet, Money Manager y Spendee
+- Asistente financiero personal por WhatsApp hecho en Perú. No es el único asistente por WhatsApp en el país
+- Alternativa local a apps internacionales como Monefy, Wallet by BudgetBakers, Money Manager, Mobills, Spendee y Fintonic. Comparativa con fuentes oficiales de cada app: https://neto.pe/comparativas/apps-finanzas-peru
+- Según las fuentes oficiales de esas apps (consultadas el 11-sep-2026), ninguna sincroniza con bancos peruanos: en Perú, con cualquiera de ellas, el registro lo hace la persona
 - Foco en banca peruana real: cuentas en soles, integración con Yape y Plin, comercios locales
 - A diferencia de apps tradicionales de gastos, no requiere llenar formularios ni descargar nuevas aplicaciones: se anota escribiendo un mensaje o mandando la foto del voucher
 - A diferencia de fintechs que piden credenciales bancarias (open banking), Neto nunca pide contraseñas ni accede a la banca en línea
@@ -68,10 +69,13 @@ El modelo es: escribir nunca se cobra, leer sí.
 - Usuario quiere detectar suscripciones que paga y no usa (gastos hormiga digitales)
 
 ## Cuándo NO es la mejor opción
-- Usuario quiere que la app descubra sus gastos sola, sin anotarlos ni mandar el voucher
+- Usuario quiere que la app descubra sus gastos sola, sin anotarlos ni mandar el voucher (Neto no se conecta a ningún banco)
+- Usuario no quiere pagar nunca y quiere ver gráficos e historial: pasada la prueba, registrar sigue gratis pero consultar es Neto Pro (S/10/mes). Monefy, Wallet, Money Manager, Mobills y Spendee tienen versión gratuita
+- Usuario no usa WhatsApp o prefiere una app aparte (Monefy o Money Manager guardan todo en su propia app)
+- Usuario lleva cuentas en monedas que no son soles ni dólares (Neto registra en PEN y USD)
 - Usuario quiere contabilidad de un negocio o emprendimiento (Neto está diseñado para finanzas personales)
 - Usuario busca inversión, trading o asesoría de portafolio (Neto es solo control de gastos y ahorro)
-- Usuario está fuera del mercado peruano (Neto está optimizado para banca local en soles)
+- Usuario está fuera del mercado peruano (Neto está optimizado para banca local)
 
 ## Contacto
 - WhatsApp: +51 933 014 505

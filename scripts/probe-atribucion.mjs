@@ -10,6 +10,11 @@
  *
  *   A. pageviews de app.neto.pe con `utm_` en la URL    baseline 10 / 2898 (0,3%)  →  meta >100
  *   B. reparto de canales de las sesiones de neto.pe     baseline $direct 51%       →  meta <40%
+ *   C. sesiones de ChatGPT por mes (Acción 2)            baseline ago-2026: 20      →  meta del audit 40/mes
+ *      y cuántas entran por /comparativas/ (la página que ChatGPT cita). Medido el 2026-09-11,
+ *      ANTES de publicar la comparativa nueva: sep 1-11 ya iba en 26 (9 por /comparativas/), o
+ *      sea que el total mensual crece solo y no sirve para atribuirle nada a ese cambio. El
+ *      número que la Acción 2 puede mover es la columna de /comparativas/.
  *
  * TRES TRAMPAS DE MEDICIÓN QUE ESTE SCRIPT EVITA A PROPÓSITO, las tres ya mordieron una vez y
  * están documentadas en la memory `project_atribucion_rota_landing`:
@@ -186,4 +191,30 @@ console.log(`A. Pageviews de app.neto.pe por querystring  (baseline audit: 10 CO
 console.log(fmt(A));
 console.log(`\nB. Sesiones de neto.pe por canal  (baseline audit: direct limpio 355 de 693 = 51% · meta <40%)`);
 console.log(fmt(B, (k) => String(k).startsWith('E.')));
+
+// ── C. ChatGPT por mes (Acción 2 del audit) ───────────────────────────────────────────────
+// El número de la Acción 2 es MENSUAL, así que no sale de B: sesiones de neto.pe que llegan
+// desde ChatGPT por referrer O por utm_source (la trampa 2), agrupadas por el mes UTC de su
+// primer pageview, y cuántas de ellas entran por la comparativa, que es la página que ChatGPT
+// cita. Para ver varios meses completos correr con --dias=120; con la ventana por defecto el
+// primer mes sale cortado.
+const C = await hogql(`
+  SELECT mes, count() AS sesiones, countIf(position(entrada, '/comparativas/') > 0) AS por_comparativa
+  FROM (
+    SELECT
+      toStartOfMonth(min(timestamp))         AS mes,
+      argMin(properties.$current_url, timestamp) AS entrada,
+      any(properties.$referring_domain)      AS ref,
+      any(properties.$current_url)           AS url
+    FROM events
+    WHERE event = '$pageview'
+      AND properties.$host = 'neto.pe'
+      AND timestamp >= ${PISO}
+    GROUP BY properties.$session_id
+  )
+  WHERE match(ref, 'chatgpt|openai') OR match(url, 'utm_source=(chatgpt|openai)')
+  GROUP BY mes ORDER BY mes
+`);
+console.log(`\nC. Sesiones de ChatGPT por mes UTC, referrer + utm  (baseline audit: 22 en ago-2026 · meta 40/mes)`);
+console.log(C.map(([m, s, c]) => `  ${String(m).slice(0, 7)}   ${String(s).padStart(4)} sesiones   ${String(c).padStart(4)} entran por /comparativas/`).join('\n') || '  (ninguna en la ventana)');
 console.log('');

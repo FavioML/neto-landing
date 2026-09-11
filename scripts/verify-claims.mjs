@@ -33,6 +33,8 @@
  *   5. EL SITEMAP CUBRE LAS RUTAS. Una página nueva que no entra al sitemap es una
  *      página que Google no descubre. Se enumeran las rutas reales del App Router en
  *      vez de fijar una lista, porque una lista se desactualiza igual que el copy.
+ *      Y si una página declara `const ACTUALIZADO = "YYYY-MM-DD"` (la comparativa lo hace), su
+ *      <lastmod> tiene que ser esa misma fecha: el sitemap es la única copia que no la importa.
  *
  * Antivacuidad: si el escaneo no encuentra archivos, o el sitemap no parsea URLs, o los
  * patrones dejan de matchear sus propios ejemplos, el guard FALLA. Un guard que pasa
@@ -283,6 +285,30 @@ for (const ruta of enSitemap) {
   }
 }
 notas.push(`${esperadas.length} rutas reales contra ${enSitemap.size} URLs del sitemap (${FUERA_DEL_SITEMAP.size} excluida a propósito)`);
+
+// ── 3b: la fecha visible de una página y su <lastmod> son UNA fecha ─────────────────────
+// Una página que declara `const ACTUALIZADO = "YYYY-MM-DD"` saca de ahí el texto visible y el
+// JSON-LD. El sitemap es estático y no puede importarla, así que es la única copia que queda;
+// este chequeo es lo que impide que se quede atrás (la comparativa estuvo cuatro meses con
+// "2 de mayo" escrito a mano, y ChatGPT la mostraba así en su tarjeta de citación).
+const lastmodDe = new Map(
+  [...sitemap.matchAll(/<loc>https:\/\/neto\.pe([^<]*)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)]
+    .map((m) => [m[1] || '/', m[2].trim()])
+);
+let fechadas = 0;
+for (const abs of archivos.filter((f) => path.basename(f) === 'page.tsx')) {
+  const m = readFileSync(abs, 'utf-8').match(/const ACTUALIZADO = "(\d{4}-\d{2}-\d{2})"/);
+  if (!m) continue;
+  fechadas++;
+  const ruta = '/' + path.relative(path.join(SRC, 'app'), path.dirname(abs)).split(path.sep).join('/');
+  if (lastmodDe.get(ruta) !== m[1]) {
+    fallos.push(`[fecha] ${ruta} declara ACTUALIZADO = ${m[1]} pero public/sitemap.xml tiene <lastmod>${lastmodDe.get(ruta) ?? '(ninguno)'}</lastmod>\n           La fecha visible, el JSON-LD y el sitemap tienen que decir lo mismo.`);
+  }
+}
+if (fechadas === 0) {
+  fallos.push('[antivacuidad] ninguna página declara `const ACTUALIZADO = "YYYY-MM-DD"`: la comparativa lo declaraba, o cambió la forma o el chequeo de fecha quedó ciego');
+}
+notas.push(`${fechadas} página(s) con ACTUALIZADO, cotejadas contra su <lastmod>`);
 
 // ── Reporte ────────────────────────────────────────────────────────────────────────
 for (const nota of notas) console.log('  · ' + nota);
