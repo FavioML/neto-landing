@@ -221,11 +221,36 @@ function esDeConversion(rel) {
   if (m && PROFUNDIZANDO.has(m[1])) return false;
   // `src/lib/blog*.ts` es el CUERPO del blog: mismo motivo que la ruta /blog.
   if (/^src\/lib\/blog/.test(rel)) return false;
+  if (DATOS_DE_PROFUNDIZACION.has(rel)) return false;
   return true;
 }
+
+/**
+ * Módulos de DATOS que viven en src/lib pero cuyo contenido es de una página de profundización.
+ * Un módulo no es una superficie: lo es quien lo importa. Por eso la exención es condicional —
+ * si un archivo de conversión lo importa, sus bancos llegan a la conversión y el guard falla.
+ */
+const DATOS_DE_PROFUNDIZACION = new Map([
+  ['src/lib/apps-comparativa.ts', 'los datos de las siete apps: los leen la comparativa y el post de precios del blog'],
+]);
+
 const deConversion = archivos.filter((abs) =>
   esDeConversion(path.relative(RAIZ, abs).split(path.sep).join('/'))
 );
+for (const [modulo, porque] of DATOS_DE_PROFUNDIZACION) {
+  if (!archivos.some((abs) => path.relative(RAIZ, abs).split(path.sep).join('/') === modulo)) {
+    fallos.push(`[excepcion] ${modulo} está declarado como dato de profundización pero ya no existe`);
+    continue;
+  }
+  const nombre = path.basename(modulo).replace(/\.tsx?$/, '');
+  const importa = new RegExp(`from\\s+["'][^"']*\\/${nombre}["']`);
+  for (const abs of deConversion) {
+    const rel = path.relative(RAIZ, abs).split(path.sep).join('/');
+    if (importa.test(readFileSync(abs, 'utf-8'))) {
+      fallos.push(`[prominencia-por-import] ${rel} importa ${modulo}, que está fuera del perímetro de conversión (${porque}).\n           Lo que ese módulo dice (bancos, Gmail) llega a una superficie de conversión sin que nadie lo revise.`);
+    }
+  }
+}
 if (deConversion.length < 5 || deConversion.length === archivos.length) {
   fallos.push(`[antivacuidad] el perimetro de conversion son ${deConversion.length} de ${archivos.length} archivos: el filtro esta roto`);
 }

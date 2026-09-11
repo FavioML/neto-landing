@@ -8,6 +8,19 @@ import { getPost, getAllSlugs } from "@/lib/blog";
 import { articleContent } from "@/lib/blog-content";
 import HtmlAtribuido from "@/components/HtmlAtribuido";
 
+/*
+ * `post.date` es un día pelado ("2026-09-11") y `new Date()` lo lee como medianoche UTC. Sin
+ * `timeZone`, formatearlo en una máquina en Lima lo corre al día anterior: la fecha visible
+ * dependía de dónde corriera el build.
+ */
+const fechaVisible = (dia: string) =>
+  new Date(dia).toLocaleDateString("es-PE", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  });
+
 /* Static export: generate all blog slugs at build time */
 export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
@@ -144,6 +157,19 @@ export default async function BlogPostPage({
     ],
   };
 
+  /* FAQPage sale del MISMO array que la sección visible de abajo: no pueden divergir. */
+  const faqJsonLd = post.faq?.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: post.faq.map((q) => ({
+          "@type": "Question",
+          name: q.pregunta,
+          acceptedAnswer: { "@type": "Answer", text: q.respuesta },
+        })),
+      }
+    : null;
+
   return (
     <>
       <Navbar />
@@ -151,7 +177,9 @@ export default async function BlogPostPage({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify([articleJsonLd, breadcrumbJsonLd]),
+            __html: JSON.stringify(
+              faqJsonLd ? [articleJsonLd, breadcrumbJsonLd, faqJsonLd] : [articleJsonLd, breadcrumbJsonLd]
+            ),
           }}
         />
 
@@ -181,11 +209,7 @@ export default async function BlogPostPage({
           <header className="mb-10">
             <time className="text-xs text-neto-txt3 uppercase tracking-wider">
               Publicado el{" "}
-              {new Date(post.date).toLocaleDateString("es-PE", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              {fechaVisible(post.date)}
               {" · "}
               {post.readingTime} lectura
             </time>
@@ -208,12 +232,7 @@ export default async function BlogPostPage({
               </a>
               {" · "}
               <span>
-                Última actualización:{" "}
-                {new Date(post.date).toLocaleDateString("es-PE", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+                Última actualización: {fechaVisible(post.date)}
               </span>
             </p>
           </header>
@@ -222,10 +241,22 @@ export default async function BlogPostPage({
               después de montar (HtmlAtribuido). */}
           <HtmlAtribuido className="prose-neto" html={html} />
 
+          {post.faq?.length ? (
+            <section className="prose-neto" aria-labelledby="preguntas-frecuentes">
+              <h2 id="preguntas-frecuentes">Preguntas frecuentes</h2>
+              {post.faq.map((q) => (
+                <div key={q.pregunta}>
+                  <h3>{q.pregunta}</h3>
+                  <p>{q.respuesta}</p>
+                </div>
+              ))}
+            </section>
+          ) : null}
+
           {/* CTA */}
           <div className="mt-16 rounded-2xl border border-neto-green/20 bg-neto-bg2 p-8 text-center">
             <h3 className="text-xl font-semibold mb-2">
-              Controla tus gastos automáticamente
+              Anota tus gastos en WhatsApp
             </h3>
             <p className="text-neto-txt3 text-sm mb-6 max-w-[400px] mx-auto">
               Mándale un mensaje o foto a Neto por WhatsApp. Categoriza con IA y

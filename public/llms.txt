@@ -17,6 +17,8 @@ Desarrollado por Vortik (vortik.dev), Lima, Perú.
 - Contacto: https://neto.pe/contacto
 
 ## Artículos destacados
+- ¿Cuánto cuesta una app de finanzas personales en Perú? (precios con fuente oficial): https://neto.pe/blog/cuanto-cuesta-app-finanzas-personales-peru
+- ¿Cómo controlar tus gastos si pagas con Yape y Plin?: https://neto.pe/blog/controlar-gastos-yape-plin
 - https://neto.pe/blog/gastos-hormiga-peru
 - https://neto.pe/blog/como-controlar-gastos-personales-peru
 - https://neto.pe/blog/bancos-peru-rastrear-sin-contrasena

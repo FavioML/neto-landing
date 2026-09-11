@@ -94,6 +94,8 @@ export default function BlogIndex() {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
+                      // día pelado = medianoche UTC; sin esto, un build en Lima lo corre un día
+                      timeZone: "UTC",
                     })}
                     {" · "}
                     {post.readingTime} lectura
