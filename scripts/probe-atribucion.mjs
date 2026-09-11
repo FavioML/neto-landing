@@ -39,7 +39,15 @@
  * la ve y este script sale exit 2 diciendo que falta — eso es un shell viejo, no una key
  * ausente. Comprobarlo con [Environment]::GetEnvironmentVariable('POSTHOG_PERSONAL_API_KEY','User').
  *
- *   node scripts/probe-atribucion.mjs [--dias=90]
+ *      **Y las sondas tampoco van en el DENOMINADOR.** Hasta el 11-sep la categoría E salía
+ *      aparte pero seguía sumando al total, así que el porcentaje de `$direct` quedaba medido
+ *      contra tráfico que no existe (sobre 30 días al 11-sep: 132 de 349 = 37,7% con sondas,
+ *      132 de 298 = 44,3% sin ellas). Hoy E se lista con su conteo y fuera del 100%.
+ *
+ *   node scripts/probe-atribucion.mjs [--dias=90] [--desde=2026-09-11T16:21:00]
+ *
+ * `--desde` reemplaza el piso de la ventana por un instante UTC. Sirve para leer sólo lo que
+ * pasó después de un deploy (p.ej. que E quede en cero después de la regla del cliente).
  *
  * exit 0 = midió. exit 2 = no pudo medir (falta credencial, API caída). NUNCA da un veredicto
  * de PASS/FAIL: esto es un instrumento de medición, no un guard. El veredicto lo pone quien lee
@@ -58,6 +66,16 @@ if (!Number.isFinite(dias) || dias < 1) {
   console.error('--dias tiene que ser un entero positivo');
   process.exit(2);
 }
+const desdeArg = (process.argv.find((a) => a.startsWith('--desde=')) || '').slice('--desde='.length);
+if (desdeArg && !/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2})?)?$/.test(desdeArg)) {
+  console.error('--desde tiene que ser YYYY-MM-DD o YYYY-MM-DDTHH:MM[:SS] (UTC)');
+  process.exit(2);
+}
+// Validado arriba contra un patrón fijo, así que interpolarlo en la HogQL no abre nada.
+const PISO = desdeArg
+  ? `toDateTime('${desdeArg.replace('T', ' ')}${desdeArg.length === 10 ? ' 00:00:00' : desdeArg.length === 16 ? ':00' : ''}')`
+  : `now() - INTERVAL ${dias} DAY`;
+const VENTANA = desdeArg ? `desde ${desdeArg} UTC` : `últimos ${dias} días`;
 
 const KEY = process.env.POSTHOG_PERSONAL_API_KEY;
 if (!KEY) {
@@ -119,7 +137,7 @@ const A = await hogql(`
     FROM events
     WHERE event = '$pageview'
       AND properties.$host = 'app.neto.pe'
-      AND timestamp >= now() - INTERVAL ${dias} DAY
+      AND timestamp >= ${PISO}
   ) GROUP BY etiqueta ORDER BY etiqueta
 `);
 
@@ -149,19 +167,23 @@ const B = await hogql(`
     FROM events
     WHERE event = '$pageview'
       AND properties.$host = 'neto.pe'
-      AND timestamp >= now() - INTERVAL ${dias} DAY
+      AND timestamp >= ${PISO}
     GROUP BY properties.$session_id
   ) GROUP BY canal ORDER BY canal
 `);
 
-const fmt = (filas) => {
-  const total = filas.reduce((s, f) => s + Number(f[1]), 0) || 1;
-  return filas.map(([k, v]) => `  ${String(k).padEnd(26)} ${String(v).padStart(6)}  ${((Number(v) / total) * 100).toFixed(1)}%`).join('\n');
+// `fuera` son las categorías que se listan pero NO entran al 100%: las sondas no son tráfico,
+// así que tampoco pueden ser parte del total contra el que se mide `$direct`.
+const fmt = (filas, fuera = () => false) => {
+  const total = filas.filter(([k]) => !fuera(k)).reduce((s, f) => s + Number(f[1]), 0) || 1;
+  return filas.map(([k, v]) => `  ${String(k).padEnd(26)} ${String(v).padStart(6)}  ${
+    fuera(k) ? 'fuera del total' : `${((Number(v) / total) * 100).toFixed(1)}%`
+  }`).join('\n');
 };
 
-console.log(`\nATRIBUCIÓN — últimos ${dias} días · proyecto ${proyecto.id} · ${new Date().toISOString().slice(0, 10)}\n`);
+console.log(`\nATRIBUCIÓN — ${VENTANA} · proyecto ${proyecto.id} · ${new Date().toISOString().slice(0, 10)}\n`);
 console.log(`A. Pageviews de app.neto.pe por querystring  (baseline audit: 10 CON utm de 2898 = 0,3% · meta >100)`);
 console.log(fmt(A));
 console.log(`\nB. Sesiones de neto.pe por canal  (baseline audit: direct limpio 355 de 693 = 51% · meta <40%)`);
-console.log(fmt(B));
+console.log(fmt(B, (k) => String(k).startsWith('E.')));
 console.log('');
