@@ -11,3 +11,11 @@
 
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
+
+# El logo se embebe FUERA de neto.pe: la firma de hola@neto.pe (app/assets/brand/firma-neto.html)
+# lo carga desde Gmail, Outlook web o cualquier cliente de correo. Con el CORP same-origin de arriba
+# el navegador lo bloquea en todos esos contextos (roto desde 443427b, 09-jul-2026, y visto recién
+# el 11-sep al re-pegar la firma). Se le quita SOLO a este archivo: el resto del sitio conserva el
+# same-origin. Sin CORP, una imagen cargada por <img> desde otro origen no tiene restricción.
+/neto-icon.png
+  ! Cross-Origin-Resource-Policy
