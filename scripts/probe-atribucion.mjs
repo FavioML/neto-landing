@@ -27,6 +27,12 @@
  *   3. **Las sondas propias no son tráfico.** `?cwv=` y `?det=` son mis propias mediciones de
  *      Core Web Vitals (25 sesiones, 3,6%) y caían dentro de `$direct`, inflando justo el
  *      bloque que la Acción 1 quiere reducir. Salen a una categoría propia, no al agregado.
+ *      Y hay una segunda forma que el audit no vio: el canary diario de CWV corre PageSpeed
+ *      SIN query, con el UA fijo de emulación de Lighthouse (`Android 11; moto g power
+ *      (2022)`), 1-2 sesiones cada pocos días a las 10am Lima. También cuenta como sonda.
+ *      Desde el 11-sep-2026 las dos formas se descartan en el cliente (`before_send` en
+ *      `src/app/layout.tsx`), así que la categoría E sólo puede traer historia anterior:
+ *      una sesión E posterior a esa fecha significa que la regla del cliente se rompió.
  *
  * Requiere `POSTHOG_PERSONAL_API_KEY` (scopes de lectura `query:read` y `project:read`). Ya está
  * cargada como variable de USUARIO de Windows. OJO: un shell abierto ANTES de que se cargara no
@@ -126,8 +132,10 @@ const B = await hogql(`
     SELECT
       any(properties.$referring_domain) AS ref,
       any(properties.$current_url)      AS url,
+      any(properties.$raw_user_agent)   AS ua,
       multiIf(
-        position(url, 'cwv=') > 0 OR position(url, 'det=') > 0,                  'E. sonda propia de CWV',
+        match(url, '[?&](cwv|det)=')
+          OR position(ua, 'Android 11; moto g power (2022)') > 0,                'E. sonda propia de CWV',
         match(ref, 'chatgpt|openai|perplexity|gemini|copilot')
           OR match(url, 'utm_source=(chatgpt|openai|perplexity|gemini|copilot)'), 'B. motores de IA',
         match(ref, 'google|bing|duckduckgo|yahoo|ecosia|brave'),                  'A. buscadores',

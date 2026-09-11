@@ -174,6 +174,11 @@ Tres cosas que cuestan una tarde si se re-descubren:
 - **PSI cachea.** Cinco llamadas seguidas a la misma URL devuelven el mismo resultado byte
   por byte. `measure-cwv-lab.mjs` mete un `?cwv=<n>` distinto por corrida; sin eso, una
   "mediana de 5" puede ser una sola medición repetida cinco veces.
+- **Las sondas no cuentan como tráfico** (11-sep-2026). PageSpeed ya no manda `Chrome-Lighthouse`
+  y el filtro de bots de PostHog lo deja pasar: el `?cwv=`, el `?det=` y el canary diario (sin
+  query, UA de Lighthouse) entraban a `$direct` y al RUM. `layout.tsx` los descarta en
+  `before_send`; el porqué y lo que no alcanza a separar están ahí. Un cache-buster nuevo tiene
+  que usar uno de esos dos nombres, o vuelve a contarse como visita.
 - **Las dos métricas son ruidosas, y cuál más cambia entre tandas.** Cuatro tandas del
   22-ago contra la misma build: dos dieron el score mucho más disperso que el LCP (16 pts vs
   150ms) y dos lo dieron al revés (5 pts vs 675ms). Con una tanda no se puede concluir cuál

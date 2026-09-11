@@ -141,9 +141,26 @@ export default function RootLayout({
             exige ver salir el POST con las métricas adentro. Ojo con dos trampas que ya
             dieron un falso negativo: PostHog descarta el tráfico automatizado (mira
             `navigator.webdriver` Y `userAgentData.brands`), y el cuerpo del evento va
-            gzippeado, no en el `data=<base64>` de la documentación vieja. */}
+            gzippeado, no en el `data=<base64>` de la documentación vieja.
+
+            **Las sondas de rendimiento no se cuentan** (11-sep-2026, Acción 4 del audit de
+            adquisición). PageSpeed ya no manda `Chrome-Lighthouse` en el UA, así que el
+            filtro de bots de PostHog las deja pasar y caían en `$direct` y en el RUM de
+            arriba. Son dos formas: las que llevan cache-buster (`?cwv=` de
+            `scripts/measure-cwv-lab.mjs`, `?det=` de mediciones a mano) y las del canary
+            diario de CWV, que van sin query pero con el UA fijo de emulación de Lighthouse
+            (`Android 11; moto g power (2022)`). Medido en 180 días sobre los cuatro hosts del
+            proyecto: ese UA aparece SOLO en su forma exacta de Lighthouse, siempre con un
+            pageview y a la hora del canary. El Chrome real de Android ya no manda modelo
+            desde la reducción de UA, y el navegador de Instagram sí lo manda, pero con `wv`.
+            Se descartan en el cliente y no en PostHog porque un filtro en su consola no deja
+            diff, y se descartan con `before_send` en vez de no cargar PostHog porque así
+            PageSpeed sigue midiendo la página con el costo real de su JS. Lo que NO se puede
+            separar: el desktop de Lighthouse sin query usa el UA de un Chrome de Mac real.
+            La misma regla vive en la webapp (`webapp/src/lib/analytics/sonda.ts`). */}
         <Script id="posthog-init" strategy="afterInteractive">
           {`
+            var sondaNeto = /[?&](cwv|det)=/.test(location.search) || navigator.userAgent.indexOf('Android 11; moto g power (2022)') !== -1;
             !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ie Ts Ms capture Ee calculateEventProperties Os register register_once register_for_session unregister unregister_for_session Rs getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getPersonProperties getRawPersonProperties getRawGroupProperties getSessionProperty createPersonProfile generateRecordingURL Vs Fs $s registerForSurvey registerSurveyEventListener removeSurveyEventListener captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
             window.posthog.init('${POSTHOG_KEY}', {
               api_host: '${POSTHOG_HOST}',
@@ -155,6 +172,8 @@ export default function RootLayout({
               respect_dnt: true,
               session_recording: { maskAllInputs: true },
               capture_performance: { web_vitals: true, web_vitals_allowed_metrics: ['LCP', 'INP', 'CLS', 'FCP'] },
+              before_send: function(ev){ return sondaNeto ? null : ev; },
+              disable_session_recording: sondaNeto,
               loaded: function(ph){ ph.register({ app: 'neto-landing' }); }
             });
           `}
