@@ -313,3 +313,22 @@ cortado el dev server (`.next/dev/types/routes.d.ts`), `out/` quedó con la vers
 chequeo dio verde midiendo HTML de antes. Desde ese día, si algún fuente del blog es más nuevo que el
 HTML construido, sale exit 2.
 
+### Core Web Vitals de laboratorio, antes y después
+
+Móvil, `npm run measure:cwv` (PageSpeed), cinco corridas pedidas por medición, el mismo día. PageSpeed
+devolvió 500 en muchas corridas, así que la n real va al lado de cada número.
+
+| | Antes | Después |
+|---|---|---|
+| Precio, score | 92 (77 a 96), n=4 | 89 (84 a 90), n=3 en dos tandas |
+| Precio, LCP | 2926 ms (2401 a 3226) | 3151 ms (3001 a 3151) |
+| Yape, score | 85 (72 a 90), n=5 | 81 (74 a 91), n=3 |
+| Yape, LCP | 3226 ms (3151 a 4501) | 3151 ms (3151 a 3226) |
+| CLS | 0 en todas | 0 en todas |
+| Peso de la página | 1033 KiB | 1034 a 1040 KiB |
+
+**Lectura: no hay cambio medible.** En los dos posts el rango del "después" cae dentro del del
+"antes", que es la regla de `measure-cwv-lab.mjs` para llamar ruido a una diferencia. El molde no
+agrega imágenes ni JavaScript: suma entre 1 y 7 KiB de CSS. La salvedad es la n: el "después" del
+post de precios juntó corridas de dos tandas separadas por una hora, más débil que una sola tanda.
+
