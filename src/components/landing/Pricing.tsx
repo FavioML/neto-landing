@@ -20,9 +20,10 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  * (ocrPerMonth: Infinity), plus the month total, which is the one number that
  * survives the wall (lib/trial.js nudgeMuro).
  *
- * The trial band deliberately does NOT say "sin tarjeta": lib/trial.js:246-250
- * documents that naming a card in the same breath as "register an expense" reads
- * as if annotating triggers a charge. It lives on the Pro card instead, where the
+ * The trial band deliberately does NOT say "sin tarjeta": lib/trial.js mensajeMuro
+ * (the never-had-a-trial branch, `!usuario.trial_estado`) documents that naming a
+ * card in the same breath as "register an expense" reads as if annotating triggers
+ * a charge. It lives on the Pro card instead, where the
  * person is deciding rather than annotating.
  */
 
