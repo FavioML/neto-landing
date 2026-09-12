@@ -9,6 +9,7 @@
     "start": "next start",
     "verify:hero": "node scripts/verify-hero.mjs",
     "verify:claims": "node scripts/verify-claims.mjs",
+    "check:blog": "node scripts/check-blog.mjs",
     "verify:atribucion": "node scripts/verify-atribucion.mjs",
     "probe:atribucion": "node scripts/probe-atribucion.mjs",
     "probe:deploy": "node scripts/probe-deploy-fresh.mjs",

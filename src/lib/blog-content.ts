@@ -6,6 +6,7 @@
 
 import { waLink } from "./constants";
 import { APPS } from "./apps-comparativa";
+import { barras, chatNeto, enCorto, enlaceExterno, nota, tabla } from "./blog-bloques";
 
 // `[blog]`, no `[hero]`: la posición tiene que decir de dónde salió el clic. El origen de la visita
 // lo agrega `<HtmlAtribuido>` en cliente, porque este HTML es un string y no pasa por un hook.
@@ -20,19 +21,90 @@ const fechaLarga = (dia: string) =>
     timeZone: "America/Lima",
   }).format(new Date(`${dia}T09:00:00-05:00`));
 
+const enLista = (items: string[]) =>
+  new Intl.ListFormat("es", { style: "long", type: "conjunction" }).format(items);
+
 /*
  * Los precios del post de precios NO se escriben acá: salen de `APPS`, que es también lo que
- * muestra la comparativa. Refrescar un precio allá lo refresca en los dos lados.
+ * muestra la comparativa. Refrescar un precio allá lo refresca en los dos lados, tabla y gráfica.
  */
-const precioPorApp = APPS.map((app) => {
-  const fuente =
-    app.fuentes && app.consultado
-      ? `<br /><small>Fuente oficial, consultada el ${fechaLarga(app.consultado)}: ${app.fuentes
-          .map((f) => `<a href="${f.url}" target="_blank" rel="noopener noreferrer nofollow">${f.nombre}</a>`)
-          .join(" · ")}</small>`
-      : "";
-  return `<h3>${app.name}</h3>\n<p>${app.precio}${fuente}</p>`;
-}).join("\n");
+const consultas = [...new Set(APPS.flatMap((a) => (a.consultado ? [a.consultado] : [])))].sort();
+if (!consultas.length) throw new Error("APPS no trae ninguna fecha de consulta: la tabla de precios quedaría sin fecha");
+const fuentesApps = `Precios en la moneda en que los publica cada fuente. Fuentes oficiales${
+  consultas.length === 1 ? `, consultadas el ${fechaLarga(consultas[0])}` : ""
+}: ${APPS.filter((a) => a.fuentes?.length)
+  .map(
+    (a) =>
+      `${a.name} (${a.fuentes!.map((f) => enlaceExterno(f.nombre, f.url)).join(" · ")}${
+        consultas.length > 1 && a.consultado ? `, ${fechaLarga(a.consultado)}` : ""
+      })`
+  )
+  .join("; ")}.`;
+
+const TABLA_PRECIOS = tabla({
+  caption: "Precio de cada app según su fuente oficial",
+  columnas: ["App", "Sin pagar", "Lo que se paga", "Detalle"],
+  filas: APPS.map((app) => {
+    const [gratis, pago] = app.precioCorto.split(" · ");
+    if (!pago) throw new Error(`${app.name}: precioCorto ya no tiene la forma "gratis · pago"`);
+    return [app.name, gratis, pago, app.precio];
+  }),
+  propia: APPS.findIndex((a) => a.name === "Neto"),
+  pie: fuentesApps,
+});
+
+/*
+ * La gráfica del costo anual. El MONTO no se escribe acá: se lee del `precio` de cada app
+ * ("S/ 99.90 al año"), así que la barra y la prosa de la comparativa no pueden separarse. Lo que sí
+ * se escribe es qué compra cada plan y por qué queda fuera cada una, que es criterio editorial. Si
+ * una app entra o sale de la gráfica sin que alguien lo decida en estos dos mapas, el build falla.
+ */
+const COMPRA_ANUAL: Record<string, string> = {
+  "Money Manager": "Sincronizar entre dispositivos. Quitar los anuncios es otro pago",
+  Neto: "Neto Pro: dashboard, historial, score y presupuestos",
+  "Wallet by BudgetBakers": "Premium, que incluye sincronizar bancos. Sus fuentes no nombran ninguno peruano",
+};
+const FUERA_DE_ANUAL: Record<string, string> = {
+  Monefy: "no dice a qué período corresponde cada precio",
+  Mobills: "publica en reales",
+  Spendee: "publica en dólares",
+  Fintonic: "no publica precio",
+};
+const ANUAL_SOLES = /S\/\s?(\d+(?:\.\d{2})?) al año/;
+const anuales = APPS.flatMap((app) => {
+  const m = app.precio.match(ANUAL_SOLES);
+  return m ? [{ app, monto: Number(m[1]), texto: m[0].replace(/ al año$/, "") }] : [];
+});
+for (const { app } of anuales) {
+  if (!COMPRA_ANUAL[app.name]) throw new Error(`${app.name} publica un precio anual en soles y la gráfica no dice qué compra: agrégalo a COMPRA_ANUAL`);
+}
+for (const nombre of Object.keys(COMPRA_ANUAL)) {
+  if (!anuales.some((a) => a.app.name === nombre)) throw new Error(`${nombre} está en COMPRA_ANUAL pero su precio ya no dice "S/… al año"`);
+}
+for (const app of APPS) {
+  if (!anuales.some((a) => a.app === app) && !FUERA_DE_ANUAL[app.name]) {
+    throw new Error(`${app.name} quedó fuera de la gráfica anual sin motivo en FUERA_DE_ANUAL`);
+  }
+}
+const consultaAnual = [...new Set(anuales.flatMap((a) => (a.app.consultado ? [a.app.consultado] : [])))].sort().pop();
+if (!consultaAnual) throw new Error("la gráfica anual no tiene ninguna fecha de consulta");
+
+const BARRAS_ANUAL = barras({
+  titulo: "Un año de plan pagado, en soles",
+  items: [...anuales]
+    .sort((a, b) => a.monto - b.monto)
+    .map(({ app, monto, texto }) => ({
+      etiqueta: app.name,
+      valor: monto,
+      texto,
+      detalle: COMPRA_ANUAL[app.name],
+      propia: app.name === "Neto",
+    })),
+  nota: `Solo entran los planes que publican un precio anual en soles. Quedan fuera ${enLista(
+    Object.entries(FUERA_DE_ANUAL).map(([nombre, motivo]) => `${nombre} (${motivo})`)
+  )}.`,
+  fuente: `Fuente: la ficha de cada app en la App Store de Perú y la web de Neto, consultadas el ${fechaLarga(consultaAnual)}.`,
+});
 
 // Fuentes de la pieza de Yape y Plin. Cada cifra o dato de terceros de ese post sale de acá.
 const YAPE_MOVIMIENTOS = "https://www.yape.com.pe/preguntas-frecuentes/enviar-y-recibir-yapeos/98--como-veo-mis-movimientos";
@@ -41,6 +113,21 @@ const PLIN = "https://plin.pe/";
 const BCRP_INTEROPERABILIDAD = "https://www.bcrp.gob.pe/sistema-de-pagos/interoperabilidad/estrategia-de-interoperabilidad-de-los-pagos-minoristas.html";
 const CREDICORP_2T26 = "https://www.sec.gov/Archives/edgar/data/0001001290/000114036126033379/ef20080305_ex99-1.htm";
 const CONSULTA_YAPE_PLIN = fechaLarga("2026-09-11");
+
+const TABLA_DONDE_QUEDA = tabla({
+  caption: "Dónde queda registrado lo que pagas",
+  columnas: ["Pagas con", "Dónde queda", "Qué ves ahí"],
+  filas: [
+    ["Yape", "En la app de Yape", "Quién te yapeó, a quién yapeaste, la fecha y el monto, con filtros de los últimos 90 días o más. Solo tus yapeos."],
+    ["Plin", "En la app de tu banco o caja: Plin no tiene app propia", "Tus plines, en el historial de ese banco."],
+    ["Tarjeta", "En el estado de cuenta de tu banco", "Los consumos de esa tarjeta."],
+    ["Efectivo", "En ningún lado", "Nada, salvo que lo anotes tú."],
+  ],
+  pie: `Fuentes: ${enlaceExterno("ayuda oficial de Yape", YAPE_MOVIMIENTOS)} y ${enlaceExterno(
+    "web oficial de Plin",
+    PLIN
+  )}, consultadas el ${CONSULTA_YAPE_PLIN}.`,
+});
 
 /*
  * Revisión de los cinco posts de marzo (2026-09-11), con la misma regla que los posts nuevos: cada
@@ -52,60 +139,72 @@ const INEI_INGRESO_LIMA = "https://www.gob.pe/institucion/inei/noticias/1430813-
 const SUPABASE_SEGURIDAD = "https://supabase.com/security";
 const CONSULTA_REVISION = fechaLarga("2026-09-11");
 
+/*
+ * Los dos primeros posts siguen el molde (`docs/molde-blog.md`) y `scripts/check-blog.mjs` los
+ * mide; los cinco de marzo todavía no, y el chequeo los declara en su lista LEGADO.
+ */
 export const articleContent: Record<string, string> = {
   "cuanto-cuesta-app-finanzas-personales-peru": `
+${enCorto([
+  "<strong>Anotar gastos cuesta S/0</strong> en casi todas las apps de finanzas que se usan en Perú.",
+  "Lo que se cobra es lo de encima: reportes, quitar anuncios, sincronizar dispositivos o conectar bancos.",
+  "En Neto, registrar es gratis siempre; ver tus números cuesta S/10 al mes o S/99 al año.",
+  "Las demás cobran por cosas distintas y en monedas distintas.",
+])}
 <p>
-  <strong>Anotar tus gastos cuesta S/0 en casi todas las apps de finanzas personales que se
-  usan en Perú. Lo que se cobra es lo de encima</strong>: ver reportes, quitar anuncios,
-  sincronizar entre dispositivos o conectar bancos de otros países. En Neto, registrar es
-  gratis siempre y ver tus números cuesta S/10 al mes o S/99 al año con Neto Pro. Las demás
-  cobran por cosas distintas y hasta en monedas distintas, así que abajo va el precio de cada
-  una con su fuente oficial.
-</p>
-<p>
-  Este post lo escribe el equipo de Neto. Por eso los precios de las otras apps no están
-  resumidos por nosotros: son los que publica cada una en su web o en su ficha de la App Store
-  de Perú, que es donde ves el precio que te cobran desde aquí.
+  Este post lo escribe el equipo de Neto. Por eso los precios de las otras apps son los que cada
+  una publica en su web o en la App Store de Perú.
 </p>
 
 <h2>Cuánto cuesta cada app</h2>
-${precioPorApp}
+${TABLA_PRECIOS}
 
-<h2>Por qué comparar solo el número engaña</h2>
+<h2>¿Por qué comparar solo el número engaña?</h2>
 <p>
-  Cada app cobra por una cosa distinta, así que dos precios parecidos pueden comprar cosas que
-  no se parecen en nada. Money Manager cobra una vez por quitar los anuncios y aparte, cada
-  mes, por sincronizar entre tus dispositivos. En Wallet, lo que se paga es Premium, que es
-  donde está la sincronización bancaria, aunque ninguna de sus páginas oficiales nombra un
-  banco peruano. Spendee y Mobills publican sus precios en dólares y en reales, y el cobro
-  final en soles lo ves recién en la App Store.
+  Porque cada app cobra por una cosa distinta. Tres planes anuales en soles terminan casi en el
+  mismo número y compran cosas que no se parecen:
+</p>
+${BARRAS_ANUAL}
+<p>
+  Money Manager cobra una vez por quitar los anuncios y aparte por sincronizar tus dispositivos. En
+  Wallet se paga Premium, aunque ninguna de sus páginas oficiales nombra un banco peruano. Spendee y
+  Mobills publican en dólares y en reales, y el cobro en soles lo ves recién en la App Store.
 </p>
 <p>
-  Neto no cobra por anotar ni por la cantidad de gastos: puedes registrar todos los que quieras
-  por WhatsApp o en la web sin pagar nunca. Lo que se paga es consultarlos, o sea el dashboard
-  con gráficos, el historial completo, el score financiero, los presupuestos y los reportes.
-  Si quieres ver qué hace cada app además del precio, está en la
+  Neto no cobra por anotar ni por la cantidad de gastos. Lo que se paga es consultarlos: el
+  dashboard con gráficos, el historial completo, el score financiero, los presupuestos y los
+  reportes. Qué hace cada app además del precio está en la
   <a href="/comparativas/apps-finanzas-peru">comparativa de apps de finanzas personales en Perú</a>.
 </p>
 
+<h2>Así se ve lo gratis y lo que se paga</h2>
+<p>
+  Esto contesta Neto cuando terminó tu prueba y no activaste Pro. Anotar sigue funcionando; pedir
+  tu resumen, no.
+</p>
+${chatNeto("prueba-terminada")}
+
 <h2>¿Vale la pena pagar?</h2>
 <p>
-  Nuestra respuesta honesta: no pagues por ninguna app de finanzas antes de haberla usado dos o
-  tres semanas seguidas. Si en ese tiempo no la abriste, no te va a ordenar la plata por pagar
-  la versión completa. Una suscripción que no usas es un gasto hormiga más, del tipo que
-  explicamos en <a href="/blog/gastos-hormiga-peru">cómo los gastos hormiga se comen tu sueldo</a>.
+  No pagues por ninguna app de finanzas antes de usarla dos o tres semanas seguidas. Si en ese
+  tiempo no la abriste, la versión completa no te va a ordenar la plata. Una suscripción que no
+  usas es otro gasto hormiga, como los que explicamos en
+  <a href="/blog/gastos-hormiga-peru">cómo los gastos hormiga se comen tu sueldo</a>.
 </p>
 <p>
-  Si ya anotas y lo que te falta es entender en qué se va la plata, ahí sí tiene sentido pagar
-  por la parte de análisis. Y si prefieres no pagar nada, una hoja de Excel o de Google Sheets
-  sigue siendo gratis; el costo es tu tiempo, porque todo lo categorizas y sumas a mano.
+  Si ya anotas y te falta entender en qué se va la plata, ahí sí conviene pagar por el análisis.
 </p>
+${nota(
+  "dato",
+  "Si no quieres pagar nada",
+  "<p>Una hoja de Excel o de Google Sheets sigue siendo gratis. El costo es tu tiempo, porque todo lo categorizas y lo sumas a mano.</p>"
+)}
 
 <h2>Cómo probar Neto sin pagar</h2>
 <p>
-  Cuando registras tu primer gasto se activan 14 días de Neto Pro con todo abierto, sin pedirte
-  tarjeta. Después puedes seguir anotando gratis, o activar Pro por S/10 al mes o S/99 al año.
-  Se paga por Yape y no se renueva solo, así que no hay cobro sorpresa.
+  Tu primer gasto activa 14 días de Neto Pro: gráficos, categorías, reportes e historial completo.
+  Después sigues anotando gratis, o activas Pro por S/10 al mes o S/99 al año. Se paga por Yape y
+  no se renueva solo, así que no hay cobro sorpresa.
 </p>
 <p>
   Para empezar, <a href="${WA_BLOG}">escríbele a Neto por WhatsApp</a> y anota tu primer gasto
@@ -114,100 +213,79 @@ ${precioPorApp}
 `,
 
   "controlar-gastos-yape-plin": `
-<p>
-  <strong>Para controlar lo que gastas con Yape y Plin necesitas juntar en un solo lugar lo que
-  hoy vive en dos o más apps, y anotarlo en el momento en que pagas.</strong> Yape guarda tus
-  yapeos y cada banco guarda los plines que salen de su app, pero ninguno los suma por
-  categoría ni los junta con lo que pagas con tarjeta o en efectivo. La forma más corta es
-  mandar la captura de cada pago a un solo registro, como Neto por WhatsApp, y mirar el total
-  por categoría una vez por semana.
-</p>
+${enCorto([
+  "<strong>Junta todos tus pagos en un solo lugar y anótalos en el momento en que pagas.</strong>",
+  "Yape guarda tus yapeos y cada banco tus plines, pero ninguna ve lo que pagas en las otras.",
+  "Con Neto le reenvías la captura del pago por WhatsApp y lo anota con su categoría.",
+  "Una vez por semana, compáralo con tu historial de Yape.",
+])}
 
-<h2>Por qué tus yapeos no te dicen en qué gastas</h2>
+<h2>¿Dónde queda cada pago?</h2>
+<p>Cada forma de pago deja su rastro en un lugar distinto, y ninguno junta a los demás.</p>
+${TABLA_DONDE_QUEDA}
 <p>
-  La app de Yape sí tiene historial: muestra quién te yapeó, a quién yapeaste, la fecha y el
-  monto, con filtros de últimos 90 días y más de 90 días, y te deja enviar el listado a tu
-  correo (<a href="${YAPE_MOVIMIENTOS}" target="_blank" rel="noopener noreferrer nofollow">ayuda
-  oficial de Yape</a>). Lo que no te dice es cuánto se fue en comida o en taxis: es una lista de
-  nombres y montos, sin categorías.
+  Desde marzo de 2023, además, Yape y Plin se pagan entre sí, porque el Banco Central de Reserva del
+  Perú los hizo interoperables (${enlaceExterno("BCRP", BCRP_INTEROPERABILIDAD)}). Es cómodo, pero el
+  mismo tipo de gasto puede terminar en una app o en la otra según cuál tenías a la mano.
 </p>
 <p>
-  Plin ni siquiera tiene app propia. Es una función dentro de la app de tu banco o caja: BBVA,
-  Interbank, Scotiabank, BanBif, Caja Arequipa y otras entidades, según la
-  <a href="${PLIN}" target="_blank" rel="noopener noreferrer nofollow">web oficial de Plin</a>.
-  Tus plines quedan en el historial de ese banco, separados de tus yapeos.
-</p>
-<p>
-  Y desde marzo de 2023 las dos se pueden pagar entre sí, porque el Banco Central de Reserva del
-  Perú hizo interoperables a Yape y Plin
-  (<a href="${BCRP_INTEROPERABILIDAD}" target="_blank" rel="noopener noreferrer nofollow">BCRP</a>).
-  Es cómodo, pero para tu control tiene un efecto: el mismo tipo de gasto puede terminar en una
-  app o en la otra según cuál tenías a la mano, y ninguna de las dos ve la otra.
-</p>
-<p>
-  No es un problema de pocos. Yape tenía 16,7 millones de usuarios activos al mes al cierre de
-  junio de 2026, según el reporte del segundo trimestre de Credicorp, el grupo dueño del BCP
-  (<a href="${CREDICORP_2T26}" target="_blank" rel="noopener noreferrer nofollow">reporte
-  2T26</a>).
+  No es un problema de pocos. Yape tenía 16,7 millones de usuarios activos al mes al cierre de junio
+  de 2026, según el ${enlaceExterno("reporte 2T26 de Credicorp", CREDICORP_2T26)}, el grupo dueño
+  del BCP.
 </p>
 <p><small>Fuentes consultadas el ${CONSULTA_YAPE_PLIN}.</small></p>
 
-<h2>Cómo controlar tus gastos de Yape y Plin en cinco pasos</h2>
+<h2>Cómo controlarlo en cinco pasos</h2>
 <ol>
   <li>
-    <strong>Elige un solo lugar donde vive todo.</strong> Puede ser un Excel, una app o Neto.
-    Lo que no funciona es tener la mitad en Yape, la otra mitad en el banco y el efectivo en tu
-    cabeza.
+    <strong>Elige un solo lugar donde vive todo.</strong> Un Excel, una app o Neto. Lo que no
+    funciona es la mitad en Yape, la otra mitad en el banco y el efectivo en tu cabeza.
   </li>
   <li>
-    <strong>Anota en el momento en que pagas.</strong> La pantalla que Yape o tu banco te
-    muestra al terminar el pago ya tiene el monto, a quién le pagaste y la fecha. Con Neto le
-    reenvías esa captura por WhatsApp: lee esos datos, le pone una categoría y te confirma lo
-    que anotó. Lo que pagas en efectivo se lo escribes («taxi 12»).
+    <strong>Anota en el momento en que pagas.</strong> La pantalla final del pago ya trae el monto,
+    a quién le pagaste y la fecha. Lo que pagas en efectivo lo escribes («taxi 12»).
   </li>
   <li>
-    <strong>Separa lo que no es gasto.</strong> Pasar plata entre tus propias cuentas no es un
-    gasto, así que no lo anotes. Si la captura es de un yapeo que te hicieron, Neto la registra
-    como ingreso. Y si le prestaste a alguien, anótalo como deuda entre personas en vez de gasto,
-    para que no se te mezcle con lo que consumiste.
+    <strong>Separa lo que no es gasto.</strong> Pasar plata entre tus propias cuentas no se anota.
+    Si le prestaste a alguien, anótalo como deuda entre personas y no como gasto.
   </li>
   <li>
-    <strong>Ponle un tope a tus categorías.</strong> Con un par de semanas anotadas ya ves en qué
-    se va más. En Neto Pro puedes poner un presupuesto por categoría, y Neto te avisa por
-    WhatsApp cuando te acercas al límite.
+    <strong>Ponle un tope a tus categorías.</strong> Con dos semanas anotadas ya ves en qué se va
+    más. En Neto Pro puedes poner un presupuesto por categoría, y Neto te avisa por WhatsApp
+    cuando te acercas al límite.
   </li>
   <li>
-    <strong>Revisa una vez por semana.</strong> Compara lo que anotaste con la lista de
-    movimientos de Yape: si falta algún yapeo, lo agregas en ese momento. Es la forma de
-    atrapar lo que se te olvidó mandar.
+    <strong>Revisa una vez por semana.</strong> Compara lo que anotaste con los movimientos de Yape
+    y agrega el yapeo que se te olvidó mandar.
   </li>
 </ol>
 
-<h2>Lo que Neto no hace</h2>
+<h2>Así lo anota Neto</h2>
+<p>Le reenvías la captura del yapeo por WhatsApp y te contesta con lo que anotó:</p>
+${chatNeto("captura-yapeo")}
+<p>Si el yapeo te lo hicieron a ti, lo registra como ingreso.</p>
+${nota(
+  "ojo",
+  "Lo que Neto no hace",
+  "<p>Neto no se conecta a Yape, a Plin ni a ningún banco, y no te pide contraseñas. Un yapeo que no le reenviaste no existe para Neto, por eso importa la revisión semanal del paso 5.</p>"
+)}
 <p>
-  Neto no se conecta a Yape, a Plin ni a ningún banco, y no te pide contraseñas. No ve tus
-  movimientos si no se los mandas, así que un yapeo que no reenviaste no existe para Neto. Por
-  eso el quinto paso importa: la revisión semanal contra tu historial de Yape es lo que cierra
-  ese hueco.
-</p>
-<p>
-  Yape también puede mandarte un correo de aviso por los yapeos que envías, a partir de un monto
-  mínimo que eliges entre S/10, S/50, S/100 y S/500
-  (<a href="${YAPE_CORREO}" target="_blank" rel="noopener noreferrer nofollow">ayuda oficial de
-  Yape</a>). Sirve como recordatorio, pero no te arma el total por categoría.
+  Yape también puede avisarte por correo de los yapeos que envías, desde el mínimo que elijas:
+  S/10, S/50, S/100 o S/500 (${enlaceExterno("ayuda oficial de Yape", YAPE_CORREO)}). Sirve como
+  recordatorio, pero no te arma el total por categoría.
 </p>
 
 <h2>¿Y si prefiero otra herramienta?</h2>
 <p>
-  Los cinco pasos sirven igual con un Excel o con cualquier app de gastos: lo que importa es el
-  lugar único y la costumbre de anotar al pagar. Si estás eligiendo app, en la
-  <a href="/comparativas/apps-finanzas-peru">comparativa de apps de finanzas personales en Perú</a>
-  está qué hace cada una, y en <a href="/blog/cuanto-cuesta-app-finanzas-personales-peru">cuánto
-  cuesta una app de finanzas personales</a> está el precio de cada una con su fuente.
+  Los cinco pasos sirven igual con un Excel o con cualquier app: importa el lugar único y anotar al
+  pagar. Qué hace cada app está en la
+  <a href="/comparativas/apps-finanzas-peru">comparativa de apps de finanzas personales en Perú</a>,
+  y cuánto cuesta cada una, en <a href="/blog/cuanto-cuesta-app-finanzas-personales-peru">el post de
+  precios</a>.
 </p>
 <p>
-  Si quieres probar con Neto, <a href="${WA_BLOG}">escríbele por WhatsApp</a> y mándale la
-  captura de tu último yapeo. Anotar es gratis siempre.
+  Si quieres probar con Neto, <a href="${WA_BLOG}">escríbele por WhatsApp</a> y mándale la captura
+  de tu último yapeo. Anotar es gratis siempre.
 </p>
 `,
 

@@ -72,6 +72,23 @@ npm run build && npx serve out -l 4321 -s
 node scripts/verify-hero.mjs http://localhost:4321/
 ```
 
+## El blog tiene molde, y un chequeo que lo hace cumplir
+
+Desde el 12-sep-2026 un post nuevo se arma con los bloques de `src/lib/blog-bloques.ts` (En corto,
+tabla, barras, chat de Neto, nota) siguiendo `docs/molde-blog.md`, que es la fuente de verdad de la
+forma: orden, umbrales y qué tendría que bloquear una rutina automática. El chat de Neto no acepta
+texto libre: toma una clave de `src/lib/respuestas-bot.json`, y el chequeo coteja cada plantilla
+contra `../app`.
+
+```bash
+npm run build && npm run check:blog   # exit 1 no se publica; exit 2 (sin ../app, sin out/) tampoco
+```
+
+Los posts sin migrar van en `LEGADO` dentro del script, con su motivo. **No mutes el HTML de `out/`
+para probar el chequeo:** React reescribe el cuerpo del post desde su payload al hidratar, así que la
+mutación desaparece del DOM a los pocos segundos y el chequeo parece ciego cuando no lo está. Se muta
+el fuente y se reconstruye (detalle en la sección 10 del doc).
+
 ## La atribución cruza el salto, y es un contrato con OTRO repo
 
 Hasta el 2026-09-09 la landing tiraba el UTM al saltar: los CTA eran `href="https://app.neto.pe"`

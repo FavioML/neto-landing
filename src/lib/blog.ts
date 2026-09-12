@@ -1,3 +1,5 @@
+import { articleContent } from "./blog-content";
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -9,6 +11,10 @@ export interface BlogPost {
    * tiene que decir lo mismo (`verify-claims.mjs` lo exige). Sin él, las dos fechas son `date`.
    */
   dateModified?: string;
+  /**
+   * Se CALCULA del texto (`tiempoLectura`), no se escribe. Hasta el 12-sep-2026 era un "5 min"
+   * tipeado a mano en cada post, que nadie volvía a tocar cuando el post cambiaba de largo.
+   */
   readingTime: string;
   keywords: string[];
   content: string; // HTML content
@@ -16,19 +22,34 @@ export interface BlogPost {
   /**
    * Preguntas frecuentes del post. De este array salen la sección visible Y el FAQPage del
    * JSON-LD, así que no pueden decir cosas distintas. Texto plano: el JSON-LD no lleva HTML.
+   * Google dejó de mostrar el resultado enriquecido de FAQ el 7-may-2026: el FAQ vale por lo que
+   * le sirve al lector, no por un rich result que ya no existe (`docs/molde-blog.md`, sección 3).
    */
   faq?: { pregunta: string; respuesta: string }[];
 }
 
-/** Central registry — import from here, add new posts to the array. */
-export const posts: BlogPost[] = [
+type PostEscrito = Omit<BlogPost, "readingTime">;
+
+/** Palabras por minuto de lectura en pantalla. El número es convención, no medición. */
+const PALABRAS_POR_MINUTO = 200;
+
+/** Minutos de lectura del cuerpo más la FAQ visible, redondeados y nunca menos de 1. */
+export function tiempoLectura(post: PostEscrito): string {
+  const faq = (post.faq ?? []).map((q) => `${q.pregunta} ${q.respuesta}`).join(" ");
+  const texto = `${articleContent[post.slug] ?? ""} ${faq}`.replace(/<[^>]+>/g, " ");
+  const palabras = texto.split(/\s+/).filter(Boolean).length;
+  return `${Math.max(1, Math.round(palabras / PALABRAS_POR_MINUTO))} min`;
+}
+
+/** Central registry — add new posts to the array. */
+const escritos: PostEscrito[] = [
   {
     slug: "cuanto-cuesta-app-finanzas-personales-peru",
     title: "¿Cuánto cuesta una app de finanzas personales en Perú?",
     description:
       "Anotar gastos es gratis en casi todas. Lo que se cobra es lo de encima. Precios de Neto, Monefy, Wallet, Money Manager, Mobills y Spendee con su fuente oficial.",
     date: "2026-09-11",
-    readingTime: "5 min",
+    dateModified: "2026-09-12",
     keywords: [
       "cuánto cuesta una app de finanzas personales",
       "app de gastos gratis perú",
@@ -69,9 +90,9 @@ export const posts: BlogPost[] = [
     slug: "controlar-gastos-yape-plin",
     title: "¿Cómo controlar tus gastos si pagas con Yape y Plin?",
     description:
-      "Yape guarda tus yapeos y cada banco guarda tus plines, pero ninguno los suma por categoría. Cómo juntar todo en un solo lugar, paso a paso.",
+      "Yape guarda tus yapeos y cada banco guarda tus plines, pero ninguna de esas apps ve lo que pagas en las otras. Cómo juntar todo en un solo lugar, paso a paso.",
     date: "2026-09-11",
-    readingTime: "6 min",
+    dateModified: "2026-09-12",
     keywords: [
       "controlar gastos yape",
       "controlar gastos plin",
@@ -115,7 +136,6 @@ export const posts: BlogPost[] = [
       "Qué son los gastos hormiga, cómo sumarlos con tus propios números y cómo ponerles un tope. Con un ejemplo en soles y el ingreso promedio de Lima según el INEI.",
     date: "2026-03-21",
     dateModified: "2026-09-11",
-    readingTime: "5 min",
     keywords: [
       "gastos hormiga",
       "gastos hormiga peru",
@@ -132,7 +152,6 @@ export const posts: BlogPost[] = [
       "Cuatro métodos para controlar tus gastos en Perú (50/30/20, topes por categoría, presupuesto cero y quitar tres gastos), con ejemplos en soles y un plan de 30 días.",
     date: "2026-03-22",
     dateModified: "2026-09-11",
-    readingTime: "6 min",
     keywords: [
       "cómo controlar gastos personales",
       "control de gastos perú",
@@ -149,7 +168,6 @@ export const posts: BlogPost[] = [
       "Si llegas al 20 sin plata y no sabes por qué, es porque tus gastos están repartidos. Cómo juntarlos y verlos por categoría, a mano o desde WhatsApp.",
     date: "2026-03-22",
     dateModified: "2026-09-11",
-    readingTime: "5 min",
     keywords: [
       "en qué gasto mi plata",
       "a dónde se va mi dinero",
@@ -166,7 +184,6 @@ export const posts: BlogPost[] = [
       "Neto no se conecta a tu banco. Con Neto Pro y tu Gmail conectado, lee los correos de notificación de BCP, BBVA, Interbank, Scotiabank, Yape y otros. Qué lee, qué no y cómo quitarle el acceso.",
     date: "2026-03-22",
     dateModified: "2026-09-11",
-    readingTime: "6 min",
     keywords: [
       "bancos perú",
       "app finanzas perú sin contraseña",
@@ -183,7 +200,6 @@ export const posts: BlogPost[] = [
       "Qué hace Neto, qué no hace y cuánto cuesta. Anotas tus gastos por WhatsApp con un mensaje o la captura del yapeo, y los ves ordenados en tu dashboard.",
     date: "2026-03-22",
     dateModified: "2026-09-11",
-    readingTime: "5 min",
     keywords: [
       "asistente financiero whatsapp",
       "asistente financiero perú",
@@ -194,6 +210,8 @@ export const posts: BlogPost[] = [
     content: "",
   },
 ];
+
+export const posts: BlogPost[] = escritos.map((p) => ({ ...p, readingTime: tiempoLectura(p) }));
 
 export function getPost(slug: string): BlogPost | undefined {
   return posts.find((p) => p.slug === slug);

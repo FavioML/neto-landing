@@ -1,0 +1,63 @@
+{
+  "_leeme": "Respuestas REALES del bot que el blog puede dibujar con chatNeto(clave) (src/lib/blog-bloques.ts). Un post no puede escribir a Neto con texto libre: solo elige una clave de aca. Cada mensaje de Neto trae un `patron` que reproduce la plantilla del backend con los valores variables como comodines, y cada entrada cita en `plantilla` los fragmentos de codigo de ../app de los que sale esa respuesta. scripts/check-blog.mjs comprueba las dos cosas: que el ejemplo encaje en el patron y que cada fragmento siga existiendo, literal, en el backend. Si una plantilla cambia alla y nadie toca el blog, el chequeo falla aca. {PRO_MENSUAL} y {PRO_ANUAL} se reemplazan por PRO_PRECIOS de app/lib/config.js.",
+  "respuestas": {
+    "prueba-terminada": {
+      "situacion": "Ana terminó su prueba de 14 días y no activó Pro.",
+      "ejemplo": "el nombre, los montos, la fecha y la categoría son de ejemplo",
+      "mensajes": [
+        { "de": "usuario", "texto": "almuerzo 18" },
+        {
+          "de": "neto",
+          "texto": "✅ S/18.00 en Alimentación > restaurante · 12-sep-26\n\nVan *S/642.30* este mes.\n👉 Mira en qué se te fue: https://app.neto.pe/dashboard/pro",
+          "patron": "^✅ S/\\d+\\.\\d{2} en [^\\n>]+ > [^\\n]+ · \\d{2}-(ene|feb|mar|abr|may|jun|jul|ago|sep|oct|nov|dic)-\\d{2}\\n\\nVan \\*S/\\d+\\.\\d{2}\\* este mes\\.\\n👉 Mira en qué se te fue: https://app\\.neto\\.pe/dashboard/pro$"
+        },
+        { "de": "usuario", "texto": "cuánto gasté esta semana" },
+        {
+          "de": "neto",
+          "texto": "🔒 Ana, tu prueba de *Neto Pro* terminó el 01-sep-26.\n\nSigo anotando todo lo que me mandes y *23 gastos* siguen guardados — no se borra nada.\n\nPara volver a verlos (gráficos, categorías, reportes e historial completo):\n💰 *S/10/mes* o *S/99/año*\n👉 https://app.neto.pe/dashboard/pro",
+          "patron": "^🔒 [A-ZÁÉÍÓÚÑ][a-záéíóúñ]+, tu prueba de \\*Neto Pro\\* terminó el \\d{2}-(ene|feb|mar|abr|may|jun|jul|ago|sep|oct|nov|dic)-\\d{2}\\.\\n\\nSigo anotando todo lo que me mandes y \\*\\d+ gastos\\* siguen guardados — no se borra nada\\.\\n\\nPara volver a verlos \\(gráficos, categorías, reportes e historial completo\\):\\n💰 \\*S/{PRO_MENSUAL}/mes\\* o \\*S/{PRO_ANUAL}/año\\*\\n👉 https://app\\.neto\\.pe/dashboard/pro$"
+        }
+      ],
+      "plantilla": [
+        { "archivo": "handlers/intents/transacciones.js", "codigo": "'S/' + parseFloat(parsed.monto).toFixed(2);" },
+        { "archivo": "handlers/intents/transacciones.js", "codigo": "let respReg = '✅ ' + montoStr + ' en ' + (esIngreso ? 'Ingresos' : destinoConf) + ' · ' + formatFecha(parsed.fecha);" },
+        { "archivo": "handlers/intents/transacciones.js", "codigo": "const nudge = await colaConfirmacionGasto(usuario, tx, txCount); if (nudge) respReg += nudge;" },
+        { "archivo": "lib/trial.js", "codigo": "const muro = await nudgeMuro(usuario); if (muro) return muro;" },
+        { "archivo": "lib/trial.js", "codigo": "return '\\n\\nVan *S/' + total.toFixed(2) + '* este mes.\\n' + '👉 Mira en qué se te fue: ' + enlacePro(usuario);" },
+        { "archivo": "lib/trial.js", "codigo": "if (usuario.supabase_auth_id) return WEBAPP_URL + '/dashboard/pro';" },
+        { "archivo": "handlers/muro-gate.js", "codigo": "const respMuro = mensajeMuro(usuario, errConteo ? undefined : count);" },
+        { "archivo": "lib/trial.js", "codigo": "const cuantos = conteoTx ? '*' + conteoTx + ' gastos*' : 'tus gastos';" },
+        { "archivo": "lib/trial.js", "codigo": "const saludo = (letra) => '🔒 ' + (pn ? pn + ', ' + letra.toLowerCase() : letra);" },
+        { "archivo": "lib/trial.js", "codigo": "return saludo('Tu') + ' prueba de *Neto Pro*' + (cuando ? ' terminó el ' + cuando : ' terminó') + '.\\n\\n' + pieMuro(cuantos, 'volver a verlos', usuario);" },
+        { "archivo": "lib/trial.js", "codigo": "return 'Sigo anotando todo lo que me mandes y ' + cuantos + ' siguen guardados — no se borra nada.\\n\\n' + 'Para ' + verbo + ' (gráficos, categorías, reportes e historial completo):\\n' + lineaPrecioPro() + '\\n' + '👉 ' + enlacePro(usuario);" },
+        { "archivo": "lib/config.js", "codigo": "return '💰 *S/' + PRO_PRECIOS.mensual + '/mes* o *S/' + PRO_PRECIOS.anual + '/año*';" },
+        { "archivo": "lib/constants.js", "codigo": "const WEBAPP_URL = 'https://app.neto.pe';" },
+        { "archivo": "lib/formatters.js", "codigo": "return p[2] + '-' + mes + '-' + anio;" },
+        { "archivo": "lib/constants.js", "codigo": "const MESES_CORTOS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];" }
+      ]
+    },
+    "captura-yapeo": {
+      "situacion": "Alguien que ya usa Neto le reenvía la captura de un yapeo.",
+      "ejemplo": "el comercio, el monto y la fecha son de ejemplo",
+      "mensajes": [
+        { "de": "usuario", "captura": { "monto": "S/ 22.00", "destinatario": "Taxi Directo", "cuando": "11 sep 2026 · 2:14 pm" } },
+        {
+          "de": "neto",
+          "texto": "📸 *Gasto registrado*\n\n🚌 *Taxi Directo* — S/ 22.00\nTransporte > taxi · 11-sep-26",
+          "patron": "^📸 \\*Gasto registrado\\*\\n\\n🚌 \\*[^*\\n]+\\* — S/ \\d+\\.\\d{2}\\nTransporte > [a-z_]+ · \\d{2}-(ene|feb|mar|abr|may|jun|jul|ago|sep|oct|nov|dic)-\\d{2}$"
+        }
+      ],
+      "plantilla": [
+        { "archivo": "handlers/webhook.js", "codigo": "'S/ ' + parseFloat(parsed.monto).toFixed(2);" },
+        { "archivo": "handlers/webhook.js", "codigo": "const emoji = esIngreso ? '💵' : (getEmojiCategoria(catImg) || '📋');" },
+        { "archivo": "handlers/webhook.js", "codigo": "const tipoLabel = esIngreso ? 'Ingreso registrado' : 'Gasto registrado';" },
+        { "archivo": "handlers/webhook.js", "codigo": "let respImg = '📸 *' + tipoLabel + '*\\n\\n' + emoji + ' *' + (parsed.comercio || (esIngreso ? 'Ingreso' : 'Pago')) + '* — ' + montoStr + '\\n' + catImg + (subcategoriaUtil(subImg) ? ' > ' + subcategoriaUtil(subImg) : '') + ' · ' + formatFecha(parsed.fecha);" },
+        { "archivo": "handlers/webhook.js", "codigo": "const nudgeImg = await colaConfirmacionGasto(usuario, txImg, txImg && txImg.conteoTx); if (nudgeImg) respImg += nudgeImg;" },
+        { "archivo": "lib/formatters.js", "codigo": "return cat ? cat.emoji : null;" },
+        { "archivo": "lib/constants.js", "codigo": "{ nombre: 'Transporte', emoji: '🚌'," },
+        { "archivo": "lib/formatters.js", "codigo": "return p[2] + '-' + mes + '-' + anio;" },
+        { "archivo": "lib/constants.js", "codigo": "const MESES_CORTOS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];" }
+      ]
+    }
+  }
+}

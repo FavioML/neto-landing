@@ -233,3 +233,376 @@ h1, h2, h3, h4 {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   margin: 2rem 0;
 }
+
+/* ── Bloques del molde del blog (src/lib/blog-bloques.ts, docs/molde-blog.md) ──
+   Sin animación de entrada a propósito: lo que nace en opacity 0 sale del FCP y del LCP. */
+.prose-neto .blq-etiqueta {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-neto-green-light);
+  margin-bottom: 0.5rem;
+}
+
+.prose-neto figure {
+  margin: 2rem 0;
+}
+
+.prose-neto figcaption {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--color-neto-txt3);
+}
+
+.prose-neto figcaption a {
+  color: var(--color-neto-txt2);
+}
+
+.prose-neto .blq-corto {
+  border: 1px solid rgba(29, 158, 117, 0.35);
+  background: rgba(29, 158, 117, 0.07);
+  border-radius: 1rem;
+  padding: 1.1rem 1.25rem 0.35rem;
+  margin: 0 0 2rem;
+}
+
+.prose-neto .blq-corto ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0.75rem;
+}
+
+.prose-neto .blq-corto li {
+  position: relative;
+  padding-left: 1.1rem;
+  color: var(--color-neto-txt);
+  line-height: 1.6;
+}
+
+.prose-neto .blq-corto li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--color-neto-green);
+}
+
+/* Tabla: tabla desde 640 px, tarjetas por debajo (el HTML es el mismo). */
+.prose-neto .blq-tabla table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.prose-neto .blq-tabla caption {
+  caption-side: top;
+  text-align: left;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--color-neto-txt);
+  margin-bottom: 0.75rem;
+}
+
+.prose-neto .blq-tabla th,
+.prose-neto .blq-tabla td {
+  padding: 0.7rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose-neto .blq-tabla thead th {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-neto-txt3);
+  background: var(--color-neto-bg2);
+}
+
+.prose-neto .blq-tabla tbody th {
+  color: var(--color-neto-txt);
+  font-weight: 600;
+}
+
+.prose-neto .blq-tabla .blq-propia th,
+.prose-neto .blq-tabla .blq-propia td {
+  background: rgba(29, 158, 117, 0.06);
+}
+
+.prose-neto .blq-tabla .blq-propia th {
+  color: var(--color-neto-green-light);
+}
+
+.prose-neto .blq-tabla figcaption {
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 639px) {
+  .prose-neto .blq-tabla thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  /* Sin esto el caption hereda el ancho de una tabla que ya no es tabla y sale una palabra por línea. */
+  .prose-neto .blq-tabla caption {
+    display: block;
+  }
+
+  .prose-neto .blq-tabla table,
+  .prose-neto .blq-tabla tbody,
+  .prose-neto .blq-tabla tr,
+  .prose-neto .blq-tabla th,
+  .prose-neto .blq-tabla td {
+    display: block;
+  }
+
+  .prose-neto .blq-tabla tbody tr {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.9rem;
+    padding: 0.2rem 0.95rem 0.4rem;
+    margin-bottom: 0.75rem;
+    background: var(--color-neto-bg2);
+  }
+
+  .prose-neto .blq-tabla tbody th {
+    font-size: 1rem;
+    padding: 0.6rem 0;
+  }
+
+  .prose-neto .blq-tabla td {
+    border-bottom: 0;
+    padding: 0.4rem 0;
+  }
+
+  .prose-neto .blq-tabla .blq-propia th,
+  .prose-neto .blq-tabla .blq-propia td {
+    background: none;
+  }
+
+  .prose-neto .blq-tabla tbody .blq-propia {
+    border-color: rgba(29, 158, 117, 0.4);
+    background: rgba(29, 158, 117, 0.06);
+  }
+
+  .prose-neto .blq-tabla td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-neto-txt3);
+  }
+}
+
+/* Barras y chat comparten la superficie de tarjeta. */
+.prose-neto .blq-barras,
+.prose-neto .blq-chat {
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--color-neto-bg2);
+  border-radius: 1rem;
+}
+
+.prose-neto .blq-barras {
+  padding: 1.25rem 1.25rem 1rem;
+}
+
+.prose-neto .blq-fig-titulo {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--color-neto-txt);
+  margin-bottom: 1rem;
+}
+
+.prose-neto .blq-barras ol {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0.9rem;
+}
+
+.prose-neto .blq-barras li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "etq valor" "pista pista";
+  gap: 0.35rem 0.9rem;
+  margin-bottom: 1.1rem;
+}
+
+.prose-neto .blq-barra-etq {
+  grid-area: etq;
+  color: var(--color-neto-txt);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.prose-neto .blq-barra-etq small {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--color-neto-txt3);
+}
+
+.prose-neto .blq-barra-valor {
+  grid-area: valor;
+  align-self: end;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-neto-txt);
+  white-space: nowrap;
+}
+
+.prose-neto .blq-barra-pista {
+  grid-area: pista;
+  height: 0.6rem;
+  border-radius: 999px;
+  background: var(--color-neto-bg4);
+  overflow: hidden;
+}
+
+.prose-neto .blq-barra {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--color-neto-txt3);
+}
+
+.prose-neto .blq-barras .blq-propia .blq-barra {
+  background: var(--color-neto-green);
+}
+
+.prose-neto .blq-barras .blq-propia .blq-barra-etq {
+  color: var(--color-neto-green-light);
+}
+
+/* Chat: la misma paleta que el ChatSimulator del hero, estático. */
+.prose-neto .blq-chat {
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+
+.prose-neto .blq-chat-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1rem;
+  background: #075e54;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.prose-neto .blq-chat-avatar {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: var(--color-neto-green);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.prose-neto .blq-chat-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1rem;
+  background: #0b1114;
+}
+
+.prose-neto .blq-msg {
+  max-width: 88%;
+  margin: 0;
+  padding: 0.55rem 0.85rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.prose-neto .blq-neto {
+  margin-right: auto;
+  border-top-left-radius: 0.25rem;
+  background: var(--color-neto-bg3);
+  color: var(--color-neto-txt2);
+}
+
+.prose-neto .blq-usuario {
+  margin-left: auto;
+  border-top-right-radius: 0.25rem;
+  background: #005c4b;
+  color: #fff;
+}
+
+.prose-neto .blq-captura {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 9.5rem;
+  padding: 0.9rem 1.2rem;
+  text-align: center;
+  white-space: normal;
+  background: linear-gradient(160deg, #7b2d8e 0%, #5b1f6b 100%);
+}
+
+.prose-neto .blq-cap-etq {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.prose-neto .blq-cap-monto {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.prose-neto .blq-cap-dest {
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.prose-neto .blq-cap-fecha {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.prose-neto .blq-chat figcaption {
+  padding: 0.75rem 1rem 1rem;
+}
+
+.prose-neto .blq-nota {
+  margin: 2rem 0;
+  padding: 1rem 1.1rem 0.2rem;
+  border-left: 3px solid var(--color-neto-amber);
+  border-radius: 0 0.75rem 0.75rem 0;
+  background: rgba(239, 159, 39, 0.06);
+}
+
+.prose-neto .blq-nota .blq-etiqueta {
+  color: var(--color-neto-amber);
+}
+
+.prose-neto .blq-nota[data-tipo="dato"] {
+  border-left-color: var(--color-neto-blue);
+  background: rgba(55, 138, 221, 0.07);
+}
+
+.prose-neto .blq-nota[data-tipo="dato"] .blq-etiqueta {
+  color: var(--color-neto-blue);
+}

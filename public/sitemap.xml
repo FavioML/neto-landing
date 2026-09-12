@@ -45,7 +45,7 @@
   <!-- Blog hub -->
   <url>
     <loc>https://neto.pe/blog</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -53,13 +53,13 @@
   <!-- Blog posts — alto valor SEO/AI -->
   <url>
     <loc>https://neto.pe/blog/cuanto-cuesta-app-finanzas-personales-peru</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://neto.pe/blog/controlar-gastos-yape-plin</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-09-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
