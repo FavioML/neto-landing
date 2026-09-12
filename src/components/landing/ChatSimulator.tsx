@@ -14,34 +14,42 @@ interface Message {
 
 /**
  * The script is the backend's output, character for character. Every bubble below
- * is the template it came from, so a drift is a diff and not a memory exercise:
+ * is the template it came from, so a drift is a diff and not a memory exercise.
+ * Cited by function and variable, never by line: the handlers keep moving, and on
+ * 2026-09-12 every line number this comment carried was hundreds of lines off (one
+ * was in the wrong file). Grep the `let` to land on each template.
  *
- *  · id 1 — handlers/intents/transacciones.js:228. `'✅ ' + montoStr + ' en ' +
- *    cat + ' > ' + sub + ' · ' + formatFecha(fecha)`. montoStr on the typed path is
- *    `'S/' + toFixed(2)`, with NO space after the slash. formatFecha
- *    (lib/formatters.js:3) gives `03-ago-26`.
- *  · id 3 — handlers/webhook.js:203. Here montoStr IS `'S/ ' + toFixed(2)`, with a
- *    space: the two paths differ and the difference is real, not a typo here. The
- *    emoji is `getEmojiCategoria(categoria)` (lib/constants.js:31), so it's the
- *    CATEGORY's — Transporte is 🚌. A 🚕 would be the subcategory's and the backend
- *    never looks one up.
- *  · id 5 — lib/formatters.js:32-36 (formatearResumen) plus the two tails that
- *    handlers/intents/gastos.js:74-81 appends. formatearResumen prints EVERY
- *    category it found, sorted by amount, so a two-line legend under a S/847 total
- *    is a bubble the backend cannot produce. The `🔝 Mayor gasto` line is likewise
- *    unconditional whenever the week has any expense.
+ *  · id 1 — `let respReg`, case 'registrar_manual' of
+ *    handlers/intents/transacciones.js. `'✅ ' + montoStr + ' en ' + destinoConf +
+ *    ' · ' + formatFecha(fecha)`, where destinoConf is `cat + ' > ' + sub`. montoStr
+ *    on the typed path is `'S/' + toFixed(2)`, with NO space after the slash.
+ *    formatFecha (lib/formatters.js) gives `03-ago-26`.
+ *  · id 3 — `let respImg`, the `message.type === 'image'` branch of
+ *    createWebhookHandler in handlers/webhook.js. Here montoStr IS `'S/ ' +
+ *    toFixed(2)`, with a space: the two paths differ and the difference is real, not
+ *    a typo here. The emoji is `getEmojiCategoria(categoria)` (lib/formatters.js,
+ *    reading CATEGORIAS_SUGERIDAS in lib/constants.js), so it's the CATEGORY's —
+ *    Transporte is 🚌. A 🚕 would be the subcategory's and the backend never looks
+ *    one up.
+ *  · id 5 — formatearResumen (lib/formatters.js) plus the two `respSem +=` tails
+ *    that case 'listar_gastos_semana' of handlers/intents/gastos.js appends.
+ *    formatearResumen prints EVERY category it found, sorted by amount, so a
+ *    two-line legend under a S/847 total is a bubble the backend cannot produce.
+ *    The `🔝 Mayor gasto` line is likewise unconditional whenever the week has any
+ *    expense.
  *
  * The confirmations carry no tail because of who this scene shows: someone with
- * app.neto.pe already open beside the phone. `colaConfirmacionGasto` (lib/trial.js:353)
+ * app.neto.pe already open beside the phone. `colaConfirmacionGasto` (lib/trial.js)
  * returns null for exactly that person — the trial banner only fires on the very
  * first expense ever, `nudgeMuro` only for a lapsed account, and `nudgeActivacion`
- * (lib/activacion.js:104) bails the moment `supabase_auth_id` exists.
+ * (lib/activacion.js) bails the moment `supabase_auth_id` exists.
  *
  * It deliberately does NOT show Neto volunteering totals, offering "¿te aviso
  * si pasas de S/200?" or announcing the score after a confirmation. That was the
  * old conversational Neto and none of it exists anymore: every opinion moved to
- * scheduled crons (weekly summary Monday 8am cron/checks.js:66, leaks Wednesday
- * 11am :704/:723, score Sunday 10am :776). WhatsApp here is plain text only —
+ * scheduled crons in cron/checks.js (weekly summary Monday 8am checkResumenSemanal,
+ * leaks Wednesday 11am checkDetectorFugas, score Sunday 10am checkNotificacionScore).
+ * WhatsApp here is plain text only —
  * lib/whatsapp.js only ever sends type:'text' or type:'template', so the channel
  * has no buttons to draw.
  */

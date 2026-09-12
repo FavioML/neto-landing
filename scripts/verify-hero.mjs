@@ -3,9 +3,14 @@
 // El guion del ChatSimulator es una AFIRMACION PUBLICA sobre como responde Neto, y se
 // desactualiza en silencio cuando cambian los handlers. Ya paso: durante meses el hero
 // mostro un Neto conversacional que opinaba solo y negociaba alertas con si/no, nada de
-// lo cual existia. Este harness fija las tres burbujas CARACTER POR CARACTER contra lo
-// que emiten transacciones.js:228, webhook.js:203 y formatearResumen + gastos.js:74-81.
-// Si cambia una plantilla del backend y nadie toca la landing, esto falla.
+// lo cual existia. Este harness fija las tres burbujas CARACTER POR CARACTER contra
+// ESPERADO, que copia lo que emiten `let respReg` (transacciones.js, case
+// registrar_manual), `let respImg` (webhook.js, rama de imagen) y formatearResumen + las
+// colas de listar_gastos_semana (gastos.js). Citadas por nombre: las lineas se mueven.
+//
+// Lo que NO hace: leer ../app. Si cambia una plantilla del backend y nadie toca la
+// landing, esto sigue VERDE, porque ESPERADO es una copia a mano. Detecta que el hero se
+// aparte de ESPERADO, no que ESPERADO se aparte del bot.
 //
 // Corre contra un navegador real a proposito: el guion vive en el bundle JS, no en el
 // HTML estatico, asi que un grep sobre index.html da 0 aunque el deploy este bien —

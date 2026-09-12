@@ -52,9 +52,12 @@ src/
 ## El hero es una afirmacion sobre el producto
 
 `ChatSimulator.tsx` reproduce respuestas reales del bot. Cada burbuja de Neto sale
-literal de una plantilla del backend (`neto/app`), citada en el comentario de `MESSAGES`:
-`handlers/intents/transacciones.js:228`, `handlers/webhook.js:203`, y
-`lib/formatters.js:32-36` + `handlers/intents/gastos.js:74-81`.
+literal de una plantilla del backend (`neto/app`), citada en el comentario de `MESSAGES`
+por funcion y variable, no por linea: `let respReg` (case `registrar_manual` de
+`handlers/intents/transacciones.js`), `let respImg` (rama de imagen de
+`handlers/webhook.js`), y `formatearResumen` (`lib/formatters.js`) + las dos colas del case
+`listar_gastos_semana` de `handlers/intents/gastos.js`. Las citas por linea se pudrieron: el
+12-sep-2026 estaban todas corridas cientos de lineas, y una apuntaba al archivo equivocado.
 
 Se desactualiza en silencio cuando cambian los handlers — ya paso: el hero mostro
 durante meses un Neto conversacional que opinaba solo. **Todo lo que Neto opina
