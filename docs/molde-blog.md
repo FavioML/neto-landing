@@ -191,7 +191,7 @@ tokens de color que ya existen.
 | Función | Emite | Regla que trae puesta |
 |---|---|---|
 | `enCorto(puntos)` | `<div class="blq-corto">` con etiqueta y `<ul>` | máximo 4 puntos |
-| `tabla({caption, columnas, filas, pie})` | `<table>` semántica | `<caption>` y `<th scope>` siempre. Bajo 640 px cada fila se vuelve una tarjeta, solo con CSS (`data-label`), para no arrastrar de lado |
+| `tabla({caption, columnas, filas, pie})` | `<table>` semántica | `<caption>` y `<th scope>` siempre. Si una celda, el caption o el pie traen una cifra, aborta el build sin un `pie` con link a la fuente y fecha de consulta (desde el 12-sep-2026, espejo de `barras()`). Bajo 640 px cada fila se vuelve una tarjeta, solo con CSS (`data-label`), para no arrastrar de lado |
 | `barras({titulo, unidad, items, fuente})` | `<figure>` con una lista de barras de HTML y `<figcaption>` | exige `fuente` con fecha. El valor va escrito como texto al lado de cada barra, no solo como largo |
 | `chatNeto(clave)` | `<figure class="blq-chat">` con burbujas estáticas | solo claves del registro. Convierte el `*negrita*` de WhatsApp como hace el hero |
 | `nota(tipo, html)` | `<aside class="blq-nota">` | dos tipos: `ojo` y `dato` |
@@ -225,7 +225,9 @@ midiendo posts de este tipo, nunca porque la pieza que se está escribiendo no c
 | | cuerpo total, sin la FAQ | ≤ 780 |
 | Datos | tabla sin `<caption>` o sin `<th scope>` | 0 |
 | | figura sin fuente con fecha en su pie | 0 |
-| | cifra en S/, US$, R$ o % del cuerpo que no salga de `APPS`, de `PRO_PRECIOS` o de un chat del registro, ni tenga link en su misma frase | 0 |
+| | cifra en S/, US$, R$ o % de un párrafo o una lista del cuerpo que no salga de `APPS`, de `PRO_PRECIOS` o de un chat del registro, ni tenga link en su mismo bloque | 0 |
+| | cifra dentro de una tabla que no es ejemplo (celda, caption o pie) que no salga de `APPS` ni de `PRO_PRECIOS`, sin un pie con link y fecha de consulta en esa tabla | 0 |
+| | cifra fuera de todo lector (subtítulo, pregunta de la FAQ, etiqueta de una nota, `<details>`, texto suelto) que no salga de `APPS` ni de `PRO_PRECIOS` | 0 |
 | | ejemplo cuya cuenta no cierra, rehecha desde el texto visible | 0 |
 | | ejemplo sin la etiqueta "Ejemplo" o sin el pie de montos inventados | 0 |
 | | cifra dentro de un ejemplo que no es operando ni resultado de su cuenta | 0 |
@@ -234,6 +236,14 @@ midiendo posts de este tipo, nunca porque la pieza que se está escribiendo no c
 | Página | `<h1>` | exactamente 1 |
 | | desborde horizontal a 375 px | 0 |
 | | clase de animación de entrada dentro del artículo | 0 |
+
+**Cómo se lee una cifra de tabla** (12-sep-2026, sección 13). En la prosa, la unidad de la fuente es
+el bloque (`<p>` o `<li>`); en una tabla es la tabla entera, y la fuente va en su pie, no en una
+celda. Un link sin fecha no alcanza: la fecha es la que dice cuándo era cierto el número. La regla
+alcanza a las tablas de `tabla()` y a cualquier `<table>` escrita a mano, con o sin la clase. Los
+`ejemplo()` quedan fuera porque tienen la suya (la cuenta cierra). El build es más estricto que el
+chequeo: `tabla()` no puede leer `APPS` ni `PRO_PRECIOS`, así que toda tabla con cifras lleva pie,
+incluida una de precios de Neto.
 
 **Los posts viejos no se miden, y la exención es explícita.** El chequeo barre todos los posts por
 defecto y los que todavía no están en el molde van en una lista `LEGADO` con su motivo, igual que
@@ -504,7 +514,7 @@ leerse como registro automático.
 DENTRO de una `tabla()` (las tablas cuentan como visual y quedan fuera del lector de cifras), y
 `tabla()` no exige pie con fecha, a diferencia de `barras()`. Hoy no se explota, porque las tablas con
 cifras leen de `APPS`, pero una rutina automática podría escribir una cifra inventada en una celda y
-el chequeo daría verde. Quedó como tarea aparte.
+el chequeo daría verde. Quedó como tarea aparte, y se cerró el mismo día (sección 13).
 
 ### Core Web Vitals de laboratorio, antes y después
 
@@ -532,4 +542,52 @@ superponen con los del "antes", en score y en LCP.
 `check-blog --base=https://neto.pe` en verde para los siete posts con `LEGADO` vacía; los tres
 migrados responden 200; sitemap y `dateModified` dicen 2026-09-12; validator.schema.org da 0 errores
 y 0 advertencias en los tres (BreadcrumbList, BlogPosting y FAQPage).
+
+---
+
+## 13. Las cifras de las tablas, y las que no leía nadie (12-sep-2026)
+
+**El hueco.** El lector de cifras miraba solo los `<p>` y `<li>` que no estaban dentro de un visual.
+Una cifra en una celda de `tabla()` nunca se revisaba, y `tabla()` no pedía fuente en su pie. Una
+rutina automática podía escribir un número inventado en una tabla y el chequeo daba verde. No se
+explotó: la única tabla con cifras (la de precios) lee de `APPS`.
+
+**Mismo hueco, otras puertas.** Arreglar solo `.blq-tabla` dejaba la misma cifra entrando por una
+`<table>` escrita a mano sin la clase, por un subtítulo, por la pregunta de una FAQ, por la etiqueta
+de una `nota()` o por un `<details>`. Ningún lector miraba esos lugares. Por eso son dos reglas y no
+una (sección 6):
+
+- **Cifra de tabla sin fuente.** La unidad es la tabla entera (celdas, caption y pie). Pasa si cada
+  cifra sale de `APPS` o de `PRO_PRECIOS`, o si el pie trae un link de afuera y una fecha con el
+  mismo `FECHA` del chequeo. Alcanza a toda tabla que no sea `ejemplo()`, tenga o no la clase.
+- **Cifra fuera de todo lector.** Lo que no está en un párrafo, una lista, una tabla ni un visual
+  solo puede traer cifras de `APPS` o de `PRO_PRECIOS`. No hay camino por link: un link en un
+  subtítulo no es una fuente.
+
+Y en el build, `tabla()` aborta si trae una cifra sin un pie con link y fecha. La decisión fue espejar
+`barras()`, y es más estricta que el chequeo porque la función no puede leer `APPS`.
+
+**Línea de base.** Los siete posts siguen en verde. El lector nuevo ve 23 cifras en la tabla de
+precios y 0 en las otras nueve tablas, así que no pasa por leer vacío.
+
+### Las mutaciones
+
+Se muta el fuente (`blog-content.ts`), se reconstruye y se restaura. Cada caso comprueba que la
+mutación se aplicó y que el fallo nombra su regla. Todos dieron exactamente un fallo: el propio.
+
+| Mutación | Capa | Resultado |
+|---|---|---|
+| Control: los siete posts tal cual | chequeo | exit 0 |
+| S/180 inventado en una celda de `tabla()`, sin pie | build | aborta: *trae la cifra S/180 y su pie no tiene una fuente con link y fecha* |
+| La misma cifra en una `figure.blq-tabla` escrita a mano, sin pie | chequeo | exit 1: *cifra de tabla sin fuente… su pie no tiene fuente* |
+| La misma cifra en una `<table>` pelada, sin clase | chequeo | exit 1: *cifra de tabla sin fuente* |
+| La misma cifra en un `<h2>` | chequeo | exit 1: *cifra fuera de todo lector: S/180* |
+| `tabla()` con pie con link y sin fecha | build | aborta |
+| `tabla()` con pie con fecha y sin link | build | aborta |
+| Tabla a mano con pie con link y sin fecha | chequeo | exit 1: *…su pie no tiene fecha de consulta* |
+| **Positivo:** la misma cifra con pie fechado y link | build + chequeo | exit 0 |
+
+**Lo que sigue sin comprobarse, declarado:** que el link del pie hable de ESA cifra. Es la misma
+aproximación que la regla de la prosa ("una cifra y un link ajeno en el mismo párrafo pasan"), ahora
+con la tabla como unidad. Tampoco se mira el pie de los chats: sale del registro, no del post.
 

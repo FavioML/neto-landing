@@ -19,6 +19,9 @@ const escapar = (s: string) =>
 const palabras = (html: string) => html.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
 
 const FECHA = /\d{1,2} de (enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|setiembre|octubre|noviembre|diciembre) de \d{4}/;
+/** Las mismas cifras que busca `check-blog.mjs` (S/, US$, R$ y %). Duplicado: el script es .mjs. */
+const CIFRA = /(?:S\/|US\$|R\$)\s?\d(?:[\d.,]*\d)?|\d+(?:[.,]\d+)?\s?%/;
+const ENLACE_EXTERNO = /<a\s[^>]*href="https?:\/\//;
 
 /** Link a una fuente de terceros. Siempre en pestaña nueva y `nofollow`, como el resto del blog. */
 export const enlaceExterno = (texto: string, url: string) =>
@@ -45,7 +48,10 @@ type Tabla = {
   /** La primera columna es el encabezado de cada fila (`<th scope="row">`). */
   columnas: string[];
   filas: string[][];
-  /** Fuentes y fecha de consulta. Van pegadas a la tabla, no en una sección aparte. */
+  /**
+   * Fuentes y fecha de consulta. Van pegadas a la tabla, no en una sección aparte. Obligatorio, con
+   * un link de afuera y la fecha, si alguna celda, el caption o el propio pie traen una cifra.
+   */
   pie?: string;
   /** Índice de la fila propia (Neto), que se marca con el color de la marca. */
   propia?: number;
@@ -56,6 +62,10 @@ type Tabla = {
  * una tarjeta, solo con CSS (`data-label`), porque una tabla que hay que arrastrar de lado no se lee.
  * Los `role` repiten la semántica nativa a propósito: con `display: block` algunos lectores de
  * pantalla dejan de tratarla como tabla.
+ *
+ * Una tabla con cifras (S/, US$, R$ o %) exige un pie con link a la fuente y fecha de consulta, igual
+ * que `barras()`. Es más estricto que `check-blog.mjs`, que además deja pasar sin pie las cifras de
+ * `APPS` y de `PRO_PRECIOS`: acá no hay forma de leerlas, y una tabla de precios igual va con fuente.
  */
 export function tabla({ caption, columnas, filas, pie, propia }: Tabla): string {
   if (!caption.trim()) throw new Error("tabla: sin caption no hay forma de saber qué mide");
@@ -64,6 +74,12 @@ export function tabla({ caption, columnas, filas, pie, propia }: Tabla): string 
       throw new Error(`tabla "${caption}": la fila ${i + 1} tiene ${f.length} celdas y hay ${columnas.length} columnas`);
     }
   });
+  const conCifra = [caption, ...filas.flat(), pie ?? ""]
+    .map((t) => t.replace(/<[^>]+>/g, " ").match(CIFRA)?.[0])
+    .find(Boolean);
+  if (conCifra && !(pie && FECHA.test(pie) && ENLACE_EXTERNO.test(pie))) {
+    throw new Error(`tabla "${caption}": trae la cifra ${conCifra} y su pie no tiene una fuente con link y fecha de consulta`);
+  }
   const cabecera = columnas.map((c) => `<th scope="col" role="columnheader">${c}</th>`).join("");
   const cuerpo = filas
     .map(([primera, ...resto], i) => {

@@ -21,6 +21,9 @@
  *   DATOS       tablas con caption y th scope, gráficos con fuente fechada, y toda cifra en
  *               S/, US$, R$ o % del cuerpo trazable: o sale de APPS (se lee de la comparativa
  *               renderizada), o de PRO_PRECIOS del backend, o tiene un link en su mismo bloque.
+ *               En una tabla (salvo los ejemplos) el "bloque" es la tabla entera y el link tiene
+ *               que ir en su pie, con fecha. Y lo que no lee ningún lector (subtítulos, preguntas
+ *               de la FAQ, texto suelto) solo puede traer cifras de APPS o de PRO_PRECIOS.
  *   ARITMÉTICA  cada bloque de ejemplo (`ejemplo()`): etiqueta visible "Ejemplo", pie de montos
  *               inventados, y la cuenta rehecha desde el TEXTO que ve el lector (productos,
  *               porcentajes de la base, desgloses, total y anual). Sus cifras no piden fuente,
@@ -312,6 +315,15 @@ try {
       if (!cuerpo) return { sinCuerpo: true };
       const faq = art.querySelector('section[aria-labelledby="preguntas-frecuentes"]');
       const palabras = (t) => (t.match(/\S+/g) || []).length;
+      // Nodo por nodo y unidos con espacio: el textContent de un bloque pega celdas vecinas
+      // ("S/200" + "3" daba "S/2003") y los lectores de cifras veían cifras que no existen.
+      const t = (el) => {
+        if (!el) return null;
+        const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        const partes = [];
+        for (let n = w.nextNode(); n; n = w.nextNode()) partes.push(n.textContent);
+        return partes.join(' ').replace(/\s+/g, ' ').trim();
+      };
 
       let camino = 0;
       let antesDelVisual = null;
@@ -328,9 +340,40 @@ try {
         camino += palabras(n.textContent);
       }
 
-      const bloques = [...cuerpo.querySelectorAll('p, li'), ...(faq ? faq.querySelectorAll('p') : [])]
-        .filter((b) => !b.closest(VIS) && !b.closest('details') && !b.querySelector('p, li') && !b.classList.contains('blq-etiqueta'))
-        .map((b) => ({ texto: b.innerText.replace(/\s+/g, ' ').trim(), link: !!b.querySelector('a[href^="http"]') }));
+      const bloqueEls = [...cuerpo.querySelectorAll('p, li'), ...(faq ? faq.querySelectorAll('p') : [])]
+        .filter((b) => !b.closest(VIS) && !b.closest('details') && !b.querySelector('p, li') && !b.classList.contains('blq-etiqueta'));
+      const bloques = bloqueEls.map((b) => ({ texto: b.innerText.replace(/\s+/g, ' ').trim(), link: !!b.querySelector('a[href^="http"]') }));
+
+      // Las tablas de datos: las de `tabla()` y cualquier <table> escrita a mano fuera de un bloque.
+      // Los ejemplos quedan fuera: su regla es la ARITMÉTICA. El pie cuenta como parte de la tabla,
+      // así que una cifra en el pie también necesita que ese pie sea una fuente.
+      const tablasEls = [
+        ...cuerpo.querySelectorAll('.blq-tabla:not(.blq-ejemplo)'),
+        ...[...cuerpo.querySelectorAll('table')].filter((x) => !x.closest('.blq-tabla')),
+      ];
+      const tablasDatos = tablasEls.map((f) => {
+        const pie = f.matches('figure') ? f.querySelector(':scope > figcaption') : null;
+        return {
+          caption: t(f.querySelector('caption')) || '(sin caption)',
+          texto: t(f),
+          pie: t(pie) ?? '',
+          pieLink: !!pie?.querySelector('a[href^="http"]'),
+        };
+      });
+
+      // Lo que no lee ningún lector de arriba (subtítulos, preguntas de la FAQ, la etiqueta de una
+      // nota, un <details>, texto suelto). Existe para que una cifra no tenga más puertas que las
+      // tablas: acá solo pasan las que salen de APPS o de PRO_PRECIOS.
+      const leidos = new Set([...bloqueEls, ...tablasEls, ...cuerpo.querySelectorAll(VIS)]);
+      const restoPartes = [];
+      for (const raiz of [cuerpo, faq].filter(Boolean)) {
+        const w = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT);
+        for (let n = w.nextNode(); n; n = w.nextNode()) {
+          let a = n.parentElement;
+          while (a && a !== raiz && !leidos.has(a)) a = a.parentElement;
+          if (!a || !leidos.has(a)) restoPartes.push(n.textContent);
+        }
+      }
 
       const visuales = [...cuerpo.querySelectorAll(VIS)];
       const clases = (sel) => ({ dom: cuerpo.querySelectorAll(sel).length });
@@ -350,15 +393,6 @@ try {
         // Los números del ejemplo se leen del TEXTO que ve el lector; `data-rol` solo dice qué papel
         // cumple cada uno. textContent y no innerText: la etiqueta va en mayúsculas por CSS.
         ejemplos: [...cuerpo.querySelectorAll('.blq-ejemplo')].map((f) => {
-          // Nodo por nodo y unidos con espacio: el textContent de un bloque pega celdas vecinas
-          // ("S/200" + "3" daba "S/2003") y el chequeo de cifras sueltas veía cifras que no existen.
-          const t = (el) => {
-            if (!el) return null;
-            const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
-            const partes = [];
-            for (let n = w.nextNode(); n; n = w.nextNode()) partes.push(n.textContent);
-            return partes.join(' ').replace(/\s+/g, ' ').trim();
-          };
           const primero = f.firstElementChild;
           return {
             etiqueta: primero?.classList.contains('blq-etiqueta') ? t(primero) : null,
@@ -381,6 +415,8 @@ try {
           };
         }),
         bloques,
+        tablasDatos,
+        resto: restoPartes.join(' ').replace(/\s+/g, ' ').trim(),
         subtitulos: [...cuerpo.querySelectorAll('h2, h3')].filter((h) => !h.closest(VIS)).map((h) => h.innerText.trim()),
         preguntas: faq ? [...faq.querySelectorAll('h3')].map((h) => h.innerText.trim()) : [],
         prosaChat: [...cuerpo.querySelectorAll('.blq-chat')].map((f) => f.innerText).join(' '),
@@ -468,6 +504,26 @@ try {
         }
       }
     }
+    // Una cifra de tabla es trazable si sale de APPS o de PRO_PRECIOS, o si la tabla trae en su pie
+    // una fuente con link y fecha. Con un link sin fecha no alcanza: la fecha es la que dice cuándo
+    // era cierto el número.
+    let cifrasTabla = 0;
+    for (const tb of m.tablasDatos) {
+      const enTabla = tb.texto.match(CIFRA) ?? [];
+      cifrasTabla += enTabla.length;
+      const sueltas = enTabla.filter((c) => !permitidas.has(normCifra(c)));
+      if (sueltas.length && !(tb.pieLink && FECHA.test(tb.pie))) {
+        falla(
+          slug,
+          `cifra de tabla sin fuente: la tabla "${tb.caption}" trae ${sueltas.join(', ')}, que no sale(n) de APPS ni de PRO_PRECIOS, ` +
+            `y su pie no tiene ${tb.pie ? (tb.pieLink ? 'fecha de consulta' : 'link a la fuente') : 'fuente'}`
+        );
+      }
+    }
+    for (const c of m.resto.match(CIFRA) ?? []) {
+      cifras++;
+      if (!permitidas.has(normCifra(c))) falla(slug, `cifra fuera de todo lector: ${c} no está en un párrafo, una lista, una tabla ni un visual, y no sale de APPS ni de PRO_PRECIOS`);
+    }
 
     // ARITMÉTICA: un ejemplo está exento de fuente solo si su cuenta cierra con lo que muestra
     for (const e of m.ejemplos) aritmetica(slug, e);
@@ -499,7 +555,7 @@ try {
     notas.push(
       `${slug}: ${m.camino} palabras de cuerpo, ${m.visuales} visuales (${Math.round(m.camino / Math.max(1, m.visuales))} por visual), ` +
         `primer visual a ${m.antesDelVisual}, WhatsApp a ${m.antesDelWhatsapp}; ${todas.length} oraciones, mediana ${med}, ` +
-        `${pct.toFixed(1)}% largas, máx ${max}; ${cifras} cifras; ${m.chats.length} chat(s)`
+        `${pct.toFixed(1)}% largas, máx ${max}; ${cifras} cifras en prosa y ${cifrasTabla} en ${m.tablasDatos.length} tabla(s); ${m.chats.length} chat(s)`
     );
   }
 } finally {
