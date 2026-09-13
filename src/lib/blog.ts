@@ -201,7 +201,7 @@ const escritos: PostEscrito[] = [
     description:
       "Si llegas al 20 sin plata y no sabes por qué, es porque tus gastos están repartidos. Cómo juntarlos y verlos por categoría, a mano o desde WhatsApp.",
     date: "2026-03-22",
-    dateModified: "2026-09-11",
+    dateModified: "2026-09-12",
     keywords: [
       "en qué gasto mi plata",
       "a dónde se va mi dinero",
@@ -210,6 +210,23 @@ const escritos: PostEscrito[] = [
       "gastos por categoría",
     ],
     content: "",
+    faq: [
+      {
+        pregunta: "¿Cuánto demora ver mi primer resumen?",
+        respuesta:
+          "Anotar el primer gasto es un mensaje. El resumen se arma con lo que vas anotando, así que la foto útil aparece después de unos días de registrar todo.",
+      },
+      {
+        pregunta: "¿Qué pasa con los gastos en efectivo?",
+        respuesta:
+          "No dejan rastro en ningún banco ni correo, así que se los escribes a Neto por WhatsApp, por ejemplo «mercado 30». Neto lo registra y lo incluye en tu resumen.",
+      },
+      {
+        pregunta: "¿Puedo ver gastos de meses anteriores?",
+        respuesta:
+          "Neto parte de lo que anotas desde el primer día. Con Neto Pro y tu Gmail conectado, al conectarlo importa los correos de aviso bancario de los últimos 30 días, hasta 50 correos. En Pro también puedes mandarle por WhatsApp un Excel o un CSV con movimientos anteriores.",
+      },
+    ],
   },
   {
     slug: "bancos-peru-rastrear-sin-contrasena",
@@ -217,7 +234,7 @@ const escritos: PostEscrito[] = [
     description:
       "Neto no se conecta a tu banco. Con Neto Pro y tu Gmail conectado, lee los correos de notificación de BCP, BBVA, Interbank, Scotiabank, Yape y otros. Qué lee, qué no y cómo quitarle el acceso.",
     date: "2026-03-22",
-    dateModified: "2026-09-11",
+    dateModified: "2026-09-12",
     keywords: [
       "bancos perú",
       "app finanzas perú sin contraseña",
@@ -226,6 +243,23 @@ const escritos: PostEscrito[] = [
       "seguridad financiera perú",
     ],
     content: "",
+    faq: [
+      {
+        pregunta: "¿Puede Neto hacer transferencias o pagos desde mi cuenta?",
+        respuesta:
+          "No. Neto no tiene ningún acceso a tu banca en línea. El permiso de Gmail es de solo lectura de correo y no sirve para mover plata.",
+      },
+      {
+        pregunta: "¿Qué pasa si Neto sufre un ataque?",
+        respuesta:
+          "Nadie podría entrar a tu banco con lo que guarda Neto, porque no guarda credenciales bancarias. Lo que sí está en Neto es tu historial de movimientos y, si conectaste Gmail, el token de acceso a tu correo, guardado cifrado. Si tienes dudas, revoca ese acceso desde tu cuenta de Google.",
+      },
+      {
+        pregunta: "¿Es buena idea darle mi clave del banco a una app?",
+        respuesta:
+          "No. Si una app de finanzas te pide tu usuario y clave del banco, piénsalo dos veces antes de dársela. Hay formas de ordenar tus gastos sin entregar credenciales: anotarlos tú, o dejar que una app lea los avisos que ya recibes.",
+      },
+    ],
   },
   {
     slug: "asistente-financiero-whatsapp-peru",
@@ -233,7 +267,7 @@ const escritos: PostEscrito[] = [
     description:
       "Qué hace Neto, qué no hace y cuánto cuesta. Anotas tus gastos por WhatsApp con un mensaje o la captura del yapeo, y los ves ordenados en tu dashboard.",
     date: "2026-03-22",
-    dateModified: "2026-09-11",
+    dateModified: "2026-09-12",
     keywords: [
       "asistente financiero whatsapp",
       "asistente financiero perú",
@@ -242,6 +276,23 @@ const escritos: PostEscrito[] = [
       "control de gastos whatsapp",
     ],
     content: "",
+    faq: [
+      {
+        pregunta: "¿Necesito conectar mi correo para usar Neto?",
+        respuesta:
+          "No. Neto funciona completo anotando por WhatsApp o en la web. Conectar Gmail es opcional y es de Neto Pro: sirve para que los gastos que tu banco te notifica por correo los anote Neto por ti, además de los que anotas tú.",
+      },
+      {
+        pregunta: "¿Puedo usar Neto si solo uso Yape?",
+        respuesta:
+          "Sí. Mándale a Neto la captura de cada yapeo por WhatsApp y él lee el monto, a quién le pagaste y la fecha. Si el yapeo te lo hicieron a ti, lo registra como ingreso.",
+      },
+      {
+        pregunta: "¿Hay una versión para negocios?",
+        respuesta:
+          "No. Neto está hecho para finanzas personales. Si eres freelancer o tienes un negocio pequeño, puedes usar categorías propias para separar los gastos del negocio de los tuyos.",
+      },
+    ],
   },
 ];
 

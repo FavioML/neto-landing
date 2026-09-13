@@ -57,9 +57,6 @@ const SOLO = arg('post');
 
 /** Posts fuera del molde, con el motivo. Borrar la entrada al migrarlos. */
 const LEGADO = new Map([
-  ['en-que-gasto-mi-plata', 'reescrito el 11-sep-2026 con fuentes; todavía sin molde'],
-  ['bancos-peru-rastrear-sin-contrasena', 'reescrito el 11-sep-2026 con fuentes; todavía sin molde'],
-  ['asistente-financiero-whatsapp-peru', 'reescrito el 11-sep-2026 con fuentes; todavía sin molde'],
 ]);
 
 /**

@@ -9,10 +9,10 @@ decide `scripts/verify-claims.mjs`. Si este documento y esas reglas chocan, mand
 **Estado: VIGENTE desde el 12-sep-2026.** Favio aprobó la anatomía y los cinco componentes ese día,
 y los dos posts de la Acción 3 (`cuanto-cuesta-app-finanzas-personales-peru` y
 `controlar-gastos-yape-plin`) se migraron al molde. El mismo día se agregó el sexto bloque,
-`ejemplo()` (sección 4, "Cuándo un post lleva un ejemplo"), y con él se migraron `gastos-hormiga-peru`
-y `como-controlar-gastos-personales-peru`. Los otros tres de marzo siguen fuera, declarados en
-`LEGADO` dentro de `scripts/check-blog.mjs`. Lo que cambió al construir respecto de la propuesta está
-marcado en cada sección, y lo medido está en las secciones 10 y 11.
+`ejemplo()` (sección 4, "Cuándo un post lleva un ejemplo"), y con él se migraron los cinco posts de
+marzo. **Los siete posts están en el molde y la lista `LEGADO` de `scripts/check-blog.mjs` quedó
+vacía**: un post nuevo o viejo que se salga del molde pone rojo el chequeo. Lo que cambió al construir
+respecto de la propuesta está marcado en cada sección, y lo medido está en las secciones 10, 11 y 12.
 
 ```bash
 npm run build && npm run check:blog              # sobre out/, con servidor propio
@@ -472,4 +472,37 @@ llamarla así. El bloque suma CSS y nada de JavaScript, y el peso no se movió.
 `check-blog --base=https://neto.pe` en verde para los cuatro posts del molde; los dos migrados
 responden 200; el sitemap y el `dateModified` del JSON-LD dicen 2026-09-12; validator.schema.org da
 0 errores y 0 advertencias en los dos (BreadcrumbList, BlogPosting y FAQPage).
+
+---
+
+## 12. Los últimos tres de marzo, y `LEGADO` vacía (12-sep-2026)
+
+Línea de base medida esa tarde con `check-blog`, sacando los tres de `LEGADO` sobre el build vigente:
+30 problemas (en qué gasto 12, asistente 10, bancos 8). Ninguno de los tres tenía cuentas de ejemplo
+que salvar, así que `ejemplo()` no se usó: sus visuales son tablas y chats.
+
+| | En qué gasto | Bancos | Asistente |
+|---|---|---|---|
+| Problemas, antes → después | 12 → 0 | 8 → 0 | 10 → 0 |
+| Palabras de cuerpo, antes → después | 1273 → 608 | 1221 → 478 | 1077 → 459 |
+| Visuales, antes → después | 0 → 3 (tabla de dónde queda cada pago, tabla de categorías, chat) | 0 → 3 (tres tablas) | 0 → 3 (chat, tabla de gratis y Pro, chat de alerta) |
+| Palabras antes del link a WhatsApp | sin link → 256 | 1009 → 450 | sin link → 449 |
+
+**Qué se conservó de la reescritura del 11-sep, a propósito:** la lista de remitentes tomada del
+código con su fecha (ahora en el pie de su tabla), los 30 días y 50 correos del histórico, que el
+permiso de Gmail es de solo lectura sobre la bandeja y el recorte lo hace el código, el AES-256 de
+Supabase con su fuente y el AES-256-GCM de los tokens, lo de Yape (solo avisa por correo de los
+yapeos enviados y si se activa) y que Gmail es de Pro pagado y no entra en la prueba. La tabla de
+"dónde queda cada pago" de en qué gasto es la MISMA constante que usa el post de Yape y Plin: un
+dato, un dueño.
+
+**Una frase se cambió por precaución:** la FAQ de asistente decía que con Gmail los gastos "entren
+solos". Pasa a "los anote Neto por ti", la forma que el copy ya usa en el resto del sitio, para no
+leerse como registro automático.
+
+**Lo que salió de migrar, fuera de este alcance:** el chequeo no revisa la trazabilidad de las cifras
+DENTRO de una `tabla()` (las tablas cuentan como visual y quedan fuera del lector de cifras), y
+`tabla()` no exige pie con fecha, a diferencia de `barras()`. Hoy no se explota, porque las tablas con
+cifras leen de `APPS`, pero una rutina automática podría escribir una cifra inventada en una celda y
+el chequeo daría verde. Quedó como tarea aparte.
 

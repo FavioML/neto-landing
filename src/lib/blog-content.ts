@@ -140,8 +140,9 @@ const SUPABASE_SEGURIDAD = "https://supabase.com/security";
 const CONSULTA_REVISION = fechaLarga("2026-09-11");
 
 /*
- * Los dos primeros posts siguen el molde (`docs/molde-blog.md`) y `scripts/check-blog.mjs` los
- * mide; los cinco de marzo todavía no, y el chequeo los declara en su lista LEGADO.
+ * Los siete posts siguen el molde (`docs/molde-blog.md`) y `scripts/check-blog.mjs` los mide
+ * todos: su lista LEGADO quedó vacía el 12-sep-2026. Las cuentas con montos inventados van en
+ * `ejemplo()`, que el build y el chequeo verifican sumando; nunca sueltas en la prosa.
  */
 export const articleContent: Record<string, string> = {
   "cuanto-cuesta-app-finanzas-personales-peru": `
@@ -552,559 +553,252 @@ ${nota(
 `,
 
   "en-que-gasto-mi-plata": `
+${enCorto([
+  "<strong>Para saber en qué gastas, junta todos tus movimientos en un solo lugar y súmalos por categoría.</strong>",
+  "Tu banco, Yape y tu tarjeta guardan cada uno su parte, y el efectivo no queda en ningún lado.",
+  "Puedes hacerlo a mano con tus estados de cuenta, o anotando cada gasto cuando pagas.",
+])}
 <p>
-  <strong>Para saber en qué gastas tu plata necesitas juntar todos tus movimientos en un solo lugar
-  y sumarlos por categoría.</strong> Tu banco, Yape y tu tarjeta guardan cada uno su parte, y el
-  efectivo no queda en ningún lado. Puedes hacerlo a mano con tus estados de cuenta y una hoja de
-  cálculo, o anotando cada gasto cuando pagas, por ejemplo en Neto por WhatsApp.
+  Cobras el 15 o el 30, pagas el alquiler y los servicios, y el 20 ya no tienes plata. No es falta
+  de interés: cada pago dejó su rastro en un lugar distinto.
 </p>
+${TABLA_DONDE_QUEDA}
 
-<h2>El problema: no sabes a dónde va tu sueldo</h2>
-<p>
-  Cobras el 15 o el 30. Pagas alquiler, servicios, alguna deuda. Y de repente es día 20 y ya no
-  tienes plata. ¿En qué se fue?
-</p>
-<p>
-  Si no puedes responder con exactitud, no es falta de interés: es que no hay un lugar donde se vea
-  todo junto. Tu banco muestra sus movimientos, Yape los suyos, y ninguno te arma la foto completa
-  por categoría.
-</p>
-
-<h2>Por qué es tan difícil rastrear tus gastos</h2>
+<h2>¿Por qué cuesta tanto rastrear?</h2>
 <ul>
-  <li>
-    <strong>Varios medios de pago:</strong> Yape, débito, crédito, Plin, efectivo. Cada uno tiene su
-    historial y ninguno ve a los otros.
-  </li>
-  <li>
-    <strong>Anotar cansa:</strong> si registrar un gasto te pide abrir una app y llenar un
-    formulario, tarde o temprano lo dejas.
-  </li>
-  <li>
-    <strong>El estado de cuenta no habla claro:</strong> dice «POS WONG 12345» o «TRANSF YAPE», no
-    «comida» ni «transporte». Traducirlo es trabajo.
-  </li>
-  <li>
-    <strong>El efectivo es invisible:</strong> lo que pagas con billetes no deja rastro en ningún
-    sistema, a menos que lo anotes.
-  </li>
+  <li><strong>Anotar cansa.</strong> Si registrar un gasto te pide abrir una app y llenar un formulario, tarde o temprano lo dejas.</li>
+  <li><strong>El estado de cuenta no habla claro.</strong> Dice «POS WONG 12345» o «TRANSF YAPE», no «comida» ni «transporte».</li>
+  <li><strong>El efectivo es invisible.</strong> Lo que pagas con billetes no deja rastro, salvo que lo anotes.</li>
 </ul>
 
-<h2>Cinco categorías que conviene revisar primero</h2>
+<h2>¿Por dónde empezar a mirar?</h2>
 <p>
-  No tenemos un promedio confiable de cuánto gasta un peruano en cada una, así que no te vamos a dar
-  uno. Lo que sí podemos decirte es dónde mirar primero, porque son gastos que se repiten y que se
-  suelen subestimar:
+  No tenemos un promedio confiable de cuánto gasta un peruano en cada categoría, así que no te damos
+  uno. Estas son las que se repiten y se suelen subestimar:
 </p>
-<ol>
-  <li><strong>Delivery y comida fuera.</strong> Suma el envío y la propina al precio del plato.</li>
-  <li><strong>Transporte.</strong> Los taxis «porque es tarde» se mezclan con el transporte de todos los días.</li>
-  <li><strong>Suscripciones digitales.</strong> Se cobran solas: revisa cuántas pagas y cuántas usas.</li>
-  <li><strong>Compras chicas e impulsivas.</strong> Las de pocos soles que parecen no contar. Son los <a href="/blog/gastos-hormiga-peru">gastos hormiga</a>.</li>
-  <li><strong>Salidas.</strong> Una salida «tranquila» con amigos suele costar más de lo planeado.</li>
-</ol>
+${tabla({
+  caption: "Cinco categorías para revisar primero",
+  columnas: ["Categoría", "Por qué se subestima"],
+  filas: [
+    ["Delivery y comida fuera", "Al precio del plato se suman el envío y la propina"],
+    ["Transporte", "Los taxis «porque es tarde» se mezclan con el pasaje de todos los días"],
+    ["Suscripciones digitales", "Se cobran solas, uses o no el servicio"],
+    ["Compras chicas", 'Parecen no contar: son los <a href="/blog/gastos-hormiga-peru">gastos hormiga</a>'],
+    ["Salidas", "Una salida «tranquila» suele costar más de lo planeado"],
+  ],
+})}
 
 <h2>Cómo lo hace Neto</h2>
 <p>
-  <a href="/">Neto</a> vive en el WhatsApp que ya tienes abierto: le escribes el gasto en una línea
-  («almuerzo 18») o le mandas la foto del voucher o la captura del yapeo, y él lo categoriza con IA
-  (comida, transporte, entretenimiento, servicios...). Sin descargar apps.
+  Neto vive en el WhatsApp que ya tienes abierto. Le escribes el gasto en una línea («almuerzo 18») o
+  le mandas la captura del yapeo, y lo categoriza con IA.
+</p>
+${chatNeto("captura-yapeo")}
+<p>
+  Registrar es gratis siempre. Tu primer gasto activa 14 días de Neto Pro: tus gastos por categoría
+  en el dashboard web y un resumen cada semana. Después, ver tus números es de Neto Pro (S/10 al mes
+  o S/99 al año). Para probar, <a href="${WA_BLOG}">escríbele a Neto por WhatsApp</a>.
 </p>
 <p>
-  Y en <strong>Neto Pro</strong>, si conectas tu Gmail, los gastos que el banco ya te notifica por
-  correo los anota Neto por ti. Es opcional y va encima de lo que escribes, no en su lugar, porque
-  no todos los pagos generan un correo: Yape, por ejemplo, te avisa por correo de los yapeos que
-  envías solo si activas ese aviso, según su
-  <a href="${YAPE_CORREO}" target="_blank" rel="noopener noreferrer nofollow">ayuda oficial</a>.
+  El resumen semanal te dice cuánto gastaste, tus categorías más altas y si fue más o menos que la
+  semana anterior. Todo sale de lo que anotaste, así que conviene compararlo de vez en cuando con tu
+  estado de cuenta.
 </p>
-<p>
-  ¿Quieres saber qué bancos lee y cómo? Lee
-  <a href="/blog/bancos-peru-rastrear-sin-contrasena">qué bancos lee Neto sin pedirte contraseñas</a>.
-</p>
-<p><small>Fuente consultada el ${CONSULTA_REVISION}.</small></p>
 
-<h2>Cómo funciona en 3 pasos</h2>
+<h2>¿Y si prefieres hacerlo a mano?</h2>
 <ol>
-  <li>
-    <strong>Escríbele a Neto por WhatsApp.</strong> Un «Hola» al +51 933 014 505 y Neto te guía
-    paso a paso.
-  </li>
-  <li>
-    <strong>Anota cada gasto cuando pagas.</strong> Un mensaje o una captura. Registrar es gratis
-    siempre.
-  </li>
-  <li>
-    <strong>Mira tus gastos ordenados.</strong> Cuando registras tu primer gasto se activan 14 días
-    de Neto Pro: tus gastos por categoría en el dashboard web y un resumen cada semana. Después, ver
-    tus números es de Neto Pro (S/10 al mes o S/99 al año); anotar sigue siendo gratis.
-  </li>
-</ol>
-
-<h2>¿Qué ves exactamente?</h2>
-<p>
-  El resumen semanal te dice cuánto gastaste en la semana, cuáles fueron tus categorías más altas y
-  si gastaste más o menos que la semana anterior. En el dashboard web tienes además gráficos, el
-  historial de tus movimientos y tu
-  <a href="/score-financiero">score de salud financiera de 0 a 100</a>.
-</p>
-<p>
-  Todo sale de lo que anotaste. Un gasto que no le mandaste a Neto no está en el resumen, así que
-  vale la pena comparar de vez en cuando con tu estado de cuenta.
-</p>
-
-<h2>Cómo analizar tu estado de cuenta paso a paso</h2>
-<p>
-  Si prefieres empezar por tu cuenta antes de usar Neto, este es el proceso manual:
-</p>
-<ol>
-  <li>
-    <strong>Descarga los movimientos del mes:</strong> de cada banco y cada tarjeta, desde su app o
-    su web. Yape te deja enviar tu lista de movimientos a tu correo, según su
-    <a href="${YAPE_MOVIMIENTOS}" target="_blank" rel="noopener noreferrer nofollow">ayuda oficial</a>.
-  </li>
-  <li>
-    <strong>Lista todas las transacciones en una sola tabla:</strong> fecha, comercio, monto y medio
-    de pago. Excel o Google Sheets alcanzan.
-  </li>
-  <li>
-    <strong>Asigna una categoría a cada transacción:</strong> comida, transporte, entretenimiento,
-    salud, servicios. Las primeras veces toma tiempo. Con Neto, la categoría la pone él.
-  </li>
-  <li>
-    <strong>Suma por categoría:</strong> ¿cuánto fue a comida? ¿A transporte? ¿A ocio? Los totales
-    dicen mucho.
-  </li>
-  <li>
-    <strong>Compara con tu ingreso neto:</strong> ¿qué porcentaje de tu sueldo fue a cada categoría?
-    ¿Cuánto te sobró o te faltó?
-  </li>
+  <li><strong>Descarga los movimientos del mes</strong> de cada banco y cada tarjeta. Yape te deja enviar tu lista a tu correo, según su ${enlaceExterno("ayuda oficial", YAPE_MOVIMIENTOS)}.</li>
+  <li><strong>Júntalos en una sola tabla</strong> con fecha, comercio, monto y medio de pago.</li>
+  <li><strong>Ponle una categoría a cada fila.</strong> Las primeras veces toma tiempo.</li>
+  <li><strong>Suma por categoría</strong> y compara cada total con tu ingreso.</li>
 </ol>
 <p>
-  La primera vez toma su tiempo. Con Neto, sumar y categorizar lo hace él; lo que te toca es anotar.
+  Con los totales a la vista, decide en qué quieres gastar. Asigna un monto a cada categoría para el
+  mes que viene. Gastar en delivery sabiéndolo es muy distinto a gastar lo mismo sin darte cuenta.
 </p>
 
-<h2>El truco del «presupuesto asignado»</h2>
+<h2>¿Un cargo que no reconoces?</h2>
 <p>
-  Una vez que sabes en qué gastas, el paso siguiente es decidir en qué <em>quieres</em> gastar:
+  Pasa más seguido de lo que crees. Revisa si es un cargo recurrente, como una suscripción, un seguro
+  o un plan de teléfono. Busca el nombre del comercio en Google, porque un código raro suele ser el
+  nombre técnico de algo conocido. Si igual no lo reconoces, llama a tu banco.
 </p>
-<ol>
-  <li>Al inicio de cada mes, asigna un monto a cada categoría según tus datos reales del mes anterior.</li>
-  <li>Define qué categorías quieres reducir y en cuánto.</li>
-  <li>Durante el mes, revisa si te estás pasando en alguna.</li>
-</ol>
 <p>
-  El objetivo no es restringirte, es <strong>gastar con intención</strong>. Gastar S/350 en
-  delivery sabiéndolo y aceptándolo es muy distinto a gastar S/350 sin darte cuenta.
+  En Neto Pro, las suscripciones que reconoce entre tus gastos anotados aparecen juntas, con cuánto
+  pagas al mes.
 </p>
 
-<h2>¿Qué hacer cuando encuentras un gasto que no recuerdas?</h2>
+<h2>¿Y los correos del banco?</h2>
 <p>
-  Pasa más seguido de lo que crees. Revisas tu estado de cuenta y hay cargos que no reconoces.
-  Antes de asustarte:
-</p>
-<ul>
-  <li>
-    <strong>Revisa si es un cargo recurrente:</strong> suscripciones, seguros, planes de telefonía.
-    Muchos cargos son legítimos pero olvidados.
-  </li>
-  <li>
-    <strong>Busca el nombre del comercio en Google:</strong> muchas veces un código raro es el
-    nombre técnico de un servicio conocido.
-  </li>
-  <li>
-    <strong>Si no lo reconoces después de buscar:</strong> llama a tu banco. Puede ser un cargo
-    duplicado, un error o, en casos raros, fraude.
-  </li>
-</ul>
-<p>
-  En Neto Pro, las suscripciones que reconoce entre tus gastos anotados (Netflix, Disney+, Max y
-  otras de su catálogo) aparecen juntas, con cuánto pagas al mes.
-</p>
-
-<h2>¿Es seguro conectar tu Gmail a Neto?</h2>
-<p>
-  Conectar Gmail es opcional y solo existe en Neto Pro. Neto <strong>nunca accede a tu banca en
-  línea</strong> ni te pide usuario o contraseña bancaria: lee los correos de notificación que tu
-  banco ya te envía, los mismos que te llegarían aunque no usaras Neto.
+  En Neto Pro, si conectas tu Gmail, los gastos que el banco ya te notifica por correo los anota Neto
+  por ti. Es opcional y va encima de lo que escribes, porque no todos los pagos generan un correo.
+  Yape, por ejemplo, avisa por correo solo de los yapeos que envías, y solo si activas ese aviso
+  (${enlaceExterno("ayuda oficial de Yape", YAPE_CORREO)}).
 </p>
 <p>
-  La conexión se hace con OAuth de Google desde tu panel en la web de Neto. El permiso que Google te
-  pide aprobar es de solo lectura sobre tu correo: Neto no puede enviar, borrar ni modificar nada.
-  Qué correos abre lo limita el código de Neto, que busca solo los de remitentes de bancos y
-  billeteras y algunas frases típicas de sus notificaciones, y descarta los que no son un
-  movimiento.
+  El permiso que Google te pide es de solo lectura: Neto no puede enviar, borrar ni modificar nada.
+  Qué correos abre lo limita su código, que busca remitentes de bancos y billeteras y algunas frases
+  típicas de sus avisos. El detalle está en
+  <a href="/blog/bancos-peru-rastrear-sin-contrasena">qué bancos lee Neto sin tu contraseña</a>.
 </p>
-<p>
-  Puedes quitar el acceso cuando quieras desde
-  <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">myaccount.google.com/permissions</a>.
-</p>
-
-<h2>Preguntas frecuentes</h2>
-
-<h3>¿Cuánto tiempo demora ver mi primer resumen?</h3>
-<p>
-  Anotar el primer gasto es un mensaje. El resumen se arma con lo que vas anotando, así que la foto
-  útil aparece después de unos días de registrar todo.
-</p>
-
-<h3>¿Qué pasa con los gastos en efectivo?</h3>
-<p>
-  No dejan rastro en ningún banco ni correo, así que se los escribes a Neto por WhatsApp: «Gasté
-  S/30 en el mercado». Neto lo registra y lo incluye en tu resumen.
-</p>
-
-<h3>¿Puedo ver gastos de meses anteriores?</h3>
-<p>
-  Neto parte de lo que anotas desde el primer día. Si tienes Neto Pro y conectas tu Gmail, al
-  conectarlo importa los correos de notificación bancaria de los últimos 30 días (hasta 50
-  correos). Y en Pro también puedes mandarle por WhatsApp un Excel o un CSV con movimientos
-  anteriores.
-</p>
+<p><small>Fuentes consultadas el ${CONSULTA_REVISION}.</small></p>
 `,
 
   "bancos-peru-rastrear-sin-contrasena": `
+${enCorto([
+  "<strong>Neto no se conecta a tu banco ni te pide su contraseña.</strong>",
+  "Con Neto Pro y tu Gmail conectado, lee los correos de aviso que tu banco ya te manda y anota esos movimientos.",
+  "Es opcional y es un complemento: la mayoría de tus gastos igual los anotas tú por WhatsApp.",
+])}
 <p>
-  <strong>Neto no se conecta a tu banco ni te pide su contraseña.</strong> Lo que sí puede hacer, si
-  tienes Neto Pro y conectas tu Gmail, es leer los correos de notificación que tu banco o billetera
-  ya te manda cuando pagas, y anotar esos movimientos por ti. Es opcional y es un complemento: la
-  mayor parte de tus gastos igual los anotas tú, con un mensaje o la captura del pago por WhatsApp.
-  Abajo va qué bancos lee, qué no puede ver y cómo quitarle el acceso.
+  La pregunta que más nos hacen es cómo leemos tu banco sin tu contraseña. No lo leemos: leemos tu
+  correo, y solo si tú lo conectas. Hay dos formas de que una app vea tus movimientos sin que los
+  anotes, y el riesgo no se parece:
+</p>
+${tabla({
+  caption: "Pedirte la clave contra leer tus avisos",
+  columnas: ["Qué cambia", "Pedirte usuario y clave", "Leer tus avisos por correo (Neto)"],
+  filas: [
+    ["Qué le das a la app", "Tu usuario y tu clave del banco", "Un permiso de Google de solo lectura sobre tu correo"],
+    ["Cómo entra", "Simula ser tú y copia lo que ve en pantalla", "No entra a tu banco: lee los avisos que ya te llegan"],
+    ["Si la app sufre una filtración", "Se filtra la llave de tu cuenta", "No hay credenciales bancarias que filtrar"],
+    ["Cómo lo cortas", "Cambiando tu clave del banco", "Quitando el permiso desde tu cuenta de Google"],
+  ],
+})}
+<p>
+  Compartir tu clave con un tercero además puede complicarte un reclamo si algo sale mal, así que
+  revisa antes las condiciones de tu banco.
 </p>
 
-<h2>¿Cómo lee tus movimientos sin tu contraseña?</h2>
+<h2>¿Qué bancos lee?</h2>
 <p>
-  La pregunta que más nos hacen es: «¿cómo leen mi banco sin mi contraseña?». La respuesta es
-  simple: <strong>no leemos tu banco, leemos tu correo</strong>, y solo si tú lo conectas.
+  Esta es la lista de remitentes que Neto busca en tu Gmail, tomada de su código. Que tu banco esté no
+  garantiza un correo por cada movimiento: eso depende de los avisos que tengas activados.
 </p>
+${tabla({
+  caption: "Remitentes que Neto busca en tu Gmail",
+  columnas: ["Tipo", "Cuáles"],
+  filas: [
+    ["Bancos", "BCP, BBVA Perú, Interbank, Scotiabank Perú, BanBif, Banco Falabella, Banco Ripley y Mibanco"],
+    ["Billeteras", "Yape, por los yapeos que envías y si activas su aviso por correo. Plin, por los avisos que te lleguen al correo"],
+    ["Cajas municipales", "Caja Huancayo, Caja Piura, Caja Trujillo, Caja Cusco, Caja Ica y Caja Sullana"],
+  ],
+  pie: `Lista tomada del código de Neto el ${CONSULTA_REVISION}. Lo de Yape sale de su ${enlaceExterno(
+    "ayuda oficial",
+    YAPE_CORREO
+  )}, consultada el mismo día.`,
+})}
 <p>
-  Muchos bancos te mandan un correo cuando haces una compra con tarjeta, una transferencia o un
-  pago de servicio, según las notificaciones que tengas activadas. Neto lee esos correos, saca el
-  monto, el comercio y la fecha, y los categoriza con IA. <strong>Cero acceso a tu banca en línea,
-  cero contraseñas bancarias.</strong>
-</p>
-
-<h2>Pedir tu contraseña vs leer tus notificaciones</h2>
-<p>
-  Hay dos formas de que una app vea tus movimientos sin que los anotes, y el riesgo no se parece:
-</p>
-<h3>Pedirte usuario y clave (screen scraping)</h3>
-<p>
-  Algunas apps te piden tu usuario y clave del banco, entran simulando ser tú y copian lo que ven en
-  pantalla. El problema es que le entregas tus credenciales a un tercero: si esa app sufre una
-  filtración, lo que se filtra es la llave de tu cuenta. Y haber compartido tu clave puede
-  complicarte un reclamo si algo sale mal, así que revisa las condiciones de tu banco antes.
-</p>
-<h3>Leer los correos que ya recibes (lo que hace Neto)</h3>
-<ul>
-  <li><strong>Sin credenciales bancarias:</strong> Neto nunca te pide usuario ni clave del banco.</li>
-  <li><strong>Lo autorizas tú:</strong> das permiso con OAuth de Google, y Google te muestra qué permiso das antes de aprobarlo.</li>
-  <li><strong>Revocable:</strong> puedes quitar el acceso cuando quieras desde tu cuenta de Google.</li>
-  <li><strong>Solo lectura:</strong> Neto no puede enviar, borrar ni modificar correos, ni hacer ninguna operación en tu banco.</li>
-</ul>
-
-<h2>Bancos y billeteras cuyos correos lee Neto</h2>
-<p>
-  Esta es la lista de remitentes de notificación que Neto busca en tu Gmail, tomada de su código el
-  ${CONSULTA_REVISION}. Que tu banco esté aquí no garantiza que te llegue un correo por cada
-  movimiento: eso depende de las notificaciones que tengas activadas en tu banco o billetera.
+  Los yapeos que recibes no llegan por correo: mándale a Neto la captura por WhatsApp y lo registra
+  como ingreso. Si tu banco no está, escríbenos a <a href="mailto:hola@neto.pe">hola@neto.pe</a> con
+  un ejemplo del aviso (tapa tus datos). Agregar uno requiere revisar sus correos, así que no
+  prometemos plazo.
 </p>
 
-<h3>Bancos</h3>
-<ul>
-  <li>BCP (Banco de Crédito del Perú)</li>
-  <li>BBVA Perú</li>
-  <li>Interbank</li>
-  <li>Scotiabank Perú</li>
-  <li>BanBif</li>
-  <li>Banco Falabella</li>
-  <li>Banco Ripley</li>
-  <li>Mibanco</li>
-</ul>
+<h2>¿Qué ve Neto y qué no?</h2>
+${tabla({
+  caption: "Lo que Neto puede y no puede ver",
+  columnas: ["Esto", "¿Lo ve Neto?"],
+  filas: [
+    ["Los avisos de los remitentes de la lista", "Sí, si conectaste tu Gmail"],
+    ["Tu contraseña o clave del banco", "No. Nunca la pide"],
+    ["Tu banca en línea, tu saldo, transferencias o pagos", "No. No entra a tu banco"],
+    ["Tu clave de Yape, tu PIN o tu huella", "No. No tiene acceso a ninguna autenticación"],
+    ["Tus correos personales o de trabajo", "El código busca solo los remitentes de la lista y algunas frases típicas de avisos, y descarta lo que no es un movimiento"],
+  ],
+})}
 
-<h3>Billeteras digitales</h3>
-<ul>
-  <li>
-    <strong>Yape.</strong> Yape te manda un correo por los yapeos que envías si activas ese aviso, a
-    partir de un monto mínimo que eliges entre S/10, S/50, S/100 y S/500
-    (<a href="${YAPE_CORREO}" target="_blank" rel="noopener noreferrer nofollow">ayuda oficial de
-    Yape</a>). Ese aviso es por los que envías; para los yapeos que recibes, mándale a Neto la
-    captura por WhatsApp y lo registra como ingreso.
-  </li>
-  <li>
-    <strong>Plin.</strong> Neto lee los avisos de Plin que te lleguen por correo. Si no te llegan, la
-    captura del plin por WhatsApp funciona igual.
-  </li>
-</ul>
-
-<h3>Cajas municipales</h3>
-<ul>
-  <li>Caja Huancayo, Caja Piura, Caja Trujillo, Caja Cusco, Caja Ica y Caja Sullana</li>
-</ul>
-
-<h2>¿Tu banco no está en la lista?</h2>
-<p>
-  Escríbenos a <a href="mailto:hola@neto.pe">hola@neto.pe</a> con el nombre de tu banco y, si
-  puedes, un ejemplo del correo de notificación que te manda (tapa tus datos). Agregar un banco
-  requiere revisar cómo son sus correos, así que no te prometemos un plazo. Mientras tanto, los
-  gastos de ese banco los anotas por WhatsApp con un mensaje o la captura.
-</p>
-
-<h2>¿Qué NO puede ver ni hacer Neto?</h2>
-<ul>
-  <li><strong>Tu contraseña o clave del banco:</strong> nunca la pedimos ni la necesitamos.</li>
-  <li><strong>Tu banca en línea:</strong> Neto no entra a tu banco, así que no consulta tu saldo ni puede hacer transferencias o pagos.</li>
-  <li><strong>Tu clave de Yape, tu PIN o tus datos biométricos:</strong> no tenemos acceso a ninguna autenticación de tu banco o billetera.</li>
-  <li><strong>Tus correos personales o de trabajo:</strong> Neto busca solo los correos de los remitentes de la lista y algunas frases típicas de notificaciones bancarias, y descarta lo que no es un movimiento.</li>
-</ul>
-
-<h2>Cómo funciona la conexión</h2>
+<h2>Cómo se conecta</h2>
 <ol>
   <li>Activas Neto Pro. Conectar Gmail es la única función de Pro que no está en la prueba de 14 días: se habilita cuando pagas.</li>
-  <li>Desde tu panel Pro en la web de Neto eliges qué bancos quieres que lea y conectas tu Gmail.</li>
-  <li>Google te muestra el permiso que estás dando: ver tus correos, sin poder enviarlos, borrarlos ni modificarlos. Tú apruebas, y Google le da a Neto un acceso limitado, nunca tu contraseña.</li>
-  <li>Al conectarlo, Neto importa los movimientos de los correos de notificación de los últimos 30 días (hasta 50 correos), y después revisa los nuevos cada cierto tiempo.</li>
+  <li>Desde tu panel Pro en la web eliges qué bancos leer y conectas tu Gmail.</li>
+  <li>Google te muestra el permiso: ver tus correos, sin poder enviarlos, borrarlos ni modificarlos.</li>
+  <li>Al conectarlo, Neto importa los avisos de los últimos 30 días, hasta 50 correos. Después revisa los nuevos cada cierto tiempo.</li>
 </ol>
 <p>
-  Cada cuenta de Neto admite un solo Gmail. Puedes revocar el acceso cuando quieras desde
-  <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">myaccount.google.com/permissions</a>,
-  y desde ese momento Neto no puede leer correos nuevos.
-</p>
-
-<h2>¿Qué pasa si cambio de banco o de correo?</h2>
-<p>
-  <strong>Cambio de banco:</strong> si el banco nuevo está en la lista y sus notificaciones llegan
-  al mismo Gmail, Neto las lee. Qué bancos lee lo cambias desde tu panel Pro.
-</p>
-<p>
-  <strong>Cambio de correo:</strong> cada cuenta de Neto admite un solo Gmail. Si necesitas
-  cambiarlo, escríbenos a <a href="mailto:hola@neto.pe">hola@neto.pe</a> y lo vemos contigo.
+  Cada cuenta de Neto admite un solo Gmail. Si cambias de banco y el nuevo está en la lista, lo eliges
+  desde tu panel. Para cambiar de correo, escríbenos a hola@neto.pe. Puedes revocar el acceso cuando
+  quieras desde
+  <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">myaccount.google.com/permissions</a>.
 </p>
 
 <h2>¿Cómo se protegen tus datos?</h2>
 <p>
-  Tus movimientos se guardan en Supabase, que cifra en reposo todos los datos de sus clientes con
-  AES-256 y los transmite por TLS, según su
-  <a href="${SUPABASE_SEGURIDAD}" target="_blank" rel="noopener noreferrer nofollow">página de
-  seguridad</a>. Además, Neto guarda los tokens de acceso a tu Gmail cifrados con AES-256-GCM.
+  Tus movimientos se guardan en Supabase. Según su ${enlaceExterno("página de seguridad", SUPABASE_SEGURIDAD)},
+  cifra en reposo los datos de sus clientes con AES-256 y los transmite por TLS. Además, Neto guarda
+  cifrados con AES-256-GCM los tokens de acceso a tu Gmail.
 </p>
 <p>
-  La app web usa Row Level Security (RLS): cada sesión solo puede leer los datos de su propio
-  usuario. Eso no quiere decir que nadie en Neto pueda ver nada. El sistema que procesa tus
-  mensajes opera con acceso de administrador, y ese acceso interno se usa para operar el servicio y
-  darte soporte. Tus datos no se venden a terceros. El detalle está en
-  <a href="/privacidad">nuestra política de privacidad</a>.
+  La app web usa Row Level Security: cada sesión solo lee los datos de su propio usuario. Eso no
+  quiere decir que nadie en Neto pueda ver nada. El sistema que procesa tus mensajes opera con acceso
+  de administrador, que se usa para operar el servicio y darte soporte. Tus datos no se venden. El
+  detalle está en <a href="/privacidad">nuestra política de privacidad</a>.
 </p>
 <p><small>Fuentes consultadas el ${CONSULTA_REVISION}.</small></p>
-
-<h2>Empieza gratis</h2>
 <p>
-  Si quieres probar Neto, <a href="${WA_BLOG}">escríbele por WhatsApp</a> y anota tu primer gasto
-  o mándale la captura de un yapeo. Anotar es gratis siempre, sin contraseñas bancarias y sin apps
-  que descargar. Si más adelante activas Pro, ahí puedes sumar tu Gmail.
-</p>
-<p>
-  ¿Quieres entender qué hace Neto con tus gastos una vez anotados?
-  <a href="/blog/asistente-financiero-whatsapp-peru">Lee aquí cómo funciona el asistente
-  completo</a>.
-</p>
-
-<h2>Preguntas frecuentes sobre seguridad</h2>
-
-<h3>¿Puede Neto hacer transferencias o pagos desde mi cuenta?</h3>
-<p>
-  No. Neto no tiene ningún acceso a tu banca en línea. El permiso de Gmail es de solo lectura de
-  correo y no sirve para mover plata.
-</p>
-
-<h3>¿Qué pasa si Neto sufre un ataque?</h3>
-<p>
-  Nadie podría entrar a tu banco con lo que guarda Neto, porque Neto no guarda credenciales
-  bancarias. Lo que sí está en Neto es tu historial de movimientos (montos, comercios, fechas) y, si
-  conectaste Gmail, el token de acceso a tu correo, que se guarda cifrado. Si en algún momento
-  tienes dudas, puedes revocar ese acceso desde tu cuenta de Google.
-</p>
-
-<h3>¿Recomienda Neto compartir contraseñas bancarias?</h3>
-<p>
-  Nunca. Si una app de finanzas te pide tu usuario y clave del banco, piénsalo dos veces antes de
-  dársela. Hay formas de ordenar tus gastos sin entregar tus credenciales: anotarlos tú, o dejar
-  que una app lea las notificaciones que ya recibes.
+  Para probar Neto, <a href="${WA_BLOG}">escríbele por WhatsApp</a> y anota tu primer gasto. Anotar es
+  gratis siempre, sin contraseñas bancarias. Qué hace Neto con tus gastos está en
+  <a href="/blog/asistente-financiero-whatsapp-peru">cómo funciona el asistente</a>.
 </p>
 `,
 
   "asistente-financiero-whatsapp-peru": `
-<p>
-  <strong>Neto es un asistente financiero que vive en WhatsApp: le escribes tus gastos como a un
-  amigo («almuerzo 18») o le mandas la captura de tu yapeo, y él los categoriza y te los muestra
-  ordenados.</strong> Anotar es gratis siempre. Ver tus números (resúmenes, dashboard, score y
-  presupuestos) es de Neto Pro, que cuesta S/10 al mes o S/99 al año y tiene 14 días de prueba.
-</p>
-
-<h2>¿Qué es un asistente financiero por WhatsApp?</h2>
-<p>
-  Es un asistente que te ayuda con tu plata y vive en WhatsApp. Le escribes un gasto y lo anota. Le
-  preguntas cuánto gastaste en la semana y te responde. No es una app que descargas ni un Excel que
-  llenas: es una conversación.
-</p>
-<p>
-  En Perú tiene sentido por cómo pagamos: un yapeo, un plin, la tarjeta y algo de efectivo, todo
-  desde el mismo celular donde ya tenemos WhatsApp abierto.
-</p>
+${enCorto([
+  "<strong>Neto es un asistente financiero que vive en WhatsApp:</strong> le escribes tus gastos o le mandas la captura del yapeo.",
+  "Él los categoriza y te los muestra ordenados.",
+  "Anotar es gratis siempre. Ver tus números es de Neto Pro, que cuesta S/10 al mes o S/99 al año.",
+])}
+<p>No es una app que descargas ni un Excel que llenas: es una conversación. Así se ve anotar un pago:</p>
+${chatNeto("captura-yapeo")}
 
 <h2>¿Por qué WhatsApp y no una app?</h2>
 <p>
-  Porque ya lo tienes abierto. No ocupa espacio en tu celular, no tienes que recordar otra
-  contraseña ni aprender otra interfaz: si sabes mandar un WhatsApp, sabes anotar un gasto en Neto.
-</p>
-<p>
-  Y porque lo difícil es el hábito. A una app de finanzas hay que acordarse de abrirla; el chat de
-  Neto está donde ya revisas tus mensajes todos los días. Menos pasos por gasto son menos gastos que
-  se te olvidan.
+  Porque ya lo tienes abierto. No ocupa espacio ni te pide otra contraseña: si sabes mandar un
+  WhatsApp, sabes anotar un gasto. Y lo difícil es el hábito. A una app hay que acordarse de abrirla;
+  el chat de Neto está donde ya revisas tus mensajes. Menos pasos por gasto son menos gastos olvidados.
 </p>
 
-<h2>¿Para quién es Neto?</h2>
-<ul>
-  <li>
-    <strong>Quien tiene ingresos fijos y no sabe a dónde se va la plata:</strong> anotar desde el
-    chat le da la foto real con poco esfuerzo.
-  </li>
-  <li>
-    <strong>Parejas que comparten gastos:</strong> los espacios compartidos de Neto Pro juntan los
-    gastos del hogar de los dos, para que no haya discusiones de «quién pagó qué».
-  </li>
-  <li>
-    <strong>Quien paga con varias cuentas y tarjetas:</strong> lo que pagas con BCP, BBVA, Yape o
-    Plin lo anotas en el mismo chat, y ahí queda todo junto.
-  </li>
-  <li>
-    <strong>Quien quiere empezar a ahorrar:</strong> la primera pregunta es «¿de dónde recorto?», y
-    se responde mirando tus gastos por categoría.
-  </li>
-  <li>
-    <strong>Freelancers y emprendedores:</strong> puedes crear tus propias categorías para separar
-    los gastos del negocio de los personales.
-  </li>
-</ul>
-
-<h2>Cómo funciona Neto</h2>
-<h3>1. Anotas por WhatsApp</h3>
-<p>
-  Le mandas un mensaje («taxi 12», «almuerzo 18»), una nota de voz, la foto de un voucher o la
-  captura de un yapeo o un plin. Neto lee el monto, el comercio y la fecha, y te confirma lo que
-  anotó. Si la captura es de un yapeo que te hicieron, lo registra como ingreso.
-</p>
-
-<h3>2. Categoriza con IA, y tú corriges</h3>
-<p>
-  Cada gasto entra con una categoría (comida, transporte, entretenimiento, servicios...). Si una
-  está mal, escríbele «cambia el de SmartFit a salud» y la corrige. Y si quieres que un comercio
-  vaya siempre a la misma categoría, pídeselo: «todo lo de Rappi va en delivery».
-</p>
-
-<h3>3. Te muestra tus números</h3>
-<p>Le puedes preguntar cosas como:</p>
-<ul>
-  <li>«¿Cuánto gasté esta semana?»</li>
-  <li>«¿Cuánto llevo en delivery este mes?»</li>
-  <li>«¿Cuáles son mis suscripciones?»</li>
-  <li>«¿Cuáles son mis gastos hormiga?»</li>
-  <li>«¿Cuánto me queda del presupuesto de comida?»</li>
-</ul>
-<p>
-  Esas consultas, los resúmenes automáticos y el dashboard web son de Neto Pro. Durante los 14 días
-  de prueba los tienes todos; después, anotar sigue siendo gratis y ver tus números es de Pro.
-</p>
-
-<h3>4. Opcional, en Neto Pro: tu Gmail</h3>
-<p>
-  Si tienes Pro, puedes conectar tu Gmail para que los gastos que tu banco te notifica por correo
-  los anote Neto por ti. Es un complemento de lo que escribes, no el mecanismo principal: los pagos
-  que no generan un correo los sigues anotando tú. Neto no se conecta a tu banco ni te pide
-  contraseñas bancarias. Si quieres el detalle,
-  <a href="/blog/bancos-peru-rastrear-sin-contrasena">aquí explicamos qué bancos lee y cómo</a>.
-</p>
-
-<h2>¿Qué puede hacer Neto?</h2>
-<ul>
-  <li>
-    <strong>Resumen semanal:</strong> cuánto gastaste, tus categorías más altas y la comparación con
-    la semana pasada.
-  </li>
-  <li>
-    <strong>Presupuestos con alertas:</strong> pones un tope mensual por categoría y Neto te avisa
-    cuando te acercas.
-  </li>
-  <li>
-    <strong>Reglas por comercio:</strong> si fijas una categoría para un comercio, los siguientes
-    gastos de ese comercio entran directo en ella.
-  </li>
-  <li>
-    <strong>Score de salud financiera:</strong> una puntuación de 0 a 100 que te dice qué tan bien
-    van tus finanzas. Aprende más sobre
-    <a href="/score-financiero">cómo funciona el score financiero de Neto</a>.
-  </li>
-  <li>
-    <strong>Dashboard web:</strong> además del chat, un dashboard con gráficos, tus categorías y el
-    historial completo.
-  </li>
-  <li>
-    <strong>Gastos hormiga:</strong> Neto junta las compras chicas del mes y te dice cuánto suman.
-    <a href="/blog/gastos-hormiga-peru">¿Qué son los gastos hormiga?</a>
-  </li>
-  <li>
-    <strong>Deudas entre personas:</strong> anotas a quién le debes y quién te debe, y Neto te lo
-    recuerda.
-  </li>
-  <li>
-    <strong>Espacios compartidos:</strong> para gastos de pareja o familia, cada uno anota lo suyo y
-    ven el total juntos.
-  </li>
-</ul>
-
-<h2>Un primer mes con Neto, semana a semana</h2>
+<h2>Cómo funciona</h2>
 <ol>
-  <li><strong>Semana 1:</strong> Anotas todo y ves tus datos reales por primera vez. Lo normal es que una o dos categorías te sorprendan.</li>
-  <li><strong>Semana 2:</strong> Empiezas a notar tus decisiones de gasto. No porque Neto te juzgue, sino porque ahora tienes los números.</li>
-  <li><strong>Semana 3:</strong> Pones tus primeros presupuestos por categoría, y Neto te avisa si te pasas.</li>
-  <li><strong>Semana 4:</strong> Comparas tu gasto con el de la semana 1 y decides qué ajustar el mes siguiente.</li>
+  <li><strong>Anotas.</strong> Un mensaje («taxi 12»), una nota de voz, la foto de un voucher o la captura de un yapeo o un plin. Neto te confirma lo que anotó. Si el yapeo te lo hicieron a ti, lo registra como ingreso.</li>
+  <li><strong>Categoriza con IA, y tú corriges.</strong> Si una categoría está mal, escríbele «cambia el de SmartFit a salud». Si quieres que un comercio vaya siempre a la misma, pídeselo: «todo lo de Rappi va en delivery».</li>
+  <li><strong>Te muestra tus números.</strong> Le preguntas «¿cuánto gasté esta semana?» o «¿cuánto llevo en delivery?», y ves todo ordenado en el dashboard web. Esas consultas, los resúmenes y el dashboard son de Neto Pro.</li>
+  <li><strong>Opcional, en Pro: tu Gmail.</strong> Los gastos que tu banco te notifica por correo los anota Neto por ti. Es un complemento, no el mecanismo principal, y Neto no se conecta a tu banco. Aquí explicamos <a href="/blog/bancos-peru-rastrear-sin-contrasena">qué bancos lee y cómo</a>.</li>
 </ol>
 
-<h2>¿Cuánto cuesta?</h2>
-<p>
-  Anotar gastos es gratis para siempre y sin límite: mensajes por WhatsApp, fotos de tu Yape o
-  Plin, correcciones de categoría y tu total del mes siempre a la vista. Nada de eso se corta ni se
-  borra.
-</p>
-<p>
-  Cuando registras tu primer gasto arrancan 14 días de Neto Pro con todo abierto. Después, lo que
-  queda detrás de Pro (S/10 al mes o S/99 al año) es verlos ordenados: dashboard con gráficos y
-  categorías, historial ilimitado, presupuestos y metas con alertas, score financiero detallado,
-  espacios compartidos y reportes con export.
-</p>
-<p>
-  Pro se paga con <strong>Yape</strong>, sin tarjeta de por medio, y no se renueva solo.
-</p>
+<h2>¿Qué es gratis y qué es de Neto Pro?</h2>
+${tabla({
+  caption: "Lo gratis y lo de Neto Pro",
+  columnas: ["Función", "Gratis", "Neto Pro"],
+  filas: [
+    ["Anotar por mensaje, voz, voucher o captura", "Sí, sin límite", "Sí"],
+    ["Corregir categorías y ver tu total del mes", "Sí", "Sí"],
+    ["Resúmenes y consultas por WhatsApp", "No", "Sí"],
+    ["Dashboard, historial y reportes con export", "No", "Sí"],
+    ["Presupuestos y metas con alertas", "No", "Sí"],
+    ["Score financiero y espacios compartidos", "No", "Sí"],
+    ["Conectar tu Gmail", "No", "Sí, solo pagando: no entra en la prueba"],
+  ],
+  pie: "Tu primer gasto activa 14 días de Neto Pro con todo abierto menos Gmail. Pro se paga con Yape y no se renueva solo.",
+})}
+<p>Así avisa un presupuesto cuando ya pasaste el aviso, en la misma respuesta al gasto:</p>
+${chatNeto("tope-categoria")}
 
-<h2>Preguntas frecuentes</h2>
+<h2>¿Para quién es?</h2>
+<ul>
+  <li><strong>Quien tiene sueldo fijo y no sabe a dónde se va.</strong> Anotar desde el chat le da la foto real con poco esfuerzo.</li>
+  <li><strong>Parejas que comparten gastos.</strong> Los espacios compartidos de Neto Pro juntan los gastos del hogar de los dos.</li>
+  <li><strong>Quien paga con varias cuentas.</strong> Lo que pagas con BCP, BBVA, Yape o Plin lo anotas en el mismo chat.</li>
+  <li><strong>Freelancers.</strong> Puedes crear categorías propias para separar el negocio de lo personal.</li>
+</ul>
 
-<h3>¿Necesito conectar mi correo para usar Neto?</h3>
-<p>
-  No. Neto funciona completo anotando por WhatsApp o en la web. Conectar Gmail es opcional y es de
-  Neto Pro: sirve para que los gastos que tu banco te notifica por correo entren solos, además de
-  los que anotas.
-</p>
-
-<h3>¿Puedo usar Neto si solo uso Yape?</h3>
-<p>
-  Sí. Mándale a Neto la captura de cada yapeo por WhatsApp y él lee el monto, a quién le pagaste y
-  la fecha. El paso a paso está en
-  <a href="/blog/controlar-gastos-yape-plin">cómo controlar tus gastos si pagas con Yape y Plin</a>.
-</p>
-
-<h3>¿Hay una versión para negocios?</h3>
-<p>
-  No. Neto está hecho para finanzas personales. Si eres freelancer o tienes un negocio pequeño,
-  puedes usar categorías propias para separar los gastos del negocio de los tuyos.
-</p>
+<h2>Un primer mes, semana a semana</h2>
+<ol>
+  <li><strong>Semana 1:</strong> anotas todo y ves tus datos reales. Lo normal es que una o dos categorías te sorprendan.</li>
+  <li><strong>Semana 2:</strong> empiezas a notar tus decisiones de gasto, porque ahora tienes los números.</li>
+  <li><strong>Semana 3:</strong> pones tus primeros presupuestos por categoría.</li>
+  <li><strong>Semana 4:</strong> comparas con la semana 1 y decides qué ajustar el mes siguiente.</li>
+</ol>
+<p>Para empezar, <a href="${WA_BLOG}">escríbele a Neto por WhatsApp</a> y anota tu primer gasto.</p>
 `,
 };
