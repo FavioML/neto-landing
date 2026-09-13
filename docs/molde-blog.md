@@ -446,3 +446,30 @@ aplicó: si el texto a mutar no está en el fuente, el caso sale como fallo y se
   filas que el fuente no tenía, y el caso no aparecía en la salida: se leía como "11 corrieron".
   Ahora un caso no aplicado se imprime como fallo.
 
+### Core Web Vitals de laboratorio, antes y después
+
+Móvil, `npm run measure:cwv` con cinco corridas pedidas por medición, contra producción, el mismo
+día y con una hora de diferencia entre el antes y el después. PageSpeed devolvió 500 o se colgó en
+varias corridas: la tanda del "antes" de cómo controlar se repitió dos veces porque quedó con menos de
+tres válidas, y se usa la tercera.
+
+| | Antes | Después |
+|---|---|---|
+| Gastos hormiga, score | 75 (72 a 82), n=3 | 86.5 (74 a 91), n=4 |
+| Gastos hormiga, LCP | 3301 ms (3092 a 3301) | 3210 ms (2701 a 3227) |
+| Cómo controlar, score | 86 (77 a 93), n=5 | 86 (77 a 88), n=3 |
+| Cómo controlar, LCP | 2776 ms (2401 a 4502) | 2926 ms (2852 a 3151) |
+| CLS | 0 en todas | 0 en todas |
+| Peso de la página | 1036 a 1040 KiB | 1035 a 1040 KiB |
+
+**Lectura: no hay cambio medible.** En los dos posts el rango del "después" se superpone con el del
+"antes", así que cualquier diferencia de medianas queda dentro del ruido de su propia tanda. Eso
+incluye los 11 puntos de score de gastos hormiga, que se ven como una mejora y no alcanzan para
+llamarla así. El bloque suma CSS y nada de JavaScript, y el peso no se movió.
+
+### Verificación en producción (12-sep-2026, `32981c5`)
+
+`check-blog --base=https://neto.pe` en verde para los cuatro posts del molde; los dos migrados
+responden 200; el sitemap y el `dateModified` del JSON-LD dicen 2026-09-12; validator.schema.org da
+0 errores y 0 advertencias en los dos (BreadcrumbList, BlogPosting y FAQPage).
+
