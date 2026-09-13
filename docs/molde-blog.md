@@ -506,3 +506,30 @@ DENTRO de una `tabla()` (las tablas cuentan como visual y quedan fuera del lecto
 cifras leen de `APPS`, pero una rutina automática podría escribir una cifra inventada en una celda y
 el chequeo daría verde. Quedó como tarea aparte.
 
+### Core Web Vitals de laboratorio, antes y después
+
+Móvil, `npm run measure:cwv` con cinco corridas pedidas, contra producción, el mismo día. El
+"después" de bancos se repitió: la primera tanda llevaba cuatro corridas válidas y murió en la quinta
+por un timeout de PageSpeed que el script no atrapa, sin escribir su resultado (defecto de
+`measure-cwv-lab.mjs`, quedó como tarea aparte).
+
+| | Antes | Después |
+|---|---|---|
+| En qué gasto, score | 88.5 (73 a 92), n=4 | 83.5 (80 a 89), n=4 |
+| En qué gasto, LCP | 3189 ms (2701 a 3226) | 3081 ms (2926 a 3227) |
+| Bancos, score | 91 (78 a 92), n=5 | 87 (83 a 92), n=3 |
+| Bancos, LCP | 3151 ms (3076 a 3152) | 2861 ms (2776 a 3226) |
+| Asistente, score | 82.5 (77 a 91), n=4 | 90 (69 a 95), n=5 |
+| Asistente, LCP | 3196 ms (3151 a 3227) | 3151 ms (2551 a 3227) |
+| CLS | 0 en todas | 0 en todas |
+| Peso de la página | 1034 a 1040 KiB | 1033 a 1040 KiB |
+
+**Lectura: no hay cambio medible en ninguno de los tres.** Todos los rangos del "después" se
+superponen con los del "antes", en score y en LCP.
+
+### Verificación en producción (12-sep-2026, `df72eff`)
+
+`check-blog --base=https://neto.pe` en verde para los siete posts con `LEGADO` vacía; los tres
+migrados responden 200; sitemap y `dateModified` dicen 2026-09-12; validator.schema.org da 0 errores
+y 0 advertencias en los tres (BreadcrumbList, BlogPosting y FAQPage).
+
