@@ -52,6 +52,10 @@
  *                                                          [--n=5] [--strategy=mobile|desktop|both]
  *                                                          [--out=ruta.json]
  * Exit: 0 si midió, 2 si no pudo (sin key, PSI caído). NUNCA 1 — no emite veredicto.
+ *
+ * Una corrida que falla (HTTP no-2xx, timeout, red, cuerpo ilegible) se registra en el JSON
+ * con `error` y `detalle`, y la tanda sigue: la salida se escribe siempre. Exit 0 si al menos
+ * una corrida de cada estrategia fue válida; 2 si alguna estrategia no tuvo ninguna.
  */
 
 const arg = (nombre, def) => {
@@ -73,6 +77,7 @@ const URL_BASE = arg('url', 'https://neto.pe/');
 const N = Number(arg('n', 5));
 const ESTRATEGIAS = arg('strategy', 'both') === 'both' ? ['mobile', 'desktop'] : [arg('strategy', 'mobile')];
 const OUT = arg('out', null);
+const TIMEOUT_MS = 120_000;
 
 const mediana = (xs) => {
   const s = [...xs].sort((a, b) => a - b);
@@ -94,13 +99,27 @@ async function corrida(estrategia, i) {
   api.searchParams.set('key', KEY);
 
   const t0 = Date.now();
-  const res = await fetch(api, { signal: AbortSignal.timeout(120_000) });
-  const secs = Math.round((Date.now() - t0) / 1000);
-  if (!res.ok) {
-    const detalle = await res.text().catch(() => '');
-    return { corrida: i, error: `PSI ${res.status}`, detalle: detalle.slice(0, 300), secs };
+  const segs = () => Math.round((Date.now() - t0) / 1000);
+  let d;
+  try {
+    // El mismo signal cubre la descarga del cuerpo: `res.json()` también puede abortar por timeout.
+    const res = await fetch(api, { signal: AbortSignal.timeout(TIMEOUT_MS) });
+    if (!res.ok) {
+      const detalle = await res.text().catch(() => '');
+      return { corrida: i, error: `PSI ${res.status}`, detalle: detalle.slice(0, 300), secs: segs() };
+    }
+    d = await res.json();
+  } catch (e) {
+    // Timeout, red caída o cuerpo ilegible: la corrida queda registrada con su error, igual que
+    // un PSI 500, y la tanda sigue. Antes esto era una excepción sin capturar que mataba el
+    // proceso y perdía el `--out` con las corridas válidas ya hechas (12-sep-2026, dos veces).
+    const error = e?.name === 'TimeoutError' ? `timeout ${TIMEOUT_MS / 1000}s`
+      : e instanceof SyntaxError ? 'PSI respuesta no JSON'
+      : `red: ${e?.name ?? 'Error'}`;
+    const detalle = [e?.message, e?.cause?.code ?? e?.cause?.message].filter(Boolean).join(' · ');
+    return { corrida: i, error, detalle: detalle.slice(0, 300), secs: segs() };
   }
-  const d = await res.json();
+  const secs = segs();
   const a = d.lighthouseResult?.audits || {};
   const num = (k) => Math.round(a[k]?.numericValue ?? 0);
 
