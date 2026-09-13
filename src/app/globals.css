@@ -586,6 +586,118 @@ h1, h2, h3, h4 {
   padding: 0.75rem 1rem 1rem;
 }
 
+/* Ejemplo: borde punteado y etiqueta azul, para que no se lea como un dato. */
+.prose-neto .blq-ejemplo {
+  border: 1px dashed rgba(55, 138, 221, 0.5);
+  border-radius: 1rem;
+  background: rgba(55, 138, 221, 0.04);
+  padding: 1.1rem 1.25rem 1rem;
+}
+
+.prose-neto .blq-ejemplo > .blq-etiqueta {
+  color: var(--color-neto-blue);
+}
+
+.prose-neto .blq-ej-base,
+.prose-neto .blq-ej-total {
+  margin: 0.4rem 0 0;
+  color: var(--color-neto-txt2);
+  font-size: 0.95rem;
+}
+
+.prose-neto .blq-ej-base {
+  margin: 0 0 0.75rem;
+}
+
+.prose-neto .blq-ej-total strong,
+.prose-neto .blq-ej-base strong {
+  color: var(--color-neto-txt);
+  font-family: var(--font-heading);
+}
+
+.prose-neto .blq-partes {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-neto-txt3);
+}
+
+.prose-neto .blq-ejemplo figcaption {
+  margin-top: 0.75rem;
+}
+
+.prose-neto .blq-ejemplo caption .blq-ej-base {
+  display: block;
+  margin: 0.3rem 0 0;
+  font-family: var(--font-body, inherit);
+  font-weight: 400;
+}
+
+/* Los números de una cuenta se leen alineados a la derecha, como en una suma escrita a mano. */
+.prose-neto .blq-ejemplo td[data-rol] {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/*
+ * Bajo 640 px la tabla del molde se vuelve tarjetas. Un ejemplo NO: tiene de dos a cuatro columnas
+ * cortas y como tarjetas la cuenta se parte en doce renglones que ya no se leen como una suma.
+ * check-blog mide el desborde a 375 px, así que si una cuenta no entra, lo dice.
+ */
+@media (max-width: 639px) {
+  .prose-neto .blq-ejemplo {
+    padding: 1rem 0.85rem 0.9rem;
+  }
+
+  .prose-neto .blq-ejemplo table {
+    display: table;
+    font-size: 0.85rem;
+  }
+
+  .prose-neto .blq-ejemplo caption {
+    display: table-caption;
+  }
+
+  .prose-neto .blq-ejemplo thead {
+    display: table-header-group;
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  .prose-neto .blq-ejemplo tbody {
+    display: table-row-group;
+  }
+
+  .prose-neto .blq-ejemplo tr,
+  .prose-neto .blq-ejemplo tbody tr {
+    display: table-row;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    background: none;
+  }
+
+  .prose-neto .blq-ejemplo th,
+  .prose-neto .blq-ejemplo td,
+  .prose-neto .blq-ejemplo tbody th {
+    display: table-cell;
+    padding: 0.55rem 0.35rem;
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .prose-neto .blq-ejemplo td::before {
+    content: none;
+  }
+}
+
 .prose-neto .blq-nota {
   margin: 2rem 0;
   padding: 1rem 1.1rem 0.2rem;

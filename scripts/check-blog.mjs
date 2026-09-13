@@ -21,6 +21,10 @@
  *   DATOS       tablas con caption y th scope, gráficos con fuente fechada, y toda cifra en
  *               S/, US$, R$ o % del cuerpo trazable: o sale de APPS (se lee de la comparativa
  *               renderizada), o de PRO_PRECIOS del backend, o tiene un link en su mismo bloque.
+ *   ARITMÉTICA  cada bloque de ejemplo (`ejemplo()`): etiqueta visible "Ejemplo", pie de montos
+ *               inventados, y la cuenta rehecha desde el TEXTO que ve el lector (productos,
+ *               porcentajes de la base, desgloses, total y anual). Sus cifras no piden fuente,
+ *               pero ninguna puede estar suelta: todo S/ o % del bloque es operando o resultado.
  *   PRODUCTO    cada chat del registro (`src/lib/respuestas-bot.json`): su ejemplo encaja en la
  *               plantilla y cada fragmento de plantilla sigue, literal, en `../app`. Y el chat
  *               que se ve en la página es el del registro, no otro.
@@ -53,8 +57,6 @@ const SOLO = arg('post');
 
 /** Posts fuera del molde, con el motivo. Borrar la entrada al migrarlos. */
 const LEGADO = new Map([
-  ['gastos-hormiga-peru', 'reescrito el 11-sep-2026 con fuentes; todavía sin molde'],
-  ['como-controlar-gastos-personales-peru', 'reescrito el 11-sep-2026 con fuentes; todavía sin molde'],
   ['en-que-gasto-mi-plata', 'reescrito el 11-sep-2026 con fuentes; todavía sin molde'],
   ['bancos-peru-rastrear-sin-contrasena', 'reescrito el 11-sep-2026 con fuentes; todavía sin molde'],
   ['asistente-financiero-whatsapp-peru', 'reescrito el 11-sep-2026 con fuentes; todavía sin molde'],
@@ -104,6 +106,75 @@ const mediana = (xs) => {
   return s.length ? (s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2) : 0;
 };
 const sinMarkdownWa = (t) => t.replace(/\*([^*\n]+)\*/g, '$1').replace(/_([^_\n]+)_/g, '$1');
+
+/*
+ * ARITMÉTICA de los bloques de ejemplo (`ejemplo()` en `src/lib/blog-bloques.ts`). La función ya
+ * aborta el build si la cuenta no cierra; esto la rehace sobre la página porque la exención de
+ * fuente se engancha a la clase `.blq-ejemplo`, y la clase se puede escribir a mano en el string de
+ * un post sin pasar por la función. Falsificarla no compra nada: la cuenta igual tiene que cerrar.
+ * Las palabras de DATO_AJENO son las mismas que en blog-bloques.ts; están duplicadas porque este
+ * script es .mjs y no importa TypeScript.
+ */
+const DATO_AJENO = /\b(promedio|según|INEI|BCRP|SBS|mediana|mínimo|RMV|encuesta|estudio|estadística)/i;
+const num = (s) => {
+  if (s == null) return null;
+  const m = s.match(/S\/\s?(\d[\d,]*(?:\.\d+)?)/) ?? s.match(/(\d[\d,]*(?:\.\d+)?)/);
+  return m ? Number(m[1].replace(/,/g, '')) : NaN;
+};
+const iguales = (a, b) => Math.round(a * 100) === Math.round(b * 100);
+function aritmetica(slug, e) {
+  const donde = `${slug}] [ejemplo "${e.titulo}"`;
+  const no = (msg) => falla(donde, msg);
+  if (e.etiqueta !== 'Ejemplo') no('no abre con la etiqueta visible "Ejemplo": sin ella se lee como un dato');
+  if (!/Montos inventados/.test(e.pie)) no('su pie no dice que los montos son inventados');
+  const ajeno = e.texto.replace(e.pie, '').match(DATO_AJENO);
+  if (ajeno) no(`"${ajeno[0]}" anuncia un dato de terceros adentro de un ejemplo`);
+  if (e.filas.length < 2) no(`la cuenta no cierra: tiene ${e.filas.length} fila(s) y un ejemplo necesita dos o más`);
+
+  const base = num(e.base);
+  const vistos = { soles: [base], pct: [] };
+  let suma = 0;
+  for (const f of e.filas) {
+    const r = num(f.resultado);
+    if (r == null || Number.isNaN(r)) {
+      no(`la cuenta no cierra: la fila "${f.concepto}" no muestra su resultado`);
+      continue;
+    }
+    suma += r;
+    vistos.soles.push(r);
+    if (f.unitario != null || f.veces != null) {
+      const u = num(f.unitario);
+      const v = num(f.veces);
+      vistos.soles.push(u);
+      if (u == null || v == null || !iguales(u * v, r)) no(`la cuenta no cierra: "${f.concepto}" muestra ${f.unitario} × ${f.veces} = ${f.resultado}`);
+    }
+    if (f.pct != null) {
+      const p = num(f.pct);
+      vistos.pct.push(p);
+      if (base == null || !iguales((base * p) / 100, r)) no(`la cuenta no cierra: "${f.concepto}" es el ${f.pct} de ${e.base ?? 'una base que no se ve'} y muestra ${f.resultado}`);
+    }
+    if (f.partes.length) {
+      const partes = f.partes.map(num);
+      vistos.soles.push(...partes);
+      const s = partes.reduce((a, b) => a + b, 0);
+      if (!iguales(s, r)) no(`la cuenta no cierra: las partes de "${f.concepto}" suman S/${s} y la fila muestra ${f.resultado}`);
+    }
+  }
+  const total = num(e.total);
+  const anual = num(e.anual);
+  vistos.soles.push(total, anual);
+  if (base != null && total == null) no('la cuenta no cierra: reparte una base y no muestra el total');
+  if (total != null && !iguales(suma, total)) no(`la cuenta no cierra: las filas suman S/${suma} y el total muestra ${e.total}`);
+  if (base != null && total != null && !iguales(base, total)) no(`la cuenta no cierra: reparte ${e.base} y el total muestra ${e.total}`);
+  if (anual != null && (total == null || !iguales(total * 12, anual))) no(`la cuenta no cierra: ${e.anual} no es el total × 12`);
+
+  // Ninguna cifra suelta: todo S/ o % del bloque tiene que ser un operando o un resultado de la cuenta.
+  for (const c of e.texto.replace(e.pie, '').match(CIFRA) ?? []) {
+    const v = num(c);
+    const lista = c.includes('%') ? vistos.pct : vistos.soles;
+    if (!lista.some((x) => x != null && iguales(x, v))) no(`la cifra ${c} está en el ejemplo pero no es parte de ninguna cuenta`);
+  }
+}
 
 // ── PRODUCTO: el registro de chats contra el backend ─────────────────────────────────────────
 if (!existsSync(path.join(APP, 'lib', 'trial.js'))) {
@@ -238,7 +309,7 @@ try {
       continue;
     }
     const m = await page.evaluate(() => {
-      const VIS = '.blq-tabla, .blq-barras, .blq-chat';
+      const VIS = '.blq-tabla, .blq-barras, .blq-chat, .blq-ejemplo';
       const art = document.querySelector('article');
       const cuerpo = art?.querySelector('.prose-neto');
       if (!cuerpo) return { sinCuerpo: true };
@@ -273,7 +344,45 @@ try {
         antesDelVisual,
         antesDelWhatsapp,
         visuales: visuales.length,
-        conteos: { 'blq-tabla': clases('.blq-tabla'), 'blq-barras': clases('.blq-barras'), 'blq-chat': clases('.blq-chat') },
+        conteos: {
+          'blq-tabla': clases('.blq-tabla'),
+          'blq-barras': clases('.blq-barras'),
+          'blq-chat': clases('.blq-chat'),
+          'blq-ejemplo': clases('.blq-ejemplo'),
+        },
+        // Los números del ejemplo se leen del TEXTO que ve el lector; `data-rol` solo dice qué papel
+        // cumple cada uno. textContent y no innerText: la etiqueta va en mayúsculas por CSS.
+        ejemplos: [...cuerpo.querySelectorAll('.blq-ejemplo')].map((f) => {
+          // Nodo por nodo y unidos con espacio: el textContent de un bloque pega celdas vecinas
+          // ("S/200" + "3" daba "S/2003") y el chequeo de cifras sueltas veía cifras que no existen.
+          const t = (el) => {
+            if (!el) return null;
+            const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+            const partes = [];
+            for (let n = w.nextNode(); n; n = w.nextNode()) partes.push(n.textContent);
+            return partes.join(' ').replace(/\s+/g, ' ').trim();
+          };
+          const primero = f.firstElementChild;
+          return {
+            etiqueta: primero?.classList.contains('blq-etiqueta') ? t(primero) : null,
+            titulo: t(f.querySelector('caption, .blq-fig-titulo')) ?? '(sin título)',
+            pie: t(f.querySelector('figcaption')) ?? '',
+            texto: t(f),
+            base: t(f.querySelector('[data-rol="base"]')),
+            total: t(f.querySelector('[data-rol="total"]')),
+            anual: t(f.querySelector('[data-rol="anual"]')),
+            filas: [...f.querySelectorAll('[data-fila]')].map((r) => ({
+              // El primer nodo de texto de la celda, sin el desglose. No pasa por `t()`: un
+              // TreeWalker no devuelve su propia raíz, y con un nodo de texto de raíz daba "".
+              concepto: r.querySelector('th, .blq-barra-etq')?.firstChild?.textContent.trim() || '?',
+              unitario: t(r.querySelector('[data-rol="unitario"]')),
+              veces: t(r.querySelector('[data-rol="veces"]')),
+              pct: t(r.querySelector('[data-rol="pct"]')),
+              resultado: t(r.querySelector('[data-rol="resultado"]')),
+              partes: [...r.querySelectorAll('[data-rol="parte"]')].map(t),
+            })),
+          };
+        }),
         bloques,
         subtitulos: [...cuerpo.querySelectorAll('h2, h3')].filter((h) => !h.closest(VIS)).map((h) => h.innerText.trim()),
         preguntas: faq ? [...faq.querySelectorAll('h3')].map((h) => h.innerText.trim()) : [],
@@ -286,7 +395,7 @@ try {
           caption: t.querySelector('caption')?.innerText.trim() ?? '',
           sinScope: [...t.querySelectorAll('th')].filter((th) => !th.getAttribute('scope')).length,
         })),
-        barras: [...cuerpo.querySelectorAll('.blq-barras')].map((f) => f.querySelector('figcaption')?.innerText ?? ''),
+        barras: [...cuerpo.querySelectorAll('.blq-barras:not(.blq-ejemplo)')].map((f) => f.querySelector('figcaption')?.innerText ?? ''),
         chats: [...cuerpo.querySelectorAll('.blq-chat')].map((f) => ({
           clave: f.dataset.chat,
           neto: [...f.querySelectorAll('.blq-neto')].map((p) => p.innerText),
@@ -363,6 +472,9 @@ try {
       }
     }
 
+    // ARITMÉTICA: un ejemplo está exento de fuente solo si su cuenta cierra con lo que muestra
+    for (const e of m.ejemplos) aritmetica(slug, e);
+
     // PRODUCTO: el chat que se ve es el del registro
     for (const c of m.chats) {
       const r = REGISTRO[c.clave];
@@ -382,7 +494,8 @@ try {
     for (const a of m.animadas) falla(slug, `clase de animación en el artículo: "${a}"`);
     for (const t of m.transparentes) falla(slug, `nace con opacidad < 1: ${t}`);
     for (const [clase, { dom }] of Object.entries(m.conteos)) {
-      const enCrudo = crudo.split(`class="${clase}"`).length - 1;
+      // Por token y no por atributo exacto: un ejemplo es `class="blq-tabla blq-ejemplo"`.
+      const enCrudo = (crudo.match(new RegExp(`class="[^"]*\\b${clase}\\b[^"]*"`, 'g')) ?? []).length;
       if (enCrudo < dom) falla(slug, `${dom} .${clase} en la página y ${enCrudo} en el HTML inicial: se arma en el cliente y los crawlers de IA no lo ven`);
     }
 

@@ -58,6 +58,31 @@
         { "archivo": "lib/formatters.js", "codigo": "return p[2] + '-' + mes + '-' + anio;" },
         { "archivo": "lib/constants.js", "codigo": "const MESES_CORTOS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];" }
       ]
+    },
+    "tope-categoria": {
+      "situacion": "Alguien con Neto Pro y su cuenta web activa puso un tope mensual a Alimentación y anota un delivery.",
+      "ejemplo": "el monto, la fecha, el tope y lo que lleva gastado son de ejemplo",
+      "mensajes": [
+        { "de": "usuario", "texto": "delivery 35" },
+        {
+          "de": "neto",
+          "texto": "✅ S/35.00 en Alimentación > delivery · 12-sep-26\n\n⚠️ *Alimentación*: llevas S/ 742.00 de S/ 900.00 (82%)",
+          "patron": "^✅ S/\\d+\\.\\d{2} en [^\\n>]+ > [^\\n]+ · \\d{2}-(ene|feb|mar|abr|may|jun|jul|ago|sep|oct|nov|dic)-\\d{2}\\n\\n⚠️ \\*[^*\\n]+\\*: llevas S/ \\d+\\.\\d{2} de S/ \\d+\\.\\d{2} \\(\\d+%\\)$"
+        }
+      ],
+      "plantilla": [
+        { "archivo": "handlers/intents/transacciones.js", "codigo": "'S/' + parseFloat(parsed.monto).toFixed(2);" },
+        { "archivo": "handlers/intents/transacciones.js", "codigo": "let respReg = '✅ ' + montoStr + ' en ' + (esIngreso ? 'Ingresos' : destinoConf) + ' · ' + formatFecha(parsed.fecha);" },
+        { "archivo": "handlers/intents/transacciones.js", "codigo": "const alerta = await verificarAlertaPresupuesto(usuario, parsed.categoria, parsed.subcategoria || null);" },
+        { "archivo": "handlers/intents/transacciones.js", "codigo": "if (alerta) respReg += '\\n\\n' + alerta;" },
+        { "archivo": "services/budget.js", "codigo": "if (estaEnMuro(usuario)) return null;" },
+        { "archivo": "services/budget.js", "codigo": "else if (pctCat >= (presCat.alerta_porcentaje || 80)) alertas.push('⚠️ *' + categoria + '*: llevas S/ ' + totalCat.toFixed(2) + ' de S/ ' + limiteCat.toFixed(2) + ' (' + pctCat.toFixed(0) + '%)');" },
+        { "archivo": "services/budget.js", "codigo": "return alertas.length > 0 ? alertas.join('\\n') : null;" },
+        { "archivo": "lib/activacion.js", "codigo": "if (usuario.supabase_auth_id) return null;" },
+        { "archivo": "lib/constants.js", "codigo": "subs: ['delivery','restaurante','supermercado'" },
+        { "archivo": "lib/formatters.js", "codigo": "return p[2] + '-' + mes + '-' + anio;" },
+        { "archivo": "lib/constants.js", "codigo": "const MESES_CORTOS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];" }
+      ]
     }
   }
 }

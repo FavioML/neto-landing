@@ -6,7 +6,7 @@
 
 import { waLink } from "./constants";
 import { APPS } from "./apps-comparativa";
-import { barras, chatNeto, enCorto, enlaceExterno, nota, tabla } from "./blog-bloques";
+import { barras, chatNeto, ejemplo, enCorto, enlaceExterno, nota, tabla } from "./blog-bloques";
 
 // `[blog]`, no `[hero]`: la posición tiene que decir de dónde salió el clic. El origen de la visita
 // lo agrega `<HtmlAtribuido>` en cliente, porque este HTML es un string y no pasa por un hook.
@@ -290,407 +290,264 @@ ${nota(
 `,
 
   "gastos-hormiga-peru": `
+${enCorto([
+  "<strong>Un gasto hormiga es chico y frecuente:</strong> no se siente al pagarlo, pero sumado a fin de mes pesa.",
+  "Cuatro de esos, repetidos durante un mes, suman más de lo que parece: abajo va la cuenta.",
+  "Para saber cuánto se llevan los tuyos, hay que anotarlos.",
+  "Después se decide cuáles quedan y se les pone un tope.",
+])}
 <p>
-  <strong>Un gasto hormiga es un gasto chico y frecuente que no se siente cuando lo haces, pero que
-  sumado a fin de mes pesa.</strong> El café, el taxi corto, el snack de la tarde, la suscripción
-  que ya no abres. Ninguno duele solo. La única forma de saber cuánto se llevan es sumarlos con tus
-  propios números, y para eso primero hay que anotarlos.
+  El café, el taxi corto, el snack de la tarde. Ninguno duele solo. Esta es la cuenta con montos
+  inventados: cambia cada uno por el tuyo y la cuenta funciona igual.
+</p>
+${ejemplo({
+  titulo: "Cuatro gastos chicos durante un mes",
+  columnas: { unitario: "Cada vez", veces: "Veces al mes", resultado: "Al mes" },
+  filas: [
+    { concepto: "Café, cada día hábil", unitario: 8, veces: 22, resultado: 176 },
+    { concepto: "Delivery, dos por semana", unitario: 35, veces: 8, resultado: 280 },
+    { concepto: "Taxi corto, tres por semana", unitario: 12, veces: 12, resultado: 144 },
+    { concepto: "Snack, cada día hábil", unitario: 5, veces: 22, resultado: 110 },
+  ],
+  total: 710,
+  anual: 8520,
+  etiquetas: { total: "Total del mes" },
+  como: "barras",
+})}
+<p>
+  Para ponerlo en escala, compáralo con lo que se gana en Lima. Según el INEI, el ingreso promedio
+  mensual por trabajo en Lima Metropolitana fue de S/2,312.6 entre mayo y julio de 2026
+  (${enlaceExterno("INEI", INEI_INGRESO_LIMA)}, consultado el ${CONSULTA_REVISION}). Con ese
+  ingreso, el total del ejemplo sería cerca del 31% de lo que entra en el mes.
 </p>
 
-<h2>Qué son los gastos hormiga</h2>
+<h2>¿Por qué no los notas?</h2>
 <p>
-  Se llaman así porque son pequeños, pasan desapercibidos y trabajan juntos. Un café de S/8, un taxi
-  de S/12, el delivery del almuerzo, la gaseosa de la tarde. Cada uno por separado parece nada. El
-  problema aparece cuando los sumas al final del mes, y casi nadie los suma.
+  Los gastos grandes, como el alquiler o un pasaje, los piensas antes de hacerlos. Los chicos se
+  aprueban solos. Y como cada uno se paga por un medio distinto (un yapeo, la tarjeta, un billete),
+  no queda un lugar donde se vean juntos.
 </p>
 
-<h2>Cuánto pueden sumar: un ejemplo para hacer la cuenta</h2>
+<h2>¿Cuáles revisar primero?</h2>
+<p>No hay un ranking oficial de gastos hormiga en Perú. Estos se repiten muchas veces en un mes:</p>
+${tabla({
+  caption: "Dónde se esconden los gastos hormiga",
+  columnas: ["Gasto", "Por qué se escapa", "Qué mirar"],
+  filas: [
+    ["Delivery", "Al plato se suman el envío y la propina", "El total que pagaste, no el precio del menú"],
+    ["Café y antojos", "Es de lo que más veces se repite", "Cuántas veces fue en el mes"],
+    ["Taxis cortos", "Se toman «porque es tarde» y no se cuentan", "Cuántos tomaste, no si fue caro"],
+    ["Suscripciones", "Se cobran solas cada mes", "Cuáles pagas y cuáles abriste"],
+    ["Compras de impulso", "Van en la caja del supermercado", "Cuántas veces por semana"],
+  ],
+})}
 <p>
-  Los montos de abajo son un ejemplo, no un promedio de nadie. Sirven para ver cómo se acumulan:
-  cambia cada uno por lo que tú gastas y la cuenta es la misma.
-</p>
-<ul>
-  <li>Café cinco días a la semana, a S/8: S/8 × 22 días hábiles = <strong>S/176 al mes</strong></li>
-  <li>Delivery dos veces por semana, a S/35: S/35 × 8 = <strong>S/280 al mes</strong></li>
-  <li>Taxi corto tres veces por semana, a S/12: S/12 × 12 = <strong>S/144 al mes</strong></li>
-  <li>Un snack en los días de trabajo, a S/5: S/5 × 20 días = <strong>S/100 al mes</strong></li>
-</ul>
-<p>
-  <strong>Total del ejemplo: S/700 al mes, S/8,400 al año.</strong>
-</p>
-<p>
-  Para ponerlo en escala: según el INEI, el ingreso promedio mensual por trabajo en Lima
-  Metropolitana fue de S/2,312.6 en el trimestre de mayo a julio de 2026
-  (<a href="${INEI_INGRESO_LIMA}" target="_blank" rel="noopener noreferrer nofollow">INEI</a>).
-  Con ese ingreso, los S/700 del ejemplo serían alrededor del 30% de lo que entra en el mes. Tu
-  número puede ser mucho menor o mucho mayor; lo que importa es que lo conozcas.
-</p>
-<p><small>Fuente consultada el ${CONSULTA_REVISION}.</small></p>
-
-<h2>Por qué no los notas</h2>
-<p>
-  Un gasto de S/8 no activa ninguna alarma. Los gastos grandes (el alquiler, un pasaje, una compra
-  fuerte) los piensas antes de hacerlos; los chicos se aprueban solos. Y como cada uno se paga por
-  un medio distinto (un yapeo, la tarjeta, un billete), no queda un lugar donde se vean juntos.
+  Las suscripciones son las más traicioneras, porque no decides nada para que se cobren. En Neto
+  Pro, las que reconoce entre tus gastos anotados (Netflix, Disney+, Max y otras de su catálogo)
+  aparecen juntas, con cuánto suman al mes.
 </p>
 
-<h2>Los gastos hormiga más comunes</h2>
-<p>
-  No hay un ranking oficial de gastos hormiga en Perú. Estos son los que conviene revisar primero,
-  porque se repiten muchas veces en un mes:
-</p>
+<h2>Cómo controlarlos, paso a paso</h2>
 <ol>
   <li>
-    <strong>Delivery.</strong> Al precio de la comida se suman el costo de envío y la propina, así
-    que el pedido cuesta más de lo que marca el plato. Mira el total que pagaste, no el precio del
-    menú.
+    <strong>Hazlos visibles.</strong> Como son justo los que no anotas, lo que funciona es que
+    anotar casi no cueste. A Neto le escribes por WhatsApp «café 8» o le mandas la captura del
+    yapeo, y él lo categoriza y lo suma.
   </li>
   <li>
-    <strong>Café y antojos fuera de casa.</strong> Un latte o un snack de todos los días es de los
-    gastos que más veces se repiten.
+    <strong>Mira sin juzgar.</strong> Con dos semanas anotadas aparecen los patrones, del tipo «se me
+    va más en delivery de lo que creía». Cambiar viene después.
   </li>
   <li>
-    <strong>Taxis cortos.</strong> Tomar un taxi no tiene nada de malo; lo que falla es no saber
-    cuántos tomaste en el mes.
+    <strong>Decide, no elimines.</strong> Tal vez el café diario vale la pena para ti y el delivery
+    tres veces por semana no. Lo que importa es que sea tu decisión.
   </li>
   <li>
-    <strong>Suscripciones que no usas.</strong> Streaming, música, almacenamiento en la nube, la app
-    que probaste dos semanas. Se cobran solas cada mes.
-  </li>
-  <li>
-    <strong>Compras de impulso.</strong> La galleta o la gaseosa en la caja del supermercado. S/3 o
-    S/5 cada vez, varias veces por semana.
+    <strong>Ponle un tope a cada categoría.</strong> En Neto Pro puedes poner un presupuesto mensual
+    por categoría, y al anotar un gasto te dice cuánto llevas si ya pasaste el aviso.
   </li>
 </ol>
-
-<h2>Gastos hormiga vs gastos fijos</h2>
+${chatNeto("tope-categoria")}
 <p>
-  Un gasto fijo es predecible: el alquiler, el seguro, la cuota del préstamo. Sabes cuánto pagas y
-  cuándo. Un gasto hormiga es variable, frecuente y casi siempre impulsivo.
-</p>
-<p>
-  La diferencia que importa: <strong>los gastos fijos son difíciles de bajar rápido</strong>, porque
-  dependen de contratos. Los gastos hormiga los puedes ajustar desde hoy sin cambiar nada grande en
-  tu vida. Por eso son un buen punto de partida para cualquier plan de ahorro.
-</p>
-<p>
-  Si quieres ordenar todos tus gastos y no solo los chicos, lee nuestra
-  <a href="/blog/como-controlar-gastos-personales-peru">guía de control de gastos personales en Perú</a>.
+  Para empezar, <a href="${WA_BLOG}">escríbele a Neto por WhatsApp</a> tu próximo gasto chico.
+  Anotar es gratis siempre.
 </p>
 
-<h2>Las suscripciones: el gasto hormiga que se cobra solo</h2>
+<h2>¿Cuánto suma bajarlos un poco?</h2>
+<p>No hace falta dejarlos todos. Esto junta un recorte parejo, sin contar intereses:</p>
+${ejemplo({
+  titulo: "Un recorte parejo, acumulado",
+  columnas: { unitario: "Al mes", veces: "Meses", resultado: "Acumulado" },
+  filas: [
+    { concepto: "Un trimestre", unitario: 200, veces: 3, resultado: 600 },
+    { concepto: "Medio año", unitario: 200, veces: 6, resultado: 1200 },
+    { concepto: "Un año", unitario: 200, veces: 12, resultado: 2400 },
+    { concepto: "Tres años", unitario: 200, veces: 36, resultado: 7200 },
+  ],
+})}
+${nota(
+  "ojo",
+  "Lo que suele fallar",
+  "<p>Cortar todo de golpe, que casi nunca se sostiene. Trabajar con un «más o menos gasto tanto», que no sirve para decidir. Y esperar que un sueldo más alto lo arregle: al subir el ingreso suelen subir también los gastos chicos.</p>"
+)}
 <p>
-  Las suscripciones tienen algo que los otros gastos hormiga no tienen: no decides nada para que se
-  cobren. Siguen mes a mes hasta que las cancelas, y cancelar suele pedir más pasos que suscribirse.
-</p>
-<p>
-  Lo práctico es hacer un inventario de todo lo que pagas cada mes y cancelar lo que no usas. En
-  <a href="/">Neto</a> Pro, las suscripciones que reconoce entre los gastos que anotaste (Netflix,
-  Disney+, Max y otras de su catálogo) aparecen juntas, con cuánto suman al mes.
-</p>
-
-<h2>Cómo controlar tus gastos hormiga, paso a paso</h2>
-<h3>Paso 1: hacerlos visibles</h3>
-<p>
-  No puedes controlar lo que no ves. Y como los gastos hormiga son justo los que no anotas, lo que
-  funciona es bajar el esfuerzo de anotar hasta que casi no cueste.
-</p>
-<p>
-  Con <a href="/">Neto</a> le escribes por WhatsApp como le escribirías a un amigo («café 8») o le
-  mandas la captura de tu yapeo, y él lo categoriza y lo suma. Si además quieres que los cargos que
-  tu banco te notifica por correo entren solos, en Neto Pro puedes conectar tu Gmail: es opcional y
-  va encima de lo que anotas, no en su lugar.
-</p>
-
-<h3>Paso 2: identificar patrones</h3>
-<p>
-  Con un par de semanas anotadas, los patrones aparecen solos: «se me va más en delivery de lo que
-  creía» o «el café me cuesta más que el gimnasio». Con esa información puedes decidir con calma.
-</p>
-<p>
-  No te juzgues en este paso. El objetivo es solo <strong>ver</strong>; cambiar viene después.
-  Querer cambiar todo de golpe es lo que suele frustrar.
-</p>
-
-<h3>Paso 3: decidir, no eliminar</h3>
-<p>
-  No se trata de dejar el café para siempre. Se trata de <strong>decidir con información</strong>.
-  Tal vez el café diario vale la pena para ti y el delivery tres veces por semana no, o al revés.
-  Lo importante es que sea tu decisión y no un accidente.
-</p>
-
-<h3>Paso 4: ponerle un tope a cada categoría</h3>
-<p>
-  Define un tope mensual para tus categorías hormiga, por ejemplo «máximo S/150 en delivery este
-  mes» o «no más de S/80 en cafés». Cuando te acercas al límite, ajustas.
-</p>
-<p>
-  En Neto Pro puedes poner un presupuesto por categoría, y Neto te avisa cuando te acercas al tope.
-</p>
-
-<h2>La matemática del ahorro</h2>
-<p>
-  Si bajas tus gastos hormiga en <strong>S/200 al mes</strong>, sin contar intereses:
-</p>
-<ul>
-  <li>En 3 meses: S/600</li>
-  <li>En 6 meses: S/1,200</li>
-  <li>En 1 año: S/2,400</li>
-  <li>En 3 años: S/7,200</li>
-</ul>
-<p>
-  Y no cambiaste tu estilo de vida: solo dejaste de gastar en cosas que no te importaban tanto.
-</p>
-
-<h2>Errores comunes al intentar controlar gastos hormiga</h2>
-<ul>
-  <li>
-    <strong>Eliminar todo de golpe:</strong> si desde mañana no gastas nada en delivery, café ni
-    taxis, lo más probable es que no lo sostengas. Empieza reduciendo una parte, no el 100%.
-  </li>
-  <li>
-    <strong>Trabajar con estimados:</strong> «más o menos gasto tanto» no sirve para decidir.
-    Necesitas el número real.
-  </li>
-  <li>
-    <strong>Culpar solo al sueldo:</strong> ganar más no garantiza ahorrar más. Es común que, al
-    subir el ingreso, también suban los gastos chicos.
-  </li>
-</ul>
-
-<h2>Preguntas frecuentes</h2>
-<h3>¿Cuánto debería gastar en gastos hormiga al mes?</h3>
-<p>
-  No hay una regla oficial. Lo útil es anotar un mes completo, ver cuánto sumaron y decidir un tope
-  que te parezca razonable a ti. Si al ver el número te incomoda, ahí tienes margen.
-</p>
-
-<h3>¿El café de todos los días me arruina?</h3>
-<p>
-  No por sí solo. Un café de S/8 al día son S/2,920 al año, que no es poco, pero el problema es la
-  suma de todos los gastos hormiga juntos. Si es el único y el resto de tus finanzas está en orden,
-  no es urgente.
-</p>
-
-<h3>¿Cómo sé cuáles son mis gastos hormiga?</h3>
-<p>
-  Anotándolos. La forma más rápida es escribirle a <a href="${WA_BLOG}">Neto por WhatsApp</a> cada
-  gasto cuando lo haces. Anotar es gratis siempre; ver tus gastos ordenados por categoría en el
-  dashboard es de Neto Pro, y tienes 14 días de prueba desde que registras tu primer gasto.
+  Si quieres ordenar todos tus gastos y no solo los chicos, sigue con la
+  <a href="/blog/como-controlar-gastos-personales-peru">guía para controlar tus gastos personales en Perú</a>.
 </p>
 `,
 
   "como-controlar-gastos-personales-peru": `
+${enCorto([
+  "<strong>Primero junta en un solo lugar lo que pagas con Yape, Plin, tarjeta y efectivo</strong>, y anótalo cuando pagas.",
+  "Con un mes de datos eliges un método: 50/30/20, topes por categoría, presupuesto cero o quitar tres gastos.",
+  "Cualquiera sirve mientras anotar te cueste poco. Lo que hace fallar a casi todos es dejar de anotar.",
+])}
+<p>Abajo va cada método con una cuenta de ejemplo en soles, y un plan de 30 días para empezar.</p>
+${tabla({
+  caption: "Los cuatro métodos, de un vistazo",
+  columnas: ["Método", "Cómo funciona", "Te sirve si"],
+  filas: [
+    ["50/30/20", "Divides el sueldo en necesidades, gustos y ahorro", "Quieres un marco simple para decidir"],
+    ["Topes por categoría", "Cada categoría tiene un máximo al mes", "No quieres revisar cada gasto"],
+    ["Presupuesto cero", "Cada sol tiene destino antes de que empiece el mes", "Quieres el mayor control y tienes tiempo para planificar"],
+    ["Quitar tres gastos", "Eliges tres gastos que casi no usas y los cortas", "Todavía no quieres porcentajes ni categorías"],
+  ],
+})}
+
+<h2>Primero: ¿dónde está tu plata?</h2>
 <p>
-  <strong>Controlar tus gastos en Perú empieza por juntar en un solo lugar lo que pagas con Yape,
-  Plin, tarjeta y efectivo, y anotarlo cuando pagas.</strong> Con un mes de datos reales ya puedes
-  elegir un método: la regla 50/30/20, topes por categoría o el presupuesto cero. Abajo va cada uno
-  con un ejemplo en soles, y un plan de 30 días para empezar.
+  Yape para el almuerzo, tarjeta para el supermercado, efectivo para el taxi, Plin para el fin de
+  semana. Cada medio guarda su propio historial y ninguno te muestra el total junto ni por
+  categoría. Por eso el primer paso no es disciplina, es ver. Si no sabes por dónde empezar,
+  <a href="/blog/en-que-gasto-mi-plata">aquí explicamos cómo averiguar a dónde va tu plata</a>.
 </p>
 
-<h2>El problema: tu plata está repartida</h2>
+<h2>Método 1: la regla 50/30/20</h2>
+<p>Divides lo que ganas en tres partes: necesidades, gustos, y ahorro con deudas. Así queda con un sueldo de ejemplo:</p>
+${ejemplo({
+  titulo: "Un sueldo repartido en 50/30/20",
+  base: { concepto: "Sueldo del ejemplo", monto: 3000 },
+  filas: [
+    {
+      concepto: "Necesidades",
+      pct: 50,
+      resultado: 1500,
+      partes: [
+        { concepto: "alquiler", monto: 800 },
+        { concepto: "comida", monto: 400 },
+        { concepto: "servicios", monto: 200 },
+        { concepto: "transporte", monto: 100 },
+      ],
+    },
+    {
+      concepto: "Gustos",
+      pct: 30,
+      resultado: 900,
+      partes: [
+        { concepto: "salidas", monto: 300 },
+        { concepto: "delivery", monto: 200 },
+        { concepto: "ropa", monto: 200 },
+        { concepto: "suscripciones", monto: 200 },
+      ],
+    },
+    {
+      concepto: "Ahorro y deudas",
+      pct: 20,
+      resultado: 600,
+      partes: [
+        { concepto: "fondo de emergencia", monto: 300 },
+        { concepto: "pago de deuda", monto: 300 },
+      ],
+    },
+  ],
+  total: 3000,
+})}
 <p>
-  Yape para el almuerzo, tarjeta para el supermercado, efectivo para el taxi, Plin para la comida
-  del fin de semana. Cada medio de pago guarda su propio historial y ninguno te muestra el total
-  junto ni ordenado por categoría.
-</p>
-<p>
-  Resultado: llegas a fin de mes sin saber exactamente en qué se fue tu sueldo. Sabes que pagaste el
-  alquiler y los servicios; el resto es un misterio.
-</p>
-<p>
-  Por eso el primer paso no es disciplina ni fuerza de voluntad: es <strong>visibilidad</strong>.
-  Antes de controlar necesitas ver, y para ver necesitas datos. Si quieres saber por dónde empezar,
-  <a href="/blog/en-que-gasto-mi-plata">este artículo explica cómo averiguar a dónde va tu plata</a>.
-</p>
-
-<h2>El ciclo del «ya empiezo el lunes»</h2>
-<p>
-  Es un patrón común: alguien decide controlar sus gastos, empieza fuerte los primeros días, se
-  olvida de anotar una compra y, después de una semana con datos incompletos, lo deja.
-</p>
-<p>
-  El problema no es la persona: es cuánto cuesta anotar. Cualquier sistema de control de gastos
-  depende de que registres lo que pagas, y lo que cambia entre uno y otro es cuánto esfuerzo te pide
-  cada registro. Los hábitos que duran son los que tienen <strong>fricción mínima</strong>.
-</p>
-
-<h2>Método 1: la regla 50/30/20 adaptada a Perú</h2>
-<p>
-  Este método divide tu sueldo en tres partes. Es simple y te da un marco claro para decidir:
-</p>
-<ul>
-  <li><strong>50% para necesidades:</strong> alquiler, servicios (luz, agua, internet), comida del día, transporte al trabajo, medicamentos, colegios.</li>
-  <li><strong>30% para gustos:</strong> salidas, delivery, ropa, suscripciones, entretenimiento, viajes.</li>
-  <li><strong>20% para ahorro y deudas:</strong> fondo de emergencia, cuotas de préstamos, ahorro para metas.</li>
-</ul>
-<p>
-  <strong>Ejemplo con un sueldo de S/3,000:</strong>
-</p>
-<ul>
-  <li>Necesidades (50%): S/1,500. Alquiler S/800 + comida S/400 + servicios S/200 + transporte S/100</li>
-  <li>Gustos (30%): S/900. Salidas S/300 + delivery S/200 + ropa S/200 + suscripciones S/200</li>
-  <li>Ahorro (20%): S/600. Fondo de emergencia S/300 + pago de deuda S/300</li>
-</ul>
-<p>
-  <strong>¿Y si no te alcanza?</strong> Si el alquiler solo ya se come casi todo el 50% de
-  necesidades, ajusta los porcentajes a tu situación. Lo importante es el <em>principio</em> de
-  separar necesidades, gustos y ahorro, no los porcentajes exactos.
+  <strong>¿Y si no te alcanza?</strong> Si el alquiler solo ya se come casi toda la parte de
+  necesidades, mueve los porcentajes. Lo que importa es separar necesidades, gustos y ahorro, no la
+  cifra exacta.
 </p>
 
-<h2>Método 2: control por categoría</h2>
+<h2>Método 2: topes por categoría</h2>
 <p>
-  En vez de revisar cada sol, agrupa tus gastos en categorías y ponle un tope mensual a cada una.
-  Funciona bien porque <strong>no te obliga a revisar cada transacción</strong>: solo miras si te
-  pasaste en alguna categoría.
+  Agrupas tus gastos en categorías y le pones un máximo mensual a cada una. No revisas cada
+  transacción: solo miras si te pasaste en alguna. Las que más sirven son comida en casa, comida
+  fuera y delivery, transporte, entretenimiento, ropa, servicios del hogar, salud y ahorro.
 </p>
-<p>Categorías que funcionan bien en Perú:</p>
-<ul>
-  <li><strong>Comida en casa:</strong> supermercado, mercado, Tottus, Metro</li>
-  <li><strong>Comida fuera y delivery:</strong> restaurantes, Rappi, PedidosYa, cafés</li>
-  <li><strong>Transporte:</strong> combi, Metropolitano, taxi, Uber, InDriver, combustible</li>
-  <li><strong>Entretenimiento:</strong> cine, salidas, suscripciones, juegos</li>
-  <li><strong>Ropa y cuidado personal:</strong> ropa, zapatos, peluquería, cosméticos</li>
-  <li><strong>Servicios del hogar:</strong> luz, agua, internet, teléfono</li>
-  <li><strong>Salud:</strong> medicamentos, consultas, seguro de salud</li>
-  <li><strong>Ahorro e inversión:</strong> la categoría que más se olvida incluir</li>
-</ul>
 <p>
-  El truco: <strong>trata el ahorro como si fuera un gasto fijo</strong>. No ahorres «lo que
-  sobra», porque casi nunca sobra. Separa el ahorro el primer día del mes, igual que pagas el
-  alquiler.
+  El truco es tratar el ahorro como un gasto fijo. Sepáralo el primer día del mes, igual que el
+  alquiler, porque «lo que sobra» casi nunca sobra.
 </p>
 
 <h2>Método 3: el presupuesto cero</h2>
 <p>
-  Consiste en asignar cada sol de tu sueldo a una categoría antes de empezar el mes, de modo que
-  ingresos menos gastos dé cero. No significa que gastas todo: significa que cada sol tiene un
-  destino definido, incluido el ahorro.
+  Asignas cada sol del sueldo a una categoría antes de que empiece el mes, incluido el ahorro. No
+  significa gastarlo todo: significa que nada queda sin destino.
 </p>
+${ejemplo({
+  titulo: "Cada sol con destino",
+  base: { concepto: "Sueldo del ejemplo", monto: 3000 },
+  filas: [
+    { concepto: "Alquiler", resultado: 900 },
+    { concepto: "Comida en casa", resultado: 400 },
+    { concepto: "Transporte", resultado: 200 },
+    { concepto: "Servicios", resultado: 200 },
+    { concepto: "Delivery y salidas", resultado: 200 },
+    { concepto: "Ropa", resultado: 100 },
+    { concepto: "Entretenimiento", resultado: 150 },
+    { concepto: "Fondo de emergencia", resultado: 300 },
+    { concepto: "Pago de deuda", resultado: 250 },
+    { concepto: "Ahorro para una meta", resultado: 300 },
+  ],
+  total: 3000,
+  etiquetas: { total: "Asignado" },
+})}
+<p>Pide más trabajo al inicio, pero es el método que más control te da sobre el mes.</p>
+
+<h2>Método 4: quitar tres gastos</h2>
 <p>
-  Ejemplo con S/3,000:
-</p>
-<ol>
-  <li>Alquiler: S/900</li>
-  <li>Comida en casa: S/400</li>
-  <li>Transporte: S/200</li>
-  <li>Servicios: S/200</li>
-  <li>Delivery y salidas: S/200</li>
-  <li>Ropa: S/100</li>
-  <li>Entretenimiento: S/150</li>
-  <li>Fondo de emergencia: S/300</li>
-  <li>Pago de deuda: S/250</li>
-  <li>Ahorro para una meta: S/300</li>
-  <li><strong>Total asignado: S/3,000</strong></li>
-</ol>
-<p>
-  Pide más planificación al inicio, pero es el método que más control te da.
+  Si todavía no quieres porcentajes ni categorías, revisa tu estado de cuenta del último mes, elige
+  tres gastos recurrentes que casi no usas y quítalos. Una plataforma de streaming de más, el
+  delivery de tres veces por semana, el café de cadena de todos los días. Anota cuánto te ahorró
+  cada uno el primer mes.
 </p>
 
-<h2>Método 4: quitar tres gastos (para empezar ya)</h2>
+<h2>¿Por qué casi todos dejan de anotar?</h2>
 <p>
-  Si todavía no quieres porcentajes ni categorías, empieza por aquí:
-</p>
-<ol>
-  <li>Revisa tu estado de cuenta del último mes.</li>
-  <li>Identifica 3 gastos recurrentes que <strong>no necesitas o casi no usas</strong>.</li>
-  <li>Quítalos. Solo 3.</li>
-</ol>
-<p>Ejemplos comunes:</p>
-<ul>
-  <li>¿Pagas dos o tres plataformas de streaming? Quédate con una y te ahorras lo que cuestan las otras.</li>
-  <li>¿Pides delivery tres veces por semana? Baja a una.</li>
-  <li>¿Café de cadena todos los días? Llévalo de casa tres de cinco días.</li>
-</ul>
-<p>
-  Tres cambios, sin tocar el resto de tu vida. Anota cuánto te ahorró cada uno el primer mes y, con
-  eso bajo control, amplías el sistema.
-</p>
-
-<h2>Por qué mucha gente deja de anotar (y qué ayuda)</h2>
-<p>
-  Casi todas las apps de finanzas personales, incluida Neto, dependen de que tú registres tus
-  gastos: ninguna de las siete apps de nuestra
+  Porque anotar cuesta. Ninguna de las siete apps de nuestra
   <a href="/comparativas/apps-finanzas-peru">comparativa de apps de finanzas en Perú</a> se
-  sincroniza con bancos peruanos, según sus propias fuentes oficiales. Lo que cambia es cuánto te
-  cuesta cada registro. Llenar un formulario con monto, categoría y fecha por cada café es justo lo
-  que hace que la gente lo deje.
+  sincroniza con bancos peruanos, según sus propias fuentes oficiales. Todas dependen de que
+  registres, y lo que cambia es cuánto esfuerzo pide cada registro.
 </p>
 <p>
-  Las hojas de cálculo tienen el mismo problema, con más trabajo encima: todo lo categorizas y lo
-  sumas a mano.
+  Neto apuesta por el canal que ya tienes abierto. Le <a href="${WA_BLOG}">escribes el gasto por
+  WhatsApp</a> en una línea o le mandas la captura del yapeo, y lo categoriza con IA.
 </p>
+${chatNeto("captura-yapeo")}
 <p>
-  <a href="/">Neto</a> apuesta por el canal que ya tienes abierto: le escribes el gasto en una línea
-  por WhatsApp o le mandas la foto del voucher o la captura del yapeo, y él lo categoriza con IA.
-  Los resúmenes y el dashboard son de Neto Pro. En Pro también puedes conectar tu Gmail para que
-  los gastos que el banco te notifica por correo los anote Neto por ti; es opcional y complementa
-  lo que escribes, no lo reemplaza.
-</p>
-<p>
-  Si quieres saber qué bancos lee Neto por correo y cómo lo hace sin pedirte contraseñas,
-  <a href="/blog/bancos-peru-rastrear-sin-contrasena">lee qué bancos lee Neto sin tu contraseña</a>.
+  Anotar es gratis siempre; los resúmenes y el dashboard son de Neto Pro. En Pro también puedes
+  conectar tu Gmail para que los gastos que el banco te notifica por correo los anote Neto por ti.
+  Es opcional y complementa lo que escribes, no lo reemplaza. Qué bancos lee está en
+  <a href="/blog/bancos-peru-rastrear-sin-contrasena">qué bancos lee Neto sin tu contraseña</a>.
 </p>
 
-<h2>Herramientas gratuitas vs de pago</h2>
-<p>Antes de pagar por una herramienta, prueba lo gratuito:</p>
-<ul>
-  <li><strong>Excel o Google Sheets:</strong> gratis y flexible, pero todo lo categorizas y sumas a mano.</li>
-  <li><strong>La app de tu banco:</strong> muestra los movimientos de ese banco, y solo de ese.</li>
-  <li><strong>Neto:</strong> anotas el gasto por WhatsApp o mandas la foto del voucher y lo categoriza con IA. Registrar es gratis y sin límite; los 14 días de prueba abren el dashboard completo, y después verlo es de Neto Pro (S/10 al mes o S/99 al año).</li>
-</ul>
-<p>
-  La regla: no pagues por una herramienta de finanzas antes de comprobar que la usas. Si quieres
-  comparar, en <a href="/blog/cuanto-cuesta-app-finanzas-personales-peru">cuánto cuesta una app de
-  finanzas personales</a> está el precio de cada una con su fuente oficial.
-</p>
-
-<h2>Plan de acción de 30 días</h2>
+<h2>Plan de 30 días</h2>
 <ol>
-  <li><strong>Día 1:</strong> Escríbele a <a href="${WA_BLOG}">Neto por WhatsApp</a> y anota tu primer gasto, o mándale la captura de un yapeo. Es gratis.</li>
-  <li><strong>Días 2 a 7:</strong> Anota todo y solo observa. Sin juzgar ni cambiar nada: el objetivo es entender tus patrones reales.</li>
-  <li><strong>Semana 2:</strong> Identifica tus 3 categorías con más gasto. Elige una para reducir en 20%.</li>
-  <li><strong>Semana 3:</strong> Ponle un tope a esa categoría. En Neto Pro, Neto te avisa cuando te acercas.</li>
-  <li><strong>Semana 4:</strong> Evalúa. ¿Lo lograste? ¿Qué fue difícil? Ajusta para el mes siguiente.</li>
+  <li><strong>Día 1:</strong> anota tu primer gasto en Neto, o mándale la captura de un yapeo.</li>
+  <li><strong>Días 2 a 7:</strong> anota todo y solo observa, sin juzgar ni cambiar nada.</li>
+  <li><strong>Semana 2:</strong> mira tus tres categorías más altas y elige una para bajar.</li>
+  <li><strong>Semana 3:</strong> ponle un tope a esa categoría. En Neto Pro, Neto te avisa cuando te acercas.</li>
+  <li><strong>Semana 4:</strong> revisa qué funcionó y ajusta el mes siguiente.</li>
 </ol>
-
-<h2>Errores comunes que evitar</h2>
-<ul>
-  <li>
-    <strong>Querer cambiarlo todo de golpe:</strong> la restricción total genera rebote. Reduce de a
-    pocos.
-  </li>
-  <li>
-    <strong>No contar el efectivo:</strong> lo que pagas en efectivo no queda en ningún historial.
-    Si no puedes anotar cada gasto, al menos anota los grandes una vez por semana.
-  </li>
-  <li>
-    <strong>Olvidar los gastos irregulares:</strong> el cumpleaños, el regalo de Navidad, la
-    reparación del celular. Crea una categoría «extras» con un presupuesto mensual pequeño, así no
-    te sorprenden.
-  </li>
-</ul>
-
-<h2>Preguntas frecuentes</h2>
-
-<h3>¿Cuánto tiempo tarda en verse resultados al controlar los gastos?</h3>
+${nota(
+  "ojo",
+  "Lo que suele fallar",
+  "<p>Cambiarlo todo de golpe, que genera rebote. No contar el efectivo, que no queda en ningún historial: si no puedes anotar cada gasto, anota los grandes una vez por semana. Y olvidar los irregulares, como un cumpleaños o la reparación del celular. Una categoría «extras» con un monto chico evita la sorpresa.</p>"
+)}
 <p>
-  En el primer mes ganas visibilidad: sabes en qué gastas. El cambio en tu saldo llega después,
-  cuando ya ajustaste algunos hábitos, y cuánto tarda depende del margen que tengas.
-</p>
-
-<h3>¿Qué pasa si tengo deudas y no llega el sueldo?</h3>
-<p>
-  Primero necesitas ver el panorama completo: ingresos, gastos fijos y deudas. Con eso claro,
-  priorizas. La regla general: primero cubres las necesidades básicas, luego el mínimo de cada
-  deuda para no acumular intereses, y cualquier excedente va a la deuda con la tasa más alta.
-</p>
-
-<h3>¿Sirve de algo controlar los gastos si el sueldo es muy bajo?</h3>
-<p>
-  Sí, aunque con límites. Con ingresos bajos el margen es chico, pero ver en qué se va la plata
-  ayuda a encontrar gastos que puedes quitar sin afectar lo importante. Y cuando el ingreso mejora,
-  el hábito ya lo tienes.
+  Antes de pagar por una herramienta, comprueba que la usas. El precio de cada app, con su fuente
+  oficial, está en <a href="/blog/cuanto-cuesta-app-finanzas-personales-peru">cuánto cuesta una app
+  de finanzas personales</a>.
 </p>
 `,
 

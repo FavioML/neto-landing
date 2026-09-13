@@ -157,6 +157,160 @@ export function chatNeto(clave: ClaveChat): string {
   )} Respuesta real de Neto: el texto sale de la plantilla del bot; ${escapar(r.ejemplo)}.</figcaption></figure>`;
 }
 
+/*
+ * ── Ejemplo: una cuenta con todos sus números a la vista ──────────────────────────────────────
+ *
+ * Una cifra de terceros necesita fuente y fecha. Una cuenta ilustrativa ("café S/8 × 22 días") no
+ * es un dato: es aritmética, y lo que la hace verdadera es que cierre. Por eso sus cifras quedan
+ * fuera de la regla de trazabilidad, pero SOLO si se comprueban con lo que está en el mismo bloque.
+ * El resultado y el total los escribe el autor, no se calculan: así la prosa y el bloque dicen lo
+ * mismo, y una cuenta que no cierra se puede escribir y aborta el build.
+ *
+ * `check-blog.mjs` rehace las mismas cuentas desde el TEXTO VISIBLE de la página (los `data-rol`
+ * solo dicen qué papel cumple cada número, no su valor). Hace falta esa segunda capa porque la
+ * exención se engancha a la clase `.blq-ejemplo`, y una clase se puede escribir a mano en el string
+ * de un post sin pasar por esta función.
+ *
+ * Límite declarado: se comprueba la aritmética, no que los operandos sean inventados. Un dato real
+ * metido como operando cerraría igual. El caso obvio lo cortan las palabras de `DATO_AJENO`.
+ */
+export const DATO_AJENO = /\b(promedio|según|INEI|BCRP|SBS|mediana|mínimo|RMV|encuesta|estudio|estadística)/i;
+export const PIE_EJEMPLO = "Montos inventados para hacer la cuenta: cambia cada uno por el tuyo.";
+
+/** Soles como se escriben en el blog: "S/3,000", "S/2,312.6". */
+export const soles = (n: number) =>
+  `S/${n.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
+const mismo = (a: number, b: number) => Math.round(a * 100) === Math.round(b * 100);
+
+type FilaEjemplo = {
+  concepto: string;
+  /** Multiplicación: `unitario × veces = resultado`. Van los dos o ninguno. */
+  unitario?: number;
+  veces?: number;
+  /** Reparto: `base × pct / 100 = resultado`. Exige `base` en el ejemplo. */
+  pct?: number;
+  /** Desglose de la fila: sus partes suman `resultado`. */
+  partes?: { concepto: string; monto: number }[];
+  resultado: number;
+};
+type Ejemplo = {
+  titulo: string;
+  filas: FilaEjemplo[];
+  /** Lo que se reparte (el sueldo del 50/30/20, el del presupuesto cero). El total tiene que darla entera. */
+  base?: { concepto: string; monto: number };
+  total?: number;
+  /** `total × 12`. */
+  anual?: number;
+  /** Encabezados de columna de la multiplicación. */
+  columnas?: { unitario?: string; veces?: string; resultado?: string };
+  /** Barras solo con tres filas o más (la misma condición de entrada que `barras()`). */
+  como?: "tabla" | "barras";
+  /** Cómo se lee cada cierre ("Total del mes", "En un año"). */
+  etiquetas?: { total?: string; anual?: string };
+};
+
+export function ejemplo({ titulo, filas, base, total, anual, columnas = {}, como = "tabla", etiquetas = {} }: Ejemplo): string {
+  const falla = (msg: string) => {
+    throw new Error(`ejemplo "${titulo}": ${msg}`);
+  };
+  if (filas.length < 2) falla(`una cuenta necesita dos filas o más y hay ${filas.length}`);
+  if (como === "barras" && filas.length < 3) falla(`en barras van tres filas o más y hay ${filas.length}; con menos va como tabla`);
+  const textos = [titulo, base?.concepto ?? "", ...filas.flatMap((f) => [f.concepto, ...(f.partes ?? []).map((p) => p.concepto)])];
+  for (const t of textos) {
+    const m = t.match(DATO_AJENO);
+    if (m) falla(`"${m[0]}" anuncia un dato de terceros, y un dato va con fuente y fecha, no como ejemplo`);
+  }
+  const forma = (f: FilaEjemplo) => (f.unitario != null || f.veces != null ? "mult" : f.pct != null ? "pct" : "monto");
+  const formas = new Set(filas.map(forma));
+  if (formas.size > 1) falla(`mezcla filas de formas distintas (${[...formas].join(", ")}); una cuenta, una forma`);
+  const tipo = forma(filas[0]);
+
+  for (const f of filas) {
+    if (tipo === "mult") {
+      if (f.unitario == null || f.veces == null) falla(`la fila "${f.concepto}" trae unitario o veces, pero no los dos`);
+      if (!mismo(f.unitario! * f.veces!, f.resultado)) {
+        falla(`la fila "${f.concepto}" dice ${soles(f.resultado)} y ${soles(f.unitario!)} × ${f.veces} = ${soles(f.unitario! * f.veces!)}`);
+      }
+    }
+    if (tipo === "pct") {
+      if (!base) falla(`la fila "${f.concepto}" es un porcentaje y el ejemplo no tiene base`);
+      if (!mismo((base!.monto * f.pct!) / 100, f.resultado)) {
+        falla(`la fila "${f.concepto}" dice ${soles(f.resultado)} y el ${f.pct}% de ${soles(base!.monto)} es ${soles((base!.monto * f.pct!) / 100)}`);
+      }
+    }
+    if (f.partes) {
+      const suma = f.partes.reduce((n, p) => n + p.monto, 0);
+      if (!mismo(suma, f.resultado)) falla(`las partes de "${f.concepto}" suman ${soles(suma)} y la fila dice ${soles(f.resultado)}`);
+    }
+  }
+  const suma = filas.reduce((n, f) => n + f.resultado, 0);
+  if (base && total == null) falla(`reparte ${soles(base.monto)} y no dice el total: sin total no se ve que se repartió todo`);
+  if (total != null && !mismo(suma, total)) falla(`el total dice ${soles(total)} y las filas suman ${soles(suma)}`);
+  if (base && total != null && !mismo(total, base.monto)) falla(`reparte ${soles(base.monto)} y el total da ${soles(total)}`);
+  if (anual != null) {
+    if (total == null) falla("trae el monto anual sin el total del que sale");
+    else if (!mismo(total * 12, anual)) falla(`el anual dice ${soles(anual)} y ${soles(total)} × 12 = ${soles(total * 12)}`);
+  }
+
+  const partes = (f: FilaEjemplo) =>
+    f.partes
+      ? `<small class="blq-partes">${f.partes
+          .map((p) => `<span data-rol="parte">${p.concepto} ${soles(p.monto)}</span>`)
+          .join(" + ")}</small>`
+      : "";
+  const baseHtml = base ? `<p class="blq-ej-base" data-rol="base">${base.concepto}: <strong>${soles(base.monto)}</strong></p>` : "";
+  const cierre = [
+    total != null ? `<p class="blq-ej-total" data-rol="total">${etiquetas.total ?? "Total"}: <strong>${soles(total)}</strong></p>` : "",
+    anual != null ? `<p class="blq-ej-total" data-rol="anual">${etiquetas.anual ?? "En un año"}: <strong>${soles(anual)}</strong></p>` : "",
+  ].join("");
+  const cabecera = `<p class="blq-etiqueta">Ejemplo</p>`;
+  const pie = `<figcaption>${PIE_EJEMPLO}</figcaption>`;
+
+  if (como === "barras") {
+    const max = Math.max(...filas.map((f) => f.resultado));
+    const items = filas
+      .map((f) => {
+        const ancho = Math.round((f.resultado / max) * 1000) / 10;
+        const cuenta =
+          tipo === "mult"
+            ? `<small><span data-rol="unitario">${soles(f.unitario!)}</span> × <span data-rol="veces">${f.veces}</span></small>`
+            : tipo === "pct"
+              ? `<small><span data-rol="pct">${f.pct}%</span></small>`
+              : "";
+        return `<li data-fila><span class="blq-barra-etq">${f.concepto}${cuenta}${partes(f)}</span><span class="blq-barra-valor" data-rol="resultado">${soles(
+          f.resultado
+        )}</span><span class="blq-barra-pista" aria-hidden="true"><span class="blq-barra" style="width:${ancho}%"></span></span></li>`;
+      })
+      .join("");
+    return `<figure class="blq-barras blq-ejemplo" data-forma="${tipo}">${cabecera}<p class="blq-fig-titulo">${titulo}</p>${baseHtml}<ol>${items}</ol>${cierre}${pie}</figure>`;
+  }
+
+  const cols =
+    tipo === "mult"
+      ? ["Concepto", columnas.unitario ?? "Cada vez", columnas.veces ?? "Veces", columnas.resultado ?? "Resultado"]
+      : tipo === "pct"
+        ? ["Concepto", "Porcentaje", "Monto"]
+        : ["Concepto", "Monto"];
+  const celda = (rol: string, i: number, contenido: string) =>
+    `<td role="cell" data-rol="${rol}" data-label="${escapar(cols[i])}">${contenido}</td>`;
+  const cuerpo = filas
+    .map((f) => {
+      const celdas =
+        tipo === "mult"
+          ? celda("unitario", 1, soles(f.unitario!)) + celda("veces", 2, String(f.veces)) + celda("resultado", 3, soles(f.resultado))
+          : tipo === "pct"
+            ? celda("pct", 1, `${f.pct}%`) + celda("resultado", 2, soles(f.resultado))
+            : celda("resultado", 1, soles(f.resultado));
+      return `<tr role="row" data-fila><th scope="row" role="rowheader">${f.concepto}${partes(f)}</th>${celdas}</tr>`;
+    })
+    .join("");
+  return `<figure class="blq-tabla blq-ejemplo" data-forma="${tipo}">${cabecera}<table role="table"><caption>${titulo}${
+    base ? `<span class="blq-ej-base" data-rol="base">${base.concepto}: <strong>${soles(base.monto)}</strong></span>` : ""
+  }</caption><thead role="rowgroup"><tr role="row">${cols
+    .map((c) => `<th scope="col" role="columnheader">${c}</th>`)
+    .join("")}</tr></thead><tbody role="rowgroup">${cuerpo}</tbody></table>${cierre}${pie}</figure>`;
+}
+
 /** Una advertencia (`ojo`) o un dato suelto (`dato`). Incluye el "cuándo no te sirve". */
 export function nota(tipo: "ojo" | "dato", titulo: string, html: string): string {
   return `<aside class="blq-nota" data-tipo="${tipo}"><p class="blq-etiqueta">${titulo}</p>${html}</aside>`;

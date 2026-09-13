@@ -135,7 +135,7 @@ const escritos: PostEscrito[] = [
     description:
       "Qué son los gastos hormiga, cómo sumarlos con tus propios números y cómo ponerles un tope. Con un ejemplo en soles y el ingreso promedio de Lima según el INEI.",
     date: "2026-03-21",
-    dateModified: "2026-09-11",
+    dateModified: "2026-09-12",
     keywords: [
       "gastos hormiga",
       "gastos hormiga peru",
@@ -144,6 +144,23 @@ const escritos: PostEscrito[] = [
       "control de gastos",
     ],
     content: "",
+    faq: [
+      {
+        pregunta: "¿Cuánto debería gastar en gastos hormiga al mes?",
+        respuesta:
+          "No hay una regla oficial. Lo útil es anotar un mes completo, ver cuánto sumaron y decidir un tope que te parezca razonable. Si al ver el número te incomoda, ahí tienes margen.",
+      },
+      {
+        pregunta: "¿El café de todos los días me arruina?",
+        respuesta:
+          "No por sí solo. Un gasto chico de todos los días sí pesa en un año, pero el problema es la suma de todos los gastos hormiga juntos. Si es el único y el resto de tus finanzas está en orden, no es urgente.",
+      },
+      {
+        pregunta: "¿Cómo sé cuáles son mis gastos hormiga?",
+        respuesta:
+          "Anotándolos. Lo más rápido es escribirle a Neto por WhatsApp cada gasto cuando lo haces. Anotar es gratis siempre; ver tus gastos por categoría en el dashboard es de Neto Pro, con 14 días de prueba desde tu primer gasto.",
+      },
+    ],
   },
   {
     slug: "como-controlar-gastos-personales-peru",
@@ -151,7 +168,7 @@ const escritos: PostEscrito[] = [
     description:
       "Cuatro métodos para controlar tus gastos en Perú (50/30/20, topes por categoría, presupuesto cero y quitar tres gastos), con ejemplos en soles y un plan de 30 días.",
     date: "2026-03-22",
-    dateModified: "2026-09-11",
+    dateModified: "2026-09-12",
     keywords: [
       "cómo controlar gastos personales",
       "control de gastos perú",
@@ -160,6 +177,23 @@ const escritos: PostEscrito[] = [
       "ahorrar dinero perú",
     ],
     content: "",
+    faq: [
+      {
+        pregunta: "¿Cuánto tarda en verse el resultado de controlar los gastos?",
+        respuesta:
+          "En el primer mes ganas visibilidad: sabes en qué gastas. El cambio en tu saldo llega después, cuando ya ajustaste algunos hábitos, y cuánto tarda depende del margen que tengas.",
+      },
+      {
+        pregunta: "¿Qué hago si tengo deudas y no me alcanza el sueldo?",
+        respuesta:
+          "Primero mira el panorama completo: ingresos, gastos fijos y deudas. Con eso claro, cubres las necesidades básicas, después el mínimo de cada deuda para no acumular intereses, y lo que sobre va a la deuda con la tasa más alta.",
+      },
+      {
+        pregunta: "¿Sirve controlar los gastos si el sueldo es muy bajo?",
+        respuesta:
+          "Sí, aunque con límites. Con ingresos bajos el margen es chico, pero ver en qué se va la plata ayuda a encontrar gastos que puedes quitar sin tocar lo importante. Y cuando el ingreso mejora, el hábito ya lo tienes.",
+      },
+    ],
   },
   {
     slug: "en-que-gasto-mi-plata",

@@ -8,9 +8,11 @@ decide `scripts/verify-claims.mjs`. Si este documento y esas reglas chocan, mand
 
 **Estado: VIGENTE desde el 12-sep-2026.** Favio aprobó la anatomía y los cinco componentes ese día,
 y los dos posts de la Acción 3 (`cuanto-cuesta-app-finanzas-personales-peru` y
-`controlar-gastos-yape-plin`) se migraron al molde. Los cinco de marzo siguen fuera, declarados en
+`controlar-gastos-yape-plin`) se migraron al molde. El mismo día se agregó el sexto bloque,
+`ejemplo()` (sección 4, "Cuándo un post lleva un ejemplo"), y con él se migraron `gastos-hormiga-peru`
+y `como-controlar-gastos-personales-peru`. Los otros tres de marzo siguen fuera, declarados en
 `LEGADO` dentro de `scripts/check-blog.mjs`. Lo que cambió al construir respecto de la propuesta está
-marcado en cada sección, y el resultado medido está en la sección 10.
+marcado en cada sección, y lo medido está en las secciones 10 y 11.
 
 ```bash
 npm run build && npm run check:blog              # sobre out/, con servidor propio
@@ -103,9 +105,9 @@ muéstrame**, y la prueba pegada a cada cifra en vez de juntada al final.
 |---|---|---|---|---|
 | 1 | Cabecera | sí | ya existe en `blog/[slug]/page.tsx` | H1 con forma de pregunta, bajada, autor, publicado y actualizado. El tiempo de lectura se **calcula** del texto (`tiempoLectura` en `blog.ts`); hasta el 12-sep-2026 era un `"5 min"` escrito a mano en cada post |
 | 2 | En corto | sí | `enCorto()` | La respuesta con su cifra, en 2 a 4 puntos y 60 palabras como máximo. Es el primer elemento del cuerpo |
-| 3 | Visual principal | sí | `tabla()`, `barras()` o `chatNeto()` | Tiene que llegar antes de las 120 palabras. Un titular grande no cuenta |
+| 3 | Visual principal | sí | `tabla()`, `barras()`, `chatNeto()` o `ejemplo()` | Tiene que llegar antes de las 120 palabras. Un titular grande no cuenta |
 | 4 | Secciones | sí | `<h2>` pelado | Cada una abre respondiendo. Subtítulo como pregunta o etiqueta, nunca como afirmación larga |
-| 5 | Visuales de apoyo | según largo | los mismos tres | Uno cada 260 palabras de cuerpo como máximo |
+| 5 | Visuales de apoyo | según largo | los mismos cuatro | Uno cada 260 palabras de cuerpo como máximo |
 | 6 | Nota | no | `nota()` | Una advertencia o un dato suelto. Incluye el "cuándo no te sirve", que NerdWallet usa y la comparativa de neto.pe ya tiene |
 | 7 | Link a WhatsApp en el cuerpo | sí, uno | `waLink('blog')` + `<HtmlAtribuido>` | Antes de las 620 palabras. Nunca un `wa.me` escrito a mano |
 | 8 | Preguntas frecuentes | no | el array `faq` de `blog.ts` | 3 a 5, cada respuesta abre respondiendo. Alimenta la sección visible y el FAQPage |
@@ -126,6 +128,45 @@ Solo si hay **tres o más cifras de la misma unidad, del mismo período y con fu
 dice algo que la tabla no deja ver de un vistazo. Si una cifra tiene que convertirse de moneda para
 entrar, no entra: la conversión sería un número nuevo, con su propia fuente y su propia fecha. Si
 las cifras no cumplen, el post va con tabla y no pasa nada.
+
+### Cuándo un post lleva un ejemplo
+
+Cuando la mejor forma de explicar algo es una cuenta con montos inventados ("café S/8 × 22 días",
+"un sueldo de S/3,000 al 50/30/20"). Una cuenta ilustrativa no es un dato de terceros: lo que la hace
+verdadera es que cierre, no una fuente. Por eso `ejemplo()` saca sus cifras de la regla de
+trazabilidad, **pero solo porque se comprueban con lo que está en el mismo bloque**.
+
+Nació el 12-sep-2026 de una medición: sin él, los cinco posts de marzo daban 109 problemas del
+chequeo, y 66 eran cuentas de ejemplo. Migrarlos sin este bloque habría empujado a borrar justo lo
+más útil de esos posts.
+
+| Forma | Se escribe | Se comprueba |
+|---|---|---|
+| multiplicación | `unitario`, `veces`, `resultado` | `unitario × veces = resultado` |
+| suma | `total` | la suma de los resultados |
+| anual | `anual` | `total × 12` |
+| reparto | `base` + `pct` por fila | `base × pct / 100 = resultado`, y el total da la base entera |
+| presupuesto cero | `base` + filas de monto | el total da la base entera |
+| desglose | `partes` en una fila | las partes suman el resultado de la fila |
+
+Cuatro reglas que no se negocian:
+
+- **El resultado y el total los escribe el autor.** Si los calculara la función, una cuenta que no
+  cierra no se podría escribir y el bloque no probaría nada. Así, la que no cierra aborta el build
+  nombrando la fila.
+- **Se marca visible como ejemplo:** etiqueta "Ejemplo", borde punteado azul y el pie fijo "Montos
+  inventados para hacer la cuenta". Sin esas marcas, un lector toma la cuenta por un dato.
+- **La prosa de afuera no repite sus cifras** (decisión de Favio, 12-sep-2026). Dice "el total del
+  ejemplo", no el número. Permitirlo haría pasar cualquier cifra suelta que coincida con algún
+  resultado. Tampoco se esquiva escribiendo el número con letras.
+- **Barras solo con tres filas o más**, la misma condición de entrada del gráfico. En tabla, bajo
+  640 px NO se vuelve tarjetas: dos a cuatro columnas cortas entran, y como tarjetas la cuenta se
+  parte en renglones que ya no se leen como una suma.
+
+**Lo que no comprueba, declarado:** que los operandos sean inventados. Un dato real metido como
+operando ("RMV S/1,130") cerraría igual. El caso obvio lo cortan las palabras de `DATO_AJENO`
+(promedio, según, INEI, mínimo, RMV…), en el build y en el chequeo; el resto es criterio de quien
+escribe.
 
 ### El chat de Neto es una afirmación sobre el producto
 
@@ -154,6 +195,7 @@ tokens de color que ya existen.
 | `barras({titulo, unidad, items, fuente})` | `<figure>` con una lista de barras de HTML y `<figcaption>` | exige `fuente` con fecha. El valor va escrito como texto al lado de cada barra, no solo como largo |
 | `chatNeto(clave)` | `<figure class="blq-chat">` con burbujas estáticas | solo claves del registro. Convierte el `*negrita*` de WhatsApp como hace el hero |
 | `nota(tipo, html)` | `<aside class="blq-nota">` | dos tipos: `ojo` y `dato` |
+| `ejemplo({titulo, filas, base, total, anual, como})` | `<figure class="blq-ejemplo">`, como tabla (con `blq-tabla`) o como barras (con `blq-barras`) | aborta el build si la cuenta no cierra, si mezcla formas, si trae menos de dos filas o si nombra un dato de terceros. Cada número lleva un `data-rol` para que el chequeo rehaga la cuenta desde el texto visible |
 
 Los datos no se copian: el post de precios lee `APPS` de `apps-comparativa.ts`, y el precio de Neto
 tiene una sola fuente en el backend (`PRO_PRECIOS` de `app/lib/config.js`).
@@ -184,6 +226,9 @@ midiendo posts de este tipo, nunca porque la pieza que se está escribiendo no c
 | Datos | tabla sin `<caption>` o sin `<th scope>` | 0 |
 | | figura sin fuente con fecha en su pie | 0 |
 | | cifra en S/, US$, R$ o % del cuerpo que no salga de `APPS`, de `PRO_PRECIOS` o de un chat del registro, ni tenga link en su misma frase | 0 |
+| | ejemplo cuya cuenta no cierra, rehecha desde el texto visible | 0 |
+| | ejemplo sin la etiqueta "Ejemplo" o sin el pie de montos inventados | 0 |
+| | cifra dentro de un ejemplo que no es operando ni resultado de su cuenta | 0 |
 | Producto | fragmento de un chat que ya no está en `../app` | 0 |
 | | `verify-claims.mjs` | verde |
 | Página | `<h1>` | exactamente 1 |
@@ -232,7 +277,7 @@ abierto y el aviso de Telegram dice cuál falló. Exit 2 (no se pudo medir) cuen
 | 2 | `verify-claims.mjs` | una afirmación prohibida, el sitemap sin la ruta o un `<lastmod>` que no es `dateModified` | sí |
 | 3 | Chequeo del molde (sección 6) | cualquier umbral de prosa, estructura, datos o página | sí, `check-blog.mjs` |
 | 4 | Chats contra el backend | un fragmento del registro ya no está en `../app` | sí, `check-blog.mjs` |
-| 5 | Cifras trazables | una cifra del cuerpo sin origen en los datos ni link en su frase | sí, `check-blog.mjs` |
+| 5 | Cifras trazables | una cifra del cuerpo sin origen en los datos ni link en su frase, o un ejemplo cuya cuenta no cierra | sí, `check-blog.mjs` |
 | 6 | `verify-atribucion.mjs` | el link del post a WhatsApp perdió su posición `[blog]` | sí |
 | 7 | Móvil a 375 px | desborde horizontal de la página o de un bloque. Los links dentro de un párrafo quedan exentos del mínimo de 44 px (WCAG 2.5.8), y en el cuerpo del blog son todos así | sí, `check-blog.mjs` |
 | 8 | Verificación en producción | la URL no da 200, el `<title>` no es el esperado, el JSON-LD no parsea, falta la fila del sitemap | sí, a mano; hay que volverlo script |
@@ -331,4 +376,73 @@ devolvió 500 en muchas corridas, así que la n real va al lado de cada número.
 "antes", que es la regla de `measure-cwv-lab.mjs` para llamar ruido a una diferencia. El molde no
 agrega imágenes ni JavaScript: suma entre 1 y 7 KiB de CSS. La salvedad es la n: el "después" del
 post de precios juntó corridas de dos tandas separadas por una hora, más débil que una sola tanda.
+
+---
+
+## 11. El bloque de ejemplo y la migración de dos posts de marzo (12-sep-2026)
+
+### Antes y después, con el propio chequeo
+
+"Antes" es el conteo de la sesión anterior, con `check-blog` corrido sin `LEGADO`.
+
+| | Gastos hormiga, antes | Después | Cómo controlar, antes | Después |
+|---|---|---|---|---|
+| Problemas que nombra `check-blog` | 36 | 0 | 43 | 0 |
+| Palabras de cuerpo, sin la FAQ | sobre 1.000 | 489 | sobre 1.000 | 684 |
+| Elementos visuales | 0 | 4 (barras de ejemplo, tabla, chat, tabla de ejemplo) | 0 | 4 (tabla, dos tablas de ejemplo, chat) |
+| Palabras antes del primer visual | todas | 90 | todas | 77 |
+| Palabras antes del link a WhatsApp | sin link en el cuerpo | 390 | sin link en el cuerpo | 447 |
+| Oración más larga | | 29 | | 30 |
+
+Qué se conservó de la reescritura del 11-sep: el ingreso de Lima del INEI con su fuente y fecha, y
+todas las cuentas de ejemplo, ahora verificadas. Qué se cortó para entrar en 780 palabras: la
+sección de gastos fijos contra gastos hormiga, la lista larga de categorías, la de herramientas
+gratis y pagadas (queda un link al post de precios) y los errores comunes, que pasaron a una nota.
+Nada se plegó en un `<details>` para esquivar el tope: el chequeo no cuenta esas palabras y usarlo
+así sería hacerle trampa al molde. La FAQ salió del cuerpo al array `faq`, que es texto plano para el
+JSON-LD, así que el "S/8 al día son S/2,920 al año" se reescribió sin la cifra.
+
+**Un detalle del original se corrigió porque el bloque lo dejaba a la vista:** el café se contaba
+en 22 días hábiles y el snack, "en los días de trabajo", en 20. Los dos van en 22, así que el total
+del ejemplo pasó de S/700 a S/710 y el anual de S/8,400 a S/8,520.
+
+**Un chat nuevo en el registro, `tope-categoria`:** anotar un delivery con un presupuesto de
+categoría al 82%. Es una respuesta INMEDIATA del bot (la alerta se pega a la confirmación en
+`handlers/intents/transacciones.js`), no un cron. Se usó el tope de categoría y no el de subcategoría
+porque el de categoría es el que se puede crear seguro desde la app. Queda fijado que la cola de la
+confirmación va vacía para un Pro con cuenta web (`nudgeActivacion` corta en `supabase_auth_id`).
+
+### Las mutaciones
+
+Se muta el fuente y se reconstruye (sección 10). Cada caso verifica antes que la mutación se
+aplicó: si el texto a mutar no está en el fuente, el caso sale como fallo y se imprime.
+
+| Mutación | Capa | Resultado |
+|---|---|---|
+| Control: los bloques tal cual | chequeo | exit 0 |
+| Una fila que no es su producto (176 → 186) | build | aborta: *la fila "Café, cada día hábil" dice S/186 y S/8 × 22 = S/176* |
+| Un total que no es la suma | build | aborta: *el total dice S/720 y las filas suman S/710* |
+| Un anual que no es el total × 12 | build | aborta: *el anual dice S/8,400 y S/710 × 12 = S/8,520* |
+| Un 50/30/20 con Gustos al 35% | build | aborta: *el 35% de S/3,000 es S/1,050* |
+| Un desglose que no suma su fila | build | aborta: *las partes de "Gustos" suman S/950 y la fila dice S/900* |
+| Un presupuesto cero que no reparte la base | build | aborta: *el total dice S/3,000 y las filas suman S/2,900* |
+| "promedio" dentro de un concepto | build | aborta: *"promedio" anuncia un dato de terceros* |
+| Barras con dos filas | build | aborta: *en barras van tres filas o más y hay 2* |
+| **HTML falsificado a mano** con `blq-ejemplo` y una cuenta que no cierra | chequeo | exit 1: *la cuenta no cierra: "Café" muestra S/8 × 22 = S/186* |
+| HTML falsificado sin la etiqueta "Ejemplo" | chequeo | exit 1: *no abre con la etiqueta visible "Ejemplo"* |
+| Una cifra suelta en el caption de un ejemplo | chequeo | exit 1: *la cifra S/2,500 está en el ejemplo pero no es parte de ninguna cuenta* |
+| La cifra del ejemplo repetida en la prosa de afuera | chequeo | exit 1 por trazabilidad: *la cifra S/710 no sale de APPS…* |
+
+**Tres cosas que salieron de correrlas, y ninguna se habría visto leyendo el código:**
+
+- **El lector de cifras sueltas inventaba cifras.** El `textContent` de un bloque pega celdas
+  vecinas sin espacio: "S/200" + "3" daba "S/2003", y el primer verde real salió con nueve
+  problemas falsos. Ahora el texto se arma nodo por nodo y unido con espacio.
+- **Ese arreglo dejó el mensaje ciego.** Un TreeWalker no devuelve su propia raíz, así que con un
+  nodo de texto de raíz el concepto salía vacío: la mutación de la cuenta falsificada daba exit 1
+  con *`""` muestra S/8 × 22 = S/186*. El exit era correcto y el mensaje no nombraba la fila, así
+  que se contó como no cazada hasta arreglarlo.
+- **Una mutación no se aplicaba y el arnés no lo decía.** El texto a mutar suponía un orden de
+  filas que el fuente no tenía, y el caso no aparecía en la salida: se leía como "11 corrieron".
+  Ahora un caso no aplicado se imprime como fallo.
 
