@@ -34,7 +34,7 @@ export default function PrivacidadPage() {
             Politica de Privacidad
           </h1>
           <p className="text-sm text-neto-txt3 mb-10 pb-6 border-b border-white/7">
-            Ultima actualizacion: agosto 2026 · Aplicable a usuarios de neto.pe
+            Ultima actualizacion: septiembre 2026 · Aplicable a usuarios de neto.pe
             y el servicio Neto por WhatsApp
           </p>
 
@@ -114,8 +114,10 @@ export default function PrivacidadPage() {
                   conserva como respaldo de la operacion.
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
-                  <strong>Datos de cuenta:</strong> nombre, numero de telefono y
-                  preferencias de configuracion del servicio.
+                  <strong>Datos de cuenta:</strong> nombre, numero de telefono,
+                  tu correo electronico (el de tu cuenta de Google si entras a
+                  la aplicacion web, o el que nos hayas dado) y preferencias de
+                  configuracion del servicio.
                 </li>
               </ul>
             </section>
@@ -246,6 +248,12 @@ export default function PrivacidadPage() {
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
                   <strong>Railway:</strong> infraestructura de servidores.
+                </li>
+                <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
+                  <strong>Resend:</strong> envio de correos con avisos de tu
+                  cuenta, como el fin de tu prueba. Recibe tu direccion de correo
+                  y el texto del aviso. Cada correo trae un enlace para dejar de
+                  recibirlos.
                 </li>
                 <li className="text-sm text-neto-txt2 leading-7 pl-5 relative before:content-['\2014'] before:absolute before:left-0 before:text-neto-green before:font-semibold">
                   <strong>PostHog, Google Analytics y Meta Pixel:</strong>{" "}
