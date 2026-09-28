@@ -390,7 +390,7 @@ const carousel3 = [
     <div class="title" style="font-size:44px">Neto te muestra tu desglose real.</div>
     <div class="subtitle big" style="max-width:700px">Registra por WhatsApp. Ve tu panorama completo en el dashboard: gráficos, score financiero y fugas detectadas.</div>
     <div class="btn">Gratis en neto.pe</div>
-    <div class="small">WhatsApp + Dashboard · 6 bancos · IA</div>
+    <div class="small">Texto, voz o foto del recibo · por WhatsApp</div>
   </div>`,
 ];
 
@@ -501,7 +501,7 @@ const carousel7 = [
     <div class="title" style="font-size:44px">Neto mide todo por ti.</div>
     <div class="subtitle big" style="max-width:700px">Registra por WhatsApp, ve tu score financiero y detecta fugas en tu dashboard personalizado.</div>
     <div class="btn">Gratis en neto.pe</div>
-    <div class="small">WhatsApp + Dashboard · 6 bancos · IA</div>
+    <div class="small">Texto, voz o foto del recibo · por WhatsApp</div>
   </div>`,
 ];
 
@@ -581,7 +581,7 @@ const carousel8 = [
     <div class="title" style="font-size:44px">Neto detecta tus fugas automáticamente.</div>
     <div class="subtitle big" style="max-width:700px">Registra por WhatsApp y ve exactamente a dónde se va tu plata en el dashboard con gráficos y alertas.</div>
     <div class="btn">Gratis en neto.pe</div>
-    <div class="small">WhatsApp + Dashboard · 6 bancos · IA</div>
+    <div class="small">Texto, voz o foto del recibo · por WhatsApp</div>
   </div>`,
 ];
 
@@ -647,7 +647,7 @@ const carousel5 = [
     <div class="title" style="font-size:44px">Las 5 razones tienen solución.</div>
     <div class="subtitle big" style="max-width:700px">Registra por WhatsApp, ve tus fugas y score en el dashboard, y crea planes de ahorro reales.</div>
     <div class="btn">Gratis en neto.pe</div>
-    <div class="small">WhatsApp + Dashboard · 6 bancos · IA</div>
+    <div class="small">Texto, voz o foto del recibo · por WhatsApp</div>
   </div>`,
 ];
 
@@ -668,7 +668,9 @@ const carousel9 = [
     <div class="icon-big">🛡️</div>
     <div class="title" style="font-size:36px">¿Qué es y por qué lo necesitas?</div>
     <div class="subtitle" style="max-width:800px">Plata reservada para imprevistos: emergencias médicas, reparaciones, pérdida de trabajo. Sin esto, cualquier imprevisto te endeuda.</div>
-    <div class="red-text" style="font-size:22px;font-weight:600;margin-top:16px">67% de peruanos no podría cubrir un gasto inesperado de S/1,000</div>
+    <div class="red-text" style="font-size:22px;font-weight:600;margin-top:16px">7 de cada 10 peruanos no podrían cubrir sus gastos más de 2 meses si pierden su ingreso principal</div>
+    <div class="subtitle" style="max-width:800px">Y 27% no conseguiría S/1,000 en 30 días de ninguna manera.</div>
+    <div class="small">Fuentes: Ipsos para Pacífico Seguros, Índice de Resiliencia País 2024 · Ipsos para Banco Falabella y Asbanc</div>
   </div>`,
 
   // Slide 3: Cuánto necesitas
@@ -696,7 +698,7 @@ const carousel9 = [
     <div class="check-list">
       <div class="check-item">
         <div class="check-icon green">✓</div>
-        <div class="flex-col"><div class="check-text"><strong>Cuenta de ahorro</strong> (BCP, Interbank)</div><div class="detail">Liquidez inmediata, bajo interés pero acceso 24/7</div></div>
+        <div class="flex-col"><div class="check-text"><strong>Cuenta de ahorro</strong> (banco o caja)</div><div class="detail">Liquidez inmediata, bajo interés pero acceso 24/7</div></div>
       </div>
       <div class="check-item">
         <div class="check-icon green">✓</div>
@@ -704,7 +706,7 @@ const carousel9 = [
       </div>
       <div class="check-item">
         <div class="check-icon green">✓</div>
-        <div class="flex-col"><div class="check-text"><strong>Cuenta CTS</strong></div><div class="detail">Ya tienes plata ahí — cuenta como parte de tu fondo</div></div>
+        <div class="flex-col"><div class="check-text"><strong>Cuenta CTS</strong></div><div class="detail">Retiro del 100% solo hasta el 31/12/2026 (Ley 32322).</div></div>
       </div>
     </div>
   </div>`,
@@ -725,7 +727,7 @@ const carousel9 = [
       </div>
       <div class="check-item">
         <div class="check-icon green">3</div>
-        <div class="flex-col"><div class="check-text"><strong>Detecta fugas</strong></div><div class="detail">S/300 en gastos hormiga redirigidos = fondo completo en 21 meses.</div></div>
+        <div class="flex-col"><div class="check-text"><strong>Detecta fugas</strong></div><div class="detail">S/300 en gastos hormiga redirigidos = fondo mínimo en 21 meses (el completo, en 42).</div></div>
       </div>
     </div>
   </div>`,
@@ -756,7 +758,7 @@ const carousel9 = [
     <div class="title" style="font-size:44px">Neto te ayuda a llegar ahí.</div>
     <div class="subtitle big" style="max-width:700px">Crea tu plan de ahorro, detecta fugas y trackea tu progreso en el dashboard. Todo empieza en WhatsApp.</div>
     <div class="btn">Gratis en neto.pe</div>
-    <div class="small">WhatsApp + Dashboard · 6 bancos · IA</div>
+    <div class="small">Texto, voz o foto del recibo · por WhatsApp</div>
   </div>`,
 ];
 
@@ -847,7 +849,7 @@ const carousel12 = [
     <div class="title" style="font-size:44px">Neto trackea tus deudas y abonos.</div>
     <div class="subtitle big" style="max-width:700px">Registra cada pago por WhatsApp y ve tu progreso en el dashboard. Sabe cuánto te falta y te avisa.</div>
     <div class="btn">Gratis en neto.pe</div>
-    <div class="small">WhatsApp + Dashboard · 6 bancos · IA</div>
+    <div class="small">Texto, voz o foto del recibo · por WhatsApp</div>
   </div>`,
 ];
 
@@ -1506,11 +1508,19 @@ const CAROUSELS = [
   { name: "💬 Carrusel #17 — Neto desde WhatsApp", folder: "carousel-17", slides: carousel17 },
 ];
 
+// Re-render puntual: `node scripts/generate-carousel-pw.mjs carousel-09`. Sin argumentos
+// re-renderiza TODOS, y eso pisaría PNG que se corrigieron a mano (13, 14, 15 en abr-2026).
+const SOLO = process.argv.slice(2);
+
 async function main() {
+  const elegidos = SOLO.length ? CAROUSELS.filter((c) => SOLO.includes(c.folder)) : CAROUSELS;
+  if (SOLO.length && elegidos.length !== SOLO.length) {
+    throw new Error(`carpeta(s) desconocida(s): ${SOLO.filter((f) => !CAROUSELS.some((c) => c.folder === f)).join(", ")}`);
+  }
   const browser = await chromium.launch();
 
   let total = 0;
-  for (const c of CAROUSELS) {
+  for (const c of elegidos) {
     console.log(`\n${c.name} (Playwright)`);
     await generateCarousel(browser, c.slides, c.folder);
     total += c.slides.length;
@@ -1522,7 +1532,7 @@ async function main() {
   const { unlinkSync } = await import("fs");
   try { unlinkSync(join(outDir, "temp-slide.html")); } catch {}
 
-  console.log(`\n✅ ${total} slides generados en ${CAROUSELS.length} carpetas dentro de public/social/`);
+  console.log(`\n✅ ${total} slides generados en ${elegidos.length} carpetas dentro de public/social/`);
 }
 
 main().catch(console.error);
