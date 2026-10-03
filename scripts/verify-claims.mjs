@@ -7,7 +7,7 @@
  * Las dos veces que el sitio mintió, mintió igual: una función cambió en el backend y
  * el texto se quedó describiendo el producto de hace seis meses, sin que nada avisara.
  *
- * Cinco reglas, todas sobre el árbol de fuentes (`src/`), no sobre el build. La 4ª tiene su
+ * Siete reglas, todas sobre el árbol de fuentes (`src/`), no sobre el build. La 4ª tiene su
  * propio perímetro y por eso se explica junto a su constante, más abajo:
  *
  *   1. NO HAY INTEGRACIÓN BANCARIA. Neto nunca se conecta a un banco. El dato entra
@@ -27,6 +27,14 @@
  *   3. NO SE REGISTRA SOLO. Decir "sin anotar nada" o "sin mover un dedo" es falso: solo
  *      el 9.5% de las transacciones nacen de un correo y el resto las anota la persona.
  *      Además contradice al hero de la propia landing, que vende "Anotar gastos es el piso".
+ *
+ *   3b. CONECTAR LOS CANALES NO LOS SINCRONIZA: los vuelve UNA cuenta. "Todo queda
+ *      sincronizado" promete un auto-sync que no existe, y hay cosas que viven en un solo
+ *      canal (Gmail es solo-app). Regla de `app/docs/CHANNEL-CAPABILITY-MATRIX.md`, ya
+ *      corregida en el login de la webapp el 31-jul y reaparecida acá tres veces el 03-oct.
+ *
+ *   3c. EL SCORE ES ÚNICO EN PERÚ, NO EN LA CATEGORÍA. Poqt (Brasil) tiene uno 0-100. Una
+ *      exclusividad sobre el score sin "en Perú" en la misma frase es falsa.
  *
  *   4. GMAIL NO VA EN SUPERFICIES DE CONVERSIÓN (ver `PROMINENCIA` y `PROFUNDIZANDO`).
  *
@@ -62,6 +70,20 @@ const FUERA_DEL_SITEMAP = new Map([
   ['/r', 'mini-landing de referidos: sin código en la URL no tiene contenido propio, y cada código es una variante de la misma página'],
 ]);
 
+/**
+ * Una exclusividad ("ningún otro", "nadie más", "solo Neto", "el único") y el score en la misma
+ * frase, en cualquier orden, sin "en Perú" en esa frase. La frase termina en punto o en raya:
+ * "Único en Perú — ningún otro asistente tiene score" afirma dos cosas, y la segunda va sin alcance.
+ */
+const SIN_PERU = String.raw`(?:(?!en\s+(?:el\s+)?Per[uú])[^.—\n])*?`;
+const NI_DESPUES = String.raw`(?![^.—\n]*en\s+(?:el\s+)?Per[uú])`;
+const NINGUN_OTRO = String.raw`(?:ning[uú]n[oa]?\s+otr[oa]s?|nadie\s+m[aá]s)`;
+const SCORE_UNICO_SIN_ALCANCE = new RegExp(
+  String.raw`(?:${NINGUN_OTRO}|s[oó]lo\s+Neto|\b(?:el|la)\s+[uú]nic[oa])${SIN_PERU}\bscores?\b${NI_DESPUES}` +
+    String.raw`|\bscores?\b${SIN_PERU}${NINGUN_OTRO}${NI_DESPUES}`,
+  'i'
+);
+
 const PROHIBIDO = [
   {
     id: 'integracion-bancaria',
@@ -83,6 +105,22 @@ const PROHIBIDO = [
     porque: 'Falso: solo el 9.5% de las transacciones nacen de un correo, el resto las anota la persona. Y contradice al hero, que vende justo anotar ("Anotar gastos es el piso").',
     debeMatchear: ['Ordena tu plata sin mover un dedo', 'organizados automaticamente sin anotar nada a mano', 'se registran solos'],
     noDebeMatchear: ['Sin descargar apps', 'sin contrasenas bancarias', 'los anota Neto por ti'],
+  },
+  {
+    // El participio es la familia: las cuatro veces que se escribió fue "sincronizado/a". El
+    // lookbehind deja pasar el texto o el audio sincronizado de un video, que no habla de Neto.
+    id: 'canales-sincronizados',
+    patron: /(?<!(?:texto|audio|video|subt[ií]tulos?)\s)\bsincronizad[oa]s?\b|\bse\s+sincronizan?\s+sol[oa]s?\b|\bauto-?sync\b/i,
+    porque: 'Conectar WhatsApp y la app no sincroniza dos cuentas: las vuelve una. La forma decidida (app/docs/CHANNEL-CAPABILITY-MATRIX.md) es "conéctalos y es una sola cuenta" o "con tus datos en los dos lados", nunca auto-sync.',
+    debeMatchear: ['Conéctalos y todo queda sincronizado, sin descargar nada.', 'una sola cuenta, sincronizada.', 'sincronizada, la uses donde la uses', 'tu WhatsApp y la app se sincronizan solos'],
+    noDebeMatchear: ['¿Se sincroniza mi cuenta entre la app y WhatsApp?', 'Ninguna de las siete apps sincroniza con bancos peruanos', 'Manual o sincronización bancaria', 'texto sincronizado que obliga a leer', 'una sola cuenta con tus datos en los dos lados'],
+  },
+  {
+    id: 'score-unico-sin-alcance',
+    patron: SCORE_UNICO_SIN_ALCANCE,
+    porque: 'Poqt (Brasil) tiene un score 0-100: el Score es único en Perú, no en la categoría. La forma de /producto es "Único en Perú entre asistentes de WhatsApp".',
+    debeMatchear: ['Único en Perú — ningún otro asistente de WhatsApp tiene score', 'El único asistente de WhatsApp con score financiero', 'Solo Neto tiene un score de salud financiera', 'Un score que ninguna otra app te da'],
+    noDebeMatchear: ['Único en Perú entre asistentes de WhatsApp', 'El único asistente financiero por WhatsApp en Perú con score 0–100.', 'ningún otro asistente de WhatsApp en Perú tiene score', 'Lo único que mide tu score es lo que anotas'],
   },
 ];
 

@@ -57,7 +57,7 @@ export default function ScoreSection() {
                 <span aria-hidden>🎯</span>
                 <span>
                   <b className="text-neto-amber font-semibold">Único en Perú</b>{" "}
-                  — ningún otro asistente de WhatsApp tiene score
+                  entre asistentes de WhatsApp
                 </span>
               </span>
               <a

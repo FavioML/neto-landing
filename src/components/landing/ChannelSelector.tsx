@@ -20,8 +20,8 @@ const COPY = {
     appDesc: "Crea tu cuenta con Google o correo en app.neto.pe",
     footer: (
       <>
-        Empieza por donde quieras. Conéctalos y es{" "}
-        <span className="text-neto-txt2">una sola cuenta, sincronizada.</span>
+        Empieza por donde quieras. Al conectarlos, es{" "}
+        <span className="text-neto-txt2">una sola cuenta con tus datos en los dos lados.</span>
       </>
     ),
   },

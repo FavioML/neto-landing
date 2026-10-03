@@ -53,8 +53,8 @@ export default function IntroBlock() {
           funciona por WhatsApp y desde la web en app.neto.pe. Puedes crear tu
           cuenta de dos formas: registrándote en app.neto.pe con Google o tu
           correo, o escribiéndole por WhatsApp. Al conectar ambos canales (con
-          un código que Neto te pide por WhatsApp) tienes una sola cuenta
-          sincronizada, la uses donde la uses. Le mandas un mensaje en lenguaje
+          un código que Neto te pide por WhatsApp) tienes una sola cuenta, con
+          tus datos en los dos lados. Le mandas un mensaje en lenguaje
           natural (por ejemplo &ldquo;gasté 45 en almuerzo&rdquo;) o una foto de
           tu voucher Yape o Plin, y Neto categoriza el gasto con inteligencia
           artificial. El resultado aparece en un dashboard web con tu historial

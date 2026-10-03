@@ -14,7 +14,7 @@ const CARDS = [
   {
     icon: "💬",
     title: "WhatsApp o app, una sola cuenta",
-    desc: "Entra por el WhatsApp que ya tienes o desde app.neto.pe. Conéctalos y todo queda sincronizado, sin descargar nada.",
+    desc: "Entra por el WhatsApp que ya tienes o desde app.neto.pe, sin descargar nada. Conéctalos y tienes tus datos en los dos lados.",
   },
   {
     icon: "🛡️",
