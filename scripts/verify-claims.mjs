@@ -84,7 +84,138 @@ const SCORE_UNICO_SIN_ALCANCE = new RegExp(
   'i'
 );
 
+/**
+ * `registro-automatico` y `registro-por-notificacion-bancaria`: copia LITERAL de
+ * `app/webapp/src/app/copy-claims.test.ts` (repo FinBot), atacadas dos veces el 07-oct-2026. El
+ * docblock de alla tiene lo que atrapan y lo que siguen dejando pasar, medido. Al tocar una, toca
+ * las tres copias (webapp, landing, content): son repos distintos y no pueden importarse.
+ */
+const NEGADO =
+  String.raw`(?<!\b(?:no|nunca|ning[uú]n\w*)\s+(?:se\s+|l[oa]s?\s+|te\s+)?)` +
+  // "nada" niega solo a principio de frase: en "sin tocar nada se registran solos" cierra otra clausula.
+  String.raw`(?<!(?:^|[.!?—\n:¿¡]\s*)nada\s+(?:se\s+|l[oa]s?\s+|te\s+)?)`;
+const VERBO_REGISTRO =
+  NEGADO +
+  // "al/cuando/si/mientras + verbo" es la persona registrando; "se te agregan" no es "te agregamos".
+  String.raw`(?<!\b(?:al|cuando|si|mientras)\s+(?:t[uú]\s+)?)` +
+  String.raw`\b(?:anot|registr|apunt|import|(?<!(?<!\bse\s)\bte\s)agreg|a[nñ]ad|captur|aparec)` +
+  // Sustantivos ("registro", "anotacion", "importe") y la segunda persona ("anotas") no son Neto.
+  String.raw`(?!(?:os?|as|es|aci[oó]n|aciones)\b)(?<!\bimport(?=es?\b))[a-záéíóúñ]*`;
+const SUSTANTIVO_REGISTRO =
+  String.raw`\b(?:registros?|anotaci[oó]n|anotaciones|importaci[oó]n)(?:\s+(?!se\s+guard)[^\s.!?—,;:]+){0,4}?\s+(?:autom[aá]tic[oa]s?|automatizad[oa]s?)\b` +
+  String.raw`|\bautomatiz\w*\s+(?:[^\s.!?—,;:]+\s+){0,2}?(?:registros?|anotaci)`;
+const POR_SI_SOLO =
+  String.raw`(?:sol(?:it)?[oa]s\b|solit[oa]\b|(?<!\buna\s)sola\b|autom[aá]tic[a-záéíóú]*` +
+  String.raw`|por\s+s[ií]\s+(?:sol[oa]s?|mism[oa]s?)\b|en\s+autom[aá]tico)`;
+const ACCION_DE_LA_PERSONA =
+  String.raw`(?<!\b(?:te|le|les|nos|neto)\s)` +
+  String.raw`(?<!\b(?:sin|no|ni|nunca|olv[ií]date|deja|dejar|basta|adi[oó]s)\s+(?:siquiera\s+)?(?:(?:(?!olvid|dej)[^\s,;:.!?]+\s+){0,3}?(?:que|de|a)\s+)?(?:t[uú]\s+)?)` +
+  String.raw`\b(?:env[ií]\w*|m[aá]nd(?!o\b)\w*|escr[ií]b\w*|d[ií]ct\w*|fot[oó]\w*|captura\s+de\s+pantalla|capturas\b|pantallazo\w*|audio\w*|(?<!\ben\s)voz|reenv[ií]\w*|s[uú]b(?!en\b|ieron\b|i[oó]\b)[eií]\w*|excel\b|csv` +
+  String.raw`|(?:anot|registr|apunt|agreg|a[nñ]ad)(?:as|es|ar)\b)`;
+const FIN = String.raw`[.!?—\n…]`;
+const PALABRA = String.raw`[^\s.!?—,;:]+`;
+const REGISTRO_AUTOMATICO = new RegExp(
+  String.raw`(?:^|${FIN}\s*)(?:(?!${ACCION_DE_LA_PERSONA})[^.!?—\n…])*?` +
+    String.raw`(?:${VERBO_REGISTRO}(?:\s+${PALABRA}){0,5}?\s+${POR_SI_SOLO}` +
+    String.raw`|${POR_SI_SOLO}(?:\s+(?!al\b|para\b|de\b)${PALABRA}){0,2}?\s+${VERBO_REGISTRO}` +
+    String.raw`|${SUSTANTIVO_REGISTRO})` +
+    String.raw`(?![^.!?—\n…]*${ACCION_DE_LA_PERSONA})`,
+  'i'
+);
+
+/**
+ * La notificacion del banco (o de Yape/Plin, o el SMS) como mecanismo de registro. Lo que Neto
+ * lee son CORREOS, asi que "correos de notificacion bancaria" pasa, "notificaciones que tu banco
+ * te envia" tambien (el "que" deja abierto que sea el correo), y la captura o el pantallazo DE una
+ * notificacion tambien: es el flujo de fotos, y es cierto. Nombra bancos porque
+ * `bancos-prominentes` solo mira paginas publicas. Sigue sin ver "alertas" ni "avisos": "los
+ * correos de alerta de tu banco" es cierto.
+ */
+const BANCOS = String.raw`(?:bancos?\b|BCP\b|BBVA\b|Interbank\b|Scotiabank\b|BanBif\b|Mibanco\b|Yape\b|Plin\b)`;
+const NO_ES_EL_MECANISMO = String.raw`(?<!correos?\s+de\s+)(?<!(?:captura|pantallazo|foto|screenshot)s?\s+de\s+(?:la|las|tus?)\s+)`;
+const NOTIFICACION_BANCARIA = new RegExp(
+  String.raw`${NO_ES_EL_MECANISMO}notificaci\S*\s+(?:(?!que\b)\S+\s+){0,3}?(?:de\s+)?(?:(?:tus?|sus?|del|los|la)\s+)?(?:app\s+(?:de\s+(?:tu\s+)?|del\s+)?)?${BANCOS}` +
+    String.raw`|${NO_ES_EL_MECANISMO}notificaci\S*\s+(?:(?!que\b)\S+\s+){0,2}?(?:de\s+tu\s+app\s+)?bancari` +
+    String.raw`|${NO_ES_EL_MECANISMO}notificaci\S*\s+push\s+(?:\S+\s+){0,4}?(?:tus?|del|los|el)\s+${BANCOS}` +
+    String.raw`|SMS\s+(?:de\s+(?:tus?\s+|los\s+)?|del\s+)?(?:${BANCOS}|bancari)`,
+  'i'
+);
+
 const PROHIBIDO = [
+  {
+    id: 'registro-automatico',
+    patron: REGISTRO_AUTOMATICO,
+    porque: 'Ningun gasto se anota solo: el 9.5% nace de un correo (Pro, opt-in, beta) y el resto lo anota la persona. Lo que se registra sin escribir es porque la persona mando una foto, un audio o un archivo, y la frase tiene que decirlo.',
+    debeMatchear: [
+      'Neto detecta tus gastos de las notificaciones del banco y los anota solos.',
+      'Tus gastos se anotan solos',
+      'Neto registra automáticamente todos tus gastos',
+      'automáticamente se registran en tu dashboard',
+      'Tus movimientos se registran por sí solos, sin que mandes nada',
+      // Evasiones de la primera version, encontradas atacandola:
+      'Neto anota tus gastos solos y te manda un resumen cada noche.',
+      'Neto lee tus comprobantes del correo y los anota solos.',
+      'Con Neto, cada compra se registra sola.',
+      'Tus gastos se registran solitos.',
+      'Neto registra todos tus gastos del mes automáticamente.',
+      'Automáticamente Neto registra tus gastos.',
+      'Tus gastos se anotan solos, sin tener que escribir nada.',
+      'Tus gastos se anotan por sí mismos.',
+      'Neto captura tus gastos automáticamente.',
+      'Registro automático de tus gastos',
+      'Neto te anota tus gastos automáticamente.',
+      // Evasiones de la segunda version:
+      'Olvídate de escribir cada gasto: Neto los registra automáticamente.',
+      'Sin tocar nada se registran automáticamente.',
+      'El registro de tus gastos es automático.',
+      'Tus gastos se te agregan automáticamente al dashboard.',
+    ],
+    noDebeMatchear: [
+      'Envia tus comprobantes por WhatsApp y NETO los registra automaticamente.',
+      'Neto lo registra solo',
+      'No tienes categorías todavía. Crea la primera arriba, o se crearán solas al registrar gastos.',
+      'Neto registra los gastos de los correos que tu banco ya te envía.',
+      'Mándale una foto del voucher y Neto lo anota automáticamente',
+      // Falsos positivos de la primera version:
+      'Los gastos no se anotan solos: tú los anotas por WhatsApp.',
+      'Nada se registra automáticamente: tú decides qué anotar.',
+      'Tu registro se guarda automáticamente.',
+      'Ingresa automáticamente con tu cuenta de Google.',
+      'Te agregamos automáticamente al espacio al abrir el link.',
+      'Elige una sola cuenta y se anota ahí.',
+      // Falsos positivos de la segunda version:
+      'Cuando registres un gasto por WhatsApp, aparecerá aquí automáticamente.',
+      'Mándale el voucher y se anota automáticamente.',
+      'No te olvides de mandar tu foto: se anota automáticamente.',
+    ],
+  },
+  {
+    // Portada de `content/scripts/verify-claims.mjs`, donde nacio por `carousel-14`. El panel Pro
+    // la violaba tres veces: "notificaciones bancarias" se lee como el push o el SMS del banco, que
+    // Neto no recibe. Lo que Neto lee son los CORREOS, y la frase lo tiene que decir.
+    id: 'registro-por-notificacion-bancaria',
+    patron: NOTIFICACION_BANCARIA,
+    porque: 'Neto no recibe las notificaciones que el banco le manda a la persona. El unico canal automatico es el correo por Gmail, y es de Pro, opt-in y beta.',
+    debeMatchear: [
+      'Recibes notificación de tu banco — listo',
+      'Neto lee tus notificaciones bancarias',
+      'escaneo de SMS bancarios',
+      'Neto detecta tus gastos de las notificaciones de tus bancos',
+      'Neto lee las notificaciones push del banco',
+      'Neto lee la notificación bancaria de cada compra',
+      'Neto lee los SMS del banco',
+      'Neto lee las notificaciones del BCP',
+      'Neto lee las notificaciones de Yape y Plin',
+    ],
+    noDebeMatchear: [
+      'los correos que tu banco ya te envía',
+      'Neto te avisa por WhatsApp',
+      'notificación de gasto',
+      'únicamente sobre correos de notificación bancaria',
+      'los gastos de las notificaciones que tu banco ya te envía por correo',
+      'Mándale a Neto el pantallazo de la notificación de tu banco.',
+    ],
+  },
   {
     id: 'integracion-bancaria',
     patron: /(conect|vincul|sincroniz|enlaz)\w*\s+(tu|su)\s+(banco|cuenta\s+bancaria)/i,
