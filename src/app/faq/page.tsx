@@ -73,9 +73,9 @@ const FAQ_DATA = [
       },
       {
         q: "¿Neto puede leer mis correos del banco?",
-        a: 'Sí, está en beta. Con Neto Pro activo puedes conectar tu Gmail y Neto registra solo los gastos de las notificaciones que tu banco ya te envía, sin que anotes nada. Es opcional y la conectas tú: el permiso es de solo lectura y únicamente sobre correos de notificación bancaria, nunca tu banca en línea ni tus contraseñas, y puedes desconectarla cuando quieras. Como está en beta, hay cupos limitados y no se habilita durante la prueba de 14 días.',
+        a: 'Sí, está en beta. Con Neto Pro activo puedes conectar tu Gmail y Neto registra solo los gastos de las notificaciones que tu banco ya te envía, sin que anotes nada. Es opcional y la conectas tú: el permiso es de solo lectura y únicamente sobre correos de notificación bancaria, nunca tu banca en línea ni tus contraseñas, y puedes desconectarla cuando quieras. No se habilita durante la prueba de 14 días: se activa al pagar Pro.',
         aPlain:
-          "Sí, está en beta. Con Neto Pro activo puedes conectar tu Gmail y Neto registra solo los gastos de las notificaciones que tu banco ya te envía. Es opcional: el permiso es de solo lectura y únicamente sobre correos de notificación bancaria, nunca tu banca en línea ni tus contraseñas, y puedes desconectarla cuando quieras. Como está en beta, hay cupos limitados y no se habilita durante la prueba de 14 días.",
+          "Sí, está en beta. Con Neto Pro activo puedes conectar tu Gmail y Neto registra solo los gastos de las notificaciones que tu banco ya te envía. Es opcional: el permiso es de solo lectura y únicamente sobre correos de notificación bancaria, nunca tu banca en línea ni tus contraseñas, y puedes desconectarla cuando quieras. No se habilita durante la prueba de 14 días: se activa al pagar Pro.",
       },
       {
         q: "¿Cómo se paga?",
