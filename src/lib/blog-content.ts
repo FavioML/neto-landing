@@ -138,6 +138,10 @@ const TABLA_DONDE_QUEDA = tabla({
 const INEI_INGRESO_LIMA = "https://www.gob.pe/institucion/inei/noticias/1430813-inei-poblacion-ocupada-aumento-7-7-en-lima-metropolitana-en-el-trimestre-movil-mayo-junio-julio-de-2026";
 const SUPABASE_SEGURIDAD = "https://supabase.com/security";
 const CONSULTA_REVISION = fechaLarga("2026-09-11");
+// Alcance real de la lectura de Gmail: las transacciones de Gmail de toda la vida del producto son
+// de BCP o Yape (medido el 08-oct-2026). El remitente de BCP sale de su página oficial.
+const CONSULTA_ALCANCE_BANCOS = fechaLarga("2026-10-08");
+const BCP_NOTIFICACIONES = "https://www.viabcp.com/notificacionesbcp";
 
 /*
  * Los siete posts siguen el molde (`docs/molde-blog.md`) y `scripts/check-blog.mjs` los mide
@@ -647,7 +651,7 @@ ${chatNeto("captura-yapeo")}
   "bancos-peru-rastrear-sin-contrasena": `
 ${enCorto([
   "<strong>Neto no se conecta a tu banco ni te pide su contraseña.</strong>",
-  "Con Neto Pro y tu Gmail conectado, lee los correos de aviso que tu banco ya te manda y anota esos movimientos.",
+  "Con Neto Pro y tu Gmail conectado, lee los avisos por correo de BCP y Yape y anota esos movimientos.",
   "Es opcional y es un complemento: la mayoría de tus gastos igual los anotas tú por WhatsApp.",
 ])}
 <p>
@@ -672,27 +676,28 @@ ${tabla({
 
 <h2>¿Qué bancos lee?</h2>
 <p>
-  Esta es la lista de remitentes que Neto busca en tu Gmail, tomada de su código. Que tu banco esté no
-  garantiza un correo por cada movimiento: eso depende de los avisos que tengas activados.
+  Hoy, BCP y Yape. Son los dos cuyos avisos por correo Neto reconoce, y de ahí sale cada movimiento
+  que ha registrado desde un Gmail. Que tu banco esté no garantiza un correo por cada movimiento: eso
+  depende de los avisos que tengas activados.
 </p>
 ${tabla({
-  caption: "Remitentes que Neto busca en tu Gmail",
-  columnas: ["Tipo", "Cuáles"],
+  caption: "Avisos por correo que Neto registra hoy",
+  columnas: ["Quién", "Qué avisos"],
   filas: [
-    ["Bancos", "BCP, BBVA Perú, Interbank, Scotiabank Perú, BanBif, Banco Falabella, Banco Ripley y Mibanco"],
-    ["Billeteras", "Yape, por los yapeos que envías y si activas su aviso por correo. Plin, por los avisos que te lleguen al correo"],
-    ["Cajas municipales", "Caja Huancayo, Caja Piura, Caja Trujillo, Caja Cusco, Caja Ica y Caja Sullana"],
+    ["BCP", `Los correos que te manda cada vez que operas con tu tarjeta de crédito o débito BCP (${enlaceExterno("ayuda oficial", BCP_NOTIFICACIONES)})`],
+    ["Yape", `Los yapeos que envías, si activas su aviso por correo (${enlaceExterno("ayuda oficial", YAPE_CORREO)})`],
   ],
-  pie: `Lista tomada del código de Neto el ${CONSULTA_REVISION}. Lo de Yape sale de su ${enlaceExterno(
-    "ayuda oficial",
-    YAPE_CORREO
-  )}, consultada el mismo día.`,
+  pie: `Revisado el ${CONSULTA_ALCANCE_BANCOS}, contra los movimientos que Neto registró desde correos.`,
 })}
 <p>
+  De los demás bancos, Neto todavía no reconoce desde qué correo mandan sus avisos, así que puede que
+  no encuentre ninguno. Si tu banco te avisa por correo, mándanos a
+  <a href="mailto:hola@neto.pe">hola@neto.pe</a> un ejemplo del aviso (tapa tus datos). Agregar uno
+  requiere revisar sus correos, así que no prometemos plazo.
+</p>
+<p>
   Los yapeos que recibes no llegan por correo: mándale a Neto la captura por WhatsApp y lo registra
-  como ingreso. Si tu banco no está, escríbenos a <a href="mailto:hola@neto.pe">hola@neto.pe</a> con
-  un ejemplo del aviso (tapa tus datos). Agregar uno requiere revisar sus correos, así que no
-  prometemos plazo.
+  como ingreso.
 </p>
 
 <h2>¿Qué ve Neto y qué no?</h2>
@@ -700,11 +705,11 @@ ${tabla({
   caption: "Lo que Neto puede y no puede ver",
   columnas: ["Esto", "¿Lo ve Neto?"],
   filas: [
-    ["Los avisos de los remitentes de la lista", "Sí, si conectaste tu Gmail"],
+    ["Los avisos de BCP y Yape", "Sí, si conectaste tu Gmail"],
     ["Tu contraseña o clave del banco", "No. Nunca la pide"],
     ["Tu banca en línea, tu saldo, transferencias o pagos", "No. No entra a tu banco"],
     ["Tu clave de Yape, tu PIN o tu huella", "No. No tiene acceso a ninguna autenticación"],
-    ["Tus correos personales o de trabajo", "El código busca solo los remitentes de la lista y algunas frases típicas de avisos, y descarta lo que no es un movimiento"],
+    ["Tus correos personales o de trabajo", "El código busca solo remitentes bancarios y algunas frases típicas de avisos, y descarta lo que no es un movimiento"],
   ],
 })}
 
@@ -716,8 +721,9 @@ ${tabla({
   <li>Al conectarlo, Neto importa los avisos de los últimos 30 días, hasta 50 correos. Después revisa los nuevos cada cierto tiempo.</li>
 </ol>
 <p>
-  Cada cuenta de Neto admite un solo Gmail. Si cambias de banco y el nuevo está en la lista, lo eliges
-  desde tu panel. Para cambiar de correo, escríbenos a hola@neto.pe. Puedes revocar el acceso cuando
+  Cada cuenta de Neto admite un solo Gmail, y tiene que ser una cuenta con Gmail: una cuenta de Google
+  creada con Hotmail u Outlook no tiene bandeja que leer. Para cambiar de correo, escríbenos a
+  hola@neto.pe. Puedes revocar el acceso cuando
   quieras desde
   <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">myaccount.google.com/permissions</a>.
 </p>

@@ -230,11 +230,11 @@ const escritos: PostEscrito[] = [
   },
   {
     slug: "bancos-peru-rastrear-sin-contrasena",
-    title: "Bancos peruanos que Neto lee sin pedirte tu contraseña",
+    title: "Qué bancos lee Neto en tu Gmail, sin pedirte tu contraseña",
     description:
-      "Neto no se conecta a tu banco. Con Neto Pro y tu Gmail conectado, lee los correos de notificación de BCP, BBVA, Interbank, Scotiabank, Yape y otros. Qué lee, qué no y cómo quitarle el acceso.",
+      "Neto no se conecta a tu banco. Con Neto Pro y tu Gmail conectado, hoy registra los avisos por correo de BCP y Yape. Qué lee, qué no y cómo quitarle el acceso.",
     date: "2026-03-22",
-    dateModified: "2026-09-12",
+    dateModified: "2026-10-08",
     keywords: [
       "bancos perú",
       "app finanzas perú sin contraseña",
