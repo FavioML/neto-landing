@@ -1,6 +1,5 @@
 "use client";
 
-import { useId } from "react";
 import { useCountUp } from "@/hooks/useCountUp";
 
 /**
@@ -8,8 +7,10 @@ import { useCountUp } from "@/hooks/useCountUp";
  * 1480x2480 capture that had to be squashed to 400px to fit, and it stops the
  * landing's flagship visual from going stale every time the dashboard changes.
  *
- * Blue on purpose (--color-neto-blue): that's the colour of the real gauge in
- * app.neto.pe. The green accents around it belong to the brand, not to the score.
+ * Blue on purpose (--color-app-info): the real gauge in app.neto.pe paints a score
+ * of 60-79 in --info, and both places that draw this one show a score in that band.
+ * It sits on a light app card (palette B), so track and digits use the app-* tokens;
+ * the green accents around the card belong to the landing, not to the score.
  */
 
 const R = 48;
@@ -39,7 +40,6 @@ export default function ScoreGauge({
     duration,
     trigger,
   });
-  const gradientId = useId();
 
   return (
     <div
@@ -52,20 +52,13 @@ export default function ScoreGauge({
       aria-label={`Neto Score: ${target} de 100`}
     >
       <svg viewBox="0 0 120 120" width={size} height={size} aria-hidden>
-        <defs>
-          <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#378ADD" />
-            <stop offset="100%" stopColor="#6FB4F0" />
-          </linearGradient>
-        </defs>
-
         {/* Track */}
         <circle
           cx="60"
           cy="60"
           r={R}
           fill="none"
-          stroke="var(--color-neto-bg5)"
+          stroke="var(--color-app-track)"
           strokeWidth="9"
           strokeLinecap="round"
           strokeDasharray={`${SWEEP * CIRCUMFERENCE} ${CIRCUMFERENCE}`}
@@ -79,7 +72,7 @@ export default function ScoreGauge({
           cy="60"
           r={R}
           fill="none"
-          stroke={`url(#${gradientId})`}
+          stroke="var(--color-app-info)"
           strokeWidth="9"
           strokeLinecap="round"
           strokeDasharray={`${(shown / 100) * SWEEP * CIRCUMFERENCE} ${CIRCUMFERENCE}`}
@@ -89,14 +82,14 @@ export default function ScoreGauge({
 
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
         <span
-          className="font-heading font-extrabold text-neto-txt leading-none tabular-nums"
+          className="font-heading font-extrabold text-app-fg leading-none tabular-nums"
           style={{ fontSize: size * 0.28 }}
           aria-hidden
         >
           {shown}
         </span>
         <span
-          className="text-neto-txt3 leading-none mt-1"
+          className="text-app-muted leading-none mt-1"
           style={{ fontSize: Math.max(10, size * 0.075) }}
           aria-hidden
         >

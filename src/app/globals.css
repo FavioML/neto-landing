@@ -22,6 +22,27 @@
   --color-neto-txt2: #bccac1;
   --color-neto-txt3: #87948c;
 
+  /* What REPRESENTS the app (hero mini-dashboard, Score card): app.neto.pe's palette B in light,
+     copied from `app/webapp/src/app/globals.css` (`:root`). The landing keeps its own identity
+     above; only these change when the app's palette does. */
+  --color-app-bg: #EDF5F0;
+  --color-app-card: #FFFFFF;
+  --color-app-elevated: #E1EDE6;
+  --color-app-border: #D1E1D8;
+  --color-app-track: #DCE8E1;
+  --color-app-fg: #0A1D15;
+  --color-app-fg-soft: #2C463A;
+  --color-app-muted: #486155;
+  --color-app-positive: #117C59;
+  --color-app-info: #1F66B8;
+  --color-app-warning: #A35E00;
+  --color-app-negative: #BE421B;
+  /* Donut slices by rank, like the app's category-donut (chart-1..4). */
+  --color-app-chart-1: #117C59;
+  --color-app-chart-2: #A35E00;
+  --color-app-chart-3: #1F66B8;
+  --color-app-chart-4: #BE421B;
+
   /* Typography — Manrope (headlines) + Inter (body) */
   --font-heading: 'Manrope', sans-serif;
   --font-sans: 'Inter', sans-serif;

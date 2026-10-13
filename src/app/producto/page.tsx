@@ -37,9 +37,9 @@ const ROWS: Row[] = [
     ],
     url: "app.neto.pe/dashboard/score",
     src: "/producto/score.jpg",
-    alt: "Pantalla del Neto Score con puntaje 72 de 100 y desglose por factor",
-    width: 1480,
-    height: 2480,
+    alt: "Pantalla del Neto Score con puntaje 76 de 100 y desglose por factor",
+    width: 1560,
+    height: 1209,
   },
   {
     eyebrow: "Presupuestos",
@@ -59,8 +59,8 @@ const ROWS: Row[] = [
     url: "app.neto.pe/dashboard/presupuestos",
     src: "/producto/presupuestos.jpg",
     alt: "Pantalla de presupuestos por categoría con barras de avance y alertas cuando se excede el límite",
-    width: 1504,
-    height: 1840,
+    width: 1560,
+    height: 1209,
   },
   {
     eyebrow: "Transacciones",
@@ -80,8 +80,8 @@ const ROWS: Row[] = [
     url: "app.neto.pe/dashboard/transacciones",
     src: "/producto/transacciones.jpg",
     alt: "Tabla de transacciones con comercio, categoría, método de pago y monto, categorizadas con IA",
-    width: 1504,
-    height: 1840,
+    width: 1560,
+    height: 1209,
   },
   {
     eyebrow: "Deudas y préstamos",
@@ -102,8 +102,8 @@ const ROWS: Row[] = [
     url: "app.neto.pe/dashboard/deudas",
     src: "/producto/deudas.jpg",
     alt: "Pantalla de deudas mostrando lo que debes y lo que te deben, con avance de pago por deuda",
-    width: 1504,
-    height: 1840,
+    width: 1560,
+    height: 1209,
   },
 ];
 
@@ -155,8 +155,8 @@ export default function ProductoPage() {
                 url="app.neto.pe/dashboard"
                 src="/producto/dashboard.jpg"
                 alt="Dashboard de Neto en app.neto.pe con ingresos, gastos, ahorro, score y gastos por categoría"
-                width={1888}
-                height={1840}
+                width={1920}
+                height={1200}
                 aspect="16 / 10"
                 priority
               />

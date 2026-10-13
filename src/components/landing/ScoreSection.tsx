@@ -13,6 +13,14 @@ const SCORE = 74;
  * The per-factor numbers are illustrative — like the S/847 in the chat simulator —
  * but the factors themselves are the real ones.
  */
+
+/** The app's `getScoreColor` (webapp `lib/utils.ts`): each bar takes the colour of its own band. */
+function bandColor(value: number) {
+  if (value >= 80) return "var(--color-app-positive)";
+  if (value >= 60) return "var(--color-app-info)";
+  if (value >= 40) return "var(--color-app-warning)";
+  return "var(--color-app-negative)";
+}
 const FACTORS = [
   { name: "Registro", value: 92 },
   { name: "Presupuesto", value: 78 },
@@ -26,8 +34,9 @@ const FACTORS = [
  * Score — the star differentiator. Copy on the left, the score itself on the
  * right, drawn natively. It used to be a 1480x2480 full-page capture squashed
  * into 400px, where nothing was legible; this reads at any size and never goes
- * stale when the dashboard changes. The gauge stays blue because that's the
- * colour of the real one in app.neto.pe. id="score" (anchored from Navbar).
+ * stale when the dashboard changes. The card is drawn in the app's light palette
+ * (app-* tokens) so it looks like the screen it stands for, on the landing's dark
+ * page. id="score" (anchored from Navbar).
  */
 export default function ScoreSection() {
   return (
@@ -85,37 +94,34 @@ export default function ScoreSection() {
               <div className="w-[260px] h-[260px] rounded-full bg-neto-green/[0.14] blur-[70px]" />
             </div>
 
-            <div className="mx-auto max-w-[400px] rounded-[18px] border border-white/[0.08] bg-neto-bg2 overflow-hidden shadow-[0_40px_80px_-34px_rgba(0,0,0,0.75)]">
+            <div className="mx-auto max-w-[400px] rounded-[18px] border border-app-border bg-app-card overflow-hidden shadow-[0_40px_80px_-34px_rgba(0,0,0,0.75)]">
               {/* Card header */}
               <div className="flex items-center justify-between px-6 pt-6 pb-2">
-                <span className="text-sm font-semibold text-neto-txt">
+                <span className="text-sm font-semibold text-app-fg">
                   Neto Score
                 </span>
-                <span className="text-xs text-neto-txt3">Este mes</span>
+                <span className="text-xs text-app-muted">Este mes</span>
               </div>
 
               {/* Gauge */}
               <div className="flex flex-col items-center pt-2 pb-6">
                 <ScoreGauge value={SCORE} size={216} />
-                <span className="mt-3 text-xs text-neto-txt3">
+                <span className="mt-3 text-xs text-app-muted">
                   Subió 6 puntos desde el mes pasado
                 </span>
               </div>
 
               {/* Factor breakdown */}
-              <div className="border-t border-white/[0.06] px-6 py-5 flex flex-col gap-3.5">
+              <div className="border-t border-app-border px-6 py-5 flex flex-col gap-3.5">
                 {FACTORS.map((factor, i) => (
                   <div key={factor.name} className="flex items-center gap-3">
-                    <span className="text-xs text-neto-txt3 w-[86px] shrink-0">
+                    <span className="text-xs text-app-muted w-[86px] shrink-0">
                       {factor.name}
                     </span>
-                    <div className="flex-1 h-1.5 rounded-full bg-neto-bg5 overflow-hidden">
+                    <div className="flex-1 h-1.5 rounded-full bg-app-track overflow-hidden">
                       <motion.div
                         className="h-full rounded-full"
-                        style={{
-                          background:
-                            "linear-gradient(90deg, #378ADD 0%, #6FB4F0 100%)",
-                        }}
+                        style={{ background: bandColor(factor.value) }}
                         initial={{ width: 0 }}
                         whileInView={{ width: `${factor.value}%` }}
                         viewport={{ once: true, margin: "-40px" }}
@@ -126,7 +132,7 @@ export default function ScoreSection() {
                         }}
                       />
                     </div>
-                    <span className="text-xs text-neto-txt2 tabular-nums w-6 text-right shrink-0">
+                    <span className="text-xs text-app-fg-soft tabular-nums w-6 text-right shrink-0">
                       {factor.value}
                     </span>
                   </div>

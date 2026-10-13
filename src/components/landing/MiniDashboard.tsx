@@ -26,12 +26,13 @@ const STEP_PHOTO = 4;
 const SCORE = 74;
 
 // Amounts, not percentages: the donut derives its own shares so the card can
-// never disagree with itself.
+// never disagree with itself. Colours follow the app's donut, which paints slices by
+// rank (chart-1 for the largest, then chart-2...), in palette B light.
 const CATEGORIES = [
-  { name: "Alimentación", base: 367, addAt: STEP_TYPED, add: 45, color: "#EF9F27" },
-  { name: "Transporte", base: 188, addAt: STEP_PHOTO, add: 22, color: "#68dbae" },
-  { name: "Compras", base: 130, addAt: null, add: 0, color: "#378ADD" },
-  { name: "Otros", base: 95, addAt: null, add: 0, color: "#87948c" },
+  { name: "Alimentación", base: 367, addAt: STEP_TYPED, add: 45, color: "var(--color-app-chart-1)" },
+  { name: "Transporte", base: 188, addAt: STEP_PHOTO, add: 22, color: "var(--color-app-chart-2)" },
+  { name: "Compras", base: 130, addAt: null, add: 0, color: "var(--color-app-chart-3)" },
+  { name: "Otros", base: 95, addAt: null, add: 0, color: "var(--color-app-chart-4)" },
 ];
 
 // Rows are labelled by CATEGORY, never subcategory: the legend above lists four
@@ -114,22 +115,22 @@ export function DashboardSummary({ step }: { step: number }) {
   });
 
   return (
-      <div className="w-[252px] rounded-[20px] border border-neto-bg5 bg-neto-bg2 shadow-[0_40px_100px_rgba(0,0,0,0.55)] overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] bg-neto-bg3/60">
-          <span className="text-[11px] font-semibold text-neto-txt2">
+      <div className="w-[252px] rounded-[20px] border border-app-border bg-app-card shadow-[0_40px_100px_rgba(0,0,0,0.55)] overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-3 border-b border-app-border bg-app-bg">
+          <span className="text-[11px] font-semibold text-app-fg-soft">
             app.neto.pe
           </span>
-          <span className="text-[10px] text-neto-txt3">Esta semana</span>
+          <span className="text-[10px] text-app-muted">Esta semana</span>
         </div>
 
         <div className="px-5 pt-4 pb-3 flex items-center justify-between gap-3">
           <div className="flex flex-col">
-            <span className="text-[10px] uppercase tracking-wide text-neto-txt3 mb-1">
+            <span className="text-[10px] uppercase tracking-wide text-app-muted mb-1">
               Gastado
             </span>
             <span
               ref={totalRef}
-              className="font-heading text-[26px] font-extrabold text-neto-txt leading-none tabular-nums"
+              className="font-heading text-[26px] font-extrabold text-app-fg leading-none tabular-nums"
             >
               S/{shownTotal}
             </span>
@@ -146,8 +147,8 @@ export function DashboardSummary({ step }: { step: number }) {
                   className="w-1.5 h-1.5 rounded-full shrink-0"
                   style={{ backgroundColor: a.color }}
                 />
-                <span className="text-[10px] text-neto-txt3 truncate">{a.name}</span>
-                <span className="text-[10px] text-neto-txt2 tabular-nums ml-auto">
+                <span className="text-[10px] text-app-muted truncate">{a.name}</span>
+                <span className="text-[10px] text-app-fg-soft tabular-nums ml-auto">
                   {a.pct}%
                 </span>
               </div>
@@ -164,9 +165,9 @@ export function DashboardMovements({ step }: { step: number }) {
   const photo = step >= STEP_PHOTO;
 
   return (
-      <div className="w-[252px] rounded-[20px] border border-neto-bg5 bg-neto-bg2 shadow-[0_40px_100px_rgba(0,0,0,0.55)] overflow-hidden">
-        <div className="px-5 py-2.5 border-b border-white/[0.06] bg-neto-bg3/60">
-          <span className="text-[10px] uppercase tracking-wide text-neto-txt3">
+      <div className="w-[252px] rounded-[20px] border border-app-border bg-app-card shadow-[0_40px_100px_rgba(0,0,0,0.55)] overflow-hidden">
+        <div className="px-5 py-2.5 border-b border-app-border bg-app-bg">
+          <span className="text-[10px] uppercase tracking-wide text-app-muted">
             Últimos movimientos
           </span>
         </div>
@@ -180,7 +181,7 @@ export function DashboardMovements({ step }: { step: number }) {
                 category="Transporte"
                 amount="S/22.00"
                 fresh
-                color="#68dbae"
+                color="var(--color-app-chart-2)"
               />
             )}
             {typed && (
@@ -190,7 +191,7 @@ export function DashboardMovements({ step }: { step: number }) {
                 category="Alimentación"
                 amount="S/45.00"
                 fresh
-                color="#EF9F27"
+                color="var(--color-app-chart-1)"
               />
             )}
           </AnimatePresence>
@@ -201,15 +202,15 @@ export function DashboardMovements({ step }: { step: number }) {
               className="flex items-center justify-between gap-2 py-2"
             >
               <div className="flex items-center gap-2 min-w-0">
-                <span className="w-1.5 h-1.5 rounded-full bg-neto-bg6 shrink-0" />
-                <span className="text-[11px] text-neto-txt2 truncate">
+                <span className="w-1.5 h-1.5 rounded-full bg-app-track shrink-0" />
+                <span className="text-[11px] text-app-fg-soft truncate">
                   {row.title}
                 </span>
-                <span className="text-[10px] text-neto-txt3 shrink-0">
+                <span className="text-[10px] text-app-muted shrink-0">
                   {row.category}
                 </span>
               </div>
-              <span className="text-[11px] text-neto-txt2 tabular-nums shrink-0">
+              <span className="text-[11px] text-app-fg-soft tabular-nums shrink-0">
                 {row.amount}
               </span>
             </div>
@@ -240,16 +241,16 @@ function Row({
       transition={{ duration: 0.45, ease: EASE }}
       className="overflow-hidden"
     >
-      <div className="flex items-center justify-between gap-2 py-2 border-b border-white/[0.04]">
+      <div className="flex items-center justify-between gap-2 py-2 border-b border-app-border">
         <div className="flex items-center gap-2 min-w-0">
           <span
             className="w-1.5 h-1.5 rounded-full shrink-0"
             style={{ backgroundColor: fresh ? color : undefined }}
           />
-          <span className="text-[11px] text-neto-txt truncate">{title}</span>
-          <span className="text-[10px] text-neto-txt3 shrink-0">{category}</span>
+          <span className="text-[11px] text-app-fg truncate">{title}</span>
+          <span className="text-[10px] text-app-muted shrink-0">{category}</span>
         </div>
-        <span className="text-[11px] font-semibold text-neto-txt tabular-nums shrink-0">
+        <span className="text-[11px] font-semibold text-app-fg tabular-nums shrink-0">
           {amount}
         </span>
       </div>
