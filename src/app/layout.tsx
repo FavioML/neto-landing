@@ -33,7 +33,7 @@ const inter = Inter({
 const SHARED_TITLE = "Neto — Controla tus gastos por WhatsApp en Perú";
 
 const SHARED_DESCRIPTION =
-  "Asistente financiero por WhatsApp para Perú. Registra gastos en lenguaje natural, lee fotos de Yape/Plin y te da un dashboard completo. 14 días de Pro gratis. Sin descargar apps, sin contraseñas bancarias.";
+  "Asistente financiero por WhatsApp para Perú. Registra gastos en lenguaje natural, lee fotos de Yape/Plin y te da un dashboard completo. 7 días de Pro gratis. Sin descargar apps, sin contraseñas bancarias.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://neto.pe"),

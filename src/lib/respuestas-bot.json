@@ -2,7 +2,7 @@
   "_leeme": "Respuestas REALES del bot que el blog puede dibujar con chatNeto(clave) (src/lib/blog-bloques.ts). Un post no puede escribir a Neto con texto libre: solo elige una clave de aca. Cada mensaje de Neto trae un `patron` que reproduce la plantilla del backend con los valores variables como comodines, y cada entrada cita en `plantilla` los fragmentos de codigo de ../app de los que sale esa respuesta. scripts/check-blog.mjs comprueba las dos cosas: que el ejemplo encaje en el patron y que cada fragmento siga existiendo, literal, en el backend. Si una plantilla cambia alla y nadie toca el blog, el chequeo falla aca. {PRO_MENSUAL} y {PRO_ANUAL} se reemplazan por PRO_PRECIOS de app/lib/config.js.",
   "respuestas": {
     "prueba-terminada": {
-      "situacion": "Ana terminó su prueba de 14 días y no activó Pro.",
+      "situacion": "Ana terminó su prueba de 7 días y no activó Pro.",
       "ejemplo": "el nombre, los montos, la fecha y la categoría son de ejemplo",
       "mensajes": [
         { "de": "usuario", "texto": "almuerzo 18" },

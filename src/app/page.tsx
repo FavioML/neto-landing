@@ -110,7 +110,7 @@ const softwareJsonLd = {
       "@type": "Offer",
       name: "Neto Pro mensual",
       description:
-        "Dashboard completo, Neto Score detallado, historial sin límite, presupuestos, metas, reportes y export. Incluye 14 días de prueba que arrancan con el primer gasto registrado.",
+        "Dashboard completo, Neto Score detallado, historial sin límite, presupuestos, metas, reportes y export. Incluye 7 días de prueba que arrancan con el primer gasto registrado.",
       price: "10",
       priceCurrency: "PEN",
       availability: "https://schema.org/InStock",

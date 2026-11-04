@@ -4,7 +4,7 @@ Neto es un asistente financiero personal que opera por WhatsApp y web para el me
 El usuario registra sus gastos escribiendo en lenguaje natural o enviando la foto de su voucher; Neto los categoriza con IA, genera reportes y calcula un score financiero 0-100.
 Compatible con BCP, BBVA Perú, Interbank, Scotiabank, Yape y Plin, porque el registro lo hace la persona.
 No requiere contraseñas bancarias ni acceso a la banca en línea.
-Al registrar el primer gasto se activan 14 días de Neto Pro. Después, registrar gastos sigue siendo gratis y sin límite; consultarlos requiere Neto Pro, a S/10/mes o S/99/año.
+Al registrar el primer gasto se activan 7 días de Neto Pro. Después, registrar gastos sigue siendo gratis y sin límite; consultarlos requiere Neto Pro, a S/10/mes o S/99/año.
 Desarrollado por Vortik (vortik.dev), Lima, Perú.
 
 ## Páginas principales
@@ -34,11 +34,11 @@ Desarrollado por Vortik (vortik.dev), Lima, Perú.
 - Reportes PDF mensuales
 - Espacios compartidos para gastos en pareja o familia
 - Gestión de deudas entre personas
-- Lectura de correos bancarios (beta, opcional, requiere Neto Pro activo): el usuario conecta su Gmail y Neto registra solo los gastos de las notificaciones que el banco ya le envía. Es un complemento del registro manual, no lo reemplaza; el permiso es de solo lectura sobre correos de notificación bancaria y se puede desconectar cuando quiera. No está disponible durante la prueba de 14 días
+- Lectura de correos bancarios (beta, opcional, requiere Neto Pro activo): el usuario conecta su Gmail y Neto registra solo los gastos de las notificaciones que el banco ya le envía. Es un complemento del registro manual, no lo reemplaza; el permiso es de solo lectura sobre correos de notificación bancaria y se puede desconectar cuando quiera. No está disponible durante la prueba de 7 días
 
 ## Precios
 El modelo es: escribir nunca se cobra, leer sí.
-- Prueba: 14 días de Neto Pro con todo abierto. Arrancan cuando el usuario registra su primer gasto, no cuando crea la cuenta. No se pide tarjeta.
+- Prueba: 7 días de Neto Pro con todo abierto. Arrancan cuando el usuario registra su primer gasto, no cuando crea la cuenta. No se pide tarjeta.
 - Siempre gratis: S/0 — registrar gastos por WhatsApp o web sin límite de operaciones, lectura de fotos de Yape y Plin sin límite, corregir y editar lo registrado, y el total del mes en curso. Los datos se conservan completos.
 - Neto Pro: S/10/mes o S/99/año (el anual equivale a dos meses gratis) — dashboard completo con gráficos y categorías, score detallado con tendencia y tips, historial completo sin límite de meses, presupuestos y metas ilimitados, detector de fugas y alertas, espacios compartidos hasta 6 personas, reportes y export CSV/Excel, y la lectura de correos bancarios en beta (opcional, se conecta con Pro ya activo).
 - Pago: por Yape, con envío del comprobante. No hay pasarela ni cobro recurrente; Neto Pro no se renueva solo.

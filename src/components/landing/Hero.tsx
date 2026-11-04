@@ -113,7 +113,7 @@ export default function Hero() {
                 aria-hidden
               />
               <span className="text-xs text-neto-green-light font-medium">
-                Score financiero 0-100 · 14 días de Pro gratis
+                Score financiero 0-100 · 7 días de Pro gratis
               </span>
             </span>
           </div>
@@ -187,7 +187,7 @@ export default function Hero() {
               </a>
             </div>
             <p className="text-xs text-neto-txt3">
-              Setup en 2 min · 14 días de Pro gratis · Después{" "}
+              Setup en 2 min · 7 días de Pro gratis · Después{" "}
               <span className="text-neto-green font-medium">S/10/mes</span>
               {" "}— la mitad que la competencia
             </p>

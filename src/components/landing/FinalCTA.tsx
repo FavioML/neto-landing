@@ -45,7 +45,7 @@ export default function FinalCTA() {
               "en 2 minutos", y el hueco lo ocupa el precio: la página entera vende
               lo que está detrás del muro. */}
           <p className="text-sm text-white/60 mt-6">
-            14 días de Pro gratis · Después S/10/mes · Sin contraseñas bancarias
+            7 días de Pro gratis · Después S/10/mes · Sin contraseñas bancarias
           </p>
         </div>
       </BlurReveal>

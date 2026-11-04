@@ -54,13 +54,13 @@ const FAQ_DATA = [
     group: "Planes y pagos",
     items: [
       {
-        q: "¿Cómo funciona la prueba de 14 días?",
-        a: 'Cuando anotas tu primer gasto se activan 14 días de Neto Pro con todo abierto: dashboard, score, historial completo, presupuestos y reportes. Los días arrancan con ese primer gasto, no con el registro, así que nadie quema la prueba sin haber usado nada. No se pide tarjeta.',
+        q: "¿Cómo funciona la prueba de 7 días?",
+        a: 'Cuando anotas tu primer gasto se activan 7 días de Neto Pro con todo abierto: dashboard, score, historial completo, presupuestos y reportes. Los días arrancan con ese primer gasto, no con el registro, así que nadie quema la prueba sin haber usado nada. No se pide tarjeta.',
         aPlain:
-          "Cuando anotas tu primer gasto se activan 14 días de Neto Pro con todo abierto: dashboard, score, historial completo, presupuestos y reportes. Los días arrancan con ese primer gasto, no con el registro. No se pide tarjeta.",
+          "Cuando anotas tu primer gasto se activan 7 días de Neto Pro con todo abierto: dashboard, score, historial completo, presupuestos y reportes. Los días arrancan con ese primer gasto, no con el registro. No se pide tarjeta.",
       },
       {
-        q: "¿Qué pasa cuando terminan los 14 días?",
+        q: "¿Qué pasa cuando terminan los 7 días?",
         a: 'Neto sigue anotando todo lo que le mandes por WhatsApp, sin límite y sin costo, incluidas las fotos de tu Yape o Plin, y sigue mostrándote tu total del mes. No se borra nada. Lo que se cierra es verlos ordenados: dashboard, gráficos, categorías, historial y reportes quedan detrás de Pro.',
         aPlain:
           "Neto sigue anotando todo lo que le mandes por WhatsApp, sin límite y sin costo, incluidas las fotos de tu Yape o Plin, y sigue mostrándote tu total del mes. No se borra nada. Lo que se cierra es verlos ordenados: dashboard, gráficos, categorías, historial y reportes quedan detrás de Pro.",
@@ -73,9 +73,9 @@ const FAQ_DATA = [
       },
       {
         q: "¿Neto puede leer mis correos del banco?",
-        a: 'Sí, está en beta. Con Neto Pro activo puedes conectar tu Gmail y Neto registra solo los gastos de las notificaciones que tu banco ya te envía, sin que anotes nada. Es opcional y la conectas tú: el permiso es de solo lectura y únicamente sobre correos de notificación bancaria, nunca tu banca en línea ni tus contraseñas, y puedes desconectarla cuando quieras. No se habilita durante la prueba de 14 días: se activa al pagar Pro.',
+        a: 'Sí, está en beta. Con Neto Pro activo puedes conectar tu Gmail y Neto registra solo los gastos de las notificaciones que tu banco ya te envía, sin que anotes nada. Es opcional y la conectas tú: el permiso es de solo lectura y únicamente sobre correos de notificación bancaria, nunca tu banca en línea ni tus contraseñas, y puedes desconectarla cuando quieras. No se habilita durante la prueba de 7 días: se activa al pagar Pro.',
         aPlain:
-          "Sí, está en beta. Con Neto Pro activo puedes conectar tu Gmail y Neto registra solo los gastos de las notificaciones que tu banco ya te envía. Es opcional: el permiso es de solo lectura y únicamente sobre correos de notificación bancaria, nunca tu banca en línea ni tus contraseñas, y puedes desconectarla cuando quieras. No se habilita durante la prueba de 14 días: se activa al pagar Pro.",
+          "Sí, está en beta. Con Neto Pro activo puedes conectar tu Gmail y Neto registra solo los gastos de las notificaciones que tu banco ya te envía. Es opcional: el permiso es de solo lectura y únicamente sobre correos de notificación bancaria, nunca tu banca en línea ni tus contraseñas, y puedes desconectarla cuando quieras. No se habilita durante la prueba de 7 días: se activa al pagar Pro.",
       },
       {
         q: "¿Cómo se paga?",

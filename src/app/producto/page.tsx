@@ -146,7 +146,7 @@ export default function ProductoPage() {
             </BlurReveal>
             <BlurReveal delay={280}>
               <p className="mt-4 text-xs text-neto-txt3">
-                14 días de Pro gratis · Después{" "}
+                7 días de Pro gratis · Después{" "}
                 <span className="text-neto-green font-medium">S/10/mes</span>
               </p>
             </BlurReveal>
@@ -237,7 +237,7 @@ export default function ProductoPage() {
                 (dashboard, presupuestos, transacciones, deudas). Antes cerraba con
                 "Gratis" sin nombrar Pro ni el precio en ningún lado. */}
             <p className="mt-6 max-w-[520px] text-[15px] text-neto-txt2 leading-relaxed">
-              Todo lo que viste acá es Neto Pro. Lo estrenas 14 días completos desde
+              Todo lo que viste acá es Neto Pro. Lo estrenas 7 días completos desde
               tu primer gasto y después cuesta{" "}
               <span className="text-neto-txt font-semibold">S/10 al mes</span>.
               Anotar tus gastos por WhatsApp no se cobra nunca.

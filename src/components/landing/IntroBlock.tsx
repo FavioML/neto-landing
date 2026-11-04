@@ -63,7 +63,7 @@ export default function IntroBlock() {
           y wallets del Perú porque tú haces el registro directamente. No te
           pide contraseñas bancarias ni accede a tu banca en línea: tus datos de
           gasto se construyen a partir de lo que tú registras. Al anotar tu
-          primer gasto se activan 14 días de Neto Pro con todo abierto. Después
+          primer gasto se activan 7 días de Neto Pro con todo abierto. Después
           de esos días, registrar gastos por WhatsApp o desde la web sigue
           siendo gratis y sin límite, incluidas las fotos de Yape o Plin, y
           Neto te sigue mostrando el total del mes; tus datos se conservan

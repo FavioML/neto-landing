@@ -41,7 +41,7 @@ export const APPS: App[] = [
     whatsapp: "Sí",
     bancosPeru: "No se conecta; registras tú",
     precio:
-      "Registrar es gratis siempre. Ver el dashboard, el historial y el score es Neto Pro: S/10 al mes o S/99 al año, después de 14 días de prueba sin tarjeta.",
+      "Registrar es gratis siempre. Ver el dashboard, el historial y el score es Neto Pro: S/10 al mes o S/99 al año, después de 7 días de prueba sin tarjeta.",
     plataformas: "WhatsApp y web (app.neto.pe).",
     bancos:
       "No se conecta a ningún banco ni pide contraseñas. Lo que gastas en BCP, BBVA, Interbank, Scotiabank, Yape o Plin lo anotas tú.",

@@ -72,7 +72,7 @@ const CUANDO_NO: { titulo: string; texto: string }[] = [
   {
     titulo: "No quieres pagar nunca y quieres ver tus gráficos",
     texto:
-      "En Neto registrar es gratis siempre, pero pasados los 14 días de prueba el dashboard, el historial y el score son de Pro (S/10 al mes). Monefy, Wallet, Money Manager, Mobills y Spendee tienen versión gratuita; revisa en su tienda qué incluye cada una.",
+      "En Neto registrar es gratis siempre, pero pasados los 7 días de prueba el dashboard, el historial y el score son de Pro (S/10 al mes). Monefy, Wallet, Money Manager, Mobills y Spendee tienen versión gratuita; revisa en su tienda qué incluye cada una.",
   },
   {
     titulo: "No usas WhatsApp o no quieres tus finanzas junto a tus chats",
@@ -114,7 +114,7 @@ const FAQ: { pregunta: string; respuesta: string }[] = [
   {
     pregunta: "¿Existe una app de control de gastos por WhatsApp en Perú?",
     respuesta:
-      "Sí. En Neto escribes «almuerzo 18» o mandas la foto del voucher por WhatsApp y el gasto queda anotado y categorizado. No es la única: hay otros asistentes por WhatsApp en Perú que esta comparativa no cubre, y Mobills anuncia una IA por WhatsApp en su plan PRO. En Neto, anotar es gratis; consultar tus números (cuánto gastaste en delivery, tu score) es de Neto Pro, después de 14 días de prueba.",
+      "Sí. En Neto escribes «almuerzo 18» o mandas la foto del voucher por WhatsApp y el gasto queda anotado y categorizado. No es la única: hay otros asistentes por WhatsApp en Perú que esta comparativa no cubre, y Mobills anuncia una IA por WhatsApp en su plan PRO. En Neto, anotar es gratis; consultar tus números (cuánto gastaste en delivery, tu score) es de Neto Pro, después de 7 días de prueba.",
   },
   {
     pregunta: "¿Qué apps leen las capturas de Yape y Plin?",

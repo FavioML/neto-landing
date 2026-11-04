@@ -102,7 +102,7 @@ export default function ExitIntent() {
           {/* "Gratis" estaba pegado a "organiza", que es justamente lo que se cobra
               pasado el trial. Ahora el gratis califica a la prueba, no al producto. */}
           <p className="text-neto-txt3 text-sm mb-6 leading-relaxed">
-            Tus gastos se siguen acumulando. Neto los ordena por ti en 2 minutos: 14 días de Pro
+            Tus gastos se siguen acumulando. Neto los ordena por ti en 2 minutos: 7 días de Pro
             gratis desde tu primer gasto, después S/10 al mes. Sin contraseñas bancarias.
           </p>
 

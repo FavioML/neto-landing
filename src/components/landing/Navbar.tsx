@@ -104,8 +104,8 @@ export default function Navbar() {
           </Dropdown>
 
           {/* Precios. El título es "Precios" y no "Planes" a propósito: no hay dos
-              tiers entre los que elegir. Todo el mundo estrena Pro 14 días y cae al
-              muro el día 15. El subtítulo del ítem gratuito es el mismo de la tarjeta
+              tiers entre los que elegir. Todo el mundo estrena Pro 7 días y cae al
+              muro el día 8. El subtítulo del ítem gratuito es el mismo de la tarjeta
               de Pricing (Pricing.tsx:199-201) para que el menú no reinstale el modelo
               que la sección desarma. */}
           <Dropdown label="Precios">
@@ -135,7 +135,7 @@ export default function Navbar() {
                 <span className="text-sm font-semibold text-neto-amber">S/10/mes</span>
               </span>
               <span className="block text-xs text-neto-txt3 leading-snug mt-0.5">
-                14 días gratis. Dashboard, score, historial y reportes
+                7 días gratis. Dashboard, score, historial y reportes
               </span>
             </a>
             <a

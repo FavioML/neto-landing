@@ -62,12 +62,12 @@ const escritos: PostEscrito[] = [
       {
         pregunta: "¿Hay apps de finanzas personales gratis en Perú?",
         respuesta:
-          "Sí. Monefy, Wallet, Money Manager, Mobills y Spendee tienen versión gratuita, y en Neto registrar gastos es gratis siempre. Lo que cambia entre ellas es qué incluye lo gratis: en Neto, pasados los 14 días de prueba, ver el dashboard, el historial y el score es de Neto Pro.",
+          "Sí. Monefy, Wallet, Money Manager, Mobills y Spendee tienen versión gratuita, y en Neto registrar gastos es gratis siempre. Lo que cambia entre ellas es qué incluye lo gratis: en Neto, pasados los 7 días de prueba, ver el dashboard, el historial y el score es de Neto Pro.",
       },
       {
         pregunta: "¿Cuánto cuesta Neto?",
         respuesta:
-          "Anotar gastos por WhatsApp o en la web cuesta S/0, siempre y sin límite. Neto Pro cuesta S/10 al mes o S/99 al año. Tu primer gasto activa 14 días de Pro sin pedirte tarjeta, se paga por Yape y no se renueva solo.",
+          "Anotar gastos por WhatsApp o en la web cuesta S/0, siempre y sin límite. Neto Pro cuesta S/10 al mes o S/99 al año. Tu primer gasto activa 7 días de Pro sin pedirte tarjeta, se paga por Yape y no se renueva solo.",
       },
       {
         pregunta: "¿Qué pasa con mis datos si dejo de pagar Neto Pro?",
@@ -125,7 +125,7 @@ const escritos: PostEscrito[] = [
       {
         pregunta: "¿Cuánto cuesta controlar mis yapeos con Neto?",
         respuesta:
-          "Mandar capturas y anotar gastos es gratis siempre. Ver tu gasto por categoría, el historial y los presupuestos es de Neto Pro (S/10 al mes o S/99 al año), después de 14 días de prueba que arrancan con tu primer gasto.",
+          "Mandar capturas y anotar gastos es gratis siempre. Ver tu gasto por categoría, el historial y los presupuestos es de Neto Pro (S/10 al mes o S/99 al año), después de 7 días de prueba que arrancan con tu primer gasto.",
       },
     ],
   },
@@ -158,7 +158,7 @@ const escritos: PostEscrito[] = [
       {
         pregunta: "¿Cómo sé cuáles son mis gastos hormiga?",
         respuesta:
-          "Anotándolos. Lo más rápido es escribirle a Neto por WhatsApp cada gasto cuando lo haces. Anotar es gratis siempre; ver tus gastos por categoría en el dashboard es de Neto Pro, con 14 días de prueba desde tu primer gasto.",
+          "Anotándolos. Lo más rápido es escribirle a Neto por WhatsApp cada gasto cuando lo haces. Anotar es gratis siempre; ver tus gastos por categoría en el dashboard es de Neto Pro, con 7 días de prueba desde tu primer gasto.",
       },
     ],
   },

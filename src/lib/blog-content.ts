@@ -207,7 +207,7 @@ ${nota(
 
 <h2>Cómo probar Neto sin pagar</h2>
 <p>
-  Tu primer gasto activa 14 días de Neto Pro: gráficos, categorías, reportes e historial completo.
+  Tu primer gasto activa 7 días de Neto Pro: gráficos, categorías, reportes e historial completo.
   Después sigues anotando gratis, o activas Pro por S/10 al mes o S/99 al año. Se paga por Yape y
   no se renueva solo, así que no hay cobro sorpresa.
 </p>
@@ -599,7 +599,7 @@ ${tabla({
 </p>
 ${chatNeto("captura-yapeo")}
 <p>
-  Registrar es gratis siempre. Tu primer gasto activa 14 días de Neto Pro: tus gastos por categoría
+  Registrar es gratis siempre. Tu primer gasto activa 7 días de Neto Pro: tus gastos por categoría
   en el dashboard web y un resumen cada semana. Después, ver tus números es de Neto Pro (S/10 al mes
   o S/99 al año). Para probar, <a href="${WA_BLOG}">escríbele a Neto por WhatsApp</a>.
 </p>
@@ -715,7 +715,7 @@ ${tabla({
 
 <h2>Cómo se conecta</h2>
 <ol>
-  <li>Activas Neto Pro. Conectar Gmail es la única función de Pro que no está en la prueba de 14 días: se habilita cuando pagas.</li>
+  <li>Activas Neto Pro. Conectar Gmail es la única función de Pro que no está en la prueba de 7 días: se habilita cuando pagas.</li>
   <li>Desde tu panel Pro en la web eliges qué bancos leer y conectas tu Gmail.</li>
   <li>Google te muestra el permiso: ver tus correos, sin poder enviarlos, borrarlos ni modificarlos.</li>
   <li>Al conectarlo, Neto importa los avisos de los últimos 30 días, hasta 50 correos. Después revisa los nuevos cada cierto tiempo.</li>
@@ -785,7 +785,7 @@ ${tabla({
     ["Score financiero y espacios compartidos", "No", "Sí"],
     ["Conectar tu Gmail", "No", "Sí, solo pagando: no entra en la prueba"],
   ],
-  pie: "Tu primer gasto activa 14 días de Neto Pro con todo abierto menos Gmail. Pro se paga con Yape y no se renueva solo.",
+  pie: "Tu primer gasto activa 7 días de Neto Pro con todo abierto menos Gmail. Pro se paga con Yape y no se renueva solo.",
 })}
 <p>Así avisa un presupuesto cuando ya pasaste el aviso, en la misma respuesta al gasto:</p>
 ${chatNeto("tope-categoria")}

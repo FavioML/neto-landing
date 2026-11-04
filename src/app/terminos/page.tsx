@@ -34,7 +34,7 @@ export default function TerminosPage() {
             Terminos de Uso
           </h1>
           <p className="text-sm text-neto-txt3 mb-10 pb-6 border-b border-white/7">
-            Ultima actualizacion: agosto 2026 · Al usar Neto, aceptas estos
+            Ultima actualizacion: noviembre 2026 · Al usar Neto, aceptas estos
             terminos.
           </p>
 
@@ -125,9 +125,11 @@ export default function TerminosPage() {
               </h2>
               <p className="text-sm text-neto-txt2 leading-7 mb-2">
                 <strong>Prueba de Neto Pro:</strong> al registrar tu primer
-                gasto se activan 14 dias de acceso completo, sin costo y sin
+                gasto se activan 7 dias de acceso completo, sin costo y sin
                 requerir medio de pago. Los dias se cuentan desde ese primer
-                registro, no desde la creacion de la cuenta.
+                registro, no desde la creacion de la cuenta. Las pruebas
+                activadas antes del 4 de noviembre de 2026 conservan los 14
+                dias con que se activaron.
               </p>
               <p className="text-sm text-neto-txt2 leading-7 mb-2">
                 <strong>Uso sin costo:</strong> terminada la prueba, el registro

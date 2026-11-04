@@ -35,7 +35,7 @@ export default function StickyCTA() {
             {/* "Gratis" a secas describía mal el producto: lo gratis para siempre es
                 anotar, no leer. Mismo patrón que Hero.tsx:198-202. */}
             <span className="text-sm text-neto-txt2">
-              14 días de Pro gratis · Después S/10/mes
+              7 días de Pro gratis · Después S/10/mes
             </span>
           </div>
 

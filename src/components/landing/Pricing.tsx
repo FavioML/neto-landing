@@ -143,7 +143,7 @@ export default function Pricing() {
           </div>
           <p className="text-[15px] text-neto-txt2 leading-relaxed">
             <span className="text-neto-txt font-semibold">
-              14 días de Neto Pro, completo.
+              7 días de Neto Pro, completo.
             </span>{" "}
             Arrancan cuando anotas tu primer gasto, no cuando te registras.
           </p>
@@ -262,7 +262,7 @@ export default function Pricing() {
                 </div>
 
                 <p className="text-sm text-neto-txt3 leading-relaxed mb-6">
-                  Lo que ves durante tus 14 días. Actívalo cuando quieras
+                  Lo que ves durante tus 7 días. Actívalo cuando quieras
                   quedártelo.
                 </p>
 

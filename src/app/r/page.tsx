@@ -95,7 +95,7 @@ export default function ReferidoPage() {
           <div className="mx-auto mt-8 rounded-2xl border border-neto-green/25 bg-neto-green/[0.06] p-5 text-left">
             <p className="text-sm font-semibold text-neto-txt">Tu regalo de bienvenida</p>
             <p className="mt-1 text-sm text-neto-txt2">
-              Estrena <span className="font-semibold text-neto-txt">14 días de Pro</span> como todos y, cuando
+              Estrena <span className="font-semibold text-neto-txt">7 días de Pro</span> como todos y, cuando
               terminen, tu <span className="font-semibold text-neto-txt">primer mes a mitad de precio</span>:{" "}
               <span className="font-bold text-neto-green-light">S/5</span>{" "}
               <span className="text-neto-txt3 line-through">S/10</span>.

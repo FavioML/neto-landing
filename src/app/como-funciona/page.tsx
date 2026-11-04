@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Cómo funciona Neto — 4 pasos, cero fricción",
     description:
-      "Mándale un mensaje o foto a Neto por WhatsApp. Categoriza con IA y te resume todo. 14 días de Pro gratis.",
+      "Mándale un mensaje o foto a Neto por WhatsApp. Categoriza con IA y te resume todo. 7 días de Pro gratis.",
     url: "https://neto.pe/como-funciona",
     type: "website",
     locale: "es_PE",
@@ -77,7 +77,7 @@ const FAQS = [
   },
   {
     q: "¿Cuánto cuesta?",
-    a: "Anotar gastos por WhatsApp es gratis para siempre y sin límite, incluidas las fotos de tu Yape o Plin, y tu total del mes queda siempre a la vista. Cuando registras tu primer gasto se activan 14 días de Neto Pro con todo abierto. Después, lo que queda detrás de Pro (S/10 al mes o S/99 al año) es consultarlos: dashboard con gráficos y categorías, historial completo, presupuestos, metas, score detallado y reportes con export. Se paga por Yape y no se renueva solo.",
+    a: "Anotar gastos por WhatsApp es gratis para siempre y sin límite, incluidas las fotos de tu Yape o Plin, y tu total del mes queda siempre a la vista. Cuando registras tu primer gasto se activan 7 días de Neto Pro con todo abierto. Después, lo que queda detrás de Pro (S/10 al mes o S/99 al año) es consultarlos: dashboard con gráficos y categorías, historial completo, presupuestos, metas, score detallado y reportes con export. Se paga por Yape y no se renueva solo.",
   },
   {
     q: "¿Puedo dejar de usarlo cuando quiera?",
@@ -248,7 +248,7 @@ export default function ComoFunciona() {
             </h2>
             <p className="text-[#87948c] mb-8 max-w-md mx-auto">
               Empieza en la app o por WhatsApp y registra tu primer gasto. Ahí
-              arrancan tus 14 días de Pro. Sin contraseñas, sin descargar nada.
+              arrancan tus 7 días de Pro. Sin contraseñas, sin descargar nada.
             </p>
             <StartButton
               source="como-funciona"
