@@ -721,7 +721,7 @@ ${tabla({
   <li>Al conectarlo, Neto importa los avisos de los últimos 30 días, hasta 50 correos. Después revisa los nuevos cada cierto tiempo.</li>
 </ol>
 <p>
-  Cada cuenta de Neto admite un solo Gmail, y tiene que ser una cuenta con Gmail: una cuenta de Google
+  Cada cuenta de Neto admite un solo Gmail. Y tiene que ser una cuenta con Gmail: una cuenta de Google
   creada con Hotmail u Outlook no tiene bandeja que leer. Para cambiar de correo, escríbenos a
   hola@neto.pe. Puedes revocar el acceso cuando
   quieras desde
